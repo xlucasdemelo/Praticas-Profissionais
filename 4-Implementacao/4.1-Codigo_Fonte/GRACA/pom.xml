@@ -56,22 +56,22 @@
         	</activation>
 			<properties>
 				<!-- Database -->
-				<mvn.jdbc.jdbcUrl>jdbc:postgresql://127.0.0.1:5432/blank</mvn.jdbc.jdbcUrl>
-				<mvn.jdbc.username>blank</mvn.jdbc.username>
-				<mvn.jdbc.password>blank</mvn.jdbc.password>
+				<mvn.jdbc.jdbcUrl>jdbc:postgresql://127.0.0.1:5432/graca</mvn.jdbc.jdbcUrl>
+				<mvn.jdbc.username>postgres</mvn.jdbc.username>
+				<mvn.jdbc.password>postgres</mvn.jdbc.password>
 
 				<!-- Database Test -->
-				<mvn.test.jdbc.jdbcUrl>jdbc:postgresql://127.0.0.1:5432/blank-test</mvn.test.jdbc.jdbcUrl>
-				<mvn.test.jdbc.username>blank</mvn.test.jdbc.username>
-				<mvn.test.jdbc.password>blank</mvn.test.jdbc.password>
+				<mvn.test.jdbc.jdbcUrl>jdbc:postgresql://127.0.0.1:5432/graca_teste</mvn.test.jdbc.jdbcUrl>
+				<mvn.test.jdbc.username>postgres</mvn.test.jdbc.username>
+				<mvn.test.jdbc.password>postgres</mvn.test.jdbc.password>
 
 				<!-- Hibernate -->
-				<mvn.hibernate.hbm2ddl>validate</mvn.hibernate.hbm2ddl>
+				<mvn.hibernate.hbm2ddl>update</mvn.hibernate.hbm2ddl>
 				<mvn.hibernate.showSql>true</mvn.hibernate.showSql>
 				
 				<!-- JCR -->
-				<mvn.jcr.caches>/tmp/blank/caches</mvn.jcr.caches>
-				<mvn.jcr.files>/tmp/blank/files</mvn.jcr.files>
+				<mvn.jcr.caches>/tmp/graca/caches</mvn.jcr.caches>
+				<mvn.jcr.files>/tmp/graca/files</mvn.jcr.files>
 				
 				<!-- Mail -->
 				<mvn.mail.host>host.mail.com</mvn.mail.host>
@@ -85,7 +85,7 @@
 				
 				<!-- Others -->
 				<mvn.cache.enabled>false</mvn.cache.enabled>
-				<mvn.flyway.enabled>true</mvn.flyway.enabled>
+				<mvn.flyway.enabled>false</mvn.flyway.enabled>
 			</properties>
 		</profile>
 		
