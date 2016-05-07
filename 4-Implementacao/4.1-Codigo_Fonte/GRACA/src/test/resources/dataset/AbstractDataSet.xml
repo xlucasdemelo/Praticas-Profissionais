@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>	
 	<public.user/>
+	<public.familia/>
+	<public.endereco/>
+	<public.cidade/>
+	<public.estado/>
+	<public.pais/>
 </dataset>

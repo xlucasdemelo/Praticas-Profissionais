@@ -12,6 +12,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
@@ -27,6 +29,8 @@ import br.com.eits.common.domain.entity.AbstractEntity;
  */
 @Entity
 @Audited
+@Table( name = "familia",
+	uniqueConstraints = { @UniqueConstraint( columnNames = { "nome", "nomeMae" } ) } )
 @DataTransferObject(javascript = "Familia")
 public class Familia extends AbstractEntity implements Serializable
 {
@@ -50,6 +54,12 @@ public class Familia extends AbstractEntity implements Serializable
 	 */
 	@NotNull
 	private String nome;
+	
+	/**
+	 * 
+	 */
+	@NotNull
+	private String nomeMae;
 	
 	/**
 	 * 
@@ -102,7 +112,7 @@ public class Familia extends AbstractEntity implements Serializable
 	 * @param tipoImovel
 	 * @param endereco
 	 */
-	public Familia( Long id, String nome, String telefone, Integer numeroComodos, String situacaoImovel, String infraestrutura, TipoImovel tipoImovel, Endereco endereco, boolean ativo )
+	public Familia( Long id, String nome, String telefone, Integer numeroComodos, String situacaoImovel, String infraestrutura, TipoImovel tipoImovel, Endereco endereco, boolean ativo, String nomeMae )
 	{
 		super(id);
 		this.nome = nome;
@@ -113,6 +123,7 @@ public class Familia extends AbstractEntity implements Serializable
 		this.tipoImovel = tipoImovel;
 		this.endereco = endereco;
 		this.ativo = ativo;
+		this.nomeMae = nomeMae;
 	}
 
 	/**
@@ -131,6 +142,18 @@ public class Familia extends AbstractEntity implements Serializable
 		super( id );
 	}
 
+	/*-------------------------------------------------------------------
+	 *				 		     BEHAVIORS
+	 *-------------------------------------------------------------------*/
+	
+	/**
+	 * 
+	 */
+	public void disableFamilia()
+	{
+		this.ativo = false;
+	}
+	
 	/*-------------------------------------------------------------------
 	 *				 		     GETTERS AND SETTERS
 	 *-------------------------------------------------------------------*/
@@ -245,6 +268,22 @@ public class Familia extends AbstractEntity implements Serializable
 	public void setAtivo( boolean ativo )
 	{
 		this.ativo = ativo;
+	}
+
+	/**
+	 * @return the nomeMae
+	 */
+	public String getNomeMae()
+	{
+		return nomeMae;
+	}
+
+	/**
+	 * @param nomeMae the nomeMae to set
+	 */
+	public void setNomeMae( String nomeMae )
+	{
+		this.nomeMae = nomeMae;
 	}
 
 	/**
