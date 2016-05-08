@@ -119,12 +119,8 @@ angular.module('home')
 		$scope.changeToAdd = function() {
 			console.debug("changeToAdd");
 			
-			$scope.model.fornecedor.entity = new Fornecedor();//Limpa o formulário
-			$scope.model.cidade.searchText = null;
-        	$scope.model.estado.searchText = null;
-			$scope.model.fornecedor.entity.ativo = true;
-			$scope.model.cidade = null;
-			$scope.model.fornecedor.cidade = null;//Limpa o formulário
+			$scope.model.familia.entity = new Familia();//Limpa o formulário
+			
 		};
 		
 		/**
@@ -275,6 +271,29 @@ angular.module('home')
             });
 		}
         
+		$scope.insertFamilia = function()
+		{
+			$scope.model.ordemServico.form.$submitted = true;
+			if ($scope.model.ordemServico.form.$invalid ){
+				alert("Preenche");
+				return;
+			}
+			
+			familiaService.insertFamilia(  $scope.model.familia.entity, {
+                callback : function(result) {
+                	
+                	$scope.model.familia.entity = result;
+                	
+                	$scope.$apply();
+                	
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+		}
+		
 		/**
 		 * 
 		 */

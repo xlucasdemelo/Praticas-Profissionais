@@ -1,4 +1,10 @@
 /* Theme */
+
+.toolbar-temp{
+	background-color:#ffffff !important;
+	color:black
+}
+
 .main-div{ 
 	height:100%
 }
@@ -21,4 +27,20 @@
     padding-left: 30px;
     padding-right: 20px;
     padding-bottom: 10px;
+}
+
+.default-form{
+	display: block;
+    padding-top: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    font-size: 13px;
+}
+
+.default-info{
+	font-size: 14px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color:black
 }

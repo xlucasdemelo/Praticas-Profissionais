@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" 
+	xmlns:th="http://www.thymeleaf.org" lang="pt">
+	
+<div class="main-div" md-theme="{{graca-theme}}">
+	
+		<md-toolbar layout="row" style="z-index: 3;">
+	    	<div flex layout="row" class="default-header">
+		        <h1 class="md-toolbar-tools">Familia</h1>
+	    	</div>
+	    	
+	        <div md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="insertFamilia()">Salvar</md-button>
+	        </div>
+	    </md-toolbar>
+		
+		<div layout="column" md-theme="{{}}" style="height: 100%; position:absolute; width:100%; overflow:hidden">
+			<md-content layout="column" style="height: 100%">
+				<md-tabs md-border-bottom style="position: static" md-selected="model.ordemServico.selectedTab">
+					<md-tab label="Família">
+						
+						<div layout-fill style="position: absolute; display: block; height:100%">
+				    		<md-toolbar layout-fill style="min-height: 100% !important; height: 100%;" class="md-hue-3" md-theme="{{osmTheme}}">
+								<div class="default-frame">
+									<md-toolbar layout="row" class="default-form toolbar-temp" style="padding-bottom: 0; ">
+									
+										<form novalidate name="model.familia.form" class="default-form">
+											<div class="default-info" flex> 
+												<span>INFORMAÇÕES DA FAMÍLIA</span>
+											</div>
+											
+											<div layout="row">
+								    			<md-input-container layout="column" flex="30" ">
+										    		<label>Nome da família</label>
+									                <input name="nome" required ng-model="model.familia.entity.nome">
+									
+									                <div ng-messages="model.familia.form.status.$error">
+									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+									            
+									            <md-input-container layout="column" flex="30" ">
+										    		<label>Nome da Mãe</label>
+									                <input name="nomeMae" required ng-model="model.familia.entity.nomeMae">
+									
+									                <div ng-messages="model.familia.form.status.$error">
+									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+									        </div>
+									        
+									        <div layout="row">
+								    			<md-input-container layout="column" flex="30" ">
+										    		<label>Telefone</label>
+									                <input name="telefone" required ng-model="model.familia.entity.telefone">
+									
+									                <div ng-messages="model.familia.form.status.$error">
+									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+											</div>
+											
+											<div class="default-info" flex> 
+												<span>ENDEREÇO</span>
+											</div>
+											
+											<div layout="row">
+								    			<md-input-container layout="column" flex="30" ">
+										    		<label>Rua</label>
+									                <input name="rua" required ng-model="model.familia.entity.rua">
+									
+									                <div ng-messages="model.familia.form.status.$error">
+									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+									            
+									            <md-input-container layout="column" flex="30" ">
+										    		<label>Bairro</label>
+									                <input name="nomeMae" required ng-model="model.familia.entity.nomeMae">
+									
+									                <div ng-messages="model.familia.form.status.$error">
+									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+									        </div>
+									        
+										</form>
+									</md-toolbar>
+								</div>
+							</md-toolbar>
+						</div>
+						
+					</md-tab>
+				</md-tabs>
+			</md-content>
+		</div>
+		
+</div>
+
+</html>
