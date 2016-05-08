@@ -1,1 +1,24 @@
 /* Theme */
+.main-div{ 
+	height:100%
+}
+
+.toolbar-content{
+	position:absolute;
+	height: 100% 
+}
+
+.default-frame{
+	display: block;
+    padding-top: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    margin-bottom: 20px;
+}
+
+.default-filter{
+	padding-top: 10px;
+    padding-left: 30px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+}

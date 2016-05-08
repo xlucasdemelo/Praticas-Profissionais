@@ -42,7 +42,7 @@
 		<jquery.version>2.2.0</jquery.version>
 		<angularjs.version>1.5.0</angularjs.version>
 		<angular-material.version>1.0.5</angular-material.version>
-		<angular-material-data-table.version>0.9.8</angular-material-data-table.version>
+		<angular-material-data-table.version>0.10.7</angular-material-data-table.version>
 		<uirouter.version>0.2.18</uirouter.version>
 		<iconic-font.version>2.2.0</iconic-font.version>
 	</properties>

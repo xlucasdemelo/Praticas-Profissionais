@@ -5,11 +5,11 @@ package com.digows.blank.test.domain.service;
 
 import javax.validation.ValidationException;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
-import org.springframework.util.Assert;
 
 import com.digows.blank.domain.entity.endereco.Endereco;
 import com.digows.blank.domain.entity.familia.Familia;
@@ -50,7 +50,7 @@ public class FamiliaServiceIntegrationTests extends AbstractIntegrationTests
 		
 		familia = this.familiaService.insertFamilia( familia );
 		
-		Assert.notNull( familia );
+		Assert.assertNotNull( familia );
 	}
 	
 	/**
@@ -67,7 +67,7 @@ public class FamiliaServiceIntegrationTests extends AbstractIntegrationTests
 		
 		familia = this.familiaService.insertFamilia( familia );
 		
-		Assert.notNull( familia );
+		Assert.assertNotNull( familia );
 	}
 	
 	/**
@@ -84,7 +84,7 @@ public class FamiliaServiceIntegrationTests extends AbstractIntegrationTests
 		
 		familia = this.familiaService.insertFamilia( familia );
 		
-		Assert.notNull( familia );
+		Assert.assertNotNull( familia );
 	}
 	
 	/**
@@ -100,7 +100,7 @@ public class FamiliaServiceIntegrationTests extends AbstractIntegrationTests
 		familia.setInfraestrutura( "Loca" );
 		
 		familia = this.familiaService.updateFamilia( familia );
-		Assert.notNull( familia );
+		Assert.assertNotNull( familia );
 	}
 	
 	/**
@@ -114,7 +114,70 @@ public class FamiliaServiceIntegrationTests extends AbstractIntegrationTests
 	{
 		Page<Familia> familia = this.familiaService.listFamiliasByFilters( "Silva", null );
 		
-		Assert.isTrue( !familia.getContent().isEmpty() );
-		Assert.isTrue( familia.getContent().get( 0 ).getNome() == "Silva" );
+		Assert.assertTrue( familia.getContent().size() > 0 );
+		Assert.assertTrue( familia.getContent().get( 0 ).getNome().equals( "Silva") );
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml" 
+	})
+	public void listFamiliaByFiltersNenhumResultado()
+	{
+		Page<Familia> familia = this.familiaService.listFamiliasByFilters( "Nenhum", null );
+		
+		Assert.assertTrue( familia.getContent().isEmpty() );
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml" 
+	})
+	public void disableFamiliaMustPass()
+	{
+		Familia familia = this.familiaService.findFamiliaById( 100L );
+		
+		familia = this.familiaService.disableFamilia( familia );
+		
+		Assert.assertNotNull( familia );
+		Assert.assertFalse( familia.isAtivo() );
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml" 
+	})
+	public void enableFamiliaMustPass()
+	{
+		Familia familia = this.familiaService.findFamiliaById( 100L );
+		
+		familia = this.familiaService.enableFamilia( familia );
+		
+		Assert.assertNotNull( familia );
+		Assert.assertTrue( familia.isAtivo() );
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

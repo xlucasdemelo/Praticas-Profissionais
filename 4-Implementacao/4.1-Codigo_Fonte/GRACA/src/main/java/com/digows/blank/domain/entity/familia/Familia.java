@@ -154,6 +154,14 @@ public class Familia extends AbstractEntity implements Serializable
 		this.ativo = false;
 	}
 	
+	/**
+	 * 
+	 */
+	public void enableFamilia()
+	{
+		this.ativo = true;
+	}
+	
 	/*-------------------------------------------------------------------
 	 *				 		     GETTERS AND SETTERS
 	 *-------------------------------------------------------------------*/

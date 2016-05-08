@@ -31,9 +31,9 @@ angular.module('home')
     /**
      * 
      */
-    $scope.toggleMenuSideNavHandler = function() {
-    	console.log("toggleMenuSideNavHandler");
+    $scope.toggleMenuSideNavHandler = function(state) {
     	$mdSidenav($scope.menuSideNavId).toggle();
+    	$state.go( state )
     };
 });
 

@@ -2,12 +2,15 @@
 	'use strict';
 
 	//Start the AngularJS
-	var module = angular.module('home', ['ngMessages', 'ngSanitize', 'ngMaterial', 'ui.router', 'eits-md', 'eits-ng' ]);
+	var module = angular.module('home', ['ngMessages', 'ngSanitize', 'ngMaterial', 'ui.router', 'eits-md', 'eits-ng', 'md.data.table' ]);
 
 	/**
 	 * 
 	 */
-	module.config( function( $stateProvider, $urlRouterProvider, $importServiceProvider, $translateProvider ) {
+	module.config( function( $stateProvider, $urlRouterProvider, $importServiceProvider, $translateProvider, $mdThemingProvider ) {
+		
+	
+		
 		//-------
 		//Broker configuration
 		//-------
@@ -27,6 +30,18 @@
         	url : "/",
         	templateUrl: './modules/home/views/home/home-index.html',
         });
+        
+        //FAMILIA
+        $stateProvider.state('familia',{
+        	abstract: true,
+        	url : "/familia",
+        	template: '<div layout="column" flex ui-view=""/>',
+        	controller : 'FamiliaController as familiaController'
+        })
+        .state('familia.list',{
+            url:'/listar',
+            templateUrl: './modules/home/views/familia/familia-list.html'
+          });
 	});
 
 	/**

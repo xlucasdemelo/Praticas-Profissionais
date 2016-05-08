@@ -18,11 +18,12 @@ import com.digows.blank.domain.entity.familia.Familia;
 public interface IFamiliaRepository extends JpaRepository<Familia, Long>
 {
 	
-	@Query(value="SELECT new Familia(familia.id, familia.nome, familia.telefone, familia.numeroComodos, familia.situacaoImovel, familia.infraestrutura, familia.tipoImovel, familia.endereco, familia.ativo, familia.nomeMae) " +
+	@Query(value="SELECT new Familia(familia.id, familia.nome, familia.telefone, familia.numeroComodos, familia.situacaoImovel, familia.infraestrutura, familia.tipoImovel, endereco, familia.ativo, familia.nomeMae) " +
 			   "FROM Familia familia " +
-			  "WHERE ( FILTER(familia.id, :filters) = TRUE "
-			  	 + "OR FILTER(familia.nome, :filters) = TRUE "
-			  	 + "OR FILTER(familia.nomeMae, :filters) = TRUE )"
+			   "LEFT OUTER JOIN familia.endereco endereco " + 
+			  "WHERE ( familia.ativo = TRUE AND "
+			  	 + "( LOWER( familia.nome ) LIKE '%' || LOWER(CAST(:filter AS string))  || '%' OR :filter = NULL ) "
+			  	 + "OR ( LOWER( familia.nomeMae) LIKE '%' || LOWER(CAST(:filter AS string))  || '%' OR :filter = NULL ) )"
 			)
-	public Page<Familia> listByFilters( @Param("filters") String filters, Pageable pageable );
+	public Page<Familia> listByFilters( @Param("filter") String filters, Pageable pageable );
 }

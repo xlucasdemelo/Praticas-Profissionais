@@ -7,7 +7,7 @@
 		
 		<md-toolbar class="md-tall" 
 			style="background-image: url('./static/images/menu-background.png'); background-repeat: round;">
-			<img src="./static/images/logo.png" width="160px" height="100px" alt="Logo"/>
+<!-- 			<img src="./static/images/logo.png" width="160px" height="100px" alt="Logo"/> -->
 		</md-toolbar>
 
 		<md-content layout-padding layout="column" layout="left left" 
@@ -23,11 +23,19 @@
 			
 			<md-divider></md-divider>
 			
+			<md-button style="text-align: left;"
+				ng-click="toggleMenuSideNavHandler('familia.list');">
+				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
+				Família
+			</md-button>
+			
+			<md-divider></md-divider>
+			
 			<span flex></span>
 			
 			<md-divider></md-divider>
 			<label class="md-caption" style="margin-top: 20px;">
-				Copyright © eits.com.br - Todos os direitos reservados.
+<!-- 				Copyright © eits.com.br - Todos os direitos reservados. -->
 			</label>
 		</md-content>
   	</md-sidenav>

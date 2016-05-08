@@ -92,4 +92,19 @@ public class FamiliaService
 		
 		return this.familiaRepository.save( familia );
 	}
+	
+	/**
+	 * 
+	 * @param familia
+	 * @return
+	 */
+	public Familia enableFamilia( Familia familia )
+	{
+		Assert.notNull( familia );
+		
+		familia = this.familiaRepository.findOne( familia.getId() );
+		familia.enableFamilia();
+		
+		return this.familiaRepository.save( familia );
+	}
 }
