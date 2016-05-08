@@ -55,8 +55,8 @@ angular.module('home')
 				   
 				},
 				
-				page: {//PageImpl
-			    	content: null,
+				page: {//PageImpl 
+			    	content: [],
 			    	pageable: {//PageRequest
 			    		size: 9,
 			    		page: 0,
@@ -250,21 +250,20 @@ angular.module('home')
 	     *-------------------------------------------------------------------*/
 		
 		$scope.listFamiliasByFilters = function(){
-			familiaService.listFamiliasByFilters( ( $scope.model.familia.filters.terms, $scope.model.familia.page.pageable , {
+			familiaService.listFamiliasByFilters(  $scope.model.familia.filters.terms.toString(), null, {
                 callback : function(result) {
                 	
-                	$scope.model.familia.page = result;
-//                	{//PageImpl
-//    						content : result.content,
-//    						total   : result.total,
-//    							pageable : {//PageRequest
-//    								page : result.pageable.page,
-//    								size : result.pageable.size,
-//    									sort : {//Sort
-//    									direction: result.pageable.sort.orders[0].direction, properties: [ result.pageable.sort.orders[0].property ]
-//    									},
-//    							}
-//    						};
+                	$scope.model.familia.page = {//PageImpl
+    						content : result.content,
+    						total   : result.total,
+    							pageable : {//PageRequest
+    								page : result.number,
+    								size : result.totalPages,
+    									sort : {//Sort
+    									direction: 'ASC', properties: ['id']
+    									},
+    							}
+    						};
                 	
                 	$scope.$apply();
                 	
@@ -273,7 +272,7 @@ angular.module('home')
                 	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
                     $scope.$apply();
                 }
-            }));
+            });
 		}
         
 		/**

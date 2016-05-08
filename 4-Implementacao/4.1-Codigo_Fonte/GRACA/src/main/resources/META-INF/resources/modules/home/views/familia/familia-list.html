@@ -21,11 +21,11 @@
 						<div layout="row">
 							<md-input-container style="margin-bottom: 20px;" layout="column" flex>
 								<label>Digite sua pesquisa</label>
-								<input type="text" name="filtro" ng-disabled="moreFilters" ng-model="model.fornecedor.filters.terms" maxlength="255">
+								<input type="text" name="filtro" ng-disabled="moreFilters" ng-model="model.familia.filters.terms" maxlength="255">
 							</md-input-container>
 					            
 				            <div layout="row" layout-align="end center" ng-init="currentOption = 'down'">
-					            <md-button class="md-raised md-primary md-hue-2" ng-click="listFornecedoresByFiltersHandler()">{{::'gerais.Filtrar' | translate}}</md-button>
+					            <md-button class="md-raised md-primary md-hue-2" ng-click="listFamiliasByFilters()">Filtrar</md-button>
 					            <md-button class="md-raised md-primary md-hue-3" ng-click="openMaisOpcoes(); currentOption = !currentOption" style="padding-left: 14px;">
 					            	{{::'gerais.MAIS-OPCOES' | translate}}
 					            	<i ng-if="!currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-down"></i>
@@ -54,6 +54,9 @@
 					    <tbody md-body>
 					      <tr md-row md-select="dessert" md-select-id="name" md-auto-select ng-repeat="familia in model.familia.page.content">
 					        <td md-cell>{{familia.nome}}</td>
+					        <td md-cell>{{familia.nomeMae}}</td>
+					        <td md-cell>{{familia.endereco.rua}}</td>
+					        <td md-cell>{{familia.telefone}}</td>
 					      </tr>
 					    </tbody>
 					  </table>

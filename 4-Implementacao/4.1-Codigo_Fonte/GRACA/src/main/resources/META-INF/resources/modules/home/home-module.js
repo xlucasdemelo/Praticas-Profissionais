@@ -41,7 +41,11 @@
         .state('familia.list',{
             url:'/listar',
             templateUrl: './modules/home/views/familia/familia-list.html'
-          });
+          })
+        .state('familia.add',{
+            url:'/inserir',
+            templateUrl: './modules/home/views/familia/familia-form.html'
+          })
 	});
 
 	/**
