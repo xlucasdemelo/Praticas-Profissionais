@@ -14,13 +14,13 @@
 	        </div>
 	    </md-toolbar>
 		
-		<div layout="column" md-theme="{{}}" style="height: 100%; position:absolute; width:100%; overflow:hidden">
-			<md-content layout="column" style="height: 100%">
-				<md-tabs md-border-bottom style="position: static" md-selected="model.ordemServico.selectedTab">
+		<div layout="column" md-theme="{{}}" style="height: 100%; position:absolute; width:100%;">
+			<md-content layout="column" style="height: 93%;">
+				<md-tabs md-border-bottom style="position: static; overflow:auto" md-selected="model.ordemServico.selectedTab">
 					<md-tab label="Família">
 						
-						<div layout-fill style="position: absolute; display: block; height:100%">
-				    		<md-toolbar layout-fill style="min-height: 100% !important; height: 100%;" class="md-hue-3" md-theme="{{osmTheme}}">
+						<div layout-fill style="height:50%">
+				    		<md-toolbar layout-fill style="min-height: 100% !important; height: 50%;" class="md-hue-3" md-theme="{{osmTheme}}">
 								<div class="default-frame">
 									<md-toolbar layout="row" class="default-form toolbar-temp" style="padding-bottom: 0; ">
 									
@@ -30,7 +30,7 @@
 											</div>
 											
 											<div layout="row">
-								    			<md-input-container layout="column" flex="30" ">
+								    			<md-input-container layout="column" flex="30" style="margin-right:30px">
 										    		<label>Nome da família</label>
 									                <input name="nome" required ng-model="model.familia.entity.nome">
 									
@@ -65,9 +65,9 @@
 											</div>
 											
 											<div layout="row">
-								    			<md-input-container layout="column" flex="30" ">
+								    			<md-input-container layout="column" flex="30" style="margin-right:30px">
 										    		<label>Rua</label>
-									                <input name="rua" required ng-model="model.familia.entity.rua">
+									                <input name="rua" required ng-model="model.endereco.entity.rua">
 									
 									                <div ng-messages="model.familia.form.status.$error">
 									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
@@ -76,9 +76,67 @@
 									            
 									            <md-input-container layout="column" flex="30" ">
 										    		<label>Bairro</label>
-									                <input name="nomeMae" required ng-model="model.familia.entity.nomeMae">
+									                <input name="nomeMae" required ng-model="model.endereco.entity.bairro">
 									
 									                <div ng-messages="model.familia.form.status.$error">
+									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+									        </div>
+									        
+									        <div class="default-info" flex> 
+												<span>INFORMAÇÕES DA MORADIA</span>
+											</div>
+											
+											<div layout="row">
+								    			<md-input-container layout="column" flex="30" style="margin-right:30px">
+										    		<label>Número de cômodos</label>
+									                <input name="numeroComodos" required ng-model="model.familia.entity.numeroComodos">
+									
+									                <div ng-messages="model.familia.form.numeroComodos.$error">
+									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+									            
+									            <md-input-container layout="column" flex="30" gap="30">
+										    		<label>Número de dormitórios</label>
+									                <input name="numeroDormitorios" required ng-model="model.familia.entity.numeroDormitorios">
+									
+									                <div ng-messages="model.familia.form.numeroDormitorios.$error">
+									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+									        </div>
+											
+											<div layout="row">
+												<md-input-container layout="column" flex="30" style="margin-right:30px">
+											        <label>Tipo de Moradia</label>
+											        <md-select ng-model="model.familia.entity.tipoImovel">
+											          <md-option ng-repeat="size in sizes" value="{{size}}">{{size}}</md-option>
+											        </md-select>
+											    </md-input-container>
+											    
+											    <md-input-container layout="column" flex="30" style="margin-right:30px">
+											        <label>Situação do imóvel</label>
+											        <md-select ng-model="model.familia.entity.situacaoImovel">
+											          <md-option ng-repeat="size in sizes" value="{{size}}">{{size}}</md-option>
+											        </md-select>
+											    </md-input-container>
+											    
+											    <md-input-container layout="column" flex="30">
+											        <label>Tipo do imóvel</label>
+											        <md-select ng-model="model.familia.entity.tipoImovel">
+											          <md-option ng-repeat="size in sizes" value="{{size}}">{{size}}</md-option>
+											        </md-select>
+											    </md-input-container>
+											</div>
+											
+											<div layout="row">
+								    			<md-input-container layout="column" flex="30" style="margin-right:30px">
+										    		<label>Infraestrutura</label>
+									                <input name="infraestrutura" required ng-model="model.familia.entity.infraestrutura">
+									
+									                <div ng-messages="model.familia.form.infraestrutura.$error">
 									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
 									                </div>
 									            </md-input-container>

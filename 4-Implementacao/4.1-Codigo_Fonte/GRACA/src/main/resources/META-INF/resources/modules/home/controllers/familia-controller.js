@@ -13,6 +13,10 @@ angular.module('home')
 	     */
 		$importService("familiaService");
 		
+		/**
+		 * 
+		 */
+		
 	    /*-------------------------------------------------------------------
 	     * 		 				 	ATTRIBUTES
 	     *-------------------------------------------------------------------*/
@@ -67,6 +71,26 @@ angular.module('home')
 			    },
 			},
 			
+			endereco: {
+				form: null,
+				entity: new Endereco(),
+				
+				filters: {
+				    terms: "",
+				   
+				},
+				
+				page: {//PageImpl 
+			    	content: [],
+			    	pageable: {//PageRequest
+			    		size: 9,
+			    		page: 0,
+			        	sort: {//Sort
+			        		direction: 'ASC', properties: ['id']
+			        	},
+			    	}
+			    },
+			},
 		};
 	
 		/*-------------------------------------------------------------------
@@ -120,7 +144,9 @@ angular.module('home')
 			console.debug("changeToAdd");
 			
 			$scope.model.familia.entity = new Familia();//Limpa o formulário
-			
+//			$(windows).load( function(){
+//				$("md-tabs-content-wrapper").css({overflow:'scroll'})
+//			});
 		};
 		
 		/**
@@ -273,11 +299,14 @@ angular.module('home')
         
 		$scope.insertFamilia = function()
 		{
-			$scope.model.ordemServico.form.$submitted = true;
-			if ($scope.model.ordemServico.form.$invalid ){
+			$scope.model.familia.form.$submitted = true;
+			if ($scope.model.familia.form.$invalid ){
 				alert("Preenche");
 				return;
 			}
+			
+			$scope.model.familia.entity.endereco = $scope.model.endereco.entity; 
+			$scope.model.familia.entity.tipoImovel =  1
 			
 			familiaService.insertFamilia(  $scope.model.familia.entity, {
                 callback : function(result) {
