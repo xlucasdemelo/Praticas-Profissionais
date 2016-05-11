@@ -38,6 +38,17 @@ angular.module('home')
 		 */
 		$scope.DETAIL_STATE = "familia.detail";
 		
+		/**
+		 * 
+		 */
+		$scope.allTiposImovel = [];
+		
+		/**
+		 * 
+		 */
+		$scope.allTiposMoradia = [];
+		
+		
 		//----FORM MODEL
 		
 		/**
@@ -92,7 +103,8 @@ angular.module('home')
 			    },
 			},
 		};
-	
+		
+		
 		/*-------------------------------------------------------------------
 	     * 		 				  POST CONSTRUCT
 	     *-------------------------------------------------------------------*/
@@ -144,9 +156,7 @@ angular.module('home')
 			console.debug("changeToAdd");
 			
 			$scope.model.familia.entity = new Familia();//Limpa o formulário
-//			$(windows).load( function(){
-//				$("md-tabs-content-wrapper").css({overflow:'scroll'})
-//			});
+			
 		};
 		
 		/**
@@ -306,12 +316,50 @@ angular.module('home')
 			}
 			
 			$scope.model.familia.entity.endereco = $scope.model.endereco.entity; 
-			$scope.model.familia.entity.tipoImovel =  1
+			$scope.model.familia.entity.tipoImovel =  "CASA";
 			
 			familiaService.insertFamilia(  $scope.model.familia.entity, {
                 callback : function(result) {
                 	
                 	$scope.model.familia.entity = result;
+                	
+                	$scope.$apply();
+                	
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+		}
+		
+		/**
+		 * 
+		 */
+		$scope.listAllTiposImovel = function(){
+			familiaService.listAllTiposImovel(   {
+                callback : function(result) {
+                	
+                	$scope.allTiposImovel = result;
+                	
+                	$scope.$apply();
+                	
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+		}
+		
+		/**
+		 * 
+		 */
+		$scope.listAllTiposMoradia = function(){
+			familiaService.listAllTiposMoradia(   {
+                callback : function(result) {
+                	
+                	$scope.allTiposMoradia = result;
                 	
                 	$scope.$apply();
                 	
@@ -351,5 +399,7 @@ angular.module('home')
 		/*-------------------------------------------------------------------
 	     * 		 				 	POST CONSTRUCT
 	     *-------------------------------------------------------------------*/
+		$scope.listAllTiposImovel();
+		$scope.listAllTiposMoradia();
 });
 }(window.angular));

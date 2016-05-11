@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.digows.blank.domain.entity.endereco.Endereco;
 import com.digows.blank.domain.entity.familia.Familia;
+import com.digows.blank.domain.entity.familia.TipoImovel;
+import com.digows.blank.domain.entity.familia.TipoMoradia;
 import com.digows.blank.domain.repository.familia.IFamiliaRepository;
 
 /**
@@ -64,6 +67,7 @@ public class FamiliaService
 	public Familia insertFamilia( Familia familia )
 	{
 		Assert.notNull( familia );
+		familia.setEndereco( new Endereco( 2L ) );
 		return this.familiaRepository.save( familia );
 	}
 	
@@ -106,5 +110,23 @@ public class FamiliaService
 		familia.enableFamilia();
 		
 		return this.familiaRepository.save( familia );
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public TipoImovel[] listAllTiposImovel()
+	{
+		return TipoImovel.values(  );
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public TipoMoradia[] listAllTiposMoradia()
+	{
+		return TipoMoradia.values(  );
 	}
 }

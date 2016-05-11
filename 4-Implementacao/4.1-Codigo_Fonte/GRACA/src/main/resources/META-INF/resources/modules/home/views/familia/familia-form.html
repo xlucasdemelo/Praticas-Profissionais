@@ -84,6 +84,29 @@
 									            </md-input-container>
 									        </div>
 									        
+									        <div layout="row">
+<!-- 								    			<md-input-container layout="column" flex="30" style="margin-right:30px"> -->
+<!-- 											        <label>Cidade</label> -->
+<!-- 											        <md-select  ng-model="model.familia.entity.cidade"> -->
+<!-- 											          <md-option ng-repeat="" value="{{tipoMoradia}}">{{tipoMoradia}}</md-option> -->
+<!-- 											        </md-select> -->
+<!-- 											    </md-input-container> -->
+									            
+<!-- 									            <md-input-container layout="column" flex="30" style="margin-right:30px"> -->
+<!-- 											        <label>Estado</label> -->
+<!-- 											        <md-select  ng-model="model.familia.entity.estado"> -->
+<!-- 											          <md-option ng-repeat="" value="{{tipoMoradia}}">{{tipoMoradia}}</md-option> -->
+<!-- 											        </md-select> -->
+<!-- 											    </md-input-container> -->
+											    
+<!-- 											    <md-input-container layout="column" flex="30" style="margin-right:30px"> -->
+<!-- 											        <label>País</label> -->
+<!-- 											        <md-select  ng-model="model.familia.entity.pais"> -->
+<!-- 											          <md-option ng-repeat="" value="{{tipoMoradia}}">{{tipoMoradia}}</md-option> -->
+<!-- 											        </md-select> -->
+<!-- 											    </md-input-container> -->
+									        </div>
+									        
 									        <div class="default-info" flex> 
 												<span>INFORMAÇÕES DA MORADIA</span>
 											</div>
@@ -111,27 +134,28 @@
 											<div layout="row">
 												<md-input-container layout="column" flex="30" style="margin-right:30px">
 											        <label>Tipo de Moradia</label>
-											        <md-select ng-model="model.familia.entity.tipoImovel">
-											          <md-option ng-repeat="size in sizes" value="{{size}}">{{size}}</md-option>
-											        </md-select>
-											    </md-input-container>
-											    
-											    <md-input-container layout="column" flex="30" style="margin-right:30px">
-											        <label>Situação do imóvel</label>
-											        <md-select ng-model="model.familia.entity.situacaoImovel">
-											          <md-option ng-repeat="size in sizes" value="{{size}}">{{size}}</md-option>
+											        <md-select  ng-model="model.familia.entity.tipoMoradia">
+											          <md-option ng-repeat="tipoMoradia in allTiposMoradia" value="{{tipoMoradia}}">{{tipoMoradia}}</md-option>
 											        </md-select>
 											    </md-input-container>
 											    
 											    <md-input-container layout="column" flex="30">
 											        <label>Tipo do imóvel</label>
-											        <md-select ng-model="model.familia.entity.tipoImovel">
-											          <md-option ng-repeat="size in sizes" value="{{size}}">{{size}}</md-option>
+											        <md-select id="paia" ng-model="model.familia.entity.tipoImovel">
+											          <md-option ng-repeat="tipoImovel in allTiposImovel" value="{{tipoImovel}}">{{tipoImovel}}</md-option>
 											        </md-select>
 											    </md-input-container>
 											</div>
 											
 											<div layout="row">
+												<md-input-container layout="column" flex="30" style="margin-right:30px">
+										    		<label>Situação do Imóvel</label>
+									                <input name="situacaoImovel" required ng-model="model.familia.entity.situacaoImovel">
+									
+									                <div ng-messages="model.familia.form.situacaoImovel.$error">
+									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
 								    			<md-input-container layout="column" flex="30" style="margin-right:30px">
 										    		<label>Infraestrutura</label>
 									                <input name="infraestrutura" required ng-model="model.familia.entity.infraestrutura">
