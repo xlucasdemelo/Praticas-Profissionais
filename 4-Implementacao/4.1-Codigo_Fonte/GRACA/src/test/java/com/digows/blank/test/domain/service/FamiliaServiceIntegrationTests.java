@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import com.digows.blank.domain.entity.endereco.Endereco;
 import com.digows.blank.domain.entity.familia.Familia;
 import com.digows.blank.domain.entity.familia.TipoImovel;
+import com.digows.blank.domain.entity.familia.TipoMoradia;
 import com.digows.blank.domain.service.familia.FamiliaService;
 import com.digows.blank.test.domain.AbstractIntegrationTests;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
@@ -45,7 +46,7 @@ public class FamiliaServiceIntegrationTests extends AbstractIntegrationTests
 	})
 	public void insertFamiliaMustPass()
 	{
-		Familia familia = new Familia( 1L, "Silva", "99999", 3, "Boa", "Basica", TipoImovel.CASA, null, true, "Maria Silva");
+		Familia familia = new Familia( 1L, "Silva", "99999", 3, "Boa", "Basica", TipoImovel.CASA, TipoMoradia.ALUGADA, new Endereco(100L), true, "Maria Silva", 10);
 		familia.setEndereco( new Endereco(100L) );
 		
 		familia = this.familiaService.insertFamilia( familia );
@@ -62,7 +63,7 @@ public class FamiliaServiceIntegrationTests extends AbstractIntegrationTests
 	})
 	public void insertFamiliaMustFailWithoutMandatoryFields()
 	{
-		Familia familia = new Familia( 1L, null, "99999", 3, "Boa", "Basica", TipoImovel.CASA, null, true, "Marlene Silva");
+		Familia familia = new Familia( 1L, null, "99999", 3, "Boa", "Basica", TipoImovel.CASA, TipoMoradia.ALUGADA, new Endereco(100L), true, "Marlene Silva", 10);
 		familia.setEndereco( new Endereco(100L) );
 		
 		familia = this.familiaService.insertFamilia( familia );
@@ -79,7 +80,7 @@ public class FamiliaServiceIntegrationTests extends AbstractIntegrationTests
 	})
 	public void insertFamiliaMustFailSameNomeAndNomeMae()
 	{
-		Familia familia = new Familia( 1L, "Silva", "99999", 3, "Boa", "Basica", TipoImovel.CASA, null, true, "Marlene Silva");
+		Familia familia = new Familia( 1L, "Silva", "99999", 3, "Boa", "Basica", TipoImovel.CASA, TipoMoradia.ALUGADA, null, true, "Marlene Silva", 10);
 		familia.setEndereco( new Endereco(100L) );
 		
 		familia = this.familiaService.insertFamilia( familia );
@@ -130,6 +131,23 @@ public class FamiliaServiceIntegrationTests extends AbstractIntegrationTests
 		Page<Familia> familia = this.familiaService.listFamiliasByFilters( "Nenhum", null );
 		
 		Assert.assertTrue( familia.getContent().isEmpty() );
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml" 
+	})
+	public void listFamiliaByFiltersMustNotShowDisabled()
+	{
+		Page<Familia> familiaPage = this.familiaService.listFamiliasByFilters( null, null );
+		
+		for ( Familia familia : familiaPage )
+		{
+			Assert.assertTrue( familia.isAtivo() );
+		}
 	}
 	
 	/**

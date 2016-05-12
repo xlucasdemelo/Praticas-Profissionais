@@ -70,16 +70,14 @@ angular.module('home')
 				   
 				},
 				
-				page: {//PageImpl 
-			    	content: [],
-			    	pageable: {//PageRequest
+			    page: {//PageImpl 
 			    		size: 9,
 			    		page: 0,
-			        	sort: {//Sort
-			        		direction: 'ASC', properties: ['id']
-			        	},
-			    	}
+			        	sort:null
 			    },
+			    familiaSort: [{//Sort
+	        		direction: 'ASC', properties: 'id', nullHandlingHint:null
+	        	}],
 			},
 			
 			endereco: {
@@ -170,15 +168,10 @@ angular.module('home')
 	     */
 	    $scope.changeToEdit = function( id ) {
 	        console.debug("changeToEdit", id);
-	        $scope.model.fornecedor.entity = null;
 	        
-	        fornecedorService.findFornecedorById( id, {
+	        familiaService.findFamiliaById( id, {
 	            callback : function(result) {	   
-	            	$scope.model.cidade.searchText = result.cidade.nome;
-	            	$scope.model.estado.searchText = result.cidade.estado.nome;
-	            	$scope.model.fornecedor.entity = result;
-	            	
-	            	$scope.listContratosByFornecedor();
+	            	$scope.model.familia.entity = result;
 	            	$scope.$apply();
 	            },
 	            errorHandler : function(message, exception) {
@@ -248,12 +241,11 @@ angular.module('home')
 	        $mdDialog.show(confirm).then(function (result) {
 	            console.log(result);
 	
-	            fornecedorService.removeFornecedor( ($.isArray(entity) ? entity : [entity] ) , {
+	            familiaService.disableFamilia( $scope.model.familia.entity  , {
 	                callback : function(result) {
-	                	$scope.moreFilters = false;
 	                    $scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi excluído com sucesso!" );
-	                    $scope.listFornecedoresByFiltersHandler();
 	                    $state.go($scope.LIST_STATE);
+	                    $scope.listFamiliasByFilters();
 	                    $scope.$apply();
 	                },
 	                errorHandler : function(message, exception) {
@@ -264,6 +256,35 @@ angular.module('home')
 	        });
 	    };
 		
+	    /**
+		 * 
+		 */
+		$scope.enableFamilia = function(){
+			
+			var confirm = $mdDialog.confirm()
+            .title('Tem certeza que deseja ativar este registro?')
+            .content('')
+            .ok('Sim')
+            .cancel('Cancelar');
+
+	        $mdDialog.show(confirm).then(function (result) {
+	            console.log(result);
+	
+	            familiaService.enableFamilia( $scope.model.familia.entity  , {
+	                callback : function(result) {
+	                    $scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi ativado com sucesso!" );
+	                    $state.go($scope.LIST_STATE);
+	                    $scope.listFamiliasByFilters();
+	                    $scope.$apply();
+	                },
+	                errorHandler : function(message, exception) {
+	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+	                    $scope.$apply();
+	                }
+	            });
+	        });
+		}
+	    
 		/**
          *  Ao Trocar de Página
          */
@@ -282,21 +303,11 @@ angular.module('home')
 	     *-------------------------------------------------------------------*/
 		
 		$scope.listFamiliasByFilters = function(){
-			familiaService.listFamiliasByFilters(  $scope.model.familia.filters.terms.toString(), null, {
+			familiaService.listFamiliasByFilters(  $scope.model.familia.filters.terms.toString(), $scope.model.familia.familiaPage, {
                 callback : function(result) {
                 	
-                	$scope.model.familia.page = {//PageImpl
-    						content : result.content,
-    						total   : result.total,
-    							pageable : {//PageRequest
-    								page : result.number,
-    								size : result.totalPages,
-    									sort : {//Sort
-    									direction: 'ASC', properties: ['id']
-    									},
-    							}
-    						};
-                	
+                	$scope.model.familia.page = result.content; 
+                			
                 	$scope.$apply();
                 	
                 },
@@ -311,18 +322,17 @@ angular.module('home')
 		{
 			$scope.model.familia.form.$submitted = true;
 			if ($scope.model.familia.form.$invalid ){
-				alert("Preenche");
+				$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
 				return;
 			}
 			
 			$scope.model.familia.entity.endereco = $scope.model.endereco.entity; 
-			$scope.model.familia.entity.tipoImovel =  "CASA";
 			
 			familiaService.insertFamilia(  $scope.model.familia.entity, {
                 callback : function(result) {
                 	
                 	$scope.model.familia.entity = result;
-                	
+                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi cadastrado com sucesso!" );
                 	$scope.$apply();
                 	
                 },
@@ -401,5 +411,6 @@ angular.module('home')
 	     *-------------------------------------------------------------------*/
 		$scope.listAllTiposImovel();
 		$scope.listAllTiposMoradia();
+		
 });
 }(window.angular));

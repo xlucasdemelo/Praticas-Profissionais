@@ -12,6 +12,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
@@ -77,6 +78,12 @@ public class Familia extends AbstractEntity implements Serializable
 	 * 
 	 */
 	@NotNull
+	private Integer numeroDormitorios;
+	
+	/**
+	 * 
+	 */
+	@NotNull
 	private String situacaoImovel;
 	
 	/**
@@ -91,6 +98,13 @@ public class Familia extends AbstractEntity implements Serializable
 	@Column(nullable = false)
 	@Enumerated(EnumType.ORDINAL)
 	private TipoImovel tipoImovel;
+	
+	/**
+	 * 
+	 */
+	@Column(nullable = false)
+	@Enumerated(EnumType.ORDINAL)
+	private TipoMoradia tipoMoradia;
 	
 	/**
 	 * 
@@ -112,7 +126,7 @@ public class Familia extends AbstractEntity implements Serializable
 	 * @param tipoImovel
 	 * @param endereco
 	 */
-	public Familia( Long id, String nome, String telefone, Integer numeroComodos, String situacaoImovel, String infraestrutura, TipoImovel tipoImovel, Endereco endereco, boolean ativo, String nomeMae )
+	public Familia( Long id, String nome, String telefone, Integer numeroComodos, String situacaoImovel, String infraestrutura, TipoImovel tipoImovel, TipoMoradia tipoMoradia, Endereco endereco, boolean ativo, String nomeMae, Integer numeroDormitorios )
 	{
 		super(id);
 		this.nome = nome;
@@ -124,6 +138,8 @@ public class Familia extends AbstractEntity implements Serializable
 		this.endereco = endereco;
 		this.ativo = ativo;
 		this.nomeMae = nomeMae;
+		this.numeroDormitorios = numeroDormitorios;
+		this.tipoMoradia = tipoMoradia;
 	}
 
 	/**
@@ -157,6 +173,7 @@ public class Familia extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
+	@PrePersist
 	public void enableFamilia()
 	{
 		this.ativo = true;
@@ -303,6 +320,22 @@ public class Familia extends AbstractEntity implements Serializable
 	}
 
 	/**
+	 * @return the numeroDormitorios
+	 */
+	public Integer getNumeroDormitorios()
+	{
+		return numeroDormitorios;
+	}
+
+	/**
+	 * @param numeroDormitorios the numeroDormitorios to set
+	 */
+	public void setNumeroDormitorios( Integer numeroDormitorios )
+	{
+		this.numeroDormitorios = numeroDormitorios;
+	}
+
+	/**
 	 * @param endereco the endereco to set
 	 */
 	public void setEndereco( Endereco endereco )
@@ -314,6 +347,22 @@ public class Familia extends AbstractEntity implements Serializable
 	 *				 		     EQUALS AND HASCHCODE
 	 *-------------------------------------------------------------------*/
 	
+	/**
+	 * @return the tipoMoradia
+	 */
+	public TipoMoradia getTipoMoradia()
+	{
+		return tipoMoradia;
+	}
+
+	/**
+	 * @param tipoMoradia the tipoMoradia to set
+	 */
+	public void setTipoMoradia( TipoMoradia tipoMoradia )
+	{
+		this.tipoMoradia = tipoMoradia;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
