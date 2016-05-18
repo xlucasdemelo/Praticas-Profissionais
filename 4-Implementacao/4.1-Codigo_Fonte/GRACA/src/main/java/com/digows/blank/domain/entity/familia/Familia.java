@@ -48,7 +48,7 @@ public class Familia extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
-	private boolean ativo = true;
+	private Boolean ativo = true;
 	
 	/**
 	 * 
@@ -126,7 +126,7 @@ public class Familia extends AbstractEntity implements Serializable
 	 * @param tipoImovel
 	 * @param endereco
 	 */
-	public Familia( Long id, String nome, String telefone, Integer numeroComodos, String situacaoImovel, String infraestrutura, TipoImovel tipoImovel, TipoMoradia tipoMoradia, Endereco endereco, boolean ativo, String nomeMae, Integer numeroDormitorios )
+	public Familia( Long id, String nome, String telefone, Integer numeroComodos, String situacaoImovel, String infraestrutura, TipoImovel tipoImovel, TipoMoradia tipoMoradia, Endereco endereco, Boolean ativo, String nomeMae, Integer numeroDormitorios )
 	{
 		super(id);
 		this.nome = nome;
@@ -282,7 +282,7 @@ public class Familia extends AbstractEntity implements Serializable
 	/**
 	 * @return the ativo
 	 */
-	public boolean isAtivo()
+	public Boolean isAtivo()
 	{
 		return ativo;
 	}
@@ -290,7 +290,7 @@ public class Familia extends AbstractEntity implements Serializable
 	/**
 	 * @param ativo the ativo to set
 	 */
-	public void setAtivo( boolean ativo )
+	public void setAtivo( Boolean ativo )
 	{
 		this.ativo = ativo;
 	}
