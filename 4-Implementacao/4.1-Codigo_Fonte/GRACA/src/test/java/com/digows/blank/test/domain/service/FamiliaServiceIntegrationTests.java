@@ -146,8 +146,23 @@ public class FamiliaServiceIntegrationTests extends AbstractIntegrationTests
 		
 		for ( Familia familia : familiaPage )
 		{
-			Assert.assertTrue( familia.isAtivo() );
+			Assert.assertTrue( familia.getAtivo() );
 		}
+	}
+	
+	
+	/**
+	 * 
+	 */
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml" 
+	})
+	public void findFamiliaByIdMustPassFamiliaAtiva()
+	{
+		Familia familia = this.familiaService.findFamiliaById( 100L );
+		Assert.assertNotNull( familia );
+		Assert.assertTrue( familia.getAtivo() );
 	}
 	
 	/**
@@ -164,7 +179,7 @@ public class FamiliaServiceIntegrationTests extends AbstractIntegrationTests
 		familia = this.familiaService.disableFamilia( familia );
 		
 		Assert.assertNotNull( familia );
-		Assert.assertFalse( familia.isAtivo() );
+		Assert.assertFalse( familia.getAtivo() );
 	}
 	
 	/**
@@ -181,7 +196,7 @@ public class FamiliaServiceIntegrationTests extends AbstractIntegrationTests
 		familia = this.familiaService.enableFamilia( familia );
 		
 		Assert.assertNotNull( familia );
-		Assert.assertTrue( familia.isAtivo() );
+		Assert.assertTrue( familia.getAtivo() );
 	}
 }
 

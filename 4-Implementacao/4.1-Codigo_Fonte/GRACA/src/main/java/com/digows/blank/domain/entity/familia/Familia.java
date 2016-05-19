@@ -48,7 +48,7 @@ public class Familia extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
-	private Boolean ativo = true;
+	private Boolean ativo ;
 	
 	/**
 	 * 
@@ -282,7 +282,7 @@ public class Familia extends AbstractEntity implements Serializable
 	/**
 	 * @return the ativo
 	 */
-	public Boolean isAtivo()
+	public Boolean getAtivo()
 	{
 		return ativo;
 	}
