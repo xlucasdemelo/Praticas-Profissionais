@@ -67,7 +67,6 @@ public class FamiliaService
 	public Familia insertFamilia( Familia familia )
 	{
 		Assert.notNull( familia );
-		familia.setEndereco( new Endereco( 2L ) );
 		return this.familiaRepository.save( familia );
 	}
 	

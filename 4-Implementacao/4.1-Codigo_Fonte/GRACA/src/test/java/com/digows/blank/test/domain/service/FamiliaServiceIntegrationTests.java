@@ -42,12 +42,12 @@ public class FamiliaServiceIntegrationTests extends AbstractIntegrationTests
 	 */
 	@Test
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-		"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml"
+		"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml" 
 	})
 	public void insertFamiliaMustPass()
 	{
-		Familia familia = new Familia( 1L, "Silva", "99999", 3, "Boa", "Basica", TipoImovel.CASA, TipoMoradia.ALUGADA, new Endereco(100L), true, "Maria Silva", 10);
-		familia.setEndereco( new Endereco(100L) );
+		
+		Familia familia = new Familia( null, "Silva", "99999", 3, "Boa", "Basica", TipoImovel.CASA, TipoMoradia.ALUGADA, new Endereco(100L), true, "Maria Silva", 10);
 		
 		familia = this.familiaService.insertFamilia( familia );
 		
