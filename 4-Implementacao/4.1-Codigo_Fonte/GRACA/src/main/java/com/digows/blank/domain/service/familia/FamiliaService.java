@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import com.digows.blank.domain.entity.endereco.Endereco;
 import com.digows.blank.domain.entity.familia.Familia;
 import com.digows.blank.domain.entity.familia.TipoImovel;
 import com.digows.blank.domain.entity.familia.TipoMoradia;
+import com.digows.blank.domain.repository.endereco.IEnderecoService;
 import com.digows.blank.domain.repository.familia.IFamiliaRepository;
 
 /**
@@ -35,6 +35,9 @@ public class FamiliaService
 	 */
 	@Autowired
 	private IFamiliaRepository familiaRepository;
+	
+	@Autowired
+	private IEnderecoService enderecoRepository;
 	
 	/*-------------------------------------------------------------------
 	 *				 		 SERVICES FAMILIA
@@ -67,6 +70,7 @@ public class FamiliaService
 	public Familia insertFamilia( Familia familia )
 	{
 		Assert.notNull( familia );
+		this.enderecoRepository.save( familia.getEndereco() );
 		return this.familiaRepository.save( familia );
 	}
 	

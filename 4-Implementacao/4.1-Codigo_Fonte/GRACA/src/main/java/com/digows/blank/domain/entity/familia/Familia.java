@@ -5,6 +5,7 @@ package com.digows.blank.domain.entity.familia;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -109,7 +110,7 @@ public class Familia extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
 	@JoinColumn(name="endereco_id")
 	private Endereco endereco;
 

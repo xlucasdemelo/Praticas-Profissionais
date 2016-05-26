@@ -45,7 +45,7 @@
 											<div layout="row">
 								    			<md-input-container layout="column" flex="30" style="margin-right:30px">
 										    		<label>Nome da família</label>
-									                <input name="nome" required ng-model="model.familia.entity.nome">
+									                <input maxlength="144" name="nome" required ng-model="model.familia.entity.nome">
 									
 									                <div ng-messages="model.familia.form.nome.$error">
 									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
@@ -54,7 +54,7 @@
 									            
 									            <md-input-container layout="column" flex="30" ">
 										    		<label>Nome da Mãe</label>
-									                <input name="nomeMae" required ng-model="model.familia.entity.nomeMae">
+									                <input maxlength="144" name="nomeMae" required ng-model="model.familia.entity.nomeMae">
 									
 									                <div ng-messages="model.familia.form.nomeMae.$error">
 									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
@@ -65,7 +65,7 @@
 									        <div layout="row">
 								    			<md-input-container layout="column" flex="30" ">
 										    		<label>Telefone</label>
-									                <input name="telefone" required ng-model="model.familia.entity.telefone">
+									                <input type="number" maxlength="12" name="telefone" required ng-model="model.familia.entity.telefone">
 									
 									                <div ng-messages="model.familia.form.telefone.$error">
 									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
@@ -79,8 +79,8 @@
 											
 											<div layout="row">
 								    			<md-input-container layout="column" flex="30" style="margin-right:30px">
-										    		<label>Rua</label>
-									                <input name="rua" required ng-model="model.familia.entity.endereco.rua">
+										    		<label>Rua</label>                                  
+									                <input maxlength="144" name="rua" required ng-model="model.familia.entity.endereco.rua">
 									
 									                <div ng-messages="model.familia.form.rua.$error">
 									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
@@ -89,7 +89,7 @@
 									            
 									            <md-input-container layout="column" flex="30" ">
 										    		<label>Bairro</label>
-									                <input name="bairro" required ng-model="model.familia.entity.endereco.bairro">
+									                <input maxlength="144" name="bairro" required ng-model="model.familia.entity.endereco.bairro">
 									
 									                <div ng-messages="model.familia.form.bairro.$error">
 									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
@@ -98,26 +98,58 @@
 									        </div>
 									        
 									        <div layout="row">
-<!-- 								    			<md-input-container layout="column" flex="30" style="margin-right:30px"> -->
-<!-- 											        <label>Cidade</label> -->
-<!-- 											        <md-select  ng-model="model.familia.entity.cidade"> -->
-<!-- 											          <md-option ng-repeat="" value="{{tipoMoradia}}">{{tipoMoradia}}</md-option> -->
-<!-- 											        </md-select> -->
-<!-- 											    </md-input-container> -->
-									            
-<!-- 									            <md-input-container layout="column" flex="30" style="margin-right:30px"> -->
-<!-- 											        <label>Estado</label> -->
-<!-- 											        <md-select  ng-model="model.familia.entity.estado"> -->
-<!-- 											          <md-option ng-repeat="" value="{{tipoMoradia}}">{{tipoMoradia}}</md-option> -->
-<!-- 											        </md-select> -->
-<!-- 											    </md-input-container> -->
-											    
-<!-- 											    <md-input-container layout="column" flex="30" style="margin-right:30px"> -->
-<!-- 											        <label>País</label> -->
-<!-- 											        <md-select  ng-model="model.familia.entity.pais"> -->
-<!-- 											          <md-option ng-repeat="" value="{{tipoMoradia}}">{{tipoMoradia}}</md-option> -->
-<!-- 											        </md-select> -->
-<!-- 											    </md-input-container> -->
+									        	<md-autocomplete 
+									        		style="margin-right:20px" 
+									        		md-selected-item="model.pais.selectedItem" 
+									        		md-search-text="model.pais.searchText"
+													md-search-text-change="listPaisesByFiltes(model.pais.searchText)" 
+													md-items="item in model.pais.itens" 
+													md-item-text="item.nome"
+													placeholder="País"
+													>
+													
+													<md-item-template>
+														<span md-highlight-text="searchText">{{item.nome}}</span>
+												    </md-item-template>
+												    <md-not-found>
+												    	Nenhum país encontrado
+												    </md-not-found>
+												</md-autocomplete>
+												
+												<md-autocomplete 
+													style="margin-right:20px"
+													md-selected-item="model.estado.selectedItem" 
+													md-search-text="model.estado.searchText" 
+													md-search-text-change="listEstadosByFiltes(model.estado.searchText)" 
+													md-items="item in model.estado.itens" 
+													md-item-text="item.nome"
+													placeholder="Estado"
+													>
+													
+													<md-item-template>
+														<span md-highlight-text="searchText">{{item.nome}}</span>
+												    </md-item-template>
+												    <md-not-found>
+												    	Nenhum estado encontrado
+												    </md-not-found>
+												</md-autocomplete>
+												
+												<md-autocomplete 
+													md-selected-item="model.cidade.selectedItem" 
+													md-search-text="model.cidade.searchText" 
+													md-search-text-change="listCidadesByFiltes(model.cidade.searchText)" 
+													md-items="item in model.cidade.itens" 
+													md-item-text="item.nome"
+													placeholder="Cidade"
+													>
+													<md-item-template>
+														<span md-highlight-text="searchText">{{item.nome}}</span>
+												    </md-item-template>
+												    <md-not-found>
+												    	Nenhum estado encontrado
+												    </md-not-found>
+												</md-autocomplete>
+												
 									        </div>
 									        
 									        <div class="default-info" flex> 
@@ -127,7 +159,7 @@
 											<div layout="row">
 								    			<md-input-container layout="column" flex="30" style="margin-right:30px">
 										    		<label>Número de cômodos</label>
-									                <input name="numeroComodos" required ng-model="model.familia.entity.numeroComodos">
+									                <input type="number" maxlength="144" name="numeroComodos" required ng-model="model.familia.entity.numeroComodos">
 									
 									                <div ng-messages="model.familia.form.numeroComodos.$error">
 									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
@@ -136,7 +168,7 @@
 									            
 									            <md-input-container layout="column" flex="30" gap="30">
 										    		<label>Número de dormitórios</label>
-									                <input name="numeroDormitorios" required ng-model="model.familia.entity.numeroDormitorios">
+									                <input type="number" maxlength="144"name="numeroDormitorios" required ng-model="model.familia.entity.numeroDormitorios">
 									
 									                <div ng-messages="model.familia.form.numeroDormitorios.$error">
 									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
@@ -163,7 +195,7 @@
 											<div layout="row">
 												<md-input-container layout="column" flex="30" style="margin-right:30px">
 										    		<label>Situação do Imóvel</label>
-									                <input name="situacaoImovel" required ng-model="model.familia.entity.situacaoImovel">
+									                <input maxlength="144" name="situacaoImovel" required ng-model="model.familia.entity.situacaoImovel">
 									
 									                <div ng-messages="model.familia.form.situacaoImovel.$error">
 									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
@@ -171,7 +203,7 @@
 									            </md-input-container>
 								    			<md-input-container layout="column" flex="30" style="margin-right:30px">
 										    		<label>Infraestrutura</label>
-									                <input name="infraestrutura" required ng-model="model.familia.entity.infraestrutura">
+									                <input maxlength="144" name="infraestrutura" required ng-model="model.familia.entity.infraestrutura">
 									
 									                <div ng-messages="model.familia.form.infraestrutura.$error">
 									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>

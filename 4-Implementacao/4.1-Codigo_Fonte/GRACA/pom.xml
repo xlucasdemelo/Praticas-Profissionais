@@ -551,6 +551,10 @@
 		    <artifactId>material-design-iconic-font</artifactId>
 		    <version>${iconic-font.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-jpamodelgen</artifactId>
+		</dependency>
 	</dependencies>
 	
 </project>

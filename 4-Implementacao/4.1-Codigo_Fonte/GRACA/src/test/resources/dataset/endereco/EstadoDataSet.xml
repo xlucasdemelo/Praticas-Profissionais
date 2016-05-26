@@ -8,4 +8,11 @@
 		pais_id = "100"
 	/>
 		
+	<public.estado
+		id="101"
+		created="2015-03-30 00:00:00"
+		nome="Santa Catarina"
+		pais_id = "100"
+	/>
+	
 </dataset>

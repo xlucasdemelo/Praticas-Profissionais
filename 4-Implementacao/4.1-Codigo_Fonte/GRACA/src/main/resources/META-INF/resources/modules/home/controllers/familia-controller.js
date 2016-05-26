@@ -12,6 +12,7 @@ angular.module('home')
 	     * Serviços importados do DWR
 	     */
 		$importService("familiaService");
+		$importService("enderecoService");
 		
 		/**
 		 * 
@@ -100,7 +101,27 @@ angular.module('home')
 			    	}
 			    },
 			},
+			
+			estado: {
+				itens: [],
+				noCache: true,
+				selectedItem: null,
+				searchText: null
+			},
+			cidade: {
+				itens: [],
+				noCache: true,
+				selectedItem: null,
+				searchText: null
+			},
+			pais: {
+				itens: [],
+				noCache: true,
+				selectedItem: null,
+				searchText: null
+			}
 		};
+		
 		
 		
 		/*-------------------------------------------------------------------
@@ -154,6 +175,9 @@ angular.module('home')
 			console.debug("changeToAdd");
 			
 			$scope.model.familia.entity = new Familia();//Limpa o formulário
+			$scope.model.pais.selectedItem = null;
+        	$scope.model.estado.selectedItem = null;
+        	$scope.model.cidade.selectedItem = null;
 			
 		};
 		
@@ -172,6 +196,11 @@ angular.module('home')
 	        familiaService.findFamiliaById( id, {
 	            callback : function(result) {	   
 	            	$scope.model.familia.entity = result;
+	            	
+	            	$scope.model.pais.selectedItem = result.endereco.cidade.estado.pais;
+	            	$scope.model.estado.selectedItem = result.endereco.cidade.estado;
+	            	$scope.model.cidade.selectedItem = result.endereco.cidade;
+	            	
 	            	$scope.$apply();
 	            },
 	            errorHandler : function(message, exception) {
@@ -326,7 +355,11 @@ angular.module('home')
 				return;
 			}
 			
-			$scope.model.familia.entity.endereco = $scope.model.endereco.entity; 
+//			$scope.model.familia.entity.endereco = $scope.model.endereco.entity; 
+			
+			$scope.model.familia.entity.endereco.cidade = $scope.model.cidade.selectedItem ;
+			$scope.model.familia.entity.endereco.cidade.estado = $scope.model.estado.selectedItem ;
+			$scope.model.familia.entity.endereco.cidade.estado.pais = $scope.model.pais.selectedItem ;
 			
 			familiaService.insertFamilia(  $scope.model.familia.entity, {
                 callback : function(result) {
@@ -381,6 +414,65 @@ angular.module('home')
             });
 		}
 		
+		$scope.selectPais = function(pais)
+		{
+			$scope.pais = pais;
+		}
+		
+		/**
+		 * 
+		 */
+		$scope.listPaisesByFiltes = function(filter){
+			enderecoService.listPaisesByFilters( filter, null, {
+                callback : function(result) {
+                	
+                	return $scope.model.pais.itens = result.content;
+                	
+                	$scope.$apply();
+                	
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+		}
+		
+		/**
+		 * 
+		 */
+		$scope.listEstadosByFiltes = function(filter){
+			enderecoService.listEstadosByFIlters( filter, $scope.model.pais.selectedItem.id, null, {
+                callback : function(result) {
+                	
+                	$scope.model.estado.itens = result.content;
+                	
+                	$scope.$apply();
+                	
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+		}
+		
+		$scope.listCidadesByFiltes = function(filter){
+			enderecoService.listCidadesByFIlters( filter, $scope.model.estado.selectedItem.id, null, {
+                callback : function(result) {
+                	
+                	$scope.model.cidade.itens = result.content;
+                	
+                	$scope.$apply();
+                	
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+		}
+		
 		/**
 		 * 
 		 */
@@ -403,8 +495,6 @@ angular.module('home')
 	    	$scope.model.dialog = dialog;
 	    	$scope.openDefaultConfirmDialog( $scope, $scope.excluirFornecedorHandler, null );
 		};
-		
-		
 		
 		/*-------------------------------------------------------------------
 	     * 		 				 	POST CONSTRUCT
