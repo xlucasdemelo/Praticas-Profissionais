@@ -49,7 +49,7 @@ public class Familia extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
-	private Boolean ativo ;
+	private Boolean ativo;
 	
 	/**
 	 * 

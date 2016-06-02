@@ -77,7 +77,7 @@ public class IntegranteFamiliarService
 	{
 		Assert.notNull( familiaId );
 		
-		return this.listIntegrantesByfamilia( familiaId, pageable );
+		return this.integranteFamiliarRepository.listIntegrantesByfamilia( familiaId, pageable );
 	}
 	
 	/**
@@ -117,7 +117,10 @@ public class IntegranteFamiliarService
 	{
 		Assert.notNull( documentoIntegranteFamiliar );
 		
-		return this.documentoIntegranteFamiliarRepository.save( documentoIntegranteFamiliar );
+		DocumentoIntegranteFamiliar documentoIntegranteFamiliarDB = this.documentoIntegranteFamiliarRepository.findOne( documentoIntegranteFamiliar.getId() );
+		documentoIntegranteFamiliarDB.mergeObject( documentoIntegranteFamiliar );
+		
+		return this.documentoIntegranteFamiliarRepository.save( documentoIntegranteFamiliarDB );
 	}
 	
 	/**
@@ -139,6 +142,16 @@ public class IntegranteFamiliarService
 	public Page<DocumentoIntegranteFamiliar> listDocumentosByIntegranteFamiliar (Long integranteFamiliarId)
 	{
 		return this.documentoIntegranteFamiliarRepository.listDocumentosByIntegranteFamiliar( integranteFamiliarId, null );
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public DocumentoIntegranteFamiliar findDocumentoIntegranteFamiliarById(Long id)
+	{
+		return this.documentoIntegranteFamiliarRepository.findOne( id );
 	}
 }
 

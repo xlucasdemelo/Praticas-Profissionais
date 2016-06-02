@@ -6,6 +6,8 @@ package com.digows.blank.domain.entity.integrantefamiliar;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -40,6 +42,7 @@ public class DocumentoIntegranteFamiliar extends AbstractEntity implements Seria
 	 * 
 	 */
 	@NotNull
+	@Enumerated(EnumType.ORDINAL)
 	private TipoDocumento tipoDocumento;
 	
 	/**
@@ -91,6 +94,11 @@ public class DocumentoIntegranteFamiliar extends AbstractEntity implements Seria
 	/*-------------------------------------------------------------------
 	 *				 		     BEHAVIORS
 	 *-------------------------------------------------------------------*/
+	
+	public void mergeObject( DocumentoIntegranteFamiliar documentoIntegranteFamiliar )
+	{
+		this.numeroDocumento = documentoIntegranteFamiliar.numeroDocumento;
+	}
 	
 	/*-------------------------------------------------------------------
 	 *				 		     GETTERS AND SETTERS

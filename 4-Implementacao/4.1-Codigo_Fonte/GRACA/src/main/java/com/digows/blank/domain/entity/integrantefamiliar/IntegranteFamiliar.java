@@ -4,6 +4,7 @@
 package com.digows.blank.domain.entity.integrantefamiliar;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Calendar;
 
 import javax.persistence.CascadeType;
@@ -20,7 +21,6 @@ import org.hibernate.envers.Audited;
 import com.digows.blank.domain.entity.endereco.Endereco;
 import com.digows.blank.domain.entity.familia.Familia;
 import com.digows.blank.domain.entity.familia.Sexo;
-import com.ibm.icu.math.BigDecimal;
 
 import br.com.eits.common.domain.entity.AbstractEntity;
 
