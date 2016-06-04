@@ -53,17 +53,17 @@
 					    </thead>
 					    <tbody md-body>
 					      <tr md-row md-select="dessert" style="cursor:pointer" ng-click="$state.go( EDIT_STATE, {id:familia.id} )" md-select-id="name" md-auto-select ng-repeat="familia in model.familia.page">
-					        <td md-cell>{{familia.nome}}</td>
-					        <td md-cell>{{familia.nomeMae}}</td>
-					        <td md-cell>{{familia.endereco.rua}}</td>
-					        <td md-cell>{{familia.telefone}}</td>
+					        <td md-cell>{{::familia.nome}}</td>
+					        <td md-cell>{{::familia.nomeMae}}</td>
+					        <td md-cell>{{::familia.endereco.rua}}</td>
+					        <td md-cell>{{::familia.telefone}}</td>
 					      </tr>
 					    </tbody>
 					  </table>
 					</md-table-container>
 										
 					<div layout="column" flex class="empty-grid" layout-align="center center" ng-if="model.fornecedor.page.content.length == 0">
-						Nenhum registro de Fornecedor
+						Nenhum registro de família
 					</div>
 					
 					<md-divider></md-divider>

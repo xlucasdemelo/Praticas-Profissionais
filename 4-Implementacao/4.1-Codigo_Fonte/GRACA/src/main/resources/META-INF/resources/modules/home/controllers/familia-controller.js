@@ -12,6 +12,7 @@ angular.module('home')
 	     * Serviços importados do DWR
 	     */
 		$importService("familiaService");
+		$importService("integranteFamiliarService");
 		$importService("enderecoService");
 		
 		/**
@@ -76,7 +77,26 @@ angular.module('home')
 			    		page: 0,
 			        	sort:null
 			    },
-			    familiaSort: [{//Sort
+			    sort: [{//Sort
+	        		direction: 'ASC', properties: 'id', nullHandlingHint:null
+	        	}],
+			},
+			
+			integranteFamiliar: {
+				form: null,
+				entity: new IntegranteFamiliar(),
+				
+				filters: {
+				    terms: "",
+				   
+				},
+				
+			    page: {//PageImpl 
+			    		size: 9,
+			    		page: 0,
+			        	sort:null
+			    },
+			    sort: [{//Sort
 	        		direction: 'ASC', properties: 'id', nullHandlingHint:null
 	        	}],
 			},
@@ -162,7 +182,7 @@ angular.module('home')
 	    });
 		
 	    /*-------------------------------------------------------------------
-	     * 		 				 	  HANDLERS
+	     * 		 				HANDLERS FAMÍLIA
 	     *-------------------------------------------------------------------*/
 	    
 	    /**
@@ -209,6 +229,8 @@ angular.module('home')
 	                $scope.$apply();
 	            }
 	        });
+	        
+	        $scope.listIntegrantesFamiliaresByFamilia(id);
 	    };
 		
 		/**
@@ -332,7 +354,7 @@ angular.module('home')
 	     *-------------------------------------------------------------------*/
 		
 		$scope.listFamiliasByFilters = function(){
-			familiaService.listFamiliasByFilters(  $scope.model.familia.filters.terms.toString(), $scope.model.familia.familiaPage, {
+			familiaService.listFamiliasByFilters(  $scope.model.familia.filters.terms.toString(), $scope.model.familia.page, {
                 callback : function(result) {
                 	
                 	$scope.model.familia.page = result.content; 
@@ -495,6 +517,28 @@ angular.module('home')
 	    	$scope.model.dialog = dialog;
 	    	$scope.openDefaultConfirmDialog( $scope, $scope.excluirFornecedorHandler, null );
 		};
+		
+		/*-------------------------------------------------------------------
+	     * 		 			HANDLERS INTEGRANTE FAMILIAR
+	     *-------------------------------------------------------------------*/
+		
+		$scope.listIntegrantesFamiliaresByFamilia = function( id ){
+			
+			integranteFamiliarService.listIntegrantesByfamilia( id, $scope.model.integranteFamiliar.page, {
+                callback : function(result) {
+                	
+                	$scope.model.integranteFamiliar.page = result.content;
+                	
+                	$scope.$apply();
+                	
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+			
+		}
 		
 		/*-------------------------------------------------------------------
 	     * 		 				 	POST CONSTRUCT

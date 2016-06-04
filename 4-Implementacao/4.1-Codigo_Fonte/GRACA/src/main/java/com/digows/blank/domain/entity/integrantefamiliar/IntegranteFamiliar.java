@@ -30,7 +30,7 @@ import br.com.eits.common.domain.entity.AbstractEntity;
  */
 @Entity
 @Audited
-@DataTransferObject(javascript = "Familia")
+@DataTransferObject(javascript = "IntegranteFamiliar")
 public class IntegranteFamiliar extends AbstractEntity implements Serializable
 {
 
