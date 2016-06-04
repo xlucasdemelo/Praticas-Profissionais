@@ -540,6 +540,23 @@ angular.module('home')
 			
 		}
 		
+		$scope.openAdicionarIntegranteFamiliarHandler = function( ) {
+
+			$mdDialog.show({
+			      controller: "AdicionarIntegranteFamiliarControllerPopup",
+			      templateUrl: './modules/home/views/familia/popup/adicionar-integrante-familiar-popup.html',			      
+			      scope: $scope.$new(),
+			      resolve: {
+			    	  integranteFamiliar: function() {
+			    		  return null
+			    	  }
+			      }
+				})
+			    .then(function(result) {
+			    	$scope.listItensByFilters();
+			 });
+		};
+		
 		/*-------------------------------------------------------------------
 	     * 		 				 	POST CONSTRUCT
 	     *-------------------------------------------------------------------*/

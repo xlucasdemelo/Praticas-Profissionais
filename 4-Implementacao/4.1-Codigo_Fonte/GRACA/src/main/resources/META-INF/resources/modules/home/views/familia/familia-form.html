@@ -232,6 +232,10 @@
 												<span>Integrantes Familiares</span>
 											</div>
 											
+											 <div md-theme="default" layout="row" layout-align="end center" class="default-header md-primary md-hue-3">
+										        <md-button class="md-raised md-accent default-save-button" ng-click="openAdicionarIntegranteFamiliarHandler()">Novo integrante</md-button>
+									        </div>
+											
 											<md-table-container>
 											  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
 											    <thead md-head md-order="query.order" md-on-reorder="getDesserts">
