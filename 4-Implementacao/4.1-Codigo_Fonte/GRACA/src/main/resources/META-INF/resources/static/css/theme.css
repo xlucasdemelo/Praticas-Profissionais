@@ -48,3 +48,12 @@
 md-select {
 	color:black
 }
+
+/* Cabeçalho principal para todas as dialogs */
+.default-popup-header { display: block; height: 60px; min-height: 60px !important; max-height: 60px; }
+
+/* Controla a popup de inserÃ§Ã£o de localizaÃ§Ã£o */
+.popup-localizacao { max-width: 800px; top: -25px; z-index: 2; right: -55px; width:600px }
+.default-popup { max-width: 800px; max-height: 600px; height: 600px; z-index: 2; right: -55px; width:800px }
+.default-popup .default-frame:first-child { padding-top: 20px; padding-left: 20px; padding-right: 20px; margin-bottom: 20px;}
+.default-popup .default-frame { padding-top: 0px; padding-left: 20px; padding-right: 20px; margin-bottom: 20px;}

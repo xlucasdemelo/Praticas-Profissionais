@@ -48,6 +48,11 @@ angular.module('home')
 		/**
 		 * 
 		 */
+		$scope.allGrausEscolaridade;
+		
+		/**
+		 * 
+		 */
 		$scope.allTiposMoradia = [];
 		
 		
@@ -448,7 +453,7 @@ angular.module('home')
 			enderecoService.listPaisesByFilters( filter, null, {
                 callback : function(result) {
                 	
-                	return $scope.model.pais.itens = result.content;
+                	$scope.model.pais.itens = result.content;
                 	
                 	$scope.$apply();
                 	
@@ -557,11 +562,28 @@ angular.module('home')
 			 });
 		};
 		
+		$scope.listAllGrausEscolaridade = function(){
+			integranteFamiliarService.listAllGrausEscolaridade( {
+                callback : function(result) {
+                	
+                	$scope.allGrausEscolaridade = result;
+                	
+                	$scope.$apply();
+                	
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+		}
+		
 		/*-------------------------------------------------------------------
 	     * 		 				 	POST CONSTRUCT
 	     *-------------------------------------------------------------------*/
 		$scope.listAllTiposImovel();
 		$scope.listAllTiposMoradia();
+		$scope.listAllGrausEscolaridade();
 		
 });
 }(window.angular));

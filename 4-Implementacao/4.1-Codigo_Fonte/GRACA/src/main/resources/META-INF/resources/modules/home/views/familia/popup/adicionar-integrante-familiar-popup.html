@@ -14,79 +14,161 @@
 	  		<div layout="column" style="height:100%">
 	  			<div class="default-form">
 			        <div>
-				        <div class="default-info" layout="row">Informações do item de contrato</div>
+				        <div class="default-info" layout="row">Informações do integrante familiar</div>
 			        
 			            <div >
 				            <div layout="row" flex>
-					            <md-input-container layout="column" flex>
-						    		<label>Descrição completa</label>
-						    		<textarea name="descricaoCompleta" ng-model="model.itemContrato.entity.descricaoCompleta" rows="3" required></textarea>
+					            <md-input-container layout="column" flex="50">
+						    		<label style="position:absolute;padding-top:15px;padding-left:15px">Nome</label>
+						    		<textarea maxlength="255" name="Integrante familiar" ng-model="model.integranteFamiliar.entity.nome" rows="3" required></textarea>
 					                
-					                <div ng-messages="model.itemContrato.form.descricaoCompleta.$error">
-					               		<div ng-message="required" ng-if="model.itemContrato.form.$submitted">Campo obrigatório</div>
+					                <div ng-messages="model.integranteFamiliar.form.nome.$error">
+					               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
 					                </div>
 					            </md-input-container>
+					            
+					            <div layout="column"  >
+					            	<label>Data de nascimento</label>
+					            	<md-datepicker required ng-model="model.integranteFamiliar.entity.dataNascimento" style="margin-top:25px" ></md-datepicker>
+					            	
+					            	<div ng-messages="model.integranteFamiliar.form.dataNascimento.$error">
+					               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+					                </div>
+					            </div>
 				            </div>
 				            
-				            <div layout="row">
-				            	<md-input-container layout="column" flex="30">
-						    		<label>EQUIP/MAT</label>
-					                <input type="text" mask-money  prefix="'R$ '" name="EQUIP_MAT" ng-change="mathValorEquipamentoMaterialValorMaoDeObraValorUnitarioQuantidade()" ng-model="model.itemContrato.entity.valorEquipamentoMaterial" maxlength="144" >
-					                
-					                <div ng-messages="model.itemContrato.form.descricaoResumida.$error">
-					               		<div ng-message="required" ng-if="model.itemContrato.form.$submitted">Campo obrigatório</div>
-					                </div>
-					            </md-input-container>
-					            
-					            <md-input-container layout="column" flex="30">
-						    		<label>MDO</label>
-					                <input type="text" mask-money prefix="'R$ '" name="MDO" ng-change="mathValorEquipamentoMaterialValorMaoDeObraValorUnitarioQuantidade()" ng-model="model.itemContrato.entity.valorMaoDeObra" maxlength="144" >
-					                
-					                <div ng-messages="model.itemContrato.form.descricaoResumida.$error">
-					               		<div ng-message="required" ng-if="model.itemContrato.form.$submitted">Campo obrigatório</div>
-					                </div>
-					            </md-input-container>
-					            
-					            <md-input-container layout="column" flex="40"> 
-							        <md-checkbox ng-model="model.itemContrato.entity.calcularBDI">
-									  Calcular BDI?
-									</md-checkbox>
-		                        </md-input-container>
-		                     </div>
-		                        
-							<div layout="row" flex>
-		                       	<md-input-container layout="column" flex="35">
-						    		<label>Quantidade</label>
-					                <input type="number" ng-change="mathValorEquipamentoMaterialValorMaoDeObraValorUnitarioQuantidade()" name="quantidade" ng-model="model.itemContrato.entity.quantidade" maxlength="144" required>
-					                
-					                <div ng-messages="model.itemContrato.form.quantidade.$error">
-					               		<div ng-message="required" ng-if="model.itemContrato.form.$submitted">Campo obrigatório</div>
+				            <div layout="row" ">
+				            	<md-input-container layout="column" gap="20px">
+				            		<label>Grau de escolaridade</label>
+				            		<md-select style="margin-top:24px" required name="grauEscolaridade" ng-model="model.familia.entity.grauEscolaridade">
+							        	<md-option required ng-repeat="grau in allGrausEscolaridade" value="{{grau}}">{{grau}}</md-option>
+							        </md-select>
+							        
+							        <div ng-messages="model.integranteFamiliar.form.grauEscolaridade.$error">
+					               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
 					                </div>
 				            	</md-input-container>
 				            	
-								<md-input-container layout="column" flex="25" style="margin-right: 10px; padding-top: 10px;">
-									<label>Unidade de medida</label>
-							        <md-select ng-model="model.itemContrato.entity.unidadeMedida" name="unidadeMedida" required>
-										<md-option ng-repeat="unidadeMedida in model.unidadeMedida.page.content" ng-selected="unidadeMedida.id == model.itemContrato.entity.unidadeMedida.id" ng-value="unidadeMedida">{{unidadeMedida.sigla}}</md-option>
-							        </md-select>
-							        
-							        <div ng-messages="model.itemContrato.form.unidadeMedida.$error">
-					               		<div ng-message="required" ng-if="model.itemContrato.form.$submitted">Campo obrigatório</div>
+				            	<md-input-container layout="column" flex="35" style="margin-left:25px">
+						    		<label>Ocupação</label>
+					                <input type="text" name="ocupacao" ng-model="model.integranteFamiliar.entity.ocupacao" maxlength="255" required>
+					                
+					                <div ng-messages="model.integranteFamiliar.form.ocupacao.$error">
+					               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
 					                </div>
-								</md-input-container>
-							</div>  
+				            	</md-input-container>
+		                     </div>
 		                        
 		                     <div layout="row">
 				            	<md-input-container layout="column" flex="30">
-						    		<label>Valor unitário</label>
-					                <input ng-disabled="true" type="text" mask-money prefix="'R$ '" name="EQUIP_MAT" ng-model="model.itemContrato.entity.valorUnitario" readonly>
+						    		<label>Renda mensal</label>
+					                <input type="number" name="rendaMensal" required max="9999999" mask-money prefix="'R$ '" name="rendaMensal" ng-model="model.integranteFamiliar.entity.rendaMensal" >
+					            
+					            	<div ng-messages="model.integranteFamiliar.form.rendaMensal.$error">
+					               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+					                </div>
 					            </md-input-container>
 					            
 					            <md-input-container layout="column" flex="30">
-						    		<label>Valor total</label>
-					                <input ng-disabled="true" type="text" mask-money prefix="'R$ '" name="MDO" ng-model="model.itemContrato.entity.valorTotal" readonly>
+						    		<label>Telefone</label>
+					                <input type="number" name="telefone" required  ng-model="model.integranteFamiliar.entity.telefone" >
+					            
+					            	<div ng-messages="model.integranteFamiliar.form.telefone.$error">
+					               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+					                </div>
 					            </md-input-container>
 		                     </div>
+		                     
+		                     <div layout="row">
+				            	<md-input-container layout="column" flex="30">
+						    		<label>Filiação</label>
+					                <input type="text" name="filiacao" required max-length="255" name="filiacao" ng-model="model.integranteFamiliar.entity.filiacao" >
+					            
+					            	<div ng-messages="model.integranteFamiliar.form.filiacao.$error">
+					               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+					                </div>
+					            </md-input-container>
+		                     </div>
+		                     
+		                     <div class="default-info" flex> 
+								<span>ENDEREÇO</span>
+							</div>
+							
+							<div layout="row">
+				    			<md-input-container layout="column" flex="30" style="margin-right:30px">
+						    		<label>Rua</label>                                  
+					                <input maxlength="144" name="rua" required ng-model="model.familia.entity.endereco.rua">
+					
+					                <div ng-messages="model.familia.form.rua.$error">
+					                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+					                </div>
+					            </md-input-container>
+					            
+					            <md-input-container layout="column" flex="30" ">
+						    		<label>Bairro</label>
+					                <input maxlength="144" name="bairro" required ng-model="model.familia.entity.endereco.bairro">
+					
+					                <div ng-messages="model.familia.form.bairro.$error">
+					                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+					                </div>
+					            </md-input-container>
+					        </div>
+					        
+					        <div layout="row">
+					        	<md-autocomplete 
+					        		style="margin-right:20px" 
+					        		md-selected-item="model.pais.selectedItem" 
+					        		md-search-text="model.pais.searchText"
+									md-search-text-change="listPaisesByFiltes(model.pais.searchText)" 
+									md-items="item in model.pais.itens" 
+									md-item-text="item.nome"
+									placeholder="País"
+									>
+									
+									<md-item-template>
+										<span md-highlight-text="searchText">{{item.nome}}</span>
+								    </md-item-template>
+								    <md-not-found>
+								    	Nenhum país encontrado
+								    </md-not-found>
+								</md-autocomplete>
+								
+								<md-autocomplete 
+									style="margin-right:20px"
+									md-selected-item="model.estado.selectedItem" 
+									md-search-text="model.estado.searchText" 
+									md-search-text-change="listEstadosByFiltes(model.estado.searchText)" 
+									md-items="item in model.estado.itens" 
+									md-item-text="item.nome"
+									placeholder="Estado"
+									>
+									
+									<md-item-template>
+										<span md-highlight-text="searchText">{{item.nome}}</span>
+								    </md-item-template>
+								    <md-not-found>
+								    	Nenhum estado encontrado
+								    </md-not-found>
+								</md-autocomplete>
+								
+								<md-autocomplete 
+									md-selected-item="model.cidade.selectedItem" 
+									md-search-text="model.cidade.searchText" 
+									md-search-text-change="listCidadesByFiltes(model.cidade.searchText)" 
+									md-items="item in model.cidade.itens" 
+									md-item-text="item.nome"
+									placeholder="Cidade"
+									>
+									<md-item-template>
+										<span md-highlight-text="searchText">{{item.nome}}</span>
+								    </md-item-template>
+								    <md-not-found>
+								    	Nenhum estado encontrado
+								    </md-not-found>
+								</md-autocomplete>
+								
+					        </div>
+		                     
 	                     </div>
 	            	</div>
 	  			</div>
@@ -104,7 +186,7 @@
 			    </div>
 			    
 		    	<div >
-		        	<md-button class="md-raised md-accent default-save-button" type="submit" ng-click="model.itemContrato.entity.id ? updateItemContrato() : addItemContrato()">
+		        	<md-button class="md-raised md-accent default-save-button" type="submit" ng-click="model.integranteFamiliar.entity.id ? updateIntegranteFamiliar() : insertIntegranteFamiliar()">
 				    	SALVAR
 				    </md-button>
 				</div>

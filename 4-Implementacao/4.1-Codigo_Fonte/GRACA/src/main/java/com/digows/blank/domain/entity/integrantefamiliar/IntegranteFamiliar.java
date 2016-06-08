@@ -8,7 +8,10 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -94,6 +97,13 @@ public class IntegranteFamiliar extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
+	@Column(nullable = false)
+	@Enumerated(EnumType.ORDINAL)
+	private GrauEscolaridade grauEscolaridade;
+	
+	/**
+	 * 
+	 */
 	@ManyToOne (fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
 	@JoinColumn(name="endereco_id")
 	private Endereco endereco;
@@ -120,7 +130,7 @@ public class IntegranteFamiliar extends AbstractEntity implements Serializable
 	 * @param sexo
 	 * @param endereco
 	 */
-	public IntegranteFamiliar(Long id, String nome, Calendar dataNascimento, String ocupacao, BigDecimal rendaMensal, String filiacao, String telefone, Sexo sexo, Endereco endereco, Boolean ativo, Familia familia )
+	public IntegranteFamiliar(Long id, String nome, Calendar dataNascimento, String ocupacao, BigDecimal rendaMensal, String filiacao, String telefone, Sexo sexo, Endereco endereco, Boolean ativo, Familia familia, GrauEscolaridade grauEscolaridade )
 	{
 		super(id);
 		this.nome = nome;
@@ -133,6 +143,7 @@ public class IntegranteFamiliar extends AbstractEntity implements Serializable
 		this.endereco = endereco;
 		this.ativo = ativo;
 		this.familia = familia;
+		this.grauEscolaridade = grauEscolaridade;
 	}
 
 	/**
@@ -334,6 +345,22 @@ public class IntegranteFamiliar extends AbstractEntity implements Serializable
 	public void setFamilia( Familia familia )
 	{
 		this.familia = familia;
+	}
+
+	/**
+	 * @return the grauEscolaridade
+	 */
+	public GrauEscolaridade getGrauEscolaridade()
+	{
+		return grauEscolaridade;
+	}
+
+	/**
+	 * @param grauEscolaridade the grauEscolaridade to set
+	 */
+	public void setGrauEscolaridade( GrauEscolaridade grauEscolaridade )
+	{
+		this.grauEscolaridade = grauEscolaridade;
 	}
 	
 	

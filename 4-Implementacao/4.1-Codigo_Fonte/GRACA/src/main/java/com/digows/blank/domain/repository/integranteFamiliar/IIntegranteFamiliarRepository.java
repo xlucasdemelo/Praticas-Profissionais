@@ -17,7 +17,7 @@ import com.digows.blank.domain.entity.integrantefamiliar.IntegranteFamiliar;
  */
 public interface IIntegranteFamiliarRepository extends JpaRepository<IntegranteFamiliar, Long>
 {
-	@Query(value="SELECT new IntegranteFamiliar(integranteFamiliar.id, integranteFamiliar.nome, integranteFamiliar.dataNascimento, integranteFamiliar.ocupacao, integranteFamiliar.rendaMensal, integranteFamiliar.filiacao, integranteFamiliar.telefone, integranteFamiliar.sexo, endereco, integranteFamiliar.ativo, familia ) " +
+	@Query(value="SELECT new IntegranteFamiliar(integranteFamiliar.id, integranteFamiliar.nome, integranteFamiliar.dataNascimento, integranteFamiliar.ocupacao, integranteFamiliar.rendaMensal, integranteFamiliar.filiacao, integranteFamiliar.telefone, integranteFamiliar.sexo, endereco, integranteFamiliar.ativo, familia, integranteFamiliar.grauEscolaridade ) " +
 			   "FROM IntegranteFamiliar integranteFamiliar " +
 			   "LEFT OUTER JOIN integranteFamiliar.endereco endereco " + 
 			   "LEFT OUTER JOIN integranteFamiliar.familia familia " +

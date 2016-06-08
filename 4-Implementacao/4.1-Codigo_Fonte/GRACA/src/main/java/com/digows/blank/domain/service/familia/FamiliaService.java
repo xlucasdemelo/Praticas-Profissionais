@@ -36,6 +36,9 @@ public class FamiliaService
 	@Autowired
 	private IFamiliaRepository familiaRepository;
 	
+	/**
+	 * 
+	 */
 	@Autowired
 	private IEnderecoService enderecoRepository;
 	

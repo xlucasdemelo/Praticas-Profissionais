@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.digows.blank.domain.entity.integrantefamiliar.DocumentoIntegranteFamiliar;
+import com.digows.blank.domain.entity.integrantefamiliar.GrauEscolaridade;
 import com.digows.blank.domain.entity.integrantefamiliar.IntegranteFamiliar;
 import com.digows.blank.domain.repository.integranteFamiliar.IDocumentoIntegranteFamiliarRepository;
 import com.digows.blank.domain.repository.integranteFamiliar.IIntegranteFamiliarRepository;
@@ -93,6 +94,11 @@ public class IntegranteFamiliarService
 		return this.integranteFamiliarRepository.save( integranteFamiliar );
 	}
 	
+	public GrauEscolaridade[] listAllGrausEscolaridade()
+	{
+		return GrauEscolaridade.values();
+	}
+	
 	/*-------------------------------------------------------------------
 	 *                 SERVICES DOCUMENTO INTEGRANTE FAMILIAR
 	 *-------------------------------------------------------------------*/
@@ -154,26 +160,3 @@ public class IntegranteFamiliarService
 		return this.documentoIntegranteFamiliarRepository.findOne( id );
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
