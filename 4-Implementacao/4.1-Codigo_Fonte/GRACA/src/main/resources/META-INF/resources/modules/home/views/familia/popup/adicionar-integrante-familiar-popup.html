@@ -9,7 +9,7 @@
     	</div> 
   	</md-toolbar> 
   	
-	<form name="model.integgranteFamiliar.form" style="height: 100%;" md-theme="{{osmTheme}}" layout="column" novalidate>
+	<form name="model.integranteFamiliar.form" style="height: 100%;" md-theme="{{osmTheme}}" layout="column" novalidate>
 	  	<md-dialog-content layout="column" style="height: 100%;">
 	  		<div layout="column" style="height:100%">
 	  			<div class="default-form">
@@ -38,9 +38,20 @@
 				            </div>
 				            
 				            <div layout="row" ">
+				           		<md-input-container layout="column" gap="20px">
+				            		<label>Sexo</label>
+				            		<md-select style="margin-top:24px" required name="sexo" ng-model="model.integranteFamiliar.entity.sexo">
+							        	<md-option required ng-repeat="sexo in allSexos" value="{{sexo}}">{{sexo}}</md-option>
+							        </md-select>
+							        
+							        <div ng-messages="model.integranteFamiliar.form.sexo.$error">
+					               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+					                </div>
+				            	</md-input-container>
+				            	
 				            	<md-input-container layout="column" gap="20px">
 				            		<label>Grau de escolaridade</label>
-				            		<md-select style="margin-top:24px" required name="grauEscolaridade" ng-model="model.familia.entity.grauEscolaridade">
+				            		<md-select style="margin-top:24px" required name="grauEscolaridade" ng-model="model.integranteFamiliar.entity.grauEscolaridade">
 							        	<md-option required ng-repeat="grau in allGrausEscolaridade" value="{{grau}}">{{grau}}</md-option>
 							        </md-select>
 							        
@@ -71,7 +82,7 @@
 					            
 					            <md-input-container layout="column" flex="30">
 						    		<label>Telefone</label>
-					                <input type="number" name="telefone" required  ng-model="model.integranteFamiliar.entity.telefone" >
+					                <input type="text" name="telefone" required  ng-model="model.integranteFamiliar.entity.telefone" >
 					            
 					            	<div ng-messages="model.integranteFamiliar.form.telefone.$error">
 					               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
@@ -97,20 +108,20 @@
 							<div layout="row">
 				    			<md-input-container layout="column" flex="30" style="margin-right:30px">
 						    		<label>Rua</label>                                  
-					                <input maxlength="144" name="rua" required ng-model="model.familia.entity.endereco.rua">
+					                <input maxlength="144" name="rua" required ng-model="model.integranteFamiliar.entity.endereco.rua">
 					
-					                <div ng-messages="model.familia.form.rua.$error">
-					                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+					                <div ng-messages="model.integranteFamiliar.form.rua.$error">
+					                	<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
 					                </div>
 					            </md-input-container>
 					            
 					            <md-input-container layout="column" flex="30" ">
 						    		<label>Bairro</label>
-					                <input maxlength="144" name="bairro" required ng-model="model.familia.entity.endereco.bairro">
+					                <input maxlength="144" name="bairro" required ng-model="model.integranteFamiliar.entity.endereco.bairro">
 					
-					                <div ng-messages="model.familia.form.bairro.$error">
-					                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
-					                </div>
+					                <div ng-messages="model.integranteFamiliar.form.bairro.$error">
+					                	<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+					                </div>	
 					            </md-input-container>
 					        </div>
 					        

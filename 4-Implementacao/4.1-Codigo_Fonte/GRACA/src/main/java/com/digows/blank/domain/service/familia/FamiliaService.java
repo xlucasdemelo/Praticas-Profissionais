@@ -14,7 +14,7 @@ import org.springframework.util.Assert;
 import com.digows.blank.domain.entity.familia.Familia;
 import com.digows.blank.domain.entity.familia.TipoImovel;
 import com.digows.blank.domain.entity.familia.TipoMoradia;
-import com.digows.blank.domain.repository.endereco.IEnderecoService;
+import com.digows.blank.domain.repository.endereco.IEnderecoRepository;
 import com.digows.blank.domain.repository.familia.IFamiliaRepository;
 
 /**
@@ -40,7 +40,7 @@ public class FamiliaService
 	 * 
 	 */
 	@Autowired
-	private IEnderecoService enderecoRepository;
+	private IEnderecoRepository enderecoRepository;
 	
 	/*-------------------------------------------------------------------
 	 *				 		 SERVICES FAMILIA

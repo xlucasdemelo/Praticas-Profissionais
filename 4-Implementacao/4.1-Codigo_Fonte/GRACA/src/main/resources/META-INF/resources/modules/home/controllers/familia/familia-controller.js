@@ -78,9 +78,11 @@ angular.module('home')
 				},
 				
 			    page: {//PageImpl 
-			    		size: 9,
-			    		page: 0,
-			        	sort:null
+			    		content: [],
+			    		pageable :{ size: 9,
+						    		page: 0,
+						        	sort:null
+			        	}
 			    },
 			    sort: [{//Sort
 	        		direction: 'ASC', properties: 'id', nullHandlingHint:null
@@ -97,9 +99,11 @@ angular.module('home')
 				},
 				
 			    page: {//PageImpl 
-			    		size: 9,
-			    		page: 0,
-			        	sort:null
+			    		content:[],
+			    		pageable : {size: 9,
+						    		page: 0,
+						        	sort:null
+			        	}
 			    },
 			    sort: [{//Sort
 	        		direction: 'ASC', properties: 'id', nullHandlingHint:null
@@ -359,11 +363,11 @@ angular.module('home')
 	     *-------------------------------------------------------------------*/
 		
 		$scope.listFamiliasByFilters = function(){
-			familiaService.listFamiliasByFilters(  $scope.model.familia.filters.terms.toString(), $scope.model.familia.page, {
+			
+			familiaService.listFamiliasByFilters(  $scope.model.familia.filters.terms.toString(), $scope.model.familia.page.pageable, {
                 callback : function(result) {
                 	
-                	$scope.model.familia.page = result.content; 
-                			
+                	$scope.model.familia.page.content = result.content; 
                 	$scope.$apply();
                 	
                 },
@@ -529,10 +533,10 @@ angular.module('home')
 		
 		$scope.listIntegrantesFamiliaresByFamilia = function( id ){
 			
-			integranteFamiliarService.listIntegrantesByfamilia( id, $scope.model.integranteFamiliar.page, {
+			integranteFamiliarService.listIntegrantesByfamilia( id, $scope.model.integranteFamiliar.page.pageable, {
                 callback : function(result) {
                 	
-                	$scope.model.integranteFamiliar.page = result.content;
+                	$scope.model.integranteFamiliar.page.content = result.content;
                 	
                 	$scope.$apply();
                 	
@@ -545,20 +549,20 @@ angular.module('home')
 			
 		}
 		
-		$scope.openAdicionarIntegranteFamiliarHandler = function( ) {
+		$scope.openAdicionarIntegranteFamiliarHandler = function( integranteFamiliar ) {
 
 			$mdDialog.show({
 			      controller: "AdicionarIntegranteFamiliarControllerPopup",
 			      templateUrl: './modules/home/views/familia/popup/adicionar-integrante-familiar-popup.html',			      
 			      scope: $scope.$new(),
 			      resolve: {
-			    	  integranteFamiliar: function() {
-			    		  return null
+			    	  integrante: function() {
+			    		  return angular.copy(integranteFamiliar);
 			    	  }
 			      }
 				})
 			    .then(function(result) {
-			    	$scope.listItensByFilters();
+			    	 $scope.listIntegrantesFamiliaresByFamilia($scope.model.familia.entity.id);
 			 });
 		};
 		

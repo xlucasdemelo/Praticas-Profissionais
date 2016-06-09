@@ -11,9 +11,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.digows.blank.domain.entity.documento.TipoDocumento;
+import com.digows.blank.domain.entity.endereco.Endereco;
+import com.digows.blank.domain.entity.familia.Sexo;
 import com.digows.blank.domain.entity.integrantefamiliar.DocumentoIntegranteFamiliar;
 import com.digows.blank.domain.entity.integrantefamiliar.GrauEscolaridade;
 import com.digows.blank.domain.entity.integrantefamiliar.IntegranteFamiliar;
+import com.digows.blank.domain.repository.endereco.IEnderecoRepository;
 import com.digows.blank.domain.repository.integranteFamiliar.IDocumentoIntegranteFamiliarRepository;
 import com.digows.blank.domain.repository.integranteFamiliar.IIntegranteFamiliarRepository;
 
@@ -40,6 +44,12 @@ public class IntegranteFamiliarService
 	 * 
 	 */
 	@Autowired
+	private IEnderecoRepository enderecoRepository;
+	
+	/**
+	 * 
+	 */
+	@Autowired
 	private IDocumentoIntegranteFamiliarRepository documentoIntegranteFamiliarRepository;
 	/*-------------------------------------------------------------------
 	 *				 		     SERVICES
@@ -53,6 +63,16 @@ public class IntegranteFamiliarService
 	{
 		Assert.notNull( integranteFamiliar );
 		
+		integranteFamiliar.getEndereco().setId( null );
+		
+		DocumentoIntegranteFamiliar documentoIntegranteFamiliar = new DocumentoIntegranteFamiliar();
+		documentoIntegranteFamiliar.setIntegranteFamiliar( integranteFamiliar );
+		documentoIntegranteFamiliar.setNumeroDocumento( "6666666" );
+		documentoIntegranteFamiliar.setTipoDocumento( TipoDocumento.CPF );
+		
+		this.insertDocumentoIntegranteFamiliar( documentoIntegranteFamiliar );
+		this.enderecoRepository.save( integranteFamiliar.getEndereco() );
+		
 		return this.integranteFamiliarRepository.save( integranteFamiliar );
 	}
 	
@@ -64,6 +84,13 @@ public class IntegranteFamiliarService
 	public IntegranteFamiliar updateIntegranteFamiliar( IntegranteFamiliar integranteFamiliar )
 	{
 		Assert.notNull( integranteFamiliar );
+		
+		IntegranteFamiliar integranteFamiliarDB = this.integranteFamiliarRepository.findOne( integranteFamiliar.getId() );
+		
+		integranteFamiliarDB.getEndereco().mergeObject( integranteFamiliar.getEndereco() );
+		Endereco endereco = integranteFamiliarDB.getEndereco();
+		
+		integranteFamiliar.setEndereco( endereco );
 		
 		return this.integranteFamiliarRepository.save( integranteFamiliar );
 	}
@@ -94,11 +121,23 @@ public class IntegranteFamiliarService
 		return this.integranteFamiliarRepository.save( integranteFamiliar );
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public GrauEscolaridade[] listAllGrausEscolaridade()
 	{
 		return GrauEscolaridade.values();
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
+	public Sexo[] listAllSexos()
+	{
+		return Sexo.values();
+	}
 	/*-------------------------------------------------------------------
 	 *                 SERVICES DOCUMENTO INTEGRANTE FAMILIAR
 	 *-------------------------------------------------------------------*/

@@ -65,7 +65,7 @@
 									        <div layout="row">
 								    			<md-input-container layout="column" flex="30" ">
 										    		<label>Telefone</label>
-									                <input type="number" maxlength="12" name="telefone" required ng-model="model.familia.entity.telefone">
+									                <input type="text" maxlength="12" name="telefone" required ng-model="model.familia.entity.telefone">
 									
 									                <div ng-messages="model.familia.form.telefone.$error">
 									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
@@ -245,7 +245,7 @@
 											      </tr>
 											    </thead>
 											    <tbody md-body>
-											      <tr md-row md-select="dessert" style="cursor:pointer" ng-click="" md-select-id="name" md-auto-select ng-repeat="integrante in model.integranteFamiliar.page">
+											      <tr md-row md-select="dessert" style="cursor:pointer" ng-click="openAdicionarIntegranteFamiliarHandler(integrante)" md-select-id="name" md-auto-select ng-repeat="integrante in model.integranteFamiliar.page.content">
 											        <td md-cell>{{::integrante.nome}}</td>
 											        <td md-cell>{{::integrante.dataNascimento | date : format : timezone}}</td>
 											      </tr>

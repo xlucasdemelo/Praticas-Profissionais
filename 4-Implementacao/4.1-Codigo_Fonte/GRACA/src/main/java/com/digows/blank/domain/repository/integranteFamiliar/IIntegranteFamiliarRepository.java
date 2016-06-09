@@ -25,4 +25,5 @@ public interface IIntegranteFamiliarRepository extends JpaRepository<IntegranteF
 			)
 	public Page<IntegranteFamiliar> listIntegrantesByfamilia( @Param("familiaId") Long familiaId, Pageable pageable );
 	
+	
 }

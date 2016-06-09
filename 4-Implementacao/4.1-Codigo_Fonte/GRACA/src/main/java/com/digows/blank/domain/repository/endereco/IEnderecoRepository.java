@@ -11,7 +11,7 @@ import com.digows.blank.domain.entity.endereco.Endereco;
  * @author lucas
  *
  */
-public interface IEnderecoService extends JpaRepository<Endereco, Long>
+public interface IEnderecoRepository extends JpaRepository<Endereco, Long>
 {
 
 }

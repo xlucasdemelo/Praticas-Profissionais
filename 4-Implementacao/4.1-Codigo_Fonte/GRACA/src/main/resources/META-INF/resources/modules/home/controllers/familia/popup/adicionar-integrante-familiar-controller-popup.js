@@ -8,7 +8,7 @@
  * @param $state
  */
 angular.module('home')
-	   .controller('AdicionarIntegranteFamiliarControllerPopup', function( $scope, $state, $importService, $mdToast, $mdDialog, $injector, $timeout, integranteFamiliar ) {
+	   .controller('AdicionarIntegranteFamiliarControllerPopup', function( $scope, $state, $importService, $mdToast, $mdDialog, $injector, $timeout, integrante ) {
 		
 	    /**
 	     * Serviços importados do DWR
@@ -20,7 +20,9 @@ angular.module('home')
 	     *-------------------------------------------------------------------*/
 		//----FORM MODEL
 		
-		$scope.integranteFamiliar = integranteFamiliar;
+		$scope.integranteFamiliar = integrante;
+		
+		$scope.allSexos = [];
 		
 		/**
 	     *
@@ -74,6 +76,30 @@ angular.module('home')
 		/**
 		 * 
 		 */
+		$scope.changeToAdd = function(){
+			$scope.model.integranteFamiliar.entity = new IntegranteFamiliar();
+			$scope.model.integranteFamiliar.entity.familia = $scope.model.familia;
+			$scope.model.integranteFamiliar.entity.endereco = angular.copy($scope.model.familia.endereco);
+			
+			$scope.model.pais.selectedItem = $scope.model.integranteFamiliar.entity.endereco.cidade.estado.pais;
+        	$scope.model.estado.selectedItem = $scope.model.integranteFamiliar.entity.endereco.cidade.estado;
+        	$scope.model.cidade.selectedItem = $scope.model.integranteFamiliar.entity.endereco.cidade;
+		}
+		
+		/**
+		 * 
+		 */
+		$scope.changeToEdit = function(){
+			$scope.model.integranteFamiliar.entity = $scope.integranteFamiliar;
+			
+			$scope.model.pais.selectedItem = $scope.model.integranteFamiliar.entity.endereco.cidade.estado.pais;
+        	$scope.model.estado.selectedItem = $scope.model.integranteFamiliar.entity.endereco.cidade.estado;
+        	$scope.model.cidade.selectedItem = $scope.model.integranteFamiliar.entity.endereco.cidade
+		}
+		
+		/**
+		 * 
+		 */
 	    $scope.hide = function (result) {
 	        $mdDialog.hide(result);
 	    };
@@ -96,13 +122,49 @@ angular.module('home')
 	    /*-------------------------------------------------------------------
 	     * 		 				 PRIVATE BEHAVIORS
 	     *-------------------------------------------------------------------*/
-	    
+	    /**
+	     * 
+	     */
 	    $scope.insertIntegranteFamiliar = function() {
+	    	
+	    	$scope.model.integranteFamiliar.form.$submitted = true;
+	    	
+			if ($scope.model.integranteFamiliar.form.$invalid ){
+				$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
+				return;
+			}
+	    	
 	    	integranteFamiliarService.insertIntegranteFamiliar( $scope.model.integranteFamiliar.entity, {
                 callback : function(result) {
                 	
                 	$scope.model.integranteFamiliar.entity = result;
+                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "Integrante inserido com sucesso" );
+                	$mdDialog.hide();
+                	$scope.$apply();
                 	
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+	    }
+	    
+	    $scope.updateIntegranteFamiliar = function() {
+	    	
+	    	$scope.model.integranteFamiliar.form.$submitted = true;
+	    	
+			if ($scope.model.integranteFamiliar.form.$invalid ){
+				$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
+				return;
+			}
+	    	
+	    	integranteFamiliarService.updateIntegranteFamiliar( $scope.model.integranteFamiliar.entity, {
+                callback : function(result) {
+                	
+                	$scope.model.integranteFamiliar.entity = result;
+                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "Integrante editado com sucesso" );
+                	$mdDialog.hide();
                 	$scope.$apply();
                 	
                 },
@@ -169,9 +231,41 @@ angular.module('home')
                 }
             });
 		}
+		
+		/**
+		 * 
+		 */
+		$scope.listAllSexos = function(){
+			integranteFamiliarService.listAllSexos( {
+                callback : function(result) {
+                	
+                	$scope.allSexos = result;
+                	
+                	$scope.$apply();
+                	
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+		}
+		
+		/**
+		 * 
+		 */
+		$scope.init = function(){
+			$scope.listAllSexos();
+			
+			if ($scope.integranteFamiliar)
+				$scope.changeToEdit();
+			else
+				$scope.changeToAdd();
+		}
 	    /*-------------------------------------------------------------------
 	     * 		 				  POST CONSTRUCT
 	     *-------------------------------------------------------------------*/
-	    
+		$scope.init();
+		
 });
 }(window.angular));

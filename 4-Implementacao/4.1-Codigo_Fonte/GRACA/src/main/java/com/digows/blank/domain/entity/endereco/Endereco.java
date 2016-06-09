@@ -98,6 +98,21 @@ public class Endereco extends AbstractEntity implements Serializable
 	}
 
 	/*-------------------------------------------------------------------
+	 *				 		    BEHAVIORS
+	 *-------------------------------------------------------------------*/
+	
+	/**
+	 * 
+	 */
+	public void mergeObject( Endereco endereco )
+	{
+		this.bairro = endereco.getBairro();
+		this.rua = endereco.getRua();
+		
+		this.cidade = endereco.getCidade();
+	}
+	
+	/*-------------------------------------------------------------------
 	 *				 		     GETTERS AND SETTERS
 	 *-------------------------------------------------------------------*/
 	
