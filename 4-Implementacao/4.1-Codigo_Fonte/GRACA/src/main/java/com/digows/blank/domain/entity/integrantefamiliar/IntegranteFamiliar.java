@@ -6,6 +6,7 @@ package com.digows.blank.domain.entity.integrantefamiliar;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,6 +17,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
@@ -114,6 +116,12 @@ public class IntegranteFamiliar extends AbstractEntity implements Serializable
 	@ManyToOne (fetch = FetchType.EAGER)
 	@JoinColumn(name="familia_id")
 	private Familia familia;
+	
+	/**
+	 * 
+	 */
+	@Transient
+	private List<DocumentoIntegranteFamiliar> documentos;
 	/*-------------------------------------------------------------------
 	 *				 		     CONSTRUCTORS
 	 *-------------------------------------------------------------------*/
@@ -361,6 +369,22 @@ public class IntegranteFamiliar extends AbstractEntity implements Serializable
 	public void setGrauEscolaridade( GrauEscolaridade grauEscolaridade )
 	{
 		this.grauEscolaridade = grauEscolaridade;
+	}
+
+	/**
+	 * @return the documentos
+	 */
+	public List<DocumentoIntegranteFamiliar> getDocumentos()
+	{
+		return documentos;
+	}
+
+	/**
+	 * @param documentos the documentos to set
+	 */
+	public void setDocumentos( List<DocumentoIntegranteFamiliar> documentos )
+	{
+		this.documentos = documentos;
 	}
 	
 	

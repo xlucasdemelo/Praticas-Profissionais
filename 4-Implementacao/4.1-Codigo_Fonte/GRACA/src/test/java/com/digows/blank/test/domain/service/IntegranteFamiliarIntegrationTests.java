@@ -56,7 +56,7 @@ public class IntegranteFamiliarIntegrationTests extends AbstractIntegrationTests
 	})
 	public void insertIntegranteFamiliarMustPass()
 	{
-		IntegranteFamiliar integranteFamiliar = new IntegranteFamiliar( null, "lucas", Calendar.getInstance(), "DEV", new BigDecimal( 9000 ), "Juliana Penayo de Melo", "9999-9999", Sexo.MASCULINO, new Endereco(100L), new Boolean( true ), new Familia(100L) );
+		IntegranteFamiliar integranteFamiliar = new IntegranteFamiliar( null, "lucas", Calendar.getInstance(), "DEV", new BigDecimal( 9000 ), "Paia 23", "9999-9999", Sexo.MASCULINO, new Endereco(100L), new Boolean( true ), new Familia(100L), null );
 	
 		integranteFamiliar = this.integranteFamiliarService.insertIntegranteFamiliar( integranteFamiliar );
 		Assert.assertNotNull( integranteFamiliar );
@@ -71,7 +71,7 @@ public class IntegranteFamiliarIntegrationTests extends AbstractIntegrationTests
 	})
 	public void insertIntegranteFamiliarMustFailWithoutMandatoryFields()
 	{
-		IntegranteFamiliar integranteFamiliar = new IntegranteFamiliar( null, null, Calendar.getInstance(), "DEV", new BigDecimal( 9000 ), "Juliana Penayo de Melo", "9999-9999", Sexo.MASCULINO, new Endereco(100L), new Boolean( true ), new Familia(100L) );
+		IntegranteFamiliar integranteFamiliar = new IntegranteFamiliar( null, null, Calendar.getInstance(), "DEV", new BigDecimal( 9000 ), "Juliana Penayo de Melo", "9999-9999", Sexo.MASCULINO, new Endereco(100L), new Boolean( true ), new Familia(100L), null );
 	
 		integranteFamiliar = this.integranteFamiliarService.insertIntegranteFamiliar( integranteFamiliar );
 		Assert.fail();

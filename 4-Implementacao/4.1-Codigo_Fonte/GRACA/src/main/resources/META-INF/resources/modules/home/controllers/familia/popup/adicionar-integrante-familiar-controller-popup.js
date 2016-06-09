@@ -91,6 +91,7 @@ angular.module('home')
 		 */
 		$scope.changeToEdit = function(){
 			$scope.model.integranteFamiliar.entity = $scope.integranteFamiliar;
+			$scope.listDocumentosByIntegrantefamiliar();
 			
 			$scope.model.pais.selectedItem = $scope.model.integranteFamiliar.entity.endereco.cidade.estado.pais;
         	$scope.model.estado.selectedItem = $scope.model.integranteFamiliar.entity.endereco.cidade.estado;
@@ -167,6 +168,19 @@ angular.module('home')
                 	$mdDialog.hide();
                 	$scope.$apply();
                 	
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+	    }
+	    
+	    $scope.listDocumentosByIntegrantefamiliar = function(){
+	    	integranteFamiliarService.listDocumentosByIntegranteFamiliar( $scope.model.integranteFamiliar.entity.id, {
+                callback : function(result) {
+                	$scope.model.integranteFamiliar.entity.documentos = result.content;
+                	$scope.$apply();
                 },
                 errorHandler : function(message, exception) {
                 	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
