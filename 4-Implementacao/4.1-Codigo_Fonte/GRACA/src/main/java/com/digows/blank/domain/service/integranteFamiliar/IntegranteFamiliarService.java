@@ -65,12 +65,6 @@ public class IntegranteFamiliarService
 		
 		integranteFamiliar.getEndereco().setId( null );
 		
-		DocumentoIntegranteFamiliar documentoIntegranteFamiliar = new DocumentoIntegranteFamiliar();
-		documentoIntegranteFamiliar.setIntegranteFamiliar( integranteFamiliar );
-		documentoIntegranteFamiliar.setNumeroDocumento( "6666666" );
-		documentoIntegranteFamiliar.setTipoDocumento( TipoDocumento.CPF );
-		
-		this.insertDocumentoIntegranteFamiliar( documentoIntegranteFamiliar );
 		this.enderecoRepository.save( integranteFamiliar.getEndereco() );
 		
 		return this.integranteFamiliarRepository.save( integranteFamiliar );
@@ -197,5 +191,14 @@ public class IntegranteFamiliarService
 	public DocumentoIntegranteFamiliar findDocumentoIntegranteFamiliarById(Long id)
 	{
 		return this.documentoIntegranteFamiliarRepository.findOne( id );
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public TipoDocumento[] listAllDocumentos()
+	{
+		return TipoDocumento.values();
 	}
 }

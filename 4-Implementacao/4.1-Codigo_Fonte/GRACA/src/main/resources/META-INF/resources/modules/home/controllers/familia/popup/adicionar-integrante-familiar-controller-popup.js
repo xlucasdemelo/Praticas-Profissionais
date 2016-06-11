@@ -23,6 +23,7 @@ angular.module('home')
 		$scope.integranteFamiliar = integrante;
 		
 		$scope.allSexos = [];
+		$scope.allTiposDocumentos = [];
 		
 		/**
 	     *
@@ -33,6 +34,25 @@ angular.module('home')
 			integranteFamiliar: {
 				form: null,
 				entity: new IntegranteFamiliar(),
+				
+				filters: {
+				    terms: "",
+				   
+				},
+				
+			    page: {//PageImpl 
+			    		size: 9,
+			    		page: 0,
+			        	sort:null
+			    },
+			    sort: [{//Sort
+	        		direction: 'ASC', properties: 'id', nullHandlingHint:null
+	        	}],
+			},
+			
+			documentoIntegranteFamiliar: {
+				form: null,
+				entity: new DocumentoIntegranteFamiliar(),
 				
 				filters: {
 				    terms: "",
@@ -151,6 +171,30 @@ angular.module('home')
             });
 	    }
 	    
+	    /**
+	     * 
+	     */
+	    $scope.removeIntegranteFamiliar = function(){
+			
+			integranteFamiliarService.disableIntegranteFamiliar( $scope.model.integranteFamiliar.entity, {
+                callback : function(result) {
+                	
+                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "Integrante removido com sucesso" );
+                	$mdDialog.hide();
+                	$scope.$apply();
+                	
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+			
+		}
+	    
+	    /**
+	     * 
+	     */
 	    $scope.updateIntegranteFamiliar = function() {
 	    	
 	    	$scope.model.integranteFamiliar.form.$submitted = true;
@@ -227,6 +271,68 @@ angular.module('home')
             });
 		}
 		
+		$scope.updateDocumento = function(e, item) {
+			
+			var saveDocumento = function(item) {
+				integranteFamiliarService.updateDocumentoIntegranteFamiliar( item, {
+					callback : function( result ) {
+						$scope.$apply();
+					},
+					errorHandler : function(message, exception) {
+						$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+		                $scope.$apply();
+		            }
+				});
+			}
+			
+			if( e.type == "blur" || ( e.type == "keypress" && e.keyCode == 13 ) ) {
+				saveDocumento(item);
+			}
+		};
+		
+		$scope.insertDocumentoIntegranteFamiliar = function() {
+	    	
+	    	$scope.model.integranteFamiliar.form.$submitted = true;
+	    	
+			if ($scope.model.integranteFamiliar.form.$invalid ){
+				$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
+				return;
+			}
+	    	
+			$scope.model.documentoIntegranteFamiliar.entity.integranteFamiliar = $scope.model.integranteFamiliar.entity;
+			
+	    	integranteFamiliarService.insertDocumentoIntegranteFamiliar( $scope.model.documentoIntegranteFamiliar.entity, {
+                callback : function(result) {
+                	
+                	$scope.listDocumentosByIntegrantefamiliar();
+                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "Documento inserido com sucesso" );
+                	$scope.$apply();
+                	
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+	    }
+		
+		$scope.removeDocumentoIntegranteFamiliar = function( item ) {
+	    	
+	    	integranteFamiliarService.removeDocumentoIntegranteFamiliar( item, {
+                callback : function(result) {
+                	
+                	$scope.listDocumentosByIntegrantefamiliar();
+                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "Documento removido com sucesso" );
+                	$scope.$apply();
+                	
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+	    }
+		
 		/**
 		 * 
 		 */
@@ -252,11 +358,26 @@ angular.module('home')
 		$scope.listAllSexos = function(){
 			integranteFamiliarService.listAllSexos( {
                 callback : function(result) {
-                	
                 	$scope.allSexos = result;
                 	
                 	$scope.$apply();
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+		}
+		
+		/**
+		 * 
+		 */
+		$scope.listAllTiposDocumento = function(){
+			integranteFamiliarService.listAllDocumentos( {
+                callback : function(result) {
+                	$scope.allTiposDocumentos = result;
                 	
+                	$scope.$apply();
                 },
                 errorHandler : function(message, exception) {
                 	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
@@ -270,6 +391,7 @@ angular.module('home')
 		 */
 		$scope.init = function(){
 			$scope.listAllSexos();
+			$scope.listAllTiposDocumento();
 			
 			if ($scope.integranteFamiliar)
 				$scope.changeToEdit();

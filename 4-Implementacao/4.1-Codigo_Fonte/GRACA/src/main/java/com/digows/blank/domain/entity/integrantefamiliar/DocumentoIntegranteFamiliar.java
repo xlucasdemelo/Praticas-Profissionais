@@ -11,6 +11,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
@@ -26,6 +28,8 @@ import br.com.eits.common.domain.entity.AbstractEntity;
  */
 @Entity
 @Audited
+@Table( name = "documento_integrante_familiar",
+	uniqueConstraints = { @UniqueConstraint( columnNames = { "tipoDocumento", "integrante_familiar_id" } ) } )
 @DataTransferObject(javascript = "DocumentoIntegranteFamiliar")
 public class DocumentoIntegranteFamiliar extends AbstractEntity implements Serializable 
 {
@@ -48,6 +52,7 @@ public class DocumentoIntegranteFamiliar extends AbstractEntity implements Seria
 	/**
 	 * 
 	 */
+	@NotNull
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "integrante_familiar_id")
 	private IntegranteFamiliar integranteFamiliar;
