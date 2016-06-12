@@ -7,5 +7,6 @@
 	<public.estado/>
 	<public.pais/>
 	<public.integrante_familiar />
+	<public.crianca />
 	<public.documento_integrante_familiar></public.documento_integrante_familiar>
 </dataset>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
 
-	<public.integrante_familiar
+	<public.crianca
 		id="100"
 		created="2015-03-30 00:00:00"
 		nome="Maynard James Keenan"
@@ -15,12 +15,20 @@
 		ativo = "true"
 		familia_id = "100"
 		grau_escolaridade = "0"
+		peso="200"
+		motivo_acolhimento="Sofre violencia"
+		numero_processo="123456"
+		altura="1,92"
+		data_elaboracaopia="2015-03-30 00:00:00"
+		data_limite="2015-03-30 00:00:00"
+		data_acolhimento="2015-03-30 00:00:00"
+		etnia="1"
 	/>
-
-	<public.integrante_familiar
+	
+	<public.crianca
 		id="101"
 		created="2015-03-30 00:00:00"
-		nome="Maynard James Keenan"
+		nome="Billy Corgan"
 		data_nascimento="2098-03-30"
 		ocupacao="vocalista"
 		renda_mensal = "90000"
@@ -31,5 +39,14 @@
 		ativo = "true"
 		familia_id = "100"
 		grau_escolaridade = "0"
+		peso="200"
+		motivo_acolhimento="Sofre violencia"
+		numero_processo="123456"
+		altura="1,92"
+		data_elaboracaopia="2015-03-30 00:00:00"
+		data_limite="2015-03-30 00:00:00"
+		data_acolhimento="2015-03-30 00:00:00"
+		etnia="0"
 	/>
+	
 </dataset>

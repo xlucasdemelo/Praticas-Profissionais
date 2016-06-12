@@ -551,6 +551,11 @@
 		    <artifactId>material-design-iconic-font</artifactId>
 		    <version>${iconic-font.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.neo4j</groupId>
+			<artifactId>neo4j-cypher-compiler-2.1</artifactId>
+			<version>2.1.8</version>
+		</dependency>
 	</dependencies>
 	
 </project>

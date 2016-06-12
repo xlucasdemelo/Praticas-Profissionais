@@ -51,7 +51,6 @@ public class Parente extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
-	@NotNull
 	@Enumerated(EnumType.ORDINAL)
 	private GrauParentesco grauParentesco;
 	
