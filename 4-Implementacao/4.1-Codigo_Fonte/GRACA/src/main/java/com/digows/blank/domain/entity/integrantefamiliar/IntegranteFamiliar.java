@@ -14,20 +14,22 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 
+import com.digows.blank.domain.entity.abstractEntity.AbstractEntity;
 import com.digows.blank.domain.entity.endereco.Endereco;
 import com.digows.blank.domain.entity.familia.Familia;
 import com.digows.blank.domain.entity.familia.Sexo;
-
-import br.com.eits.common.domain.entity.AbstractEntity;
 
 /**
  * @author lucas
@@ -35,6 +37,8 @@ import br.com.eits.common.domain.entity.AbstractEntity;
  */
 @Entity
 @Audited
+@Table(name = "integrante_familiar")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @DataTransferObject(javascript = "IntegranteFamiliar")
 public class IntegranteFamiliar extends AbstractEntity implements Serializable
 {

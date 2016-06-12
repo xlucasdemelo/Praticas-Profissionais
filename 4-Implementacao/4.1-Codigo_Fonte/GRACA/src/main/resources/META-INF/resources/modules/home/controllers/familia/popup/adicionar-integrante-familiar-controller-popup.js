@@ -160,7 +160,6 @@ angular.module('home')
                 	
                 	$scope.model.integranteFamiliar.entity = result;
                 	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "Integrante inserido com sucesso" );
-                	$mdDialog.hide();
                 	$scope.$apply();
                 	
                 },
