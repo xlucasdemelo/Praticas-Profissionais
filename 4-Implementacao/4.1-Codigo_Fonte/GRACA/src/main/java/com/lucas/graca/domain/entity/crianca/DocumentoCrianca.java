@@ -5,12 +5,18 @@ package com.lucas.graca.domain.entity.crianca;
 
 import java.io.Serializable;
 
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+
+import org.directwebremoting.annotations.DataTransferObject;
+import org.hibernate.envers.Audited;
 
 import com.lucas.graca.domain.entity.documento.TipoDocumento;
 
@@ -20,6 +26,11 @@ import br.com.eits.common.domain.entity.AbstractEntity;
  * @author lucas
  *
  */
+@Entity
+@Audited
+@Table( name = "documento_crianca",
+	uniqueConstraints = { @UniqueConstraint( columnNames = { "tipoDocumento", "crianca_id" } ) } )
+@DataTransferObject(javascript = "DocumentoCrianca")
 public class DocumentoCrianca extends AbstractEntity implements Serializable
 {
 

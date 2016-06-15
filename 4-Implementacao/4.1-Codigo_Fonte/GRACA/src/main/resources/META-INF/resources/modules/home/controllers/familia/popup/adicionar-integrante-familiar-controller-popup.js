@@ -289,6 +289,9 @@ angular.module('home')
 			}
 		};
 		
+		/**
+		 * 
+		 */
 		$scope.insertDocumentoIntegranteFamiliar = function() {
 	    	
 	    	$scope.model.integranteFamiliar.form.$submitted = true;

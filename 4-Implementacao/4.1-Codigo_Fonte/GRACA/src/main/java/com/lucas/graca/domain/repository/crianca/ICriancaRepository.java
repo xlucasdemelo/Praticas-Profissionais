@@ -22,7 +22,7 @@ public interface ICriancaRepository extends JpaRepository<Crianca, Long>
 			+ "crianca.ocupacao, crianca.rendaMensal, crianca.filiacao, "
 			+ "crianca.telefone, crianca.sexo, endereco, crianca.ativo, familia, "
 			+ "crianca.grauEscolaridade, crianca.peso, crianca.motivoAcolhimento, crianca.numeroProcesso, crianca.altura, crianca.dataElaboracaoPIA, "
-			+ "crianca.dataLimite, crianca.dataAcolhimento, crianca.etnia ) " +
+			+ "crianca.dataLimite, crianca.dataAcolhimento, crianca.etnia, crianca.entidadeAcolhimento ) " +
 			   
 			"FROM Crianca crianca " +
 			   "LEFT OUTER JOIN crianca.endereco endereco " + 

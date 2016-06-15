@@ -15,10 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.lucas.graca.domain.entity.crianca.Crianca;
+import com.lucas.graca.domain.entity.crianca.DocumentoCrianca;
 import com.lucas.graca.domain.entity.crianca.GrauParentesco;
 import com.lucas.graca.domain.entity.crianca.Parente;
 import com.lucas.graca.domain.entity.integrantefamiliar.IntegranteFamiliar;
 import com.lucas.graca.domain.repository.crianca.ICriancaRepository;
+import com.lucas.graca.domain.repository.crianca.IDocumentoCriancaRepository;
 import com.lucas.graca.domain.repository.crianca.IParenteRepository;
 import com.lucas.graca.domain.repository.integranteFamiliar.IIntegranteFamiliarRepository;
 
@@ -53,6 +55,11 @@ public class CriancaService
 	@Autowired
 	private IParenteRepository parenteRepository;
 	
+	/**
+	 * 
+	 */
+	@Autowired
+	private IDocumentoCriancaRepository documentoCriancaRepository;
 	/*-------------------------------------------------------------------
 	 *				 		     SERVICES
 	 *-------------------------------------------------------------------*/
@@ -176,6 +183,28 @@ public class CriancaService
 		return this.parenteRepository.save( parente );
 	}
 	
+	/**
+	 * 
+	 * @param documentoCrianca
+	 * @return
+	 */
+	public DocumentoCrianca insertDocumentoCrianca(DocumentoCrianca documentoCrianca)
+	{
+		Assert.notNull( documentoCrianca );
+		
+		return this.documentoCriancaRepository.save( documentoCrianca );
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @param pageable
+	 * @return
+	 */
+	public Page<DocumentoCrianca> listDocumentosByCrianca( Long id, PageRequest pageable )
+	{
+		return this.documentoCriancaRepository.listDocumentosByCrianca( id, pageable );
+	}
 }
 
 

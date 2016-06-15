@@ -35,7 +35,7 @@
     padding-left: 30px;
     padding-right: 30px;
     padding-bottom: 30px;
-    font-size: 13px;
+    font-size: 16px;
 }
 
 .default-info{
@@ -57,3 +57,8 @@ md-select {
 .default-popup { max-width: 800px; max-height: 600px; height: 600px; z-index: 2; right: -55px; width:800px }
 .default-popup .default-frame:first-child { padding-top: 20px; padding-left: 20px; padding-right: 20px; margin-bottom: 20px;}
 .default-popup .default-frame { padding-top: 0px; padding-left: 20px; padding-right: 20px; margin-bottom: 20px;}
+
+.md-default-theme.md-hue-3 .md-datepicker-input, .md-hue-3 .md-datepicker-input {
+	background:white;
+	color: black;
+}

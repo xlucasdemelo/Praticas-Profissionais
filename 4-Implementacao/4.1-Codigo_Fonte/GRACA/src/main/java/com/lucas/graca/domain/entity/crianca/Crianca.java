@@ -5,10 +5,13 @@ package com.lucas.graca.domain.entity.crianca;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.List;
 
+import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
@@ -28,6 +31,7 @@ import com.lucas.graca.domain.entity.integrantefamiliar.IntegranteFamiliar;
 @Audited
 @Table(name="Crianca")
 @DataTransferObject(javascript = "Crianca")
+@AttributeOverride(name = "ocupacao", column = @Column(name = "ocupacao"))
 public class Crianca extends IntegranteFamiliar
 {
 
@@ -87,10 +91,20 @@ public class Crianca extends IntegranteFamiliar
 	/**
 	 * 
 	 */
-	@Column
 	@NotNull
 	private Etnia etnia;
 
+	/**
+	 * 
+	 */
+	@Column
+	private String entidadeAcolhimento;
+	
+	/**
+	 * 
+	 */
+	@Transient
+	private List<DocumentoCrianca> documentosCrianca;
 	/*-------------------------------------------------------------------
 	 *				 		     CONSTRUCTORS
 	 *-------------------------------------------------------------------*/
@@ -117,7 +131,10 @@ public class Crianca extends IntegranteFamiliar
 	 * @param familia2
 	 * @param etnia
 	 */
-	public Crianca( Long id, String nome, Calendar dataNascimento, String ocupacao, BigDecimal rendaMensal, String filiacao, String telefone, Sexo sexo, Endereco endereco, Boolean ativo, Familia familia, GrauEscolaridade grauEscolaridade, String peso, String motivoAcolhimento, String numeroProcesso, String altura, Calendar dataElaboracaoPIA, Calendar dataLimite, Calendar dataAcolhimento, Etnia etnia )
+	public Crianca( Long id, String nome, Calendar dataNascimento, String ocupacao, BigDecimal rendaMensal, String filiacao, String telefone, 
+			Sexo sexo, Endereco endereco, Boolean ativo, Familia familia, GrauEscolaridade grauEscolaridade, String peso, 
+			String motivoAcolhimento, String numeroProcesso, String altura, Calendar dataElaboracaoPIA, Calendar dataLimite, 
+			Calendar dataAcolhimento, Etnia etnia, String entidadeAcolhimento )
 	{
 		super( id, nome, dataNascimento, ocupacao, rendaMensal, filiacao, telefone, sexo, endereco, ativo, familia, grauEscolaridade );
 		this.peso = peso;
@@ -128,6 +145,7 @@ public class Crianca extends IntegranteFamiliar
 		this.dataLimite = dataLimite;
 		this.dataAcolhimento = dataAcolhimento;
 		this.etnia = etnia;
+		this.entidadeAcolhimento = entidadeAcolhimento;
 	}
 
 	/**
@@ -277,4 +295,37 @@ public class Crianca extends IntegranteFamiliar
 	{
 		this.etnia = etnia;
 	}
+
+	/**
+	 * @return the entidadeAcolhimento
+	 */
+	public String getEntidadeAcolhimento()
+	{
+		return entidadeAcolhimento;
+	}
+
+	/**
+	 * @param entidadeAcolhimento the entidadeAcolhimento to set
+	 */
+	public void setEntidadeAcolhimento( String entidadeAcolhimento )
+	{
+		this.entidadeAcolhimento = entidadeAcolhimento;
+	}
+
+	/**
+	 * @return the documentosCrianca
+	 */
+	public List<DocumentoCrianca> getDocumentosCrianca()
+	{
+		return documentosCrianca;
+	}
+
+	/**
+	 * @param documentosCrianca the documentosCrianca to set
+	 */
+	public void setDocumentosCrianca( List<DocumentoCrianca> documentosCrianca )
+	{
+		this.documentosCrianca = documentosCrianca;
+	}
+
 }

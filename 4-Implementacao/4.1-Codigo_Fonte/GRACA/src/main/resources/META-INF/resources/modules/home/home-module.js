@@ -81,7 +81,7 @@
             templateUrl: './modules/home/views/crianca/crianca-form.html'
           })
 	    .state('crianca.edit',{
-	        url:'/editar;/{id:[0-9]{1,10}}',
+	        url:'/editar/{id:[0-9]{1,10}}',
 	        templateUrl: './modules/home/views/crianca/crianca-form.html'
 	     })
 	});
