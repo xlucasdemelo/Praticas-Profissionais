@@ -132,7 +132,7 @@ public class IntegranteFamiliarIntegrationTests extends AbstractIntegrationTests
 		documentoIntegranteFamiliar.setNumeroDocumento( "8888888888" );
 		documentoIntegranteFamiliar.setTipoDocumento( TipoDocumento.CPF );
 		
-//		documentoIntegranteFamiliar = this.integranteFamiliarService.insertDocumentoIntegranteFamiliar( documentoIntegranteFamiliar );
+		documentoIntegranteFamiliar = this.integranteFamiliarService.insertDocumentoIntegranteFamiliar( documentoIntegranteFamiliar );
 		Assert.assertNotNull( documentoIntegranteFamiliar );
 		Assert.assertTrue( documentoIntegranteFamiliar.getNumeroDocumento().equals( "8888888888" ) );
 	}

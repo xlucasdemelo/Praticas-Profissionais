@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" 
+	xmlns:th="http://www.thymeleaf.org" lang="pt">
+	
+	<div class="main-div" md-theme="{{graca-theme}}">
+	
+		<md-toolbar layout="row" style="z-index: 3;">
+	    	<div flex layout="row" class="default-header">
+		        <h1 class="md-toolbar-tools">Criança</h1>
+	    	</div>
+	    	
+	        <div md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="$state.go( ADD_STATE )">Novo</md-button>
+	        </div>
+	    </md-toolbar>
+	
+		<md-toolbar flex class="md-hue-3 md-osm-theme-theme toolbar-content">
+			<form layout="row" class="default-frame" >
+				<md-toolbar  class="toolbar-temp default-filter" layout="row">
+					<div flex layout="column">
+						<div layout="row">
+							<md-input-container style="margin-bottom: 20px;" layout="column" flex>
+								<label>Digite sua pesquisa</label>
+								<input type="text" name="filtro" ng-disabled="moreFilters" ng-model="model.familia.filters.terms" maxlength="255">
+							</md-input-container>
+					            
+				            <div layout="row" layout-align="end center" ng-init="currentOption = 'down'">
+					            <md-button class="md-raised md-primary md-hue-2" ng-click="listFamiliasByFilters()">Filtrar</md-button>
+					            <md-button class="md-raised md-primary md-hue-3" ng-click="openMaisOpcoes(); currentOption = !currentOption" style="padding-left: 14px;">
+					            	Mais opções
+					            	<i ng-if="!currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-down"></i>
+					            	<i ng-if="currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-up"></i> 
+					            </md-button>
+				            </div>			            			            			            			            
+				    	</div>
+				    </div>
+				</md-toolbar>
+			</form>	
+			
+<!-- 			TOOLBAR DA TABLE -->
+
+			<div layout="column"  class="default-frame">
+				<md-toolbar style="background-color:#ffffff; color:black" layout="column">
+					<md-table-container>
+					  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+					    <thead md-head md-order="query.order" md-on-reorder="getDesserts">
+					      <tr md-row>
+					        <th md-column md-order-by="nameToLower"><span>Nome</span></th>
+					        <th md-column md-numeric md-order-by="calories.value"><span>Familia</span></th>
+					        <th md-column md-numeric>Idade</th>
+					        <th md-column md-numeric>Data de acolhimento</th>
+					      </tr>
+					    </thead>
+					    <tbody md-body>
+					      <tr md-row md-select="dessert" style="cursor:pointer" ng-click="$state.go( EDIT_STATE, {id:crianca.id} )" md-select-id="name" md-auto-select ng-repeat="crianca in model.crianca.page.content">
+					        <td md-cell>{{::crianca.nome}}</td>
+					        <td md-cell>{{::crianca.familia.nome}}</td>
+					        <td md-cell>{{::crianca.idade}}</td>
+					        <td md-cell>{{::crianca.dataAcolhimento | date : format : timezone}}</td>
+					      </tr>
+					    </tbody>
+					  </table>
+					</md-table-container>
+										
+					<div layout="column" flex class="empty-grid" layout-align="center center" ng-if="model.fornecedor.page.content.length == 0">
+						Nenhum registro de família
+					</div>
+					
+					<md-divider></md-divider>
+						<div class="default-paginator" layout layout-align="end center" ng-if="model.fornecedor.page.total > 0">
+							{{ model.fornecedor.page.pageable.page + 1 }} de {{ Math.ceil(model.fornecedor.page.total/model.fornecedor.page.pageable.size) }}
+							<md-button class="md-icon-button" ng-disabled="(model.fornecedor.page.pageable.page + 1) < 2" ng-click="onFornecedorPaginationChange(false)">
+								<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.fornecedor.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
+							</md-button>
+							<md-button class="md-icon-button" ng-disabled="(model.fornecedor.page.pageable.page + 1) >= Math.ceil(model.fornecedor.page.total/model.fornecedor.page.pageable.size)" ng-click="onFornecedorPaginationChange(true)">
+								<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.fornecedor.page.pageable.page + 1) >= Math.ceil(model.fornecedor.page.total/model.fornecedor.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
+							</md-button>
+				  		</div>
+				</md-toolbar>
+			</div>
+			
+		</md-toolbar>
+		
+	</div>
+</html>

@@ -81,6 +81,7 @@ angular.module('home')
 			    		content: [],
 			    		pageable :{ size: 9,
 						    		page: 0,
+						    		total:0,
 						        	sort:null
 			        	}
 			    },

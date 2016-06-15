@@ -197,6 +197,18 @@ public class CriancaService
 	
 	/**
 	 * 
+	 * @param documentoCrianca
+	 * @return
+	 */
+	public DocumentoCrianca updateDocumentoCrianca(DocumentoCrianca documentoCrianca)
+	{
+		Assert.notNull( documentoCrianca );
+		
+		return this.documentoCriancaRepository.save( documentoCrianca );
+	}
+	
+	/**
+	 * 
 	 * @param id
 	 * @param pageable
 	 * @return

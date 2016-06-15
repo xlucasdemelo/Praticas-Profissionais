@@ -265,7 +265,7 @@ angular.module('home')
 	        
 	        if ( paginate ) $scope.model.familia.page.pageable.page++;
 	        
-	        $scope.listFamiliasByFilters();
+	        $scope.listCriancasByFilters();
 	    };
 	    
 	    /**
@@ -310,7 +310,7 @@ angular.module('home')
 	        $mdDialog.show(confirm).then(function (result) {
 	            console.log(result);
 	
-	            familiaService.disableFamilia( $scope.model.familia.entity  , {
+	            criancaService.disableCrianca( $scope.model.crianca.entity  , {
 	                callback : function(result) {
 	                    $scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi excluído com sucesso!" );
 	                    $state.go($scope.LIST_STATE);
@@ -328,7 +328,7 @@ angular.module('home')
 	    /**
 		 * 
 		 */
-		$scope.enableFamilia = function(){
+		$scope.enableCrianca= function(){
 			
 			var confirm = $mdDialog.confirm()
             .title('Tem certeza que deseja ativar este registro?')
@@ -339,7 +339,7 @@ angular.module('home')
 	        $mdDialog.show(confirm).then(function (result) {
 	            console.log(result);
 	
-	            familiaService.enableFamilia( $scope.model.familia.entity  , {
+	            criancaService.enableCrianca( $scope.model.crianca.entity  , {
 	                callback : function(result) {
 	                    $scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi ativado com sucesso!" );
 	                    $state.go($scope.LIST_STATE);
@@ -374,12 +374,12 @@ angular.module('home')
         /**
          * 
          */
-		$scope.listFamiliasByFilters = function(){
+        $scope.listCriancasByFilters = function(){
 			
-			familiaService.listFamiliasByFilters(  $scope.model.familia.filters.terms.toString(), $scope.model.familia.page.pageable, {
+			criancaService.listCriancasByFilters(  $scope.model.crianca.filters.terms.toString(), $scope.model.crianca.page.pageable, {
                 callback : function(result) {
                 	
-                	$scope.model.familia.page.content = result.content; 
+                	$scope.model.crianca.page.content = result.content; 
                 	$scope.$apply();
                 	
                 },
@@ -420,6 +420,25 @@ angular.module('home')
             });
 		}
 		
+		$scope.updateDocumento = function(e, item) {
+			
+			var saveDocumento = function(item) {
+				criancaService.updateDocumentoCrianca( item, {
+					callback : function( result ) {
+						$scope.$apply();
+					},
+					errorHandler : function(message, exception) {
+						$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+		                $scope.$apply();
+		            }
+				});
+			}
+			
+			if( e.type == "blur" || ( e.type == "keypress" && e.keyCode == 13 ) ) {
+				saveDocumento(item);
+			}
+		};
+		
 		/**
 		 * 
 		 */
@@ -427,7 +446,7 @@ angular.module('home')
 	    	
 			$scope.model.documentoCrianca.entity.crianca = $scope.model.crianca.entity;
 			
-			criancaService.insertDocumentoCrianca( $scope.model.documentoCrianca.entity, {
+			criancaService.updateDocumentoCrianca( $scope.model.documentoCrianca.entity, {
                 callback : function(result) {
                 	
                 	$scope.listDocumentosByCrianca();

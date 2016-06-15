@@ -99,11 +99,14 @@ angular.module('home')
 		$scope.changeToAdd = function(){
 			$scope.model.integranteFamiliar.entity = new IntegranteFamiliar();
 			$scope.model.integranteFamiliar.entity.familia = $scope.model.familia;
-			$scope.model.integranteFamiliar.entity.endereco = angular.copy($scope.model.familia.endereco);
 			
-			$scope.model.pais.selectedItem = $scope.model.integranteFamiliar.entity.endereco.cidade.estado.pais;
-        	$scope.model.estado.selectedItem = $scope.model.integranteFamiliar.entity.endereco.cidade.estado;
-        	$scope.model.cidade.selectedItem = $scope.model.integranteFamiliar.entity.endereco.cidade;
+			if ($scope.model.familia.endereco) {
+				$scope.model.integranteFamiliar.entity.endereco = angular.copy($scope.model.familia.endereco);
+				
+				$scope.model.pais.selectedItem = $scope.model.integranteFamiliar.entity.endereco.cidade.estado.pais;
+	        	$scope.model.estado.selectedItem = $scope.model.integranteFamiliar.entity.endereco.cidade.estado;
+	        	$scope.model.cidade.selectedItem = $scope.model.integranteFamiliar.entity.endereco.cidade;
+			}
 		}
 		
 		/**

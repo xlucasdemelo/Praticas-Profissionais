@@ -6,7 +6,7 @@
 	
 		<md-toolbar layout="row" style="z-index: 3;">
 	    	<div flex layout="row" class="default-header">
-		        <h1 class="md-toolbar-tools">Familia</h1>
+		        <h1 class="md-toolbar-tools">Família</h1>
 	    	</div>
 	    	
 	        <div md-theme="default" layout="row" layout-align="end center" class="default-header">
@@ -62,20 +62,21 @@
 					  </table>
 					</md-table-container>
 										
-					<div layout="column" flex class="empty-grid" layout-align="center center" ng-if="model.fornecedor.page.content.length == 0">
-						Nenhum registro de família
+					<div layout="column" flex class="empty-grid" layout-align="center center" ng-if="model.familia.page.content.length == 0">
+						Nenhum registro de família encontrado
 					</div>
 					
 					<md-divider></md-divider>
-						<div class="default-paginator" layout layout-align="end center" ng-if="model.fornecedor.page.total > 0">
-							{{ model.fornecedor.page.pageable.page + 1 }} de {{ Math.ceil(model.fornecedor.page.total/model.fornecedor.page.pageable.size) }}
-							<md-button class="md-icon-button" ng-disabled="(model.fornecedor.page.pageable.page + 1) < 2" ng-click="onFornecedorPaginationChange(false)">
-								<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.fornecedor.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
-							</md-button>
-							<md-button class="md-icon-button" ng-disabled="(model.fornecedor.page.pageable.page + 1) >= Math.ceil(model.fornecedor.page.total/model.fornecedor.page.pageable.size)" ng-click="onFornecedorPaginationChange(true)">
-								<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.fornecedor.page.pageable.page + 1) >= Math.ceil(model.fornecedor.page.total/model.fornecedor.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
-							</md-button>
-				  		</div>
+					<div class="default-paginator" layout layout-align="end center" ng-if="model.familia.page.content.length > 0">
+						{{ model.familia.page.pageable.page + 1 }} de {{ Math.ceil(model.familia.page.total/model.familia.page.pageable.size) }}
+						<md-button class="md-icon-button" ng-disabled="(model.familia.page.pageable.page + 1) < 2" ng-click="onfamiliaPaginationChange(false)">
+							<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.familia.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
+						</md-button>
+						<md-button class="md-icon-button" ng-disabled="(model.familia.page.pageable.page + 1) >= Math.ceil(model.familia.page.total/model.familia.page.pageable.size)" ng-click="onfamiliaPaginationChange(true)">
+							<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.familia.page.pageable.page + 1) >= Math.ceil(model.familia.page.total/model.familia.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
+						</md-button>
+			  		</div>
+			  		
 				</md-toolbar>
 			</div>
 			

@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+extraProperties=sonar.language\=java\r\nsonar.tests\=src/test\r\nsonar.jacoco.itReportPath\=target/jacoco-it.exec\r\nsonar.core.codeCoveragePlugin\=jacoco\r\nsonar.sources\=src/main/java/com/lucas/graca/domain\r\nsonar.dynamicAnalysis\=reuseReports
+projectKey=com.lucas\:blank
+serverUrl=
+version=2
