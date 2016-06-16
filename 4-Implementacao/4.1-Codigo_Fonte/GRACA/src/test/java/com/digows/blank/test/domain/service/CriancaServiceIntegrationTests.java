@@ -19,6 +19,7 @@ import com.lucas.graca.domain.entity.crianca.Crianca;
 import com.lucas.graca.domain.entity.crianca.DocumentoCrianca;
 import com.lucas.graca.domain.entity.crianca.Etnia;
 import com.lucas.graca.domain.entity.documento.TipoDocumento;
+import com.lucas.graca.domain.entity.endereco.Cidade;
 import com.lucas.graca.domain.entity.endereco.Endereco;
 import com.lucas.graca.domain.entity.familia.Familia;
 import com.lucas.graca.domain.entity.familia.Sexo;
@@ -31,7 +32,7 @@ import com.lucas.graca.domain.service.crianca.CriancaService;
  * @author lucas
  *
  */
-public class CriancaIntegrationTests extends AbstractIntegrationTests
+public class CriancaServiceIntegrationTests extends AbstractIntegrationTests
 {
 	/*-------------------------------------------------------------------
 	 *				 		     ATTRIBUTES
@@ -56,7 +57,7 @@ public class CriancaIntegrationTests extends AbstractIntegrationTests
 	public void insertCriancaMustPass()
 	{
 		Crianca crianca = new Crianca( null, "lucas", Calendar.getInstance(), "DEV", new BigDecimal( 9000 ),
-				"Paia 23", "9999-9999", Sexo.MASCULINO, new Endereco(100L), new Boolean( true ), new Familia(100L), 
+				"Paia 23", "9999-9999", Sexo.MASCULINO, new Endereco(null, "bairro paia", "rua", null, null, new Cidade(100L)), new Boolean( true ), new Familia(100L), 
 				GrauEscolaridade.FUNDAMENTAL_COMPLETO, "100", "Sofre violencia", "123456789", 
 				"1,92", Calendar.getInstance(), Calendar.getInstance(), Calendar.getInstance(), Etnia.BRANCO, "Conselho tutelar" );
 	

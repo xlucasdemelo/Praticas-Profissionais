@@ -61,7 +61,7 @@
             templateUrl: './modules/home/views/familia/familia-form.html'
           })
 	    .state('familia.edit',{
-	        url:'/editar;/{id:[0-9]{1,10}}',
+	        url:'/editar/{id:[0-9]{1,10}}',
 	        templateUrl: './modules/home/views/familia/familia-form.html'
 	     })
 	     

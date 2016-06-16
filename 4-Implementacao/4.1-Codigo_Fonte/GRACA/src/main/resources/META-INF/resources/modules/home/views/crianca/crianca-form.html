@@ -61,6 +61,15 @@
 											               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
 											                </div>
 											            </div>
+											            
+											            <md-input-container layout="column" flex="35" style="margin-left:25px">
+												    		<label>Altura</label>
+											                <input type="text" name="altura" ng-model="model.crianca.entity.altura" maxlength="255" required>
+											                
+											                <div ng-messages="model.crianca.form.altura.$error">
+											               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
+											                </div>
+										            	</md-input-container>
 										            </div>
 										            
 										            <div layout="row" ">
@@ -94,6 +103,8 @@
 											               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
 											                </div>
 										            	</md-input-container>
+										            	
+										            	
 								                     </div>
 								                        
 								                     <div layout="row">

@@ -229,8 +229,6 @@ angular.module('home')
 	    $scope.changeToEdit = function( id ) {
 	        console.debug("changeToEdit", id);
 	        
-	        id = 1;
-	        
 	        criancaService.findCriancaById( id, {
 	            callback : function(result) {	   
 	            	$scope.model.crianca.entity = result;
@@ -404,6 +402,8 @@ angular.module('home')
 			$scope.model.crianca.entity.endereco.cidade = $scope.model.cidade.selectedItem ;
 			$scope.model.crianca.entity.endereco.cidade.estado = $scope.model.estado.selectedItem ;
 			$scope.model.crianca.entity.endereco.cidade.estado.pais = $scope.model.pais.selectedItem ;
+			
+			$scope.model.crianca.entity.etnia = "BRANCO"
 			
 			criancaService.insertCrianca(  $scope.model.crianca.entity, {
                 callback : function(result) {

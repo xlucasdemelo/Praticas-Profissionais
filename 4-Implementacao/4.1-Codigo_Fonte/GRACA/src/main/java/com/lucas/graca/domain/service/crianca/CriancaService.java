@@ -22,6 +22,7 @@ import com.lucas.graca.domain.entity.integrantefamiliar.IntegranteFamiliar;
 import com.lucas.graca.domain.repository.crianca.ICriancaRepository;
 import com.lucas.graca.domain.repository.crianca.IDocumentoCriancaRepository;
 import com.lucas.graca.domain.repository.crianca.IParenteRepository;
+import com.lucas.graca.domain.repository.endereco.IEnderecoRepository;
 import com.lucas.graca.domain.repository.integranteFamiliar.IIntegranteFamiliarRepository;
 
 /**
@@ -60,6 +61,12 @@ public class CriancaService
 	 */
 	@Autowired
 	private IDocumentoCriancaRepository documentoCriancaRepository;
+	
+	/**
+	 * 
+	 */
+	@Autowired
+	private IEnderecoRepository enderecoRepository;
 	/*-------------------------------------------------------------------
 	 *				 		     SERVICES
 	 *-------------------------------------------------------------------*/
@@ -72,6 +79,7 @@ public class CriancaService
 	public Crianca insertCrianca( Crianca crianca )
 	{
 		Assert.notNull( crianca );
+		this.enderecoRepository.save( crianca.getEndereco() );
 		return this.criancaRepository.save( crianca );
 	}
 	
