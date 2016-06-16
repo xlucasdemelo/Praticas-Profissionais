@@ -246,9 +246,9 @@ ALTER TABLE auditing.familia_audited
   
   INSERT INTO public.pais values (1, now(), now(), 'Brasil');
   
-  INSERT INTO public.estado values (1, now(), now(), 'Paraná');
+  INSERT INTO public.estado values (1, now(), now(), 'Paraná', 1);
   
-  INSERT INTO public.cidade values (1, now(), now(), 'Foz do iguaçu');
+  INSERT INTO public.cidade values (1, now(), now(), 'Foz do iguaçu', 1);
   
   INSERT INTO public.endereco values (2, now(), now(), 'Bairro qualquer', 'complemento', 23, 'rua', 1);
   

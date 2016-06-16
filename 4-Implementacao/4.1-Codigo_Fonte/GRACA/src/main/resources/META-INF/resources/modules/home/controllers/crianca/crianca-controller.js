@@ -214,7 +214,7 @@ angular.module('home')
 		$scope.changeToAdd = function() {
 			console.debug("changeToAdd");
 			
-			$scope.changeToEdit();
+			$scope.model.crianca.entity = new Crianca();
 		};
 		
 		/**

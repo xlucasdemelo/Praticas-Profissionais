@@ -6,11 +6,6 @@ package com.lucas.graca.domain.entity.entidadeAcolhimento;
 import java.io.Serializable;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
-import org.directwebremoting.annotations.DataTransferObject;
-import org.hibernate.envers.Audited;
 
 import br.com.eits.common.domain.entity.AbstractEntity;
 
@@ -18,10 +13,6 @@ import br.com.eits.common.domain.entity.AbstractEntity;
  * @author lucas
  *
  */
-@Entity
-@Audited
-@Table(name="EntidadeAcolhimento")
-@DataTransferObject(javascript = "EntidadeAcolhimento")
 public class EntidadeAcolhimento extends AbstractEntity implements Serializable
 {
 
