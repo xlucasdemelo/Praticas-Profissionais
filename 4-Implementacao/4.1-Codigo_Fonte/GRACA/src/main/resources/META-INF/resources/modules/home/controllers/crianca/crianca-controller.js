@@ -121,6 +121,27 @@ angular.module('home')
 	        	}],
 			},
 			
+			parente: {
+				form: null,
+				entity: new Parente(),
+				
+				filters: {
+				    terms: "",
+				   
+				},
+				
+			    page: {//PageImpl 
+			    		content:[],
+			    		pageable : {size: 9,
+						    		page: 0,
+						        	sort:null
+			        	}
+			    },
+			    sort: [{//Sort
+	        		direction: 'ASC', properties: 'id', nullHandlingHint:null
+	        	}],
+			},
+			
 			endereco: {
 				form: null,
 				entity: new Endereco(),
@@ -661,22 +682,40 @@ angular.module('home')
 		/**
 		 * 
 		 */
-		$scope.openAdicionarIntegranteFamiliarHandler = function( integranteFamiliar ) {
+		$scope.associateFamiliaToCrianca = function(  ){
+			
+			criancaService.associateFamiliaToCrianca( $scope.model.crianca.entity, $scope.model.parente.page.pageable, {
+                callback : function(result) {
+                	
+                	$scope.model.parente.page.content = result;
+                	
+                	$scope.$apply();
+                	
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+			
+		}
+		
+		/**
+		 * 
+		 */
+		$scope.openSelecionarCriancaHandler = function( integranteFamiliar ) {
 
 			$mdDialog.show({
-			      controller: "AdicionarIntegranteFamiliarControllerPopup",
-			      templateUrl: './modules/home/views/familia/popup/adicionar-integrante-familiar-popup.html',			      
+			      controller: "SelecionarFamiliaPopup",
+			      templateUrl: './modules/home/views/crianca/popup/selecionar-familia-popup.html',			      
 			      scope: $scope.$new(),
-			      resolve: {
-			    	  integrante: function() {
-			    		  return angular.copy(integranteFamiliar);
-			    	  }
-			      }
 				})
 			    .then(function(result) {
-			    	 $scope.listIntegrantesFamiliaresByFamilia($scope.model.familia.entity.id);
+			    	$scope.model.crianca.entity.familia = result;
+			    	$scope.associateFamiliaToCrianca();
 			 });
 		};
+		
 		
 		/**
 		 * 

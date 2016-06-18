@@ -162,6 +162,7 @@ angular.module('home')
                 callback : function(result) {
                 	
                 	$scope.model.integranteFamiliar.entity = result;
+                	$scope.listIntegrantesFamiliaresByFamilia(result.id);
                 	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "Integrante inserido com sucesso" );
                 	$scope.$apply();
                 	

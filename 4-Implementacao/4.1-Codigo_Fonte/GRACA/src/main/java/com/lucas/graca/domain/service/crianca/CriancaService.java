@@ -153,7 +153,7 @@ public class CriancaService
 		
 		List<Parente> parentes = new ArrayList<Parente>();
 		
-		List <IntegranteFamiliar> integrantes = this.integranteFamiliarRepository.listIntegrantesByfamilia( crianca.getFamilia().getId(), null ).getContent();
+		List <IntegranteFamiliar> integrantes = this.integranteFamiliarRepository.listIntegrantesByfamiliaToCrianca( crianca.getId(), crianca.getFamilia().getId(), null ).getContent();
 		
 		for ( IntegranteFamiliar integranteFamiliar : integrantes )
 		{

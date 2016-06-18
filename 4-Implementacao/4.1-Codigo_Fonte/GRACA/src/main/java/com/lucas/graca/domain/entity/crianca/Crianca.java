@@ -105,6 +105,7 @@ public class Crianca extends IntegranteFamiliar
 	 */
 	@Transient
 	private List<DocumentoCrianca> documentosCrianca;
+	
 	/*-------------------------------------------------------------------
 	 *				 		     CONSTRUCTORS
 	 *-------------------------------------------------------------------*/
@@ -163,7 +164,16 @@ public class Crianca extends IntegranteFamiliar
 	{
 		super( id );
 	}
-
+	
+	/*-------------------------------------------------------------------
+	 *				 		     BEHAVIORS
+	 *-------------------------------------------------------------------*/
+	
+	public Integer getIdade()
+	{
+		return Calendar.getInstance().get( Calendar.YEAR ) - this.getDataNascimento().get( Calendar.YEAR );
+	}
+	
 	/*-------------------------------------------------------------------
 	 *				 		     GETTERS AND SETTERS
 	 *-------------------------------------------------------------------*/

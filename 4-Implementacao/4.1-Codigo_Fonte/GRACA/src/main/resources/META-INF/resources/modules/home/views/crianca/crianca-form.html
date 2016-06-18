@@ -362,38 +362,50 @@
 						
 					</md-tab>
 					
-<!-- 					TAB INTEGRANTE FAMILIAR -->
+<!-- 					TAB FAMILIA -->
 					
-					<md-tab label="Integrante Familiar">
+					<md-tab label="Família">
 						<div layout-fill style="height:50%">
 				    		<md-toolbar layout-fill style="min-height: 100% !important;position:absolute;" class="md-hue-3" md-theme="{{osmTheme}}">
 								<div class="default-frame" style="overflow:auto">
 									<md-toolbar layout="row" class="default-form toolbar-temp" style="padding-bottom: 0; ">
 									
 										<form novalidate name="model.crianca.form" class="default-form">
+
+											<div layout="row">
+												<md-input-container layout="column" >
+										    		<label style="position:absolute;padding-top:15px;">Família</label>
+										    		<input typ="text" maxlength="255" name="familia" ng-model="model.crianca.entity.familia.nome" required></input>
+									                
+									                <div ng-messages="model.crianca.form.familia.$error">
+									               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+												
+												<div md-theme="default" layout="row" layout-align="end center" class="default-header md-primary md-hue-3">
+											        <md-button class="md-raised md-accent default-save-button" ng-click="openSelecionarCriancaHandler()">Selecionar família</md-button>
+										        </div>
+											</div>
+											
 											<div class="default-info" flex> 
 												<span>Integrantes Familiares</span>
 											</div>
 											
-											 <div md-theme="default" layout="row" layout-align="end center" class="default-header md-primary md-hue-3">
-										        <md-button class="md-raised md-accent default-save-button" ng-click="openAdicionarIntegranteFamiliarHandler()">Novo integrante</md-button>
-									        </div>
-											
 											<md-table-container>
-											  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
-											    <thead md-head md-order="query.order" md-on-reorder="getDesserts">
-											      <tr md-row>
-											        <th md-column md-order-by="nameToLower"><span>Nome</span></th>
-											        <th md-column md-numeric ><span>Data de nascimento</span></th>
-											      </tr>
-											    </thead>
-											    <tbody md-body>
-											      <tr md-row md-select="dessert" style="cursor:pointer" ng-click="openAdicionarIntegranteFamiliarHandler(integrante)" md-select-id="name" md-auto-select ng-repeat="integrante in model.crianca.page.content">
-											        <td md-cell>{{::integrante.nome}}</td>
-											        <td md-cell>{{::integrante.dataNascimento | date : format : timezone}}</td>
-											      </tr>
-											    </tbody>
-											  </table>
+											   <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+											     <thead md-head md-order="query.order" md-on-reorder="getDesserts">
+											       <tr md-row>
+											         <th md-column md-order-by="nameToLower"><span>Nome</span></th>
+											         <th md-column md-numeric ><span>Data de nascimento</span></th>
+											       </tr>
+											     </thead>
+											     <tbody md-body>
+											       <tr md-row md-select="dessert" style="cursor:pointer" ng-click="openAdicionarIntegranteFamiliarHandler(integrante)" md-select-id="name" md-auto-select ng-repeat="parente in model.parente.page.content">
+											         <td md-cell>{{::parente.nome}}</td>
+											         <td md-cell>{{::parente.dataNascimento | date : format : timezone}}</td>
+											       </tr>
+											     </tbody>
+											   </table>
 											</md-table-container>
 									        
 										</form>

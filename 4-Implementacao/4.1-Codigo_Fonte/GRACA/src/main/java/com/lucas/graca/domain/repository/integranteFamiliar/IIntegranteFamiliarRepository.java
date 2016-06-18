@@ -25,5 +25,13 @@ public interface IIntegranteFamiliarRepository extends JpaRepository<IntegranteF
 			)
 	public Page<IntegranteFamiliar> listIntegrantesByfamilia( @Param("familiaId") Long familiaId, Pageable pageable );
 	
-	
+	@Query(value="SELECT new IntegranteFamiliar(integranteFamiliar.id, integranteFamiliar.nome, integranteFamiliar.dataNascimento, integranteFamiliar.ocupacao, integranteFamiliar.rendaMensal, integranteFamiliar.filiacao, integranteFamiliar.telefone, integranteFamiliar.sexo, endereco, integranteFamiliar.ativo, familia, integranteFamiliar.grauEscolaridade ) " +
+			   "FROM IntegranteFamiliar integranteFamiliar " +
+			   "LEFT OUTER JOIN integranteFamiliar.endereco endereco " + 
+			   "LEFT OUTER JOIN integranteFamiliar.familia familia " +
+			  "WHERE ( integranteFamiliar.ativo IS TRUE AND familia.id = :familiaId " +
+			  			"AND integranteFamiliar.id <> :criancaId" + 
+			  		")"
+			)
+	public Page<IntegranteFamiliar> listIntegrantesByfamiliaToCrianca( @Param("criancaId") Long criancaId, @Param("familiaId") Long familiaId, Pageable pageable );
 }
