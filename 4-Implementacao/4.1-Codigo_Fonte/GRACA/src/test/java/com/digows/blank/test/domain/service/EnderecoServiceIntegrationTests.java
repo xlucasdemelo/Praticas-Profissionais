@@ -8,13 +8,13 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
-import com.digows.blank.domain.entity.endereco.Cidade;
-import com.digows.blank.domain.entity.endereco.Estado;
-import com.digows.blank.domain.entity.endereco.Pais;
-import com.digows.blank.domain.service.endereco.EnderecoService;
 import com.digows.blank.test.domain.AbstractIntegrationTests;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.lucas.graca.domain.entity.endereco.Cidade;
+import com.lucas.graca.domain.entity.endereco.Estado;
+import com.lucas.graca.domain.entity.endereco.Pais;
+import com.lucas.graca.domain.service.endereco.EnderecoService;
 
 /**
  * @author lucas

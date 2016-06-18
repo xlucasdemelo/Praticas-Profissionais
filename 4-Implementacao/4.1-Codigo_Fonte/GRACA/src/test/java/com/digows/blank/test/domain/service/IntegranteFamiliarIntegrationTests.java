@@ -15,17 +15,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.TransactionSystemException;
 
-import com.digows.blank.domain.entity.documento.TipoDocumento;
-import com.digows.blank.domain.entity.endereco.Endereco;
-import com.digows.blank.domain.entity.familia.Familia;
-import com.digows.blank.domain.entity.familia.Sexo;
-import com.digows.blank.domain.entity.integrantefamiliar.DocumentoIntegranteFamiliar;
-import com.digows.blank.domain.entity.integrantefamiliar.GrauEscolaridade;
-import com.digows.blank.domain.entity.integrantefamiliar.IntegranteFamiliar;
-import com.digows.blank.domain.service.integranteFamiliar.IntegranteFamiliarService;
 import com.digows.blank.test.domain.AbstractIntegrationTests;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.lucas.graca.domain.entity.documento.TipoDocumento;
+import com.lucas.graca.domain.entity.endereco.Endereco;
+import com.lucas.graca.domain.entity.familia.Familia;
+import com.lucas.graca.domain.entity.familia.Sexo;
+import com.lucas.graca.domain.entity.integrantefamiliar.DocumentoIntegranteFamiliar;
+import com.lucas.graca.domain.entity.integrantefamiliar.GrauEscolaridade;
+import com.lucas.graca.domain.entity.integrantefamiliar.IntegranteFamiliar;
+import com.lucas.graca.domain.service.integranteFamiliar.IntegranteFamiliarService;
 
 /**
  * @author lucas

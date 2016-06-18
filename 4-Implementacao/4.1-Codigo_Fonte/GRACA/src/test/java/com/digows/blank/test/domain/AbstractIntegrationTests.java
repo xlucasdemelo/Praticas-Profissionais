@@ -11,11 +11,11 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.TestExecutionListeners.MergeMode;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.digows.blank.Application;
 import com.digows.blank.test.TestApplication;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.github.springtestdbunit.annotation.DbUnitConfiguration;
+import com.lucas.graca.Application;
 
 import br.com.eits.common.infrastructure.dbunit.DBUnitOperationLookup;
 import br.com.eits.common.infrastructure.dbunit.TransactionDbUnitTestExecutionListener;

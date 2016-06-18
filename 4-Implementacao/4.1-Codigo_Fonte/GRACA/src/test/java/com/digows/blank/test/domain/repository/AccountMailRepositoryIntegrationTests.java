@@ -7,9 +7,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.digows.blank.domain.entity.account.User;
-import com.digows.blank.domain.repository.IAccountMailRepository;
 import com.digows.blank.test.domain.AbstractIntegrationTests;
+import com.lucas.graca.domain.entity.account.User;
+import com.lucas.graca.domain.repository.IAccountMailRepository;
 
 /**
  * 

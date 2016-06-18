@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beansProjectDescription>
 	<version>1</version>
-	<pluginVersion><![CDATA[3.7.3.201602250914-RELEASE]]></pluginVersion>
+	<pluginVersion><![CDATA[3.7.1.201510041102-RELEASE]]></pluginVersion>
 	<configSuffixes>
 		<configSuffix><![CDATA[xml]]></configSuffix>
 	</configSuffixes>
 	<enableImports><![CDATA[false]]></enableImports>
 	<configs>
-		<config>java:com.digows.blank.Application</config>
+		<config>java:com.lucas.graca.Application</config>
 	</configs>
 	<autoconfigs>
 	</autoconfigs>

@@ -64,6 +64,26 @@
 	        url:'/editar;/{id:[0-9]{1,10}}',
 	        templateUrl: './modules/home/views/familia/familia-form.html'
 	     })
+	     
+	     //CRIANÇA
+        $stateProvider.state('crianca',{
+        	abstract: true,
+        	url : "/crianca",
+        	template: '<div layout="column" flex ui-view=""/>',
+        	controller : 'CriancaController as criancaController'
+        })
+        .state('crianca.list',{
+            url:'/listar',
+            templateUrl: './modules/home/views/crianca/crianca-list.html'
+          })
+        .state('crianca.add',{
+            url:'/inserir',
+            templateUrl: './modules/home/views/crianca/crianca-form.html'
+          })
+	    .state('crianca.edit',{
+	        url:'/editar;/{id:[0-9]{1,10}}',
+	        templateUrl: './modules/home/views/crianca/crianca-form.html'
+	     })
 	});
 
 	/**

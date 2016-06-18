@@ -117,6 +117,7 @@ WITH (
 ALTER TABLE public.familia
   OWNER TO postgres;
 
+
   
  /* AUDITORIA */
  -- Table: auditing.pais_audited
@@ -252,3 +253,4 @@ ALTER TABLE auditing.familia_audited
   INSERT INTO public.endereco values (2, now(), now(), 'Bairro qualquer', 'complemento', 23, 'rua', 1);
   
   INSERT INTO public.familia values (1, now(), now(), true, 'fera', 'Silva', 'Maria', 10, 5, 'boa', '9999-9999', 0, 0, 2)
+ 

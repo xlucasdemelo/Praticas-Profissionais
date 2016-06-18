@@ -12,16 +12,16 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.TransactionSystemException;
 
-import com.digows.blank.domain.entity.crianca.Crianca;
-import com.digows.blank.domain.entity.crianca.Etnia;
-import com.digows.blank.domain.entity.endereco.Endereco;
-import com.digows.blank.domain.entity.familia.Familia;
-import com.digows.blank.domain.entity.familia.Sexo;
-import com.digows.blank.domain.entity.integrantefamiliar.GrauEscolaridade;
-import com.digows.blank.domain.service.crianca.CriancaService;
 import com.digows.blank.test.domain.AbstractIntegrationTests;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.lucas.graca.domain.entity.crianca.Crianca;
+import com.lucas.graca.domain.entity.crianca.Etnia;
+import com.lucas.graca.domain.entity.endereco.Endereco;
+import com.lucas.graca.domain.entity.familia.Familia;
+import com.lucas.graca.domain.entity.familia.Sexo;
+import com.lucas.graca.domain.entity.integrantefamiliar.GrauEscolaridade;
+import com.lucas.graca.domain.service.crianca.CriancaService;
 
 
 

@@ -8,12 +8,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.test.context.support.WithUserDetails;
 
-import com.digows.blank.domain.entity.account.User;
-import com.digows.blank.domain.entity.account.UserRole;
-import com.digows.blank.domain.service.AccountService;
 import com.digows.blank.test.domain.AbstractIntegrationTests;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.lucas.graca.domain.entity.account.User;
+import com.lucas.graca.domain.entity.account.UserRole;
+import com.lucas.graca.domain.service.AccountService;
 
 /**
  * 
