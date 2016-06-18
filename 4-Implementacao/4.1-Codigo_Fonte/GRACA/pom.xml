@@ -45,6 +45,7 @@
 		<angular-material-data-table.version>0.10.7</angular-material-data-table.version>
 		<uirouter.version>0.2.18</uirouter.version>
 		<iconic-font.version>2.2.0</iconic-font.version>
+		<angular-mask.version>3.0.16</angular-mask.version>
 	</properties>
 	
 	<!-- Profiles -->
@@ -552,10 +553,16 @@
 		    <version>${iconic-font.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>angular-mask</artifactId>
+			<version>${angular-mask.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.neo4j</groupId>
 			<artifactId>neo4j-cypher-compiler-2.1</artifactId>
 			<version>2.1.8</version>
 		</dependency>
+				
 	</dependencies>
 	
 </project>

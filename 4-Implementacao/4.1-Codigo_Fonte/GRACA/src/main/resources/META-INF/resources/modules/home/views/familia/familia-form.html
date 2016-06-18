@@ -45,19 +45,21 @@
 											<div layout="row">
 								    			<md-input-container layout="column" flex="30" style="margin-right:30px">
 										    		<label>Nome da família</label>
-									                <input maxlength="144" name="nome" required ng-model="model.familia.entity.nome">
+									                <input md-maxlength="255" name="nome" required ng-model="model.familia.entity.nome">
 									
 									                <div ng-messages="model.familia.form.nome.$error">
 									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                	<div ng-message="md-maxlength" ng-if="model.familia.form.$submitted">Limite de caracteres excedido</div>
 									                </div>
 									            </md-input-container>
 									            
 									            <md-input-container layout="column" flex="30" ">
 										    		<label>Nome da Mãe</label>
-									                <input maxlength="144" name="nomeMae" required ng-model="model.familia.entity.nomeMae">
+									                <input md-maxlength="255" name="nomeMae" required ng-model="model.familia.entity.nomeMae">
 									
 									                <div ng-messages="model.familia.form.nomeMae.$error">
 									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                	<div ng-message="md-maxlength" ng-if="model.familia.form.$submitted">Limite de caracteres excedido</div>
 									                </div>
 									            </md-input-container>
 									        </div>
@@ -65,7 +67,7 @@
 									        <div layout="row">
 								    			<md-input-container layout="column" flex="30" ">
 										    		<label>Telefone</label>
-									                <input type="text" maxlength="12" name="telefone" required ng-model="model.familia.entity.telefone">
+									                <input type="text" mask="(999) 9?9999-9999" maxlength="16" name="telefone" required ng-model="model.familia.entity.telefone">
 									
 									                <div ng-messages="model.familia.form.telefone.$error">
 									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
@@ -80,19 +82,21 @@
 											<div layout="row">
 								    			<md-input-container layout="column" flex="30" style="margin-right:30px">
 										    		<label>Rua</label>                                  
-									                <input maxlength="144" name="rua" required ng-model="model.familia.entity.endereco.rua">
+									                <input md-maxlength="255" name="rua" required ng-model="model.familia.entity.endereco.rua">
 									
 									                <div ng-messages="model.familia.form.rua.$error">
 									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                	<div ng-message="md-maxlength" >Limite de caracteres excedido</div>
 									                </div>
 									            </md-input-container>
 									            
 									            <md-input-container layout="column" flex="30" ">
 										    		<label>Bairro</label>
-									                <input maxlength="144" name="bairro" required ng-model="model.familia.entity.endereco.bairro">
+									                <input maxlength="255" name="bairro" required ng-model="model.familia.entity.endereco.bairro">
 									
 									                <div ng-messages="model.familia.form.bairro.$error">
 									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                	<div ng-message="md-maxlength" >Limite de caracteres excedido</div>
 									                </div>
 									            </md-input-container>
 									        </div>
@@ -159,7 +163,7 @@
 											<div layout="row">
 								    			<md-input-container layout="column" flex="30" style="margin-right:30px">
 										    		<label>Número de cômodos</label>
-									                <input type="number" maxlength="144" name="numeroComodos" required ng-model="model.familia.entity.numeroComodos">
+									                <input type="number" max="9999999999" name="numeroComodos" required ng-model="model.familia.entity.numeroComodos">
 									
 									                <div ng-messages="model.familia.form.numeroComodos.$error">
 									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
@@ -168,7 +172,7 @@
 									            
 									            <md-input-container layout="column" flex="30" gap="30">
 										    		<label>Número de dormitórios</label>
-									                <input type="number" maxlength="144"name="numeroDormitorios" required ng-model="model.familia.entity.numeroDormitorios">
+									                <input type="number" max="9999999999" name="numeroDormitorios" required ng-model="model.familia.entity.numeroDormitorios">
 									
 									                <div ng-messages="model.familia.form.numeroDormitorios.$error">
 									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>

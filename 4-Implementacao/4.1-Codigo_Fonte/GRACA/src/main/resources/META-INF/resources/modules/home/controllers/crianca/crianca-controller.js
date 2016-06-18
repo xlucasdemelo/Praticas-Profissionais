@@ -64,6 +64,11 @@ angular.module('home')
 		/**
 		 * 
 		 */
+		$scope.allGrausParentesco = [];
+		
+		/**
+		 * 
+		 */
 		$scope.allTiposMoradia = [];
 		
 		
@@ -255,6 +260,7 @@ angular.module('home')
 	            	$scope.model.crianca.entity = result;
 	            	
 	            	$scope.listDocumentosByCrianca();
+	            	$scope.listParentesByCrianca();
 	            	
 	            	$scope.model.pais.selectedItem = result.endereco.cidade.estado.pais;
 	            	$scope.model.estado.selectedItem = result.endereco.cidade.estado;
@@ -700,6 +706,43 @@ angular.module('home')
 			
 		}
 		
+		$scope.updateGrauParentesco = function( item ){
+			
+			criancaService.updateGrauParentesco( item, {
+                callback : function(result) {
+                	
+                	$scope.$apply();
+                	
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+			
+		}
+		
+		/**
+		 * 
+		 */
+		$scope.listParentesByCrianca = function(){
+			
+			criancaService.listParentesByCrianca( $scope.model.crianca.entity.id, $scope.model.parente.page.pageable, {
+                callback : function(result) {
+                	
+                	$scope.model.parente.page.content = result.content;
+                	
+                	$scope.$apply();
+                	
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+			
+		}
+		
 		/**
 		 * 
 		 */
@@ -736,11 +779,31 @@ angular.module('home')
             });
 		}
 		
+		/**
+		 * 
+		 */
+		$scope.listAllGrausParentesco = function(){
+			criancaService.listAllGrausParentesco( {
+                callback : function(result) {
+                	
+                	$scope.allGrausParentesco = result;
+                	
+                	$scope.$apply();
+                	
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+		}
+		
 		/*-------------------------------------------------------------------
 	     * 		 				 	POST CONSTRUCT
 	     *-------------------------------------------------------------------*/
 		$scope.listAllSexos();
 		$scope.listAllGrausEscolaridade();
+		$scope.listAllGrausParentesco();
 		$scope.listAllTiposDocumento();
 		
 });

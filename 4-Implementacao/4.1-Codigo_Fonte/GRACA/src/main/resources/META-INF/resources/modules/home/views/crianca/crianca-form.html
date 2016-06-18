@@ -397,12 +397,18 @@
 											       <tr md-row>
 											         <th md-column md-order-by="nameToLower"><span>Nome</span></th>
 											         <th md-column md-numeric ><span>Data de nascimento</span></th>
+											         <th md-column ><span style="float:right">Grau de parentesco</span></th>
 											       </tr>
 											     </thead>
 											     <tbody md-body>
-											       <tr md-row md-select="dessert" style="cursor:pointer" ng-click="openAdicionarIntegranteFamiliarHandler(integrante)" md-select-id="name" md-auto-select ng-repeat="parente in model.parente.page.content">
-											         <td md-cell>{{::parente.nome}}</td>
-											         <td md-cell>{{::parente.dataNascimento | date : format : timezone}}</td>
+											       <tr md-row md-select="dessert" style="cursor:pointer" md-select-id="name" md-auto-select ng-repeat="parente in model.parente.page.content">
+											         <td md-cell>{{::parente.integranteFamiliar.nome}}</td>
+											         <td md-cell>{{::parente.integranteFamiliar.dataNascimento | date : format : timezone}}</td>
+											         <td md-cell>
+											         	<md-select name="parentesco" style="float:right;width:95px" ng-change="updateGrauParentesco(parente)" ng-model="parente.grauParentesco">
+												        	<md-option ng-repeat="parentesco in allGrausParentesco" value="{{parentesco}}">{{parentesco}}</md-option>
+												        </md-select>
+											         </td>
 											       </tr>
 											     </tbody>
 											   </table>

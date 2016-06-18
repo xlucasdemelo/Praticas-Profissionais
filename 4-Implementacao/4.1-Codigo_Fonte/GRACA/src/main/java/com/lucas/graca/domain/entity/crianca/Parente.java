@@ -80,6 +80,13 @@ public class Parente extends AbstractEntity implements Serializable
 		this.grauParentesco = grauParentesco;
 	}
 
+	public Parente(Long id, IntegranteFamiliar integranteFamiliar, GrauParentesco grauParentesco )
+	{
+		super(id);
+		this.integranteFamiliar = integranteFamiliar;
+		this.grauParentesco = grauParentesco;
+	}
+	
 	/**
 	 * 
 	 */

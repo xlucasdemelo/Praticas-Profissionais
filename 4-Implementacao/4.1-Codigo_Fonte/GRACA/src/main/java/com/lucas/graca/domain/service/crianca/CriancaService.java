@@ -149,6 +149,7 @@ public class CriancaService
 	 */
 	public List<Parente> associateFamiliaToCrianca( Crianca crianca, PageRequest pageable )
 	{
+		this.removeAllParentes( crianca.getId() );
 		this.criancaRepository.save( crianca );
 		
 		List<Parente> parentes = new ArrayList<Parente>();
@@ -167,6 +168,33 @@ public class CriancaService
 		}
 		
 		return parentes;
+	}
+	
+	/**
+	 * 
+	 * @param crianca
+	 * @param pageable
+	 * @return
+	 */
+	private void removeAllParentes( Long criancaId )
+	{
+		List<Parente> parentes = this.parenteRepository.listParentesByCrianca( criancaId, null ).getContent();
+		
+		for ( Parente parente : parentes )
+		{
+			this.parenteRepository.delete( parente );
+		}
+	}
+	
+	/**
+	 * 
+	 * @param criancaId
+	 * @param pageable
+	 * @return
+	 */
+	public Page<Parente> listParentesByCrianca( Long criancaId, PageRequest pageable )
+	{
+		return this.parenteRepository.listParentesByCrianca( criancaId, pageable );
 	}
 	
 	/**
@@ -190,6 +218,32 @@ public class CriancaService
 		Assert.notNull( parente );
 		return this.parenteRepository.save( parente );
 	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Parente updateGrauParentesco( Parente parente )
+	{
+		Parente updatedParente = this.parenteRepository.findOne( parente.getId() );
+		
+		updatedParente.setGrauParentesco( parente.getGrauParentesco() );
+		
+		return this.parenteRepository.save( updatedParente );
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public GrauParentesco[] listAllGrausParentesco()
+	{
+		return GrauParentesco.values();
+	}
+	
+	/*-------------------------------------------------------------------
+	 						SERVICES DOCUMENTOS
+	 *-------------------------------------------------------------------*/
 	
 	/**
 	 * 
