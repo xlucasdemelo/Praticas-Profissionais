@@ -9,7 +9,7 @@
 		        <h1 class="md-toolbar-tools">Familia</h1>
 	    	</div>
 	    	
-	        <div md-theme="default" layout="row" layout-align="end center" class="default-header md-primary md-hue-3">
+	        <div md-theme="default" layout="row" layout-align="end center" ng-if="model.familia.entity.ativo || !model.familia.entity.id" class="default-header md-primary md-hue-3">
 		        <md-button class="md-raised md-accent default-save-button" ng-click="insertFamilia()">Salvar</md-button>
 	        </div>
 	        
@@ -103,6 +103,7 @@
 									        
 									        <div layout="row">
 									        	<md-autocomplete 
+									        		required
 									        		style="margin-right:20px" 
 									        		md-selected-item="model.pais.selectedItem" 
 									        		md-search-text="model.pais.searchText"
@@ -183,34 +184,47 @@
 											<div layout="row">
 												<md-input-container layout="column" flex="30" style="margin-right:30px">
 											        <label>Tipo de Moradia</label>
-											        <md-select required ng-model="model.familia.entity.tipoMoradia">
-											          <md-option required ng-repeat="tipoMoradia in allTiposMoradia" value="{{tipoMoradia}}">{{tipoMoradia}}</md-option>
+											        <md-select name="tipoMoradia" required ng-model="model.familia.entity.tipoMoradia">
+											          <md-option ng-repeat="tipoMoradia in allTiposMoradia" value="{{tipoMoradia}}">{{tipoMoradia}}</md-option>
 											        </md-select>
+											        
+											        <div ng-messages="model.familia.form.tipoMoradia.$error">
+									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                </div>
 											    </md-input-container>
 											    
 											    <md-input-container layout="column" flex="30">
 											        <label>Tipo do imóvel</label>
-											        <md-select id="paia" ng-model="model.familia.entity.tipoImovel">
+											        <md-select name="tipoImovel" required ng-model="model.familia.entity.tipoImovel">
 											          <md-option ng-repeat="tipoImovel in allTiposImovel" value="{{tipoImovel}}">{{tipoImovel}}</md-option>
 											        </md-select>
+											        
+											        <div ng-messages="model.familia.form.tipoImovel.$error">
+									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                </div>
 											    </md-input-container>
 											</div>
 											
 											<div layout="row">
-												<md-input-container layout="column" flex="30" style="margin-right:30px">
+												<md-input-container layout="column" flex style="margin-right:30px">
 										    		<label>Situação do Imóvel</label>
-									                <input maxlength="144" name="situacaoImovel" required ng-model="model.familia.entity.situacaoImovel">
+									                <textarea md-maxlength="255" name="situacaoImovel" required ng-model="model.familia.entity.situacaoImovel"></textarea>
 									
 									                <div ng-messages="model.familia.form.situacaoImovel.$error">
 									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                	<div ng-message="md-maxlength" >Limite de caracteres excedido</div>
 									                </div>
 									            </md-input-container>
-								    			<md-input-container layout="column" flex="30" style="margin-right:30px">
+									        </div>
+									        
+									        <div layout="row">
+								    			<md-input-container layout="column" flex style="margin-right:30px">
 										    		<label>Infraestrutura</label>
-									                <input maxlength="144" name="infraestrutura" required ng-model="model.familia.entity.infraestrutura">
+									                <textarea md-maxlength="255" name="infraestrutura" required ng-model="model.familia.entity.infraestrutura"></textarea>
 									
 									                <div ng-messages="model.familia.form.infraestrutura.$error">
 									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                	<div ng-message="md-maxlength" >Limite de caracteres excedido</div>
 									                </div>
 									            </md-input-container>
 									        </div>
@@ -236,7 +250,7 @@
 												<span>Integrantes Familiares</span>
 											</div>
 											
-											 <div md-theme="default" layout="row" layout-align="end center" class="default-header md-primary md-hue-3">
+											 <div md-theme="default" layout="row" layout-align="end center" ng-if="model.familia.entity.ativo" class="default-header md-primary md-hue-3">
 										        <md-button class="md-raised md-accent default-save-button" ng-click="openAdicionarIntegranteFamiliarHandler()">Novo integrante</md-button>
 									        </div>
 											
@@ -256,6 +270,21 @@
 											    </tbody>
 											  </table>
 											</md-table-container>
+									        
+									        <div layout="column" flex class="empty-grid" layout-align="center center" ng-if="model.integranteFamiliar.page.content.length == 0">
+												Essa família não possui nenhum integrante familia
+											</div>
+											
+											<md-divider></md-divider>
+											<div class="default-paginator" layout layout-align="end center" ng-if="model.integranteFamiliar.page.content.length > 0">
+												{{ model.integranteFamiliar.page.pageable.page + 1 }} de {{ totalPagesIntegrante }}
+												<md-button class="md-icon-button" ng-disabled="(model.integranteFamiliar.page.pageable.page + 1) < 2" ng-click="onIntegrantePaginationChange(false)">
+													<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.integranteFamiliar.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
+												</md-button>
+												<md-button class="md-icon-button" ng-disabled="(model.integranteFamiliar.page.pageable.page + 1) >= totalPagesIntegrante" ng-click="onIntegrantePaginationChange(true)">
+													<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.integranteFamiliar.page.pageable.page + 1) >= Math.ceil(model.integranteFamiliar.page.total/model.familia.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
+												</md-button>
+									  		</div>
 									        
 										</form>
 									</md-toolbar>

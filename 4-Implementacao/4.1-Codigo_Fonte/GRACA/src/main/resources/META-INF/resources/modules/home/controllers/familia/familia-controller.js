@@ -74,7 +74,8 @@ angular.module('home')
 				
 				filters: {
 				    terms: "",
-				   
+				    ativo: true,
+				    inativo: false
 				},
 				
 			    page: {//PageImpl 
@@ -88,6 +89,7 @@ angular.module('home')
 			    sort: [{//Sort
 	        		direction: 'ASC', properties: 'id', nullHandlingHint:null
 	        	}],
+				
 			},
 			
 			integranteFamiliar: {
@@ -346,19 +348,6 @@ angular.module('home')
 	        });
 		}
 	    
-		/**
-         *  Ao Trocar de Página
-         */
-        $scope.onFornecedorPaginationChange = function(paginate) {
-        	if (paginate) {
-        		$scope.model.fornecedor.page.pageable.page++;
-        	} else {
-        		$scope.model.fornecedor.page.pageable.page--;
-        	}
-        		
-        	$scope.listFornecedoresByFiltersHandler();
-        };
-	    
 	    /*-------------------------------------------------------------------
 	     * 		 				 PRIVATE BEHAVIORS
 	     *-------------------------------------------------------------------*/
@@ -366,6 +355,32 @@ angular.module('home')
 		$scope.listFamiliasByFilters = function(){
 			
 			familiaService.listFamiliasByFilters(  $scope.model.familia.filters.terms.toString(), $scope.model.familia.page.pageable, {
+                callback : function(result) {
+                	
+                	$scope.totalPagesFamilia = result.totalPages;
+                	$scope.model.familia.page = {//PageImpl
+    						content : result.content,
+							pageable : {//PageRequest
+								page : result.number,
+								size : result.size,
+								sort:result.sort,
+								total   : result.totalElements
+							},
+    				};
+                	
+                	$scope.$apply();
+                	
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+		}
+        
+		$scope.listFamiliasByMoreFilters = function(){
+			
+			familiaService.listFamiliasByMoreFilters(  $scope.model.familia.filters.ativo, $scope.model.familia.filters.inativo, $scope.model.familia.page.pageable, {
                 callback : function(result) {
                 	
                 	$scope.model.familia.page.content = result.content; 
@@ -378,7 +393,10 @@ angular.module('home')
                 }
             });
 		}
-        
+		
+		/**
+		 * 
+		 */
 		$scope.insertFamilia = function()
 		{
 			$scope.model.familia.form.$submitted = true;
@@ -408,6 +426,26 @@ angular.module('home')
             });
 		}
 		
+		$scope.onFamiliaPaginationChange = function(paginate) {
+        	if (paginate) {
+        		$scope.model.familia.page.pageable.page++;
+        	} else {
+        		$scope.model.familia.page.pageable.page--;
+        	}
+        		
+        	$scope.listFamiliasByFilters();
+        };
+		
+        $scope.onIntegrantePaginationChange = function(paginate) {
+        	if (paginate) {
+        		$scope.model.integranteFamiliar.page.pageable.page++;
+        	} else {
+        		$scope.model.integranteFamiliar.page.pageable.page--;
+        	}
+        		
+        	$scope.listIntegrantesFamiliaresByFamilia($scope.model.familia.entity.id);
+        };
+        
 		/**
 		 * 
 		 */
@@ -537,7 +575,17 @@ angular.module('home')
 			integranteFamiliarService.listIntegrantesByfamilia( id, $scope.model.integranteFamiliar.page.pageable, {
                 callback : function(result) {
                 	
-                	$scope.model.integranteFamiliar.page.content = result.content;
+                	$scope.totalPagesIntegrante = result.totalPages;
+                	
+                	$scope.model.integranteFamiliar.page = {//PageImpl
+    						content : result.content,
+							pageable : {//PageRequest
+								page : result.number,
+								size : result.size,
+								sort:result.sort,
+								total   : result.totalElements
+							},
+    				};
                 	
                 	$scope.$apply();
                 	

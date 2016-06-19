@@ -33,7 +33,8 @@ angular.module('home')
      */
     $scope.toggleMenuSideNavHandler = function(state) {
     	$mdSidenav($scope.menuSideNavId).toggle();
-    	$state.go( state )
+    	if (state)
+    		$state.go(state);
     };
     
     $scope.showMessage = function ( type, message ) {

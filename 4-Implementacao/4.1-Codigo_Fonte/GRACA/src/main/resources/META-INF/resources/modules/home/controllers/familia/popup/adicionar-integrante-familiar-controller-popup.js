@@ -109,6 +109,10 @@ angular.module('home')
 			}
 		}
 		
+		$scope.teste = function(){
+			alert("123");
+		}
+		
 		/**
 		 * 
 		 */
@@ -162,7 +166,7 @@ angular.module('home')
                 callback : function(result) {
                 	
                 	$scope.model.integranteFamiliar.entity = result;
-                	$scope.listIntegrantesFamiliaresByFamilia(result.id);
+                	$scope.listIntegrantesFamiliaresByFamilia(result.familia.id);
                 	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "Integrante inserido com sucesso" );
                 	$scope.$apply();
                 	

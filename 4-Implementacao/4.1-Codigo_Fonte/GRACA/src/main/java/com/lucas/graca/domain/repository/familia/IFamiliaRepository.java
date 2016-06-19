@@ -17,7 +17,12 @@ import com.lucas.graca.domain.entity.familia.Familia;
  */
 public interface IFamiliaRepository extends JpaRepository<Familia, Long>
 {
-	
+	/**
+	 * 
+	 * @param filters
+	 * @param pageable
+	 * @return
+	 */
 	@Query(value="SELECT new Familia(familia.id, familia.nome, familia.telefone, familia.numeroComodos, familia.situacaoImovel, familia.infraestrutura, familia.tipoImovel, familia.tipoMoradia, endereco, familia.ativo, familia.nomeMae, familia.numeroDormitorios) " +
 			   "FROM Familia familia " +
 			   "LEFT OUTER JOIN familia.endereco endereco " + 
@@ -26,4 +31,14 @@ public interface IFamiliaRepository extends JpaRepository<Familia, Long>
 			  	 + "OR ( FILTER(familia.nomeMae, :filter) = TRUE ) ) )"
 			)
 	public Page<Familia> listByFilters( @Param("filter") String filters, Pageable pageable );
+	
+	@Query(value="SELECT new Familia(familia.id, familia.nome, familia.telefone, familia.numeroComodos, familia.situacaoImovel, familia.infraestrutura, familia.tipoImovel, familia.tipoMoradia, endereco, familia.ativo, familia.nomeMae, familia.numeroDormitorios) " +
+			   "FROM Familia familia " +
+			   "LEFT OUTER JOIN familia.endereco endereco " + 
+			   "WHERE ( " +
+			   		" FILTER(familia.ativo, :ativo) = TRUE  " +
+			   		" OR FILTER(familia.ativo, :inativo) = FALSE " +
+			   ")"
+			)
+	public Page<Familia> listByMoreFilters( @Param("ativo") boolean ativo, @Param("inativo") boolean inativo, Pageable pageable );
 }

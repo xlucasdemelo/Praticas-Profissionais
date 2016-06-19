@@ -635,3 +635,16 @@ CREATE SEQUENCE hibernate_sequence
 ALTER TABLE hibernate_sequence
   OWNER TO postgres;
 
+  
+  
+  INSERT INTO public.pais values (1, now(), now(), 'Brasil');
+  
+  INSERT INTO public.estado values (1, now(), now(), 'Paraná', 1);
+  
+  INSERT INTO public.cidade values (1, now(), now(), 'Foz do iguaçu', 1);
+  
+  INSERT INTO public.endereco values (2, now(), now(), 'Bairro qualquer', 'complemento', 23, 'rua', 1);
+  
+  INSERT INTO public.familia values (1, now(), now(), true, 'fera', 'Silva', 'Maria', 10, 5, 'boa', '9999-9999', 0, 0, 2)
+ 
+  INSERT INTO public.integrante_familiar values (1, now(), now(), true, now(), 'Pessoa', 0, 'Joao', 'Nada', 1000, 0, '123', 1, 1)

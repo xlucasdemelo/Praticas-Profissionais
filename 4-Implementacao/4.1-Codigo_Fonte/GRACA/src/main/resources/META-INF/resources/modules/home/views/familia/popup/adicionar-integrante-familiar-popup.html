@@ -85,7 +85,7 @@
 							            
 							            <md-input-container layout="column" flex="30">
 								    		<label>Telefone</label>
-							                <input type="text" name="telefone" required  ng-model="model.integranteFamiliar.entity.telefone" >
+							                <input type="text" mask="(999) 9?9999-9999" name="telefone" required  ng-model="model.integranteFamiliar.entity.telefone" >
 							            
 							            	<div ng-messages="model.integranteFamiliar.form.telefone.$error">
 							               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
@@ -208,7 +208,8 @@
 				            	
 				            	<md-input-container layout="column" flex="30">
 						    		<label>Número</label>
-					                <input maxlength="144" name="numero" required ng-model="model.documentoIntegranteFamiliar.entity.numeroDocumento">
+					                <input maxlength="8" name="numeroRG" ng-if="model.documentoIntegranteFamiliar.entity.tipoDocumento == 'RG'" required ng-model="model.documentoIntegranteFamiliar.entity.numeroDocumento">
+					                <input type="text" maxlength="14" ng-if="model.documentoIntegranteFamiliar.entity.tipoDocumento == 'CPF'" name="numeroCPF" mask="999.999.999-99" required ng-model="model.documentoIntegranteFamiliar.entity.numeroDocumento">
 					
 					                <div ng-messages="model.integranteFamiliar.form.numero.$error">
 					                	<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>

@@ -58,11 +58,25 @@ public class FamiliaService
 	
 	/**
 	 * 
+	 * @param filters
+	 * @param pageable
 	 * @return
 	 */
 	public Page<Familia> listFamiliasByFilters( String filters, PageRequest pageable )
 	{
 		return this.familiaRepository.listByFilters( filters, pageable );
+	}
+	
+	/**
+	 * 
+	 * @param ativo
+	 * @param inativo
+	 * @param pageable
+	 * @return
+	 */
+	public Page<Familia> listFamiliasByMoreFilters( Boolean ativo, Boolean inativo, PageRequest pageable )
+	{
+		return this.familiaRepository.listByMoreFilters( ativo, inativo, pageable );
 	}
 	
 	/**
