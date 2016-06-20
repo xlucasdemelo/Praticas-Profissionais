@@ -55,7 +55,7 @@
 											            
 											            <div layout="column"  >
 											            	<label style="color:black">Data de nascimento</label>
-											            	<md-datepicker required ng-model="model.crianca.entity.dataNascimento" style="margin-top:25px; background:white" ></md-datepicker>
+											            	<md-datepicker required name="dataNascimento" ng-model="model.crianca.entity.dataNascimento" style="margin-top:25px; background:white" ></md-datepicker>
 											            	
 											            	<div ng-messages="model.crianca.form.dataNascimento.$error">
 											               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
@@ -230,14 +230,14 @@
 					
 <!-- 					TAB INFORMACOES DE ACOLHIMENTO -->
 					
-					<md-tab label="Acolhimento">
+					<md-tab label="Acolhimento" ng-if="model.crianca.entity.id">
 						
 						<div layout-fill style="height:50%">
 				    		<md-toolbar layout-fill style="min-height: 100% !important;position:absolute;" class="md-hue-3" md-theme="{{osmTheme}}">
 								<div class="default-frame" style="overflow:auto">
 									<md-toolbar layout="row" class="default-form toolbar-temp" style="padding-bottom: 0; ">
 									
-										<form novalidate name="model.crianca.form" class="default-form">
+										<form novalidate name="model.acolhimento.form" class="default-form">
 											
 											<div>
 										        <div class="default-info" layout="row">Informações do acolhimento</div>
@@ -248,8 +248,8 @@
 												    		<label style="position:absolute;padding-top:15px;padding-left:15px">Número do processo</label>
 												    		<input maxlength="255" name="numeroProcesso" ng-model="model.crianca.entity.numeroProcesso" rows="3" required></input>
 											                
-											                <div ng-messages="model.crianca.form.numeroProcesso.$error">
-											               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
+											                <div ng-messages="model.acolhimento.form.numeroProcesso.$error">
+											               		<div ng-message="required" ng-if="model.acolhimento.form.$submitted">Campo obrigatório</div>
 											                </div>
 											            </md-input-container>
 											            
@@ -257,7 +257,7 @@
 												    		<label style="position:absolute;padding-top:15px;padding-left:15px">Entidade de acolhimento</label>
 												    		<input maxlength="255" name="entidadeAcolhimento" ng-model="model.crianca.entity.entidadeAcolhimento" rows="3" required></input>
 											                
-											                <div ng-messages="model.crianca.form.entidadeAcolhimento.$error">
+											                <div ng-messages="model.acolhimento.form.entidadeAcolhimento.$error">
 											               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
 											                </div>
 											            </md-input-container>
@@ -269,8 +269,8 @@
 											           		<label style="color:black">Data de acolhimento</label>
 											            	<md-datepicker required ng-model="model.crianca.entity.dataAcolhimento" style="margin-top:25px;" ></md-datepicker>
 											            	
-											            	<div ng-messages="model.crianca.form.dataAcolhimento.$error">
-											               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
+											            	<div ng-messages="model.acolhimento.form.dataAcolhimento.$error">
+											               		<div ng-message="required" ng-if="model.acolhimento.form.$submitted">Campo obrigatório</div>
 											                </div>
 										                </div>
 										            	
@@ -278,8 +278,8 @@
 											           		<label style="color:black">Data de elaboração PIA</label>
 											            	<md-datepicker required ng-model="model.crianca.entity.dataElaboracaoPIA" style="margin-top:25px;" ></md-datepicker>
 											            	
-											            	<div ng-messages="model.crianca.form.dataElaboracaoPIA.$error">
-											               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
+											            	<div ng-messages="model.acolhimento.form.dataElaboracaoPIA.$error">
+											               		<div ng-message="required" ng-if="model.acolhimento.form.$submitted">Campo obrigatório</div>
 											                </div>
 										                </div>
 										                
@@ -287,8 +287,8 @@
 											           		<label style="color:black">Data limite</label>
 											            	<md-datepicker required ng-model="model.crianca.entity.dataLimite" style="margin-top:25px;" ></md-datepicker>
 											            	
-											            	<div ng-messages="model.crianca.form.dataLimite.$error">
-											               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
+											            	<div ng-messages="model.acolhimento.form.dataLimite.$error">
+											               		<div ng-message="required" ng-if="model.acolhimento.form.$submitted">Campo obrigatório</div>
 											                </div>
 										                </div>
 								                     </div>
@@ -298,7 +298,7 @@
 												    		<label style="position:absolute;padding-top:15px;">Motivo do acolhimento</label>
 												    		<textarea maxlength="255" name="motivoAcolhimento" ng-model="model.crianca.entity.motivoAcolhimento" rows="3" required></textarea>
 											                
-											                <div ng-messages="model.crianca.form.motivoAcolhimento.$error">
+											                <div ng-messages="model.acolhimento.form.motivoAcolhimento.$error">
 											               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
 											                </div>
 											            </md-input-container>
@@ -318,7 +318,8 @@
 										            	
 										            	<md-input-container layout="column" flex="30">
 												    		<label>Número</label>
-											                <input maxlength="144" name="numero" required ng-model="model.documentoCrianca.entity.numeroDocumento">
+											                <input maxlength="8" name="numeroRG" ng-if="model.documentoCrianca.entity.tipoDocumento == 'RG'" required ng-model="model.documentoCrianca.entity.numeroDocumento">
+					                						<input type="text" maxlength="14" ng-if="model.documentoCrianca.entity.tipoDocumento == 'CPF'" name="numeroCPF" mask="999.999.999-99" required ng-model="model.documentoCrianca.entity.numeroDocumento">
 											
 											                <div ng-messages="model.integranteFamiliar.form.numero.$error">
 											                	<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
@@ -364,20 +365,20 @@
 					
 <!-- 					TAB FAMILIA -->
 					
-					<md-tab label="Família">
+					<md-tab label="Família" ng-if="model.crianca.entity.id">
 						<div layout-fill style="height:50%">
 				    		<md-toolbar layout-fill style="min-height: 100% !important;position:absolute;" class="md-hue-3" md-theme="{{osmTheme}}">
 								<div class="default-frame" style="overflow:auto">
 									<md-toolbar layout="row" class="default-form toolbar-temp" style="padding-bottom: 0; ">
 									
-										<form novalidate name="model.crianca.form" class="default-form">
+										<form novalidate name="model.familia.form" class="default-form">
 
 											<div layout="row">
 												<md-input-container layout="column" >
 										    		<label style="position:absolute;padding-top:15px;">Família</label>
 										    		<input typ="text" maxlength="255" name="familia" ng-model="model.crianca.entity.familia.nome" required></input>
 									                
-									                <div ng-messages="model.crianca.form.familia.$error">
+									                <div ng-messages="model.familia.form.familia.$error">
 									               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
 									                </div>
 									            </md-input-container>

@@ -80,6 +80,7 @@ angular.module('home')
 	     *
 		 */
 		$scope.model = {
+			acolhimento: {form:null},
 			query:{
 				order : "",
 			},
@@ -90,7 +91,8 @@ angular.module('home')
 				
 				filters: {
 				    terms: "",
-				   
+				    ativo: true,
+				    inativo: false
 				},
 				
 			    page: {//PageImpl 
@@ -404,6 +406,35 @@ angular.module('home')
 			criancaService.listCriancasByFilters(  $scope.model.crianca.filters.terms.toString(), $scope.model.crianca.page.pageable, {
                 callback : function(result) {
                 	
+                	$scope.totalPagesCrianca = result.totalPages;
+                	$scope.model.crianca.page = {//PageImpl
+    						content : result.content,
+							pageable : {//PageRequest
+								page : result.number,
+								size : result.size,
+								sort:result.sort,
+								total   : result.totalElements
+							},
+    				};
+                	
+                	$scope.$apply();
+                	
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+		}
+        
+        /**
+         * 
+         */
+        $scope.listCriancasByMoreFilters = function(){
+			
+			criancaService.listCriancasByMoreFilters(  $scope.model.crianca.filters.ativo, $scope.model.crianca.filters.inativo, $scope.model.crianca.page.pageable, {
+                callback : function(result) {
+                	
                 	$scope.model.crianca.page.content = result.content; 
                 	$scope.$apply();
                 	
@@ -415,12 +446,26 @@ angular.module('home')
             });
 		}
         
+        $scope.onCriancaPaginationChange = function(paginate) {
+        	if (paginate) {
+        		$scope.model.crianca.page.pageable.page++;
+        	} else {
+        		$scope.model.crianca.page.pageable.page--;
+        	}
+        		
+        	$scope.listCriancasByFilters();
+        };
+        
 		/**
 		 * 
 		 */
 		$scope.insertCrianca = function()
 		{
 			$scope.model.crianca.form.$submitted = true;
+			
+			if ($scope.model.acolhimento.form)
+				$scope.model.acolhimento.form.$submitted = true;
+			
 			if ($scope.model.crianca.form.$invalid ){
 				$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
 				return;

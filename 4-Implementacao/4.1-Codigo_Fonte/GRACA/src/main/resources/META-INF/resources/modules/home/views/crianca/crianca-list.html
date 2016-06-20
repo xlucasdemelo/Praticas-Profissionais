@@ -14,24 +14,37 @@
 	        </div>
 	    </md-toolbar>
 	
-		<md-toolbar flex class="md-hue-3 md-osm-theme-theme toolbar-content">
+		<md-toolbar flex class="md-hue-3 md-osm-theme-theme toolbar-content" style="overflow:auto; height:90%">
 			<form layout="row" class="default-frame" >
 				<md-toolbar  class="toolbar-temp default-filter" layout="row">
 					<div flex layout="column">
 						<div layout="row">
 							<md-input-container style="margin-bottom: 20px;" layout="column" flex>
 								<label>Digite sua pesquisa</label>
-								<input type="text" name="filtro" ng-disabled="moreFilters" ng-model="model.familia.filters.terms" maxlength="255">
+								<input type="text" name="filtro" ng-disabled="moreFilters" ng-model="model.crianca.filters.terms" maxlength="255">
 							</md-input-container>
 					            
 				            <div layout="row" layout-align="end center" ng-init="currentOption = 'down'">
-					            <md-button class="md-raised md-primary md-hue-2" ng-click="listFamiliasByFilters()">Filtrar</md-button>
+					            <md-button class="md-raised md-primary md-hue-2" ng-click="!moreFilters ? listCriancasByFilters() : listCriancasByMoreFilters()">Filtrar</md-button>
 					            <md-button class="md-raised md-primary md-hue-3" ng-click="openMaisOpcoes(); currentOption = !currentOption" style="padding-left: 14px;">
 					            	Mais opções
 					            	<i ng-if="!currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-down"></i>
 					            	<i ng-if="currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-up"></i> 
 					            </md-button>
-				            </div>			            			            			            			            
+				            </div>
+				            			            			            			            			            
+				    	</div>
+				    	
+				    	<div class="more-filters" layout="column" ng-if="moreFilters">
+							<div layout="row" style="color:black">
+								<md-checkbox ng-model="model.crianca.filters.ativo" aria-label="Checkbox 1">
+									Mostrar ativos
+						        </md-checkbox>
+					    		
+					    		<md-checkbox ng-model="model.crianca.filters.inativo" aria-label="Checkbox 1">
+									Mostrar inativos
+						        </md-checkbox>
+							</div>				    									
 				    	</div>
 				    </div>
 				</md-toolbar>
@@ -62,20 +75,20 @@
 					  </table>
 					</md-table-container>
 										
-					<div layout="column" flex class="empty-grid" layout-align="center center" ng-if="model.fornecedor.page.content.length == 0">
-						Nenhum registro de família
+					<div layout="column" flex class="empty-grid" layout-align="center center" ng-if="model.crianca.page.content.length == 0">
+						Nenhum registro de criança
 					</div>
 					
 					<md-divider></md-divider>
-						<div class="default-paginator" layout layout-align="end center" ng-if="model.fornecedor.page.total > 0">
-							{{ model.fornecedor.page.pageable.page + 1 }} de {{ Math.ceil(model.fornecedor.page.total/model.fornecedor.page.pageable.size) }}
-							<md-button class="md-icon-button" ng-disabled="(model.fornecedor.page.pageable.page + 1) < 2" ng-click="onFornecedorPaginationChange(false)">
-								<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.fornecedor.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
-							</md-button>
-							<md-button class="md-icon-button" ng-disabled="(model.fornecedor.page.pageable.page + 1) >= Math.ceil(model.fornecedor.page.total/model.fornecedor.page.pageable.size)" ng-click="onFornecedorPaginationChange(true)">
-								<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.fornecedor.page.pageable.page + 1) >= Math.ceil(model.fornecedor.page.total/model.fornecedor.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
-							</md-button>
-				  		</div>
+					<div class="default-paginator" layout layout-align="end center" ng-if="model.crianca.page.content.length > 0">
+						{{ model.crianca.page.pageable.page + 1 }} de {{ totalPagesCrianca }}
+						<md-button class="md-icon-button" ng-disabled="(model.crianca.page.pageable.page + 1) < 2" ng-click="onCriancaPaginationChange(false)">
+							<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.crianca.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
+						</md-button>
+						<md-button class="md-icon-button" ng-disabled="(model.crianca.page.pageable.page + 1) >= totalPagesFamilia" ng-click="onCriancaPaginationChange(true)">
+							<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.crianca.page.pageable.page + 1) >= Math.ceil(model.crianca.page.total/model.crianca.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
+						</md-button>
+			  		</div>
 				</md-toolbar>
 			</div>
 			

@@ -426,6 +426,9 @@ angular.module('home')
             });
 		}
 		
+		/**
+		 * 
+		 */
 		$scope.onFamiliaPaginationChange = function(paginate) {
         	if (paginate) {
         		$scope.model.familia.page.pageable.page++;

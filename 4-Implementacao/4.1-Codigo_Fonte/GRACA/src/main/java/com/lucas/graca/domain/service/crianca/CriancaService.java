@@ -116,6 +116,18 @@ public class CriancaService
 	
 	/**
 	 * 
+	 * @param ativo
+	 * @param inativo
+	 * @param pageable
+	 * @return
+	 */
+	public Page<Crianca> listCriancasByMoreFilters( Boolean ativo, Boolean inativo, PageRequest pageable )
+	{
+		return this.criancaRepository.listCriancasByMoreFilters( ativo, inativo, pageable );
+	}
+	
+	/**
+	 * 
 	 * @param crianca
 	 * @return
 	 */
