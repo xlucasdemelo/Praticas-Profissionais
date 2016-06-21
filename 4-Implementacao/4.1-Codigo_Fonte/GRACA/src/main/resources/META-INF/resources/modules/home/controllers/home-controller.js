@@ -13,8 +13,20 @@ angular.module('home')
      * 		 				 	ATTRIBUTES
      *-------------------------------------------------------------------*/
     //----STATES
-		   
+	
+   $rootScope.$on('$stateChangeError', function (e, toState, toParams, fromState, fromParams, error) {
+	    if (error && error.redirect) {
+	        e.preventDefault()
+	        return $state.go(error.redirect);
+	    }
 
+	    $exceptionHandler(error);
+	});
+   
+   $rootScope.$on('$locationChangeStart', function (event, next, current) {
+       $rootScope.$broadcast('$locationChangeSuccess', next, current);
+   });
+   
 	//-----
 	/**
 	 * 
@@ -24,6 +36,22 @@ angular.module('home')
 	/*-------------------------------------------------------------------
      * 		 				  	POST CONSTRUCT
      *-------------------------------------------------------------------*/
+	
+	/**
+	 * Constantes para definição do tipo de mensagem que aparece no md toast
+	 */
+	$scope.ERROR_MESSAGE = 0;
+	$scope.SUCCESS_MESSAGE = 1;
+	$scope.ALERT_MESSAGE = 2;
+	
+	/**
+	 * Constantes para definição do tipo da criticidade de ações (utilizada em modais de confirm dialog)
+	 */
+	$scope.SUCCESS_LEVEL = 4; //cinza escuro
+	$scope.DELETE_LEVEL = 3; //cinza escuro
+	$scope.CRITICAL_LEVEL = 2; //vermelho
+	$scope.WARNING_LEVEL = 1;//amarelo
+	$scope.NORMAL_LEVEL = 0;//cinza
 	
     /*-------------------------------------------------------------------
      * 		 				 	  HANDLERS
@@ -35,6 +63,28 @@ angular.module('home')
     	$mdSidenav($scope.menuSideNavId).toggle();
     	if (state)
     		$state.go(state);
+    };
+    
+    $scope.openDefaultConfirmDialog = function( scope, onConfirmFunction, onCancelFunction, confirmArgument ) {
+   	 $mdDialog.show({
+    		controller: "DefaultConfirmDialogControllerPopup",
+    		templateUrl: './modules/home/views/dialog/default-confirm-dialog-template-popup.html',
+    		parent: angular.element(document.body),
+    		scope: scope.$new(),
+    		//targetEvent: ev,
+    		clickOutsideToClose:true
+	    }).then(function(answer) {
+	    	if( onConfirmFunction != null ) {
+	    		if (confirmArgument)
+	    			onConfirmFunction(confirmArgument);
+	    		else
+	    			onConfirmFunction();
+	    	}
+	    }, function() {
+	    	if( onCancelFunction != null ) {
+	    		onCancelFunction();
+	    	}
+	    });
     };
     
     $scope.showMessage = function ( type, message ) {

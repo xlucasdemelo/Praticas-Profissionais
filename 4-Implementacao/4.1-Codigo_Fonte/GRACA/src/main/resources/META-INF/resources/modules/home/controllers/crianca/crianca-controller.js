@@ -536,6 +536,38 @@ angular.module('home')
 		/**
 		 * 
 		 */
+		$scope.removeDocumentoCrianca = function( item ) {
+	    	
+	    	var onConfirm = function(item){
+	    		criancaService.removeDocumentoCrianca( item, {
+	                callback : function(result) {
+	                	$scope.showMessage( $scope.ERROR_MESSAGE,  "Documento excluído com sucesso");
+	                	$scope.listDocumentosByCrianca();
+	                	$scope.$apply();
+	                },
+	                errorHandler : function(message, exception) {
+	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+	                    $scope.$apply();
+	                }
+	            });
+	    	}
+	    	
+	    	var dialog = {
+    				title: 'Tem certeza que deseja excluir este documento ?',
+    				content: 'O registro será excluído para sempre.',
+    				ok: 'Sim',
+    				cancel: 'Não',
+    				level: $scope.CRITICAL_LEVEL
+	    	}
+	    	
+	    	$scope.model.dialog = dialog;
+	    	$scope.openDefaultConfirmDialog( $scope, onConfirm, null, item );
+	    	
+	    }
+		
+		/**
+		 * 
+		 */
 		$scope.listDocumentosByCrianca = function(){
 			criancaService.listDocumentosByCrianca( $scope.model.crianca.entity.id, $scope.model.documentoCrianca.page.pageable, {
                 callback : function(result) {

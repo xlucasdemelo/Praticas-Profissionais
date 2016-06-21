@@ -343,9 +343,12 @@
 													    <tbody md-body>
 													      <tr md-row md-select="dessert" style="cursor:pointer" ng-repeat="documento in model.crianca.entity.documentosCrianca">
 													        <td md-cell>{{::documento.tipoDocumento}}</td>
-													        <td md-cell><input maxlength="144" name="numero" ng-blur="updateDocumento($event, documento)" required ng-model="documento.numeroDocumento"></td>
+													        <td md-cell>
+													        	<input maxlength="14" ng-if="documento.tipoDocumento == 'CPF'" name="numero" ng-blur="updateDocumento($event, documento)" mask="999.999.999-99" required ng-model="documento.numeroDocumento">
+													        	<input maxlength="8" ng-if="documento.tipoDocumento == 'RG'" name="numero" ng-blur="updateDocumento($event, documento)"  required ng-model="documento.numeroDocumento">
+													        </td>
 													        <td md-cell> 
-														        <i class="zmdi zmdi-delete" ng-click="removedocumentoCrianca(documento)" style="font-size: 25px; margin-left: 5px;"></i>
+														        <i class="zmdi zmdi-delete" ng-click="removeDocumentoCrianca(documento)" style="font-size: 25px; margin-left: 5px;"></i>
 													      	</td>
 													      </tr>
 													    </tbody>

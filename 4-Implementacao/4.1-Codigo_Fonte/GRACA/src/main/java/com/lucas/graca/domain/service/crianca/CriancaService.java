@@ -283,6 +283,15 @@ public class CriancaService
 	
 	/**
 	 * 
+	 * @param documentoCrianca
+	 */
+	public void removeDocumentoCrianca( DocumentoCrianca documentoCrianca )
+	{
+		this.documentoCriancaRepository.delete( documentoCrianca );
+	}
+	
+	/**
+	 * 
 	 * @param id
 	 * @param pageable
 	 * @return

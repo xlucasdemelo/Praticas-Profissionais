@@ -326,6 +326,9 @@ angular.module('home')
             });
 	    }
 		
+		/**
+		 * 
+		 */
 		$scope.removeDocumentoIntegranteFamiliar = function( item ) {
 	    	
 	    	integranteFamiliarService.removeDocumentoIntegranteFamiliar( item, {
