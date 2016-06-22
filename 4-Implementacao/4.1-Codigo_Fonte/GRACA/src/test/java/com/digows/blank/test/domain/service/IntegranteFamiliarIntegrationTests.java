@@ -128,7 +128,7 @@ public class IntegranteFamiliarIntegrationTests extends AbstractIntegrationTests
 	public void insertDocumentoIntegranteFamiliarMustPass()
 	{
 		DocumentoIntegranteFamiliar documentoIntegranteFamiliar = new DocumentoIntegranteFamiliar(null);
-		documentoIntegranteFamiliar.setIntegranteFamiliar( new IntegranteFamiliar(100L) );
+		documentoIntegranteFamiliar.setIntegranteFamiliar( new IntegranteFamiliar(101L) );
 		documentoIntegranteFamiliar.setNumeroDocumento( "8888888888" );
 		documentoIntegranteFamiliar.setTipoDocumento( TipoDocumento.CPF );
 		

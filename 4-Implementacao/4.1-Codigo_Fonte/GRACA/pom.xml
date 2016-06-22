@@ -67,7 +67,7 @@
 				<mvn.test.jdbc.password>postgres</mvn.test.jdbc.password>
 
 				<!-- Hibernate -->
-				<mvn.hibernate.hbm2ddl>validate</mvn.hibernate.hbm2ddl>
+				<mvn.hibernate.hbm2ddl>update</mvn.hibernate.hbm2ddl>
 				<mvn.hibernate.showSql>true</mvn.hibernate.showSql>
 				
 				<!-- JCR -->

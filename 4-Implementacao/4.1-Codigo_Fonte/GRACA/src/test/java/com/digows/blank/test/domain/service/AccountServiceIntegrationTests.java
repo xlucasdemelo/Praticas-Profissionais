@@ -109,20 +109,6 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 		Assert.assertEquals( 3, users.getTotalElements());
 	}
 	
-	@Test
-	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-		"/dataset/account/UserDataSet.xml",
-	})
-	public void listUsersByFiltersMustlala()
-	{
-		final Page<User> users = this.accountService.listUsersByFilters( "1000,1001,xó", null );
-		
-		for ( User user : users )
-		{
-			Assert.assertTrue( user.isEnabled() );
-		}
-	}
-	
 	/**
 	 * 
 	 */
