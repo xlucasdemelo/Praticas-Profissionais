@@ -14,5 +14,6 @@ public enum Sexo
 {
 	MASCULINO,
 	FEMININO,
-	TRANS
+	OUTRO
+	
 }

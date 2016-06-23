@@ -27,19 +27,19 @@ angular.module('home')
 		/**
 		 * Representa o estado de listagem de registros.
 		 */
-		$scope.LIST_STATE = "crianca.list";
+		$scope.CRIANCA_LIST_STATE = "crianca.list";
 		/**
 		 * Representa o estado para a criação de registros.
 		 */
-		$scope.ADD_STATE = "crianca.add";
+		$scope.CRIANCA_ADD_STATE = "crianca.add";
 		/**
 		 * Representa o estado para a edição de registros.
 		 */
-		$scope.EDIT_STATE = "crianca.edit";
+		$scope.CRIANCA_EDIT_STATE = "crianca.edit";
 		/**
 		 * Representa o estado de detalhe de um registro.
 		 */
-		$scope.DETAIL_STATE = "crianca.detail";
+		$scope.CRIANCA_DETAIL_STATE = "crianca.detail";
 		
 		/**
 		 * 
@@ -207,24 +207,25 @@ angular.module('home')
 	    $scope.$on('$stateChangeSuccess', function( event, toState, toParams, fromState, fromParams ) {
 	    	
 	    	switch ( $state.current.name ) {
-				case $scope.LIST_STATE: {
+				case $scope.CRIANCA_LIST_STATE: {
 					$scope.changeToList( false );
 					break;
 				}
-				case $scope.DETAIL_STATE: {
+				case $scope.CRIANCA_DETAIL_STATE: {
 					$scope.changeToDetail( $state.params.id );
 					break;
 				}
-		        case $scope.ADD_STATE: {
+		        case $scope.CRIANCA_ADD_STATE: {
 		        	$scope.changeToAdd();
 		        	break;
 		        }
-		        case $scope.EDIT_STATE: {
+		        case $scope.CRIANCA_EDIT_STATE: {
 		        	$scope.changeToEdit( $state.params.id );
 		        	break;
 		        }
 		        default : {
-		        	$state.go( $scope.LIST_STATE );
+		        	if ( $state.current.name == $scope.CRIANCA_LIST_STATE )
+		        		$state.go( $scope.CRIANCA_LIST_STATE );
 		        }
 			}
 	    });

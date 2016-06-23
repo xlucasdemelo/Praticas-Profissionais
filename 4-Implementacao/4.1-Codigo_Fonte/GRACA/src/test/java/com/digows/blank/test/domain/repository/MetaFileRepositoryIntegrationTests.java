@@ -10,6 +10,7 @@ import javax.jcr.RepositoryException;
 import org.apache.commons.fileupload.FileUploadBase.FileSizeLimitExceededException;
 import org.directwebremoting.io.FileTransfer;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,6 +27,7 @@ import br.com.eits.common.infrastructure.jcr.MetaFile;
  * @category
  
  */
+@Ignore
 public class MetaFileRepositoryIntegrationTests extends AbstractIntegrationTests
 {
 	/*-------------------------------------------------------------------

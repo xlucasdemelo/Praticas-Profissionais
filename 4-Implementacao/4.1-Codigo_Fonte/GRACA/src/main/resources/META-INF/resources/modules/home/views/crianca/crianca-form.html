@@ -14,7 +14,7 @@
 	        </div>
 	        
 	         <div md-theme="default" layout="row" layout-align="end center" class="default-header">
-		        <md-button class="md-raised md-accent default-save-button" ng-click="$state.go(LIST_STATE)">Voltar</md-button>
+		        <md-button class="md-raised md-accent default-save-button" ng-click="$state.go(CRIANCA_LIST_STATE)">Voltar</md-button>
 	        </div>
 	        
 	        <div ng-if="model.crianca.entity.ativo == true" md-theme="default" layout="row" layout-align="end center" class="default-header">
@@ -76,7 +76,7 @@
 										           		<md-input-container layout="column" gap="20px">
 										            		<label>Sexo</label>
 										            		<md-select style="margin-top:24px" required name="sexo" ng-model="model.crianca.entity.sexo">
-													        	<md-option required ng-repeat="sexo in allSexos" value="{{sexo}}">{{sexo}}</md-option>
+													        	<md-option required ng-repeat="sexo in allSexos" value="{{sexo}}">{{sexo | translate}}</md-option>
 													        </md-select>
 													        
 													        <div ng-messages="model.crianca.form.sexo.$error">

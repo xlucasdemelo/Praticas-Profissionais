@@ -26,19 +26,19 @@ angular.module('home')
 		/**
 		 * Representa o estado de listagem de registros.
 		 */
-		$scope.LIST_STATE = "familia.list";
+		$scope.FAMILIA_LIST_STATE = "familia.list";
 		/**
 		 * Representa o estado para a criação de registros.
 		 */
-		$scope.ADD_STATE = "familia.add";
+		$scope.FAMILIA_ADD_STATE = "familia.add";
 		/**
 		 * Representa o estado para a edição de registros.
 		 */
-		$scope.EDIT_STATE = "familia.edit";
+		$scope.FAMILIA_EDIT_STATE = "familia.edit";
 		/**
 		 * Representa o estado de detalhe de um registro.
 		 */
-		$scope.DETAIL_STATE = "familia.detail";
+		$scope.FAMILIA_DETAIL_STATE = "familia.detail";
 		
 		/**
 		 * 
@@ -171,24 +171,25 @@ angular.module('home')
 	    $scope.$on('$stateChangeSuccess', function( event, toState, toParams, fromState, fromParams ) {
 	    	
 	    	switch ( $state.current.name ) {
-				case $scope.LIST_STATE: {
+				case $scope.FAMILIA_LIST_STATE: {
 					$scope.changeToList( false );
 					break;
 				}
-				case $scope.DETAIL_STATE: {
+				case $scope.FAMILIA_DETAIL_STATE: {
 					$scope.changeToDetail( $state.params.id );
 					break;
 				}
-		        case $scope.ADD_STATE: {
+		        case $scope.FAMILIA_ADD_STATE: {
 		        	$scope.changeToAdd();
 		        	break;
 		        }
-		        case $scope.EDIT_STATE: {
+		        case $scope.FAMILIA_EDIT_STATE: {
 		        	$scope.changeToEdit( $state.params.id );
 		        	break;
 		        }
 		        default : {
-		        	$state.go( $scope.LIST_STATE );
+		        	if ( $state.current.name == $scope.FAMILIA_LIST_STATE )
+		        		$state.go( $scope.FAMILIA_LIST_STATE );
 		        }
 			}
 	    });

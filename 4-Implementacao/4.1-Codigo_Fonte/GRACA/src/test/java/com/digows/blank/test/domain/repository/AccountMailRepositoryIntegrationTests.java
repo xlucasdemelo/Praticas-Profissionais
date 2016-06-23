@@ -4,6 +4,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,6 +18,7 @@ import com.lucas.graca.domain.repository.IAccountMailRepository;
  * @since 09/05/2013
  * @version 1.0
  */
+@Ignore
 public class AccountMailRepositoryIntegrationTests extends AbstractIntegrationTests
 {
 	/*-------------------------------------------------------------------

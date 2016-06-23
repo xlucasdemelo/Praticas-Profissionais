@@ -36,7 +36,9 @@ CREATE TABLE auditing.user_audited
   revision_type smallint,
   email character varying(144),
   enabled boolean,
-  last_login timestamp without time zone,
+  last_login timest
+Tests	Errors	Failures	Skipped	Success Rate	Time
+61amp without time zone,
   name character varying(50),
   password character varying(100),
   role integer,

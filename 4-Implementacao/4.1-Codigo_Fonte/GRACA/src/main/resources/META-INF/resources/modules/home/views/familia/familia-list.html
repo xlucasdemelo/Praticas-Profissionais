@@ -10,7 +10,7 @@
 	    	</div>
 	    	
 	        <div md-theme="default" layout="row" layout-align="end center" class="default-header">
-		        <md-button class="md-raised md-accent default-save-button" ng-click="$state.go( ADD_STATE )">Novo</md-button>
+		        <md-button class="md-raised md-accent default-save-button" ng-click="$state.go( FAMILIA_ADD_STATE )">Novo</md-button>
 	        </div>
 	    </md-toolbar>
 	
@@ -65,7 +65,7 @@
 					      </tr>
 					    </thead>
 					    <tbody md-body>
-					      <tr md-row md-select="dessert" style="cursor:pointer" ng-click="$state.go( EDIT_STATE, {id:familia.id} )" md-select-id="name" md-auto-select ng-repeat="familia in model.familia.page.content">
+					      <tr md-row md-select="dessert" style="cursor:pointer" ng-click="$state.go( FAMILIA_EDIT_STATE, {id:familia.id} )" md-select-id="name" md-auto-select ng-repeat="familia in model.familia.page.content">
 					        <td md-cell>{{::familia.nome}}</td>
 					        <td md-cell>{{::familia.nomeMae}}</td>
 					        <td md-cell>{{::familia.endereco.rua}}</td>
