@@ -52,7 +52,7 @@
 			
 <!-- 			TOOLBAR DA TABLE -->
 
-			<div layout="column"  class="default-frame">
+			<div layout="column" ng-cloak class="default-frame">
 				<md-toolbar style="background-color:#ffffff; color:black" layout="column">
 					<md-table-container>
 					  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
@@ -75,7 +75,7 @@
 					  </table>
 					</md-table-container>
 										
-					<div layout="column" flex class="empty-grid" layout-align="center center" ng-if="model.familia.page.content.length == 0">
+					<div layout="column" flex class="empty-grid" layout-align="center center" ng-show="model.familia.page.content.length == 0">
 						Nenhum registro de família encontrado
 					</div>
 					
