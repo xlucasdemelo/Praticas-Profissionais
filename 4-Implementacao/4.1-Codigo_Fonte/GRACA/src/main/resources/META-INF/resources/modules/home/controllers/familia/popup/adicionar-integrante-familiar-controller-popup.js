@@ -162,6 +162,12 @@ angular.module('home')
 				return;
 			}
 	    	
+			if ($scope.model.integranteFamiliar.entity.rendaMensal) {
+				$scope.model.integranteFamiliar.entity.rendaMensal = $scope.model.integranteFamiliar.entity.rendaMensal.substring(3, $scope.model.integranteFamiliar.entity.rendaMensal.length )
+				$scope.model.integranteFamiliar.entity.rendaMensal = $scope.model.integranteFamiliar.entity.rendaMensal.replace(/\./g,'');
+				$scope.model.integranteFamiliar.entity.rendaMensal = Number($scope.model.integranteFamiliar.entity.rendaMensal);
+			}
+				
 	    	integranteFamiliarService.insertIntegranteFamiliar( $scope.model.integranteFamiliar.entity, {
                 callback : function(result) {
                 	
@@ -183,6 +189,8 @@ angular.module('home')
 	     */
 	    $scope.removeIntegranteFamiliar = function(){
 			
+	    	$scope.model.integranteFamiliar.entity.rendaMensal = 0;
+	    	
 			integranteFamiliarService.disableIntegranteFamiliar( $scope.model.integranteFamiliar.entity, {
                 callback : function(result) {
                 	
@@ -211,6 +219,12 @@ angular.module('home')
 				return;
 			}
 	    	
+			if ($scope.model.integranteFamiliar.entity.rendaMensal) {
+				$scope.model.integranteFamiliar.entity.rendaMensal = $scope.model.integranteFamiliar.entity.rendaMensal.substring(3, $scope.model.integranteFamiliar.entity.rendaMensal.length )
+				$scope.model.integranteFamiliar.entity.rendaMensal = $scope.model.integranteFamiliar.entity.rendaMensal.replace(/\./g,'');
+				$scope.model.integranteFamiliar.entity.rendaMensal = Number($scope.model.integranteFamiliar.entity.rendaMensal);
+			}
+			
 	    	integranteFamiliarService.updateIntegranteFamiliar( $scope.model.integranteFamiliar.entity, {
                 callback : function(result) {
                 	
@@ -283,6 +297,7 @@ angular.module('home')
 			var saveDocumento = function(item) {
 				integranteFamiliarService.updateDocumentoIntegranteFamiliar( item, {
 					callback : function( result ) {
+						$scope.showMessage( $scope.ERROR_MESSAGE,  "Documento alterado com sucesso" );
 						$scope.$apply();
 					},
 					errorHandler : function(message, exception) {
@@ -308,8 +323,9 @@ angular.module('home')
 				$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
 				return;
 			}
-	    	
-			$scope.model.documentoIntegranteFamiliar.entity.integranteFamiliar = $scope.model.integranteFamiliar.entity;
+			
+			$scope.model.documentoIntegranteFamiliar.entity.integranteFamiliar = new IntegranteFamiliar();
+			$scope.model.documentoIntegranteFamiliar.entity.integranteFamiliar.id = $scope.model.integranteFamiliar.entity.id;
 			
 	    	integranteFamiliarService.insertDocumentoIntegranteFamiliar( $scope.model.documentoIntegranteFamiliar.entity, {
                 callback : function(result) {

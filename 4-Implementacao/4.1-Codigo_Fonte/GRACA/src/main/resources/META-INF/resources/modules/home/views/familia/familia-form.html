@@ -185,7 +185,7 @@
 												<md-input-container layout="column" flex="30" style="margin-right:30px">
 											        <label>Tipo de Moradia</label>
 											        <md-select name="tipoMoradia" required ng-model="model.familia.entity.tipoMoradia">
-											          <md-option ng-repeat="tipoMoradia in allTiposMoradia" value="{{tipoMoradia}}">{{tipoMoradia}}</md-option>
+											          <md-option ng-repeat="tipoMoradia in allTiposMoradia" value="{{tipoMoradia}}">{{::tipoMoradia | translate}}</md-option>
 											        </md-select>
 											        
 											        <div ng-messages="model.familia.form.tipoMoradia.$error">
@@ -196,7 +196,7 @@
 											    <md-input-container layout="column" flex="30">
 											        <label>Tipo do imóvel</label>
 											        <md-select name="tipoImovel" required ng-model="model.familia.entity.tipoImovel">
-											          <md-option ng-repeat="tipoImovel in allTiposImovel" value="{{tipoImovel}}">{{tipoImovel}}</md-option>
+											          <md-option ng-repeat="tipoImovel in allTiposImovel" value="{{tipoImovel}}">{{::tipoImovel | translate}}</md-option>
 											        </md-select>
 											        
 											        <div ng-messages="model.familia.form.tipoImovel.$error">

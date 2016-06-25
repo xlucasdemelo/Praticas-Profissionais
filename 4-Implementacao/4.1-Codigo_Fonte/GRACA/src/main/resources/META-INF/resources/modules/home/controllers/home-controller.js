@@ -106,50 +106,6 @@ angular.module('home')
    	 );
     };
     
-    $scope.grauEscolaridadeToString = function( grau ){
-    	
-    	switch ( grau ){
-			case "SEM_ESCOLARIDADE":{
-				return "Sem escolaridade"
-			}
-			case "FUNDAMENTAL_COMPLETO":{
-				return "Fundamental completo"
-			}
-			case "MEDIO_COMPLETO":{
-				return "Medio completo"
-			}
-			case "MEDIO_INCOMPLETO":{
-				return "Medio incompleto"
-			}
-			case "SUPERIOR_INCOMPLETO":{
-				return "Superior incompleto"
-			}
-			case "MEDIO_COMPLETO":{
-				return "Medio completo"
-			}
-		}
-    	
-    }
-    
-    /**
-     * 
-     */
-    $scope.sexoToString = function( sexo ){
-    	
-    	switch ( sexo ){
-    		case "MASCULINO":{
-    			return "masculino"
-    		}
-    		case "FEMININO":{
-    			return "feminino"
-    		}
-    		case "OUTRO":{
-    			return "outro"
-    		}
-    	}
-    	
-    }
-    
 });
 
 }(window.angular));

@@ -60,6 +60,14 @@ md-select {
 	color:black
 }
 
+.empty-grid{
+	font-size: 14px;
+    min-height: 80px;
+    background-color: #E0E0E0;
+    border-top: solid 1px #DDD;
+    color: rgba(0, 0, 0, 0.54);
+}
+
 /* Cabeçalho principal para todas as dialogs */
 .default-popup-header { display: block; height: 60px; min-height: 60px !important; max-height: 60px; }
 

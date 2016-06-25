@@ -44,7 +44,7 @@
 						           		<md-input-container layout="column" gap="20px">
 						            		<label>Sexo</label>
 						            		<md-select style="margin-top:24px" required name="sexo" ng-model="model.integranteFamiliar.entity.sexo">
-									        	<md-option required ng-repeat="sexo in allSexos" value="{{sexo}}">{{sexo}}</md-option>
+									        	<md-option required ng-repeat="sexo in allSexos" value="{{sexo}}">{{::sexo | translate}}</md-option>
 									        </md-select>
 									        
 									        <div ng-messages="model.integranteFamiliar.form.sexo.$error">
@@ -76,7 +76,7 @@
 				                     <div layout="row">
 						            	<md-input-container layout="column" flex="30">
 								    		<label>Renda mensal</label>
-							                <input type="number" name="rendaMensal" required max="9999999" mask-money prefix="'R$ '" name="rendaMensal" ng-model="model.integranteFamiliar.entity.rendaMensal" >
+							                <input type="text" name="rendaMensal" required max="9999999" mask="R$ 9.999.999" name="rendaMensal" ng-model="model.integranteFamiliar.entity.rendaMensal" >
 							            
 							            	<div ng-messages="model.integranteFamiliar.form.rendaMensal.$error">
 							               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
@@ -197,8 +197,8 @@
 			  				<div layout="row" flex>
 			  					<md-input-container layout="column" gap="20px">
 				            		<label>Documento</label>
-				            		<md-select style="margin-top:24px" required name="documento" ng-model="model.documentoIntegranteFamiliar.entity.tipoDocumento">
-							        	<md-option required ng-repeat="documento in allTiposDocumentos" value="{{documento}}">{{documento}}</md-option>
+				            		<md-select style="margin-top:24px" name="documento" ng-model="model.documentoIntegranteFamiliar.entity.tipoDocumento">
+							        	<md-option ng-repeat="documento in allTiposDocumentos" value="{{documento}}">{{documento}}</md-option>
 							        </md-select>
 							        
 							        <div ng-messages="model.integranteFamiliar.form.documento.$error">
@@ -206,14 +206,14 @@
 					                </div>
 				            	</md-input-container>
 				            	
-				            	<md-input-container layout="column" flex="30">
+				            	<md-input-container ng-if="model.documentoIntegranteFamiliar.entity.tipoDocumento == 'RG'" layout="column" flex="30">
 						    		<label>Número</label>
-					                <input maxlength="8" name="numeroRG" ng-if="model.documentoIntegranteFamiliar.entity.tipoDocumento == 'RG'" required ng-model="model.documentoIntegranteFamiliar.entity.numeroDocumento">
-					                <input type="text" maxlength="14" ng-if="model.documentoIntegranteFamiliar.entity.tipoDocumento == 'CPF'" name="numeroCPF" mask="999.999.999-99" required ng-model="model.documentoIntegranteFamiliar.entity.numeroDocumento">
-					
-					                <div ng-messages="model.integranteFamiliar.form.numero.$error">
-					                	<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
-					                </div>	
+					                <input type="text" maxlength="11" name="numeroRG" mask="9.999.999-9" ng-model="model.documentoIntegranteFamiliar.entity.numeroDocumento">
+					            </md-input-container>
+					            
+					            <md-input-container ng-if="model.documentoIntegranteFamiliar.entity.tipoDocumento == 'CPF'" layout="column" flex="30">
+						    		<label>Número</label>
+					                <input type="text" maxlength="14" name="numeroCPF" mask="999.999.999-99" ng-model="model.documentoIntegranteFamiliar.entity.numeroDocumento">
 					            </md-input-container>
 					            
 					            <md-button style="height:20px; margin-top:32px" class="md-raised md-primary md-hue-3" type="button" ng-click="insertDocumentoIntegranteFamiliar()">
@@ -233,7 +233,8 @@
 							    <tbody md-body>
 							      <tr md-row md-select="dessert" style="cursor:pointer" ng-repeat="documento in model.integranteFamiliar.entity.documentos">
 							        <td md-cell>{{::documento.tipoDocumento}}</td>
-							        <td md-cell><input maxlength="144" name="numero" ng-blur="updateDocumento($event, documento)" required ng-model="documento.numeroDocumento"></td>
+							        <td md-cell ng-if="documento.tipoDocumento == 'RG'"><input maxlength="144" mask="9.999.999-9" name="numero" ng-blur="updateDocumento($event, documento)" required ng-model="documento.numeroDocumento"></td>
+							        <td md-cell ng-if="documento.tipoDocumento == 'CPF'" ><input maxlength="144" mask="999.999.999-99" name="numero" ng-blur="updateDocumento($event, documento)" required ng-model="documento.numeroDocumento"></td>
 							        <td md-cell> 
 								        <i class="zmdi zmdi-delete" ng-click="removeDocumentoIntegranteFamiliar(documento)" style="font-size: 25px; margin-left: 5px;"></i>
 							      	</td>

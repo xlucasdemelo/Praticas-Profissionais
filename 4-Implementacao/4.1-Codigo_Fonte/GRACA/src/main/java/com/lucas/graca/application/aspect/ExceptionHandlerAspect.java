@@ -128,6 +128,11 @@ public class ExceptionHandlerAspect
 				}
 				case "23505": // unique_violation
 				{
+					if ( cause.getConstraintName().equals( "uk_documento_integrante_familiar_integrante_familiar_id_tipo_d" ) )
+					{
+						throw new DataIntegrityViolationException("Já existe um documento deste tipo cadastrado, remova-o ou insira outro");
+					}
+					
 					key = message.substring( message.indexOf('(') + 1, message.indexOf(')') );
 					if ( key.startsWith( "lower(" ) )
 					{

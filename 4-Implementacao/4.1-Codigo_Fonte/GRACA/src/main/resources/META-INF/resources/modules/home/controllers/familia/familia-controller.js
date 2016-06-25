@@ -308,7 +308,7 @@ angular.module('home')
 	            familiaService.disableFamilia( $scope.model.familia.entity  , {
 	                callback : function(result) {
 	                    $scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi excluído com sucesso!" );
-	                    $state.go($scope.LIST_STATE);
+	                    $state.go($scope.FAMILIA_LIST_STATE);
 	                    $scope.listFamiliasByFilters();
 	                    $scope.$apply();
 	                },
@@ -337,7 +337,7 @@ angular.module('home')
 	            familiaService.enableFamilia( $scope.model.familia.entity  , {
 	                callback : function(result) {
 	                    $scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi ativado com sucesso!" );
-	                    $state.go($scope.LIST_STATE);
+	                    $state.go($scope.FAMILIA_LIST_STATE);
 	                    $scope.listFamiliasByFilters();
 	                    $scope.$apply();
 	                },
