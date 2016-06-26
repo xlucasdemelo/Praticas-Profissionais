@@ -238,7 +238,6 @@ angular.module('home')
 	            },
 	            errorHandler : function(message, exception) {
 	            	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
-	            	$state.go( $scope.LIST_STATE );
 	                $scope.$apply();
 	            }
 	        });
@@ -283,7 +282,6 @@ angular.module('home')
 	            },
 	            errorHandler : function(message, exception) {
 	            	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
-	            	$state.go( $scope.LIST_STATE );
 	                $scope.$apply();
 	            }
 	        });

@@ -10,7 +10,7 @@
 	    	</div>
 	    	
 	        <div md-theme="default" layout="row" layout-align="end center" class="default-header md-primary md-hue-3">
-		        <md-button class="md-raised md-accent default-save-button" ng-click="insertCrianca()">Salvar</md-button>
+		        <md-button class="md-raised md-accent default-save-button" ng-if="model.crianca.entity.ativo" ng-click="insertCrianca()">Salvar</md-button>
 	        </div>
 	        
 	         <div md-theme="default" layout="row" layout-align="end center" class="default-header">
@@ -87,10 +87,21 @@
 										            	<md-input-container layout="column" gap="20px">
 										            		<label>Grau de escolaridade</label>
 										            		<md-select style="margin-top:24px" required name="grauEscolaridade" ng-model="model.crianca.entity.grauEscolaridade">
-													        	<md-option required ng-repeat="grau in allGrausEscolaridade" value="{{grau}}">{{grau}}</md-option>
+													        	<md-option required ng-repeat="grau in allGrausEscolaridade" value="{{grau}}">{{::grau | translate}}</md-option>
 													        </md-select>
 													        
 													        <div ng-messages="model.crianca.form.grauEscolaridade.$error">
+											               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
+											                </div>
+										            	</md-input-container>
+										            	
+										            	<md-input-container layout="column" gap="20px">
+										            		<label>Etnia</label>
+										            		<md-select style="margin-top:24px" required name="etnia" ng-model="model.crianca.entity.etnia">
+													        	<md-option required ng-repeat="etnia in allEtnias track by $index" value="{{etnia}}">{{::etnia | translate}}</md-option>
+													        </md-select>
+													        
+													        <div ng-messages="model.crianca.form.etnia.$error">
 											               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
 											                </div>
 										            	</md-input-container>
@@ -110,7 +121,7 @@
 								                     <div layout="row">
 										            	<md-input-container layout="column" flex="30">
 												    		<label>Renda mensal</label>
-											                <input type="number" name="rendaMensal" required max="9999999" mask-money prefix="'R$ '" name="rendaMensal" ng-model="model.crianca.entity.rendaMensal" >
+											                <input type="text" name="rendaMensal" required maxlength="12" mask="R$ 9.999.999" name="rendaMensal" ng-model="model.crianca.entity.rendaMensal" >
 											            
 											            	<div ng-messages="model.crianca.form.rendaMensal.$error">
 											               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
@@ -119,7 +130,7 @@
 											            
 											            <md-input-container layout="column" flex="30">
 												    		<label>Telefone</label>
-											                <input type="text" name="telefone" required  ng-model="model.crianca.entity.telefone" >
+											                <input type="text" mask="(999) 9?9999-9999" name="telefone" required  ng-model="model.crianca.entity.telefone" >
 											            
 											            	<div ng-messages="model.crianca.form.telefone.$error">
 											               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
@@ -326,7 +337,7 @@
 											                </div>	
 											            </md-input-container>
 											            
-											            <md-button style="height:20px; margin-top:32px" class="md-raised md-primary md-hue-3" type="button" ng-click="insertDocumentoCrianca()">
+											            <md-button ng-if="model.crianca.entity.ativo" style="height:20px; margin-top:32px" class="md-raised md-primary md-hue-3" type="button" ng-click="insertDocumentoCrianca()">
 													    	Inserir
 													    </md-button>
 									  				</div>
@@ -386,7 +397,7 @@
 									                </div>
 									            </md-input-container>
 												
-												<div md-theme="default" layout="row" layout-align="end center" class="default-header md-primary md-hue-3">
+												<div md-theme="default" ng-if="model.crianca.entity.ativo" layout="row" layout-align="end center" class="default-header md-primary md-hue-3">
 											        <md-button class="md-raised md-accent default-save-button" ng-click="openSelecionarCriancaHandler()">Selecionar família</md-button>
 										        </div>
 											</div>
@@ -410,7 +421,7 @@
 											         <td md-cell>{{::parente.integranteFamiliar.dataNascimento | date : format : timezone}}</td>
 											         <td md-cell>
 											         	<md-select name="parentesco" style="float:right;width:95px" ng-change="updateGrauParentesco(parente)" ng-model="parente.grauParentesco">
-												        	<md-option ng-repeat="parentesco in allGrausParentesco" value="{{parentesco}}">{{parentesco}}</md-option>
+												        	<md-option ng-repeat="parentesco in allGrausParentesco" value="{{parentesco}}">{{::parentesco | translate}}</md-option>
 												        </md-select>
 											         </td>
 											       </tr>

@@ -16,6 +16,7 @@ import org.springframework.util.Assert;
 
 import com.lucas.graca.domain.entity.crianca.Crianca;
 import com.lucas.graca.domain.entity.crianca.DocumentoCrianca;
+import com.lucas.graca.domain.entity.crianca.Etnia;
 import com.lucas.graca.domain.entity.crianca.GrauParentesco;
 import com.lucas.graca.domain.entity.crianca.Parente;
 import com.lucas.graca.domain.entity.integrantefamiliar.IntegranteFamiliar;
@@ -251,6 +252,15 @@ public class CriancaService
 	public GrauParentesco[] listAllGrausParentesco()
 	{
 		return GrauParentesco.values();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Etnia[] listAllEtnias()
+	{
+		return Etnia.values();
 	}
 	
 	/*-------------------------------------------------------------------

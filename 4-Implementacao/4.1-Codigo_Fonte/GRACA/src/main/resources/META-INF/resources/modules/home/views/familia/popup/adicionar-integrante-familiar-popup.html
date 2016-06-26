@@ -197,7 +197,7 @@
 			  				<div layout="row" flex>
 			  					<md-input-container layout="column" gap="20px">
 				            		<label>Documento</label>
-				            		<md-select style="margin-top:24px" name="documento" ng-model="model.documentoIntegranteFamiliar.entity.tipoDocumento">
+				            		<md-select style="margin-top:24px" name="tipoDocumento" ng-model="model.documentoIntegranteFamiliar.entity.tipoDocumento">
 							        	<md-option ng-repeat="documento in allTiposDocumentos" value="{{documento}}">{{documento}}</md-option>
 							        </md-select>
 							        
@@ -208,12 +208,12 @@
 				            	
 				            	<md-input-container ng-if="model.documentoIntegranteFamiliar.entity.tipoDocumento == 'RG'" layout="column" flex="30">
 						    		<label>Número</label>
-					                <input type="text" maxlength="11" name="numeroRG" mask="9.999.999-9" ng-model="model.documentoIntegranteFamiliar.entity.numeroDocumento">
+					                <input type="text" maxlength="11" name="numero" mask="9.999.999-9" ng-model="model.documentoIntegranteFamiliar.entity.numeroDocumento">
 					            </md-input-container>
 					            
 					            <md-input-container ng-if="model.documentoIntegranteFamiliar.entity.tipoDocumento == 'CPF'" layout="column" flex="30">
 						    		<label>Número</label>
-					                <input type="text" maxlength="14" name="numeroCPF" mask="999.999.999-99" ng-model="model.documentoIntegranteFamiliar.entity.numeroDocumento">
+					                <input type="text" maxlength="14" name="numero" mask="999.999.999-99" ng-model="model.documentoIntegranteFamiliar.entity.numeroDocumento">
 					            </md-input-container>
 					            
 					            <md-button style="height:20px; margin-top:32px" class="md-raised md-primary md-hue-3" type="button" ng-click="insertDocumentoIntegranteFamiliar()">

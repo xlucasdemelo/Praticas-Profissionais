@@ -319,8 +319,13 @@ angular.module('home')
 	    	
 	    	$scope.model.integranteFamiliar.form.$submitted = true;
 	    	
-			if ($scope.model.integranteFamiliar.form.$invalid ){
-				$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
+			if (!$scope.model.integranteFamiliar.form.tipoDocumento.$viewValue ){
+				$scope.showMessage( $scope.ERROR_MESSAGE,  "Selecione um tipo de documento" );
+				return;
+			}
+			
+			if (!$scope.model.integranteFamiliar.form.numero.$viewValue ){
+				$scope.showMessage( $scope.ERROR_MESSAGE,  "Informe o número do documento" );
 				return;
 			}
 			

@@ -64,6 +64,11 @@ angular.module('home')
 		/**
 		 * 
 		 */
+		$scope.allEtnias = [];
+		
+		/**
+		 * 
+		 */
 		$scope.allGrausParentesco = [];
 		
 		/**
@@ -316,7 +321,6 @@ angular.module('home')
 	            },
 	            errorHandler : function(message, exception) {
 	            	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
-	            	$state.go( $scope.LIST_STATE );
 	                $scope.$apply();
 	            }
 	        });
@@ -341,7 +345,7 @@ angular.module('home')
 	            criancaService.disableCrianca( $scope.model.crianca.entity  , {
 	                callback : function(result) {
 	                    $scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi excluído com sucesso!" );
-	                    $state.go($scope.LIST_STATE);
+	                    $state.go($scope.CRIANCA_LIST_STATE);
 	                    $scope.listFamiliasByFilters();
 	                    $scope.$apply();
 	                },
@@ -370,7 +374,7 @@ angular.module('home')
 	            criancaService.enableCrianca( $scope.model.crianca.entity  , {
 	                callback : function(result) {
 	                    $scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi ativado com sucesso!" );
-	                    $state.go($scope.LIST_STATE);
+	                    $state.go($scope.CRIANCA_LIST_STATE);
 	                    $scope.listFamiliasByFilters();
 	                    $scope.$apply();
 	                },
@@ -476,13 +480,18 @@ angular.module('home')
 			$scope.model.crianca.entity.endereco.cidade.estado = $scope.model.estado.selectedItem ;
 			$scope.model.crianca.entity.endereco.cidade.estado.pais = $scope.model.pais.selectedItem ;
 			
-			$scope.model.crianca.entity.etnia = "BRANCO"
+			if ($scope.model.crianca.entity.rendaMensal) {
+				$scope.model.crianca.entity.rendaMensal = $scope.model.crianca.entity.rendaMensal.substring(3, $scope.model.crianca.entity.rendaMensal.length )
+				$scope.model.crianca.entity.rendaMensal = $scope.model.crianca.entity.rendaMensal.replace(/\./g,'');
+				$scope.model.crianca.entity.rendaMensal = Number($scope.model.crianca.entity.rendaMensal);
+			}	
 			
 			criancaService.insertCrianca(  $scope.model.crianca.entity, {
                 callback : function(result) {
                 	
                 	$scope.model.crianca.entity = result;
                 	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi cadastrado com sucesso!" );
+                	$scope.model.crianca.form.rendaMensal.$setTouched();
                 	$scope.$apply();
                 	
                 },
@@ -788,7 +797,7 @@ angular.module('home')
 			
 			criancaService.updateGrauParentesco( item, {
                 callback : function(result) {
-                	
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  "Parente Selecionado com sucesso" );
                 	$scope.$apply();
                 	
                 },
@@ -876,12 +885,29 @@ angular.module('home')
             });
 		}
 		
+		$scope.listAllEtnias = function(){
+			criancaService.listAllEtnias( {
+                callback : function(result) {
+                	
+                	$scope.allEtnias = result;
+                	
+                	$scope.$apply();
+                	
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+		}
+		
 		/*-------------------------------------------------------------------
 	     * 		 				 	POST CONSTRUCT
 	     *-------------------------------------------------------------------*/
 		$scope.listAllSexos();
 		$scope.listAllGrausEscolaridade();
 		$scope.listAllGrausParentesco();
+		$scope.listAllEtnias();
 		$scope.listAllTiposDocumento();
 		
 });

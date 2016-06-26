@@ -3,8 +3,7 @@
   	<md-toolbar style="height: 60px; min-height: 60px !important;">
   		<div flex layout="row" class="default-header">
   			<div >
-	  			<h1 class="md-toolbar-tools" ng-if="!model.integranteFamiliar.entity.id">Adicionar Integrante Familiar</h1>
-	  			<h1 class="md-toolbar-tools" ng-if="model.integranteFamiliar.entity.id">Editar Integrante Familiar</h1>
+	  			<h1 class="md-toolbar-tools" >Selecionar familia</h1>
   			</div>
     	</div> 
   	</md-toolbar> 
@@ -12,68 +11,62 @@
 	<form name="model.integranteFamiliar.form" style="height: 100%;" md-theme="{{osmTheme}}" layout="column" novalidate>
 	  	<md-dialog-content layout="column" style="height: 100%;">
 	  		
-	  		<md-tabs md-dynamic-height md-border-bottom>
-
-				<md-tab  label="documentos">
-				
-					<div layout="column" style="height:100%">
-			  			<div class="default-form">
-			  				
-			  				<div layout="row" flex>
-				            	<md-input-container layout="column" flex>
-						    		<label>Família</label>
-					                <input maxlength="144" name="familia" ng-model="model.familia.filters.terms">
-					            </md-input-container>
-					            
-					            <md-button style="height:20px; margin-top:32px" class="md-raised md-primary md-hue-3" type="button" ng-click="listFamiliasByFilters()">
-							    	Filtrar
-							    </md-button>
-			  				</div>
-			  				
-			  				<md-toolbar style="background-color:#ffffff; color:black" layout="column">
-								<md-table-container>
-								  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
-								    <thead md-head md-order="query.order" md-on-reorder="getDesserts">
-								      <tr md-row>
-								        <th md-column md-order-by="nameToLower"><span>Nome</span></th>
-								        <th md-column md-numeric md-order-by="calories.value"><span>Nome da Mãe</span></th>
-								        <th md-column md-numeric>Endereço</th>
-								        <th md-column md-numeric>Telefone</th>
-								      </tr>
-								    </thead>
-								    <tbody md-body>
-								      <tr md-row md-select="dessert" style="cursor:pointer" ng-click="selectFamilia(familia)" md-select-id="name" md-auto-select ng-repeat="familia in model.familia.page.content">
-								        <td md-cell>{{::familia.nome}}</td>
-								        <td md-cell>{{::familia.nomeMae}}</td>
-								        <td md-cell>{{::familia.endereco.rua}}</td>
-								        <td md-cell>{{::familia.telefone}}</td>
-								      </tr>
-								    </tbody>
-								  </table>
-								</md-table-container>
-													
-								<div layout="column" flex class="empty-grid" layout-align="center center" ng-if="model.familia.page.content.length == 0">
-									Nenhum registro de família encontrado
-								</div>
-								
-								<md-divider></md-divider>
-								<div class="default-paginator" layout layout-align="end center" ng-if="model.familia.page.content.length > 0">
-									{{ model.familia.page.pageable.page + 1 }} de {{ Math.ceil(model.familia.page.total/model.familia.page.pageable.size) }}
-									<md-button class="md-icon-button" ng-disabled="(model.familia.page.pageable.page + 1) < 2" ng-click="onfamiliaPaginationChange(false)">
-										<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.familia.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
-									</md-button>
-									<md-button class="md-icon-button" ng-disabled="(model.familia.page.pageable.page + 1) >= Math.ceil(model.familia.page.total/model.familia.page.pageable.size)" ng-click="onfamiliaPaginationChange(true)">
-										<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.familia.page.pageable.page + 1) >= Math.ceil(model.familia.page.total/model.familia.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
-									</md-button>
-						  		</div>
-						  		
-							</md-toolbar>
-							
-			  			</div>
-			  		</div>
+			<div layout="column" style="height:100%">
+	  			<div class="default-form">
+	  				
+	  				<div layout="row" flex>
+		            	<md-input-container layout="column" flex>
+				    		<label>Família</label>
+			                <input maxlength="144" name="familia" ng-model="model.familia.filters.terms">
+			            </md-input-container>
+			            
+			            <md-button style="height:20px; margin-top:32px" class="md-raised md-primary md-hue-3" type="button" ng-click="listFamiliasByFilters()">
+					    	Filtrar
+					    </md-button>
+	  				</div>
+	  				
+	  				<md-toolbar style="background-color:#ffffff; color:black" layout="column">
+						<md-table-container>
+						  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+						    <thead md-head md-order="query.order" md-on-reorder="getDesserts">
+						      <tr md-row>
+						        <th md-column md-order-by="nameToLower"><span>Nome</span></th>
+						        <th md-column md-numeric md-order-by="calories.value"><span>Nome da Mãe</span></th>
+						        <th md-column md-numeric>Endereço</th>
+						        <th md-column md-numeric>Telefone</th>
+						      </tr>
+						    </thead>
+						    <tbody md-body>
+						      <tr md-row md-select="dessert" style="cursor:pointer" ng-click="selectFamilia(familia)" md-select-id="name" md-auto-select ng-repeat="familia in model.familia.page.content">
+						        <td md-cell>{{::familia.nome}}</td>
+						        <td md-cell>{{::familia.nomeMae}}</td>
+						        <td md-cell>{{::familia.endereco.rua}}</td>
+						        <td md-cell>{{::familia.telefone}}</td>
+						      </tr>
+						    </tbody>
+						  </table>
+						</md-table-container>
+											
+						<div layout="column" flex class="empty-grid" layout-align="center center" ng-if="model.familia.page.content.length == 0">
+							Nenhum registro de família encontrado
+						</div>
+						
+						<md-divider></md-divider>
+						<div class="default-paginator" layout layout-align="end center" ng-if="model.familia.page.content.length > 0">
+							{{ model.familia.page.pageable.page + 1 }} de {{ totalPagesFamilia }}
+							<md-button class="md-icon-button" ng-disabled="(model.familia.page.pageable.page + 1) < 2" ng-click="onFamiliaPaginationChange(false)">
+								<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.familia.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
+							</md-button>
+							<md-button class="md-icon-button" ng-disabled="(model.familia.page.pageable.page + 1) >= totalPagesFamilia" ng-click="onFamiliaPaginationChange(true)">
+								<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.familia.page.pageable.page + 1) >= Math.ceil(model.familia.page.total/model.familia.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
+							</md-button>
+				  		</div>
+				  		
+					</md-toolbar>
+					
+	  			</div>
+	  		</div>
 			  		
-				</md-tab>
-			</md-tabs>
 	  	</md-dialog-content>
 	  	
 	  	<md-divider style="order: 2"></md-divider>

@@ -38,11 +38,13 @@ angular.module('home')
 				   
 				},
 				
-			    page: {//PageImpl 
-			    		size: 9,
-			    		page: 0,
-			        	sort:null
-			    },
+				page: {//PageImpl 
+		    		content: [],
+		    		pageable :{ size: 9,
+					    		page: 0,
+					        	sort:null
+		        	}
+				},
 			    sort: [{//Sort
 	        		direction: 'ASC', properties: 'id', nullHandlingHint:null
 	        	}],
@@ -179,6 +181,16 @@ angular.module('home')
 			$mdDialog.hide(familia);
 		}
 		
+		$scope.onFamiliaPaginationChange = function(paginate) {
+        	if (paginate) {
+        		$scope.model.familia.page.pageable.page++;
+        	} else {
+        		$scope.model.familia.page.pageable.page--;
+        	}
+        		
+        	$scope.listFamiliasByFilters();
+        };
+		
 		/**
 		 * 
 		 */
@@ -187,7 +199,16 @@ angular.module('home')
 			familiaService.listFamiliasByFilters(  $scope.model.familia.filters.terms.toString(), $scope.model.familia.page.pageable, {
                 callback : function(result) {
                 	
-                	$scope.model.familia.page.content = result.content; 
+                	$scope.totalPagesFamilia = result.totalPages;
+                	$scope.model.familia.page = {//PageImpl
+    						content : result.content,
+							pageable : {//PageRequest
+								page : result.number,
+								size : result.size,
+								sort:result.sort,
+								total   : result.totalElements
+							},
+    				};
                 	$scope.$apply();
                 	
                 },
