@@ -2,7 +2,7 @@
 	'use strict';
 
 	//Start the AngularJS
-	var module = angular.module('home', ['ngMessages', 'ngSanitize', 'ngMaterial', 'ui.router', 'eits-md', 'eits-ng', 'md.data.table', 'ngMask' ]);
+	var module = angular.module('home', ['ngMessages', 'ngSanitize', 'ngMaterial', 'ui.router', 'eits-md', 'eits-ng', 'md.data.table', 'ngMask', 'maskMoney', 'ngCpfCnpj' ]);
 
 	/**
 	 * 
@@ -10,22 +10,22 @@
 	module.config( function( $stateProvider, $urlRouterProvider, $importServiceProvider, $translateProvider, $mdThemingProvider, $mdDateLocaleProvider ) {
 		
 		$mdDateLocaleProvider.parseDate = function(dateString) {
-	       var m = moment(dateString, 'DD/MM/YYYY', true);
-	       return m.isValid() ? m.toDate() : new Date(NaN);
-	    }
+		    var m = moment(dateString, 'DD/MM/YYYY', true);
+		    return m.isValid() ? m.toDate() : new Date(NaN);
+		  }
 		
-		$mdThemingProvider.theme('default')
-	    .primaryPalette('light-blue', {
-	      'default': '300', // by default use shade 400 from the pink palette for primary intentions
-	      'hue-1': '100', // use shade 100 for the <code>md-hue-1</code> class
-	      'hue-2': '600', // use shade 600 for the <code>md-hue-2</code> class
-	      'hue-3': 'A100' // use shade A100 for the <code>md-hue-3</code> class
-	    })
-	    // If you specify less than all of the keys, it will inherit from the
-	    // default shades
-	    .accentPalette('red', {
-	      'default': '700' // use shade 200 for default, and keep all other shades the same
-	    });
+//		$mdThemingProvider.theme('default')
+//	    .primaryPalette('light-blue', {
+//	      'default': '300', // by default use shade 400 from the pink palette for primary intentions
+//	      'hue-1': '100', // use shade 100 for the <code>md-hue-1</code> class
+//	      'hue-2': '600', // use shade 600 for the <code>md-hue-2</code> class
+//	      'hue-3': 'A100' // use shade A100 for the <code>md-hue-3</code> class
+//	    })
+//	    // If you specify less than all of the keys, it will inherit from the
+//	    // default shades
+//	    .accentPalette('red', {
+//	      'default': '700' // use shade 200 for default, and keep all other shades the same
+//	    });
 
 		
 		//-------

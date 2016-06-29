@@ -208,9 +208,15 @@ angular.module('home')
 			console.debug("changeToAdd");
 			
 			$scope.model.familia.entity = new Familia();//Limpa o formulário
+			
 			$scope.model.pais.selectedItem = null;
-        	$scope.model.estado.selectedItem = null;
+			$scope.model.pais.searchText = null;
+        	
+			$scope.model.estado.selectedItem = null;
+			$scope.model.estado.searchText = null;
+			
         	$scope.model.cidade.selectedItem = null;
+        	$scope.model.cidade.searchText = null;
 			
 		};
 		
@@ -406,6 +412,13 @@ angular.module('home')
 			
 //			$scope.model.familia.entity.endereco = $scope.model.endereco.entity; 
 			
+			if ( !$scope.model.pais.selectedItem )
+				return $scope.showMessage( $scope.ERROR_MESSAGE,  "Selecione um país" );
+			if ( !$scope.model.estado.selectedItem )
+				return $scope.showMessage( $scope.ERROR_MESSAGE,  "Selecione um estado" );
+			if ( !$scope.model.cidade.selectedItem )
+				return $scope.showMessage( $scope.ERROR_MESSAGE,  "Selecione uma cidade" );
+				
 			$scope.model.familia.entity.endereco.cidade = $scope.model.cidade.selectedItem ;
 			$scope.model.familia.entity.endereco.cidade.estado = $scope.model.estado.selectedItem ;
 			$scope.model.familia.entity.endereco.cidade.estado.pais = $scope.model.pais.selectedItem ;

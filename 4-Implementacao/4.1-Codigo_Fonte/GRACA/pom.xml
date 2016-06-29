@@ -575,8 +575,12 @@
 <!-- 		    <artifactId>momentjs</artifactId> -->
 <!-- 		    <version>2.10.3</version> -->
 <!-- 		</dependency> -->
-				
 		
+		<dependency>
+		    <groupId>org.webjars.bower</groupId>
+		    <artifactId>ng-cpf-cnpj</artifactId>
+		    <version>0.0.5</version>
+		</dependency>
 		
 	</dependencies>
 	

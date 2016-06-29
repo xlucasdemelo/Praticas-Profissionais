@@ -23,7 +23,7 @@
 						            <div layout="row" flex>
 							            <md-input-container layout="column" flex="50">
 								    		<label style="position:absolute;padding-top:15px;padding-left:15px">Nome</label>
-								    		<textarea maxlength="255" name="Integrante familiar" ng-model="model.integranteFamiliar.entity.nome" rows="3" required></textarea>
+								    		<textarea maxlength="255" name="nome" ng-model="model.integranteFamiliar.entity.nome" rows="3" required></textarea>
 							                
 							                <div ng-messages="model.integranteFamiliar.form.nome.$error">
 							               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
@@ -32,7 +32,7 @@
 							            
 							            <div layout="column"  >
 							            	<label>Data de nascimento</label>
-							            	<md-datepicker required ng-model="model.integranteFamiliar.entity.dataNascimento" style="margin-top:25px" ></md-datepicker>
+							            	<md-datepicker required name="dataNascimento" ng-model="model.integranteFamiliar.entity.dataNascimento" style="margin-top:25px" ></md-datepicker>
 							            	
 							            	<div ng-messages="model.integranteFamiliar.form.dataNascimento.$error">
 							               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
@@ -55,7 +55,7 @@
 						            	<md-input-container layout="column" gap="20px">
 						            		<label>Grau de escolaridade</label>
 						            		<md-select style="margin-top:24px" required name="grauEscolaridade" ng-model="model.integranteFamiliar.entity.grauEscolaridade">
-									        	<md-option required ng-repeat="grau in allGrausEscolaridade" value="{{grau}}">{{grau}}</md-option>
+									        	<md-option required ng-repeat="grau in allGrausEscolaridade" value="{{grau}}">{{::grau | translate}}</md-option>
 									        </md-select>
 									        
 									        <div ng-messages="model.integranteFamiliar.form.grauEscolaridade.$error">
@@ -76,7 +76,7 @@
 				                     <div layout="row">
 						            	<md-input-container layout="column" flex="30">
 								    		<label>Renda mensal</label>
-							                <input type="text" name="rendaMensal" required max="9999999" mask="R$ 9.999.999" name="rendaMensal" ng-model="model.integranteFamiliar.entity.rendaMensal" >
+							                <input type="text" name="rendaMensal" required max="9999999" mask-money prefix="'R$ '" name="rendaMensal" ng-model="model.integranteFamiliar.entity.rendaMensal" >
 							            
 							            	<div ng-messages="model.integranteFamiliar.form.rendaMensal.$error">
 							               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
@@ -208,12 +208,22 @@
 				            	
 				            	<md-input-container ng-if="model.documentoIntegranteFamiliar.entity.tipoDocumento == 'RG'" layout="column" flex="30">
 						    		<label>Número</label>
-					                <input type="text" maxlength="11" name="numero" mask="9.999.999-9" ng-model="model.documentoIntegranteFamiliar.entity.numeroDocumento">
+					                <input type="text" maxlength="11" name="numeroRg" mask="9.999.999-9" required ng-model="model.documentoIntegranteFamiliar.entity.numeroDocumento">
+					            
+					            	<div ng-messages="model.integranteFamiliar.form.numeroRg.$error">
+					               		<div ng-message="required"  ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+					                </div>
 					            </md-input-container>
 					            
 					            <md-input-container ng-if="model.documentoIntegranteFamiliar.entity.tipoDocumento == 'CPF'" layout="column" flex="30">
 						    		<label>Número</label>
-					                <input type="text" maxlength="14" name="numero" mask="999.999.999-99" ng-model="model.documentoIntegranteFamiliar.entity.numeroDocumento">
+					                <input type="text" maxlength="14" required name="numeroCpf" mask="999.999.999-99" required ng-model="model.documentoIntegranteFamiliar.entity.numeroDocumento" ng-cpf>
+					            	
+					            	<div ng-messages="model.integranteFamiliar.form.numeroCpf.$error">
+					               		<div ng-message="required"  ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+					               		<div ng-message="cpf"  ng-if="model.integranteFamiliar.form.$submitted">CPF inválido</div>
+					                </div>
+					            	
 					            </md-input-container>
 					            
 					            <md-button style="height:20px; margin-top:32px" class="md-raised md-primary md-hue-3" type="button" ng-click="insertDocumentoIntegranteFamiliar()">

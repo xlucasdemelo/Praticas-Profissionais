@@ -104,6 +104,7 @@
 									        <div layout="row">
 									        	<md-autocomplete 
 									        		required
+									        		md-input-name="pais"
 									        		style="margin-right:20px" 
 									        		md-selected-item="model.pais.selectedItem" 
 									        		md-search-text="model.pais.searchText"
@@ -119,9 +120,13 @@
 												    <md-not-found>
 												    	Nenhum país encontrado
 												    </md-not-found>
+												    <div ng-messages="model.familia.form.pais.$error">
+												       <div ng-message="required">This field is required</div>
+												    </div>
 												</md-autocomplete>
 												
 												<md-autocomplete 
+													ng-disabled="!model.pais.selectedItem"
 													style="margin-right:20px"
 													md-selected-item="model.estado.selectedItem" 
 													md-search-text="model.estado.searchText" 
@@ -140,6 +145,7 @@
 												</md-autocomplete>
 												
 												<md-autocomplete 
+													ng-disabled="!model.estado.selectedItem"
 													md-selected-item="model.cidade.selectedItem" 
 													md-search-text="model.cidade.searchText" 
 													md-search-text-change="listCidadesByFiltes(model.cidade.searchText)" 

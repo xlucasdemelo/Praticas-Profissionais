@@ -162,12 +162,6 @@ angular.module('home')
 				return;
 			}
 	    	
-			if ($scope.model.integranteFamiliar.entity.rendaMensal) {
-				$scope.model.integranteFamiliar.entity.rendaMensal = $scope.model.integranteFamiliar.entity.rendaMensal.substring(3, $scope.model.integranteFamiliar.entity.rendaMensal.length )
-				$scope.model.integranteFamiliar.entity.rendaMensal = $scope.model.integranteFamiliar.entity.rendaMensal.replace(/\./g,'');
-				$scope.model.integranteFamiliar.entity.rendaMensal = Number($scope.model.integranteFamiliar.entity.rendaMensal);
-			}
-				
 	    	integranteFamiliarService.insertIntegranteFamiliar( $scope.model.integranteFamiliar.entity, {
                 callback : function(result) {
                 	
@@ -219,12 +213,6 @@ angular.module('home')
 				return;
 			}
 	    	
-			if ($scope.model.integranteFamiliar.entity.rendaMensal) {
-				$scope.model.integranteFamiliar.entity.rendaMensal = $scope.model.integranteFamiliar.entity.rendaMensal.substring(3, $scope.model.integranteFamiliar.entity.rendaMensal.length )
-				$scope.model.integranteFamiliar.entity.rendaMensal = $scope.model.integranteFamiliar.entity.rendaMensal.replace(/\./g,'');
-				$scope.model.integranteFamiliar.entity.rendaMensal = Number($scope.model.integranteFamiliar.entity.rendaMensal);
-			}
-			
 	    	integranteFamiliarService.updateIntegranteFamiliar( $scope.model.integranteFamiliar.entity, {
                 callback : function(result) {
                 	
@@ -317,15 +305,20 @@ angular.module('home')
 		 */
 		$scope.insertDocumentoIntegranteFamiliar = function() {
 	    	
-	    	$scope.model.integranteFamiliar.form.$submitted = true;
-	    	
-			if (!$scope.model.integranteFamiliar.form.tipoDocumento.$viewValue ){
+			$scope.model.integranteFamiliar.form.$submitted = true;
+			
+			if ( !$scope.model.documentoIntegranteFamiliar.entity.tipoDocumento ){
 				$scope.showMessage( $scope.ERROR_MESSAGE,  "Selecione um tipo de documento" );
 				return;
 			}
 			
-			if (!$scope.model.integranteFamiliar.form.numero.$viewValue ){
-				$scope.showMessage( $scope.ERROR_MESSAGE,  "Informe o número do documento" );
+			if ( $scope.model.integranteFamiliar.form.numeroCpf && $scope.model.integranteFamiliar.form.numeroCpf.$invalid ){
+				$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
+				return;
+			}
+			
+			if ( $scope.model.integranteFamiliar.form.numeroRg && $scope.model.integranteFamiliar.form.numeroRg.$invalid ){
+				$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
 				return;
 			}
 			
