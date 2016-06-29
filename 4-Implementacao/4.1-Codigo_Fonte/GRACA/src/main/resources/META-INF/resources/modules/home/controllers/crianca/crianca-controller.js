@@ -249,6 +249,15 @@ angular.module('home')
 			console.debug("changeToAdd");
 			
 			$scope.model.crianca.entity = new Crianca();
+			
+			$scope.model.pais.selectedItem = null;
+			$scope.model.pais.searchText = null;
+        	
+			$scope.model.estado.selectedItem = null;
+			$scope.model.estado.searchText = null;
+			
+        	$scope.model.cidade.selectedItem = null;
+        	$scope.model.cidade.searchText = null;
 		};
 		
 		/**
@@ -476,15 +485,16 @@ angular.module('home')
 				return;
 			}
 			
+			if ( !$scope.model.pais.selectedItem )
+				return $scope.showMessage( $scope.ERROR_MESSAGE,  "Selecione um país" );
+			if ( !$scope.model.estado.selectedItem )
+				return $scope.showMessage( $scope.ERROR_MESSAGE,  "Selecione um estado" );
+			if ( !$scope.model.cidade.selectedItem )
+				return $scope.showMessage( $scope.ERROR_MESSAGE,  "Selecione uma cidade" );
+			
 			$scope.model.crianca.entity.endereco.cidade = $scope.model.cidade.selectedItem ;
 			$scope.model.crianca.entity.endereco.cidade.estado = $scope.model.estado.selectedItem ;
 			$scope.model.crianca.entity.endereco.cidade.estado.pais = $scope.model.pais.selectedItem ;
-			
-			if ($scope.model.crianca.entity.rendaMensal) {
-				$scope.model.crianca.entity.rendaMensal = $scope.model.crianca.entity.rendaMensal.substring(3, $scope.model.crianca.entity.rendaMensal.length )
-				$scope.model.crianca.entity.rendaMensal = $scope.model.crianca.entity.rendaMensal.replace(/\./g,'');
-				$scope.model.crianca.entity.rendaMensal = Number($scope.model.crianca.entity.rendaMensal);
-			}	
 			
 			criancaService.insertCrianca(  $scope.model.crianca.entity, {
                 callback : function(result) {
@@ -526,6 +536,23 @@ angular.module('home')
 		 */
 		$scope.insertDocumentoCrianca = function() {
 	    	
+			$scope.model.acolhimento.form.$submitted = true;
+			
+			if ( !$scope.model.documentoCrianca.entity.tipoDocumento ){
+				$scope.showMessage( $scope.ERROR_MESSAGE,  "Selecione um tipo de documento" );
+				return;
+			}
+			
+			if ( $scope.model.acolhimento.form.numeroCpf && $scope.model.acolhimento.form.numeroCpf.$invalid ){
+				$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
+				return;
+			}
+			
+			if ( $scope.model.acolhimento.form.numeroRg && $scope.model.acolhimento.form.numeroRg.$invalid ){
+				$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
+				return;
+			}
+			
 			$scope.model.documentoCrianca.entity.crianca = $scope.model.crianca.entity;
 			
 			criancaService.updateDocumentoCrianca( $scope.model.documentoCrianca.entity, {

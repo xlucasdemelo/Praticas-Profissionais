@@ -133,6 +133,11 @@ public class ExceptionHandlerAspect
 						throw new DataIntegrityViolationException("Já existe um documento deste tipo cadastrado, remova-o ou insira outro");
 					}
 					
+					if ( cause.getConstraintName().equals( "uk_documento_crianca_crianca_id_tipo_documento" ) )
+					{
+						throw new DataIntegrityViolationException("Já existe um documento deste tipo cadastrado, remova-o ou insira outro");
+					}
+					
 					key = message.substring( message.indexOf('(') + 1, message.indexOf(')') );
 					if ( key.startsWith( "lower(" ) )
 					{

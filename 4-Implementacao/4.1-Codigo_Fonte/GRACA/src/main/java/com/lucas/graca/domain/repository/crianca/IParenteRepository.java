@@ -22,7 +22,7 @@ public interface IParenteRepository extends JpaRepository<Parente, Long>
 			   "FROM Parente parente " +
 			   "LEFT OUTER JOIN parente.integranteFamiliar integranteFamiliar " + 
 			   "LEFT OUTER JOIN parente.crianca crianca " +
-			  "WHERE ( crianca.id = :criancaId " +
+			  "WHERE ( integranteFamiliar.ativo IS TRUE AND crianca.id = :criancaId " +
 			  		")"
 			)
 	public Page<Parente> listParentesByCrianca( @Param("criancaId") Long criancaId, Pageable pageable );
