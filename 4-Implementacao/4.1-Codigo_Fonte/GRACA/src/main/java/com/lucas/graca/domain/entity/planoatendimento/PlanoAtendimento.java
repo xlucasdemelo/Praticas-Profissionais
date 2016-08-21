@@ -11,6 +11,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
@@ -133,9 +134,27 @@ public abstract class PlanoAtendimento extends AbstractEntity implements Seriali
 		if ( status != other.status ) return false;
 		return true;
 	}
-
+	
+	/**
+	 * 
+	 */
+	@PrePersist
+	public void enablePlanoAtendimento()
+	{
+		this.ativo = true;
+	}
+	
+	/**
+	 * 
+	 */
+	@PrePersist
+	public void disablePlanoAtendimento()
+	{
+		this.ativo = false;
+	}
+	
 	/*-------------------------------------------------------------------
-	 *				 		     GETTERS AND SETTERS
+	 *				 		  GETTERS AND SETTERS
 	 *-------------------------------------------------------------------*/
 	
 	/**
