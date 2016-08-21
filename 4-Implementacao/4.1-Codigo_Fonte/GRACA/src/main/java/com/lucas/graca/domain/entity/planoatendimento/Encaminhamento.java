@@ -9,12 +9,17 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
+import org.hibernate.annotations.Check;
 import org.hibernate.envers.Audited;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.util.Assert;
 
 import com.lucas.graca.domain.entity.account.User;
+import com.lucas.graca.domain.entity.account.UserRole;
 import com.lucas.graca.domain.entity.integrantefamiliar.IntegranteFamiliar;
 
 import br.com.eits.common.domain.entity.AbstractEntity;
@@ -26,6 +31,7 @@ import br.com.eits.common.domain.entity.AbstractEntity;
 @Entity
 @Audited
 @DataTransferObject(javascript = "Encaminhamento")
+@Check(constraints = "status <> 2 OR observacao IS NOT NULL")
 public class Encaminhamento extends AbstractEntity implements Serializable
 {
 
@@ -42,19 +48,12 @@ public class Encaminhamento extends AbstractEntity implements Serializable
 	 * 
 	 */
 	@NotNull
-	private Integer numero;
-	
-	/**
-	 * 
-	 */
-	@NotNull
 	private String descricao;
 	
 	/**
 	 * 
 	 */
-	@NotNull
-	private String observação;
+	private String observacao;
 	
 	/**
 	 * 
@@ -65,21 +64,21 @@ public class Encaminhamento extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="plano_atendimento_id")
 	private PlanoAtendimento planoAtendimento;
 	
 	/**
 	 * 
 	 */
-	@ManyToOne(optional = true, fetch = FetchType.LAZY)
+	@ManyToOne(optional = true, fetch = FetchType.EAGER)
 	@JoinColumn(name="user_id")
 	private User usuario;
 	
 	/**
 	 * 
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="integrante_familiar_id")
 	private IntegranteFamiliar integranteFamiliar;
 	
@@ -90,18 +89,17 @@ public class Encaminhamento extends AbstractEntity implements Serializable
 	/**
 	 * @param numero
 	 * @param descricao
-	 * @param observação
+	 * @param observacao
 	 * @param status
 	 * @param planoAtendimento
 	 * @param usuario
 	 * @param integranteFamiliar
 	 */
-	public Encaminhamento( Long id, Integer numero, String descricao, String observação, StatusEncaminhamento status, PlanoAtendimento planoAtendimento, User usuario, IntegranteFamiliar integranteFamiliar )
+	public Encaminhamento( Long id, String descricao, String observacao, StatusEncaminhamento status, PlanoAtendimento planoAtendimento, User usuario, IntegranteFamiliar integranteFamiliar )
 	{
 		super(id);
-		this.numero = numero;
 		this.descricao = descricao;
-		this.observação = observação;
+		this.observacao = observacao;
 		this.status = status;
 		this.planoAtendimento = planoAtendimento;
 		this.usuario = usuario;
@@ -138,8 +136,7 @@ public class Encaminhamento extends AbstractEntity implements Serializable
 		int result = super.hashCode();
 		result = prime * result + ( ( descricao == null ) ? 0 : descricao.hashCode() );
 		result = prime * result + ( ( integranteFamiliar == null ) ? 0 : integranteFamiliar.hashCode() );
-		result = prime * result + ( ( numero == null ) ? 0 : numero.hashCode() );
-		result = prime * result + ( ( observação == null ) ? 0 : observação.hashCode() );
+		result = prime * result + ( ( observacao == null ) ? 0 : observacao.hashCode() );
 		result = prime * result + ( ( planoAtendimento == null ) ? 0 : planoAtendimento.hashCode() );
 		result = prime * result + ( ( status == null ) ? 0 : status.hashCode() );
 		result = prime * result + ( ( usuario == null ) ? 0 : usuario.hashCode() );
@@ -166,16 +163,11 @@ public class Encaminhamento extends AbstractEntity implements Serializable
 			if ( other.integranteFamiliar != null ) return false;
 		}
 		else if ( !integranteFamiliar.equals( other.integranteFamiliar ) ) return false;
-		if ( numero == null )
+		if ( observacao == null )
 		{
-			if ( other.numero != null ) return false;
+			if ( other.observacao != null ) return false;
 		}
-		else if ( !numero.equals( other.numero ) ) return false;
-		if ( observação == null )
-		{
-			if ( other.observação != null ) return false;
-		}
-		else if ( !observação.equals( other.observação ) ) return false;
+		else if ( !observacao.equals( other.observacao ) ) return false;
 		if ( planoAtendimento == null )
 		{
 			if ( other.planoAtendimento != null ) return false;
@@ -189,26 +181,61 @@ public class Encaminhamento extends AbstractEntity implements Serializable
 		else if ( !usuario.equals( other.usuario ) ) return false;
 		return true;
 	}
-
+	
+	/**
+	 * 
+	 */
+	public void changeToEmExecucao()
+	{
+		this.status = StatusEncaminhamento.EM_EXECUCAO; 
+	}
+	
+	/**
+	 * 
+	 */
+	public void changeToCancelado()
+	{
+		Assert.isTrue( (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal() == this.usuario 
+				|| SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains( UserRole.ADMINISTRATOR ) ,
+				"Somente o usuário criador ou o adminisntrador podem cancelar um encaminhamento" );
+		
+		Assert.isTrue( this.status != StatusEncaminhamento.CONCLUIDO, "Não é permitido cancelar um encaminhamento concluido" );
+		
+		this.status = StatusEncaminhamento.CANCELADO;
+	}
+	
+	/**
+	 * 
+	 */
+	public void changeToConcluido()
+	{
+		Assert.isTrue( this.status == StatusEncaminhamento.EM_EXECUCAO, "Para concluir um encaminhamento ele deve estar em execução" );
+		
+		this.status = StatusEncaminhamento.CONCLUIDO;
+	}
+	
+	/**
+	 * 
+	 */
+	@PrePersist
+	public void initilizeToPersist()
+	{
+		this.changeToEmExecucao();
+		this.setUsuario();
+	}
+	
+	/**
+	 * 
+	 * @param encaminhamento
+	 */
+	public void mergeToUpdate( Encaminhamento encaminhamento )
+	{
+		this.descricao = encaminhamento.getDescricao();
+	}
+	
 	/*-------------------------------------------------------------------
 	 *				 		     GETTERS AND SETTERS
 	 *-------------------------------------------------------------------*/
-	
-	/**
-	 * @return the numero
-	 */
-	public Integer getNumero()
-	{
-		return numero;
-	}
-
-	/**
-	 * @param numero the numero to set
-	 */
-	public void setNumero( Integer numero )
-	{
-		this.numero = numero;
-	}
 
 	/**
 	 * @return the descricao
@@ -227,19 +254,19 @@ public class Encaminhamento extends AbstractEntity implements Serializable
 	}
 
 	/**
-	 * @return the observação
+	 * @return the observacao
 	 */
-	public String getObservação()
+	public String getobservacao()
 	{
-		return observação;
+		return observacao;
 	}
 
 	/**
-	 * @param observação the observação to set
+	 * @param observacao the observacao to set
 	 */
-	public void setObservação( String observação )
+	public void setobservacao( String observacao )
 	{
-		this.observação = observação;
+		this.observacao = observacao;
 	}
 
 	/**
@@ -285,9 +312,9 @@ public class Encaminhamento extends AbstractEntity implements Serializable
 	/**
 	 * @param usuario the usuario to set
 	 */
-	public void setUsuario( User usuario )
+	public void setUsuario()
 	{
-		this.usuario = usuario;
+		this.usuario = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	}
 
 	/**

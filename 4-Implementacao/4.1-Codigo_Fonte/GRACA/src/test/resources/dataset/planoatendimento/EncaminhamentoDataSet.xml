@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+	<public.encaminhamento
+		id="9999"
+		created="2015-03-30 00:00:00"
+		updated="2015-03-30 00:00:00"
+		descricao="BOLOLO"
+		observacao="HAHA"
+		status = "0"
+		plano_atendimento_id="9999"
+		user_id="9999"
+		integrante_familiar_id="9999"
+	/>
+	
+<!-- 	<public.encaminhamento -->
+<!-- 		id="1000" -->
+<!-- 		created="2015-03-30 00:00:00" -->
+<!-- 		updated="2015-03-30 00:00:00" -->
+<!-- 		ativo="true" -->
+<!-- 		status = "0" -->
+<!-- 		familia_id="101" -->
+<!-- 	/> -->
+	
+<!-- 	<public.encaminhamento -->
+<!-- 		id="1001" -->
+<!-- 		created="2015-03-30 00:00:00" -->
+<!-- 		updated="2015-03-30 00:00:00" -->
+<!-- 		ativo="false" -->
+<!-- 		status = "0" -->
+<!-- 		familia_id="101" -->
+<!-- 	/> -->
+	
+</dataset>

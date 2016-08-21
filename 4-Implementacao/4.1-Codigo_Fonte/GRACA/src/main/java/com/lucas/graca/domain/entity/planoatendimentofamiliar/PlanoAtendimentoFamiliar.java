@@ -14,7 +14,6 @@ import org.hibernate.envers.Audited;
 import com.lucas.graca.domain.entity.familia.Familia;
 import com.lucas.graca.domain.entity.planoatendimento.PlanoAtendimento;
 import com.lucas.graca.domain.entity.planoatendimento.StatusPlanoAtendimento;
-import com.lucas.graca.domain.entity.redeapoio.RedeApoio;
 
 /**
  * @author lucas
@@ -38,7 +37,7 @@ public class PlanoAtendimentoFamiliar extends PlanoAtendimento
 	/**
 	 * 
 	 */
-	@ManyToOne (fetch = FetchType.EAGER)
+	@ManyToOne (optional = false, fetch = FetchType.EAGER)
 	@JoinColumn(name="familia_id")
 	private Familia familia;
 	
@@ -53,9 +52,9 @@ public class PlanoAtendimentoFamiliar extends PlanoAtendimento
 	 * @param status
 	 * @param familia
 	 */
-	public PlanoAtendimentoFamiliar( Long id, Boolean ativo, RedeApoio redeApoio, StatusPlanoAtendimento status, Familia familia )
+	public PlanoAtendimentoFamiliar( Long id, Boolean ativo, StatusPlanoAtendimento status, Familia familia )
 	{
-		super( id, ativo, redeApoio, status );
+		super( id, ativo, status );
 		this.familia = familia;
 	}
 

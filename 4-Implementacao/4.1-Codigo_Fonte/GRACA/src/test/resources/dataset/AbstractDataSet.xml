@@ -8,5 +8,7 @@
 	<public.pais/>
 	<public.integrante_familiar />
 	<public.crianca />
+	<public.plano_atendimento_familiar />
+	<public.encaminhamento />
 	<public.documento_integrante_familiar></public.documento_integrante_familiar>
 </dataset>

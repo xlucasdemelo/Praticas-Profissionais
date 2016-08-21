@@ -6,20 +6,15 @@ package com.lucas.graca.domain.entity.planoatendimento;
 import java.io.Serializable;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 
-import com.lucas.graca.domain.entity.redeapoio.RedeApoio;
-
-import br.com.eits.common.domain.entity.AbstractEntity;
+import com.lucas.graca.domain.entity.abstractEntity.AbstractEntity;
 
 /**
  * @author lucas
@@ -50,13 +45,6 @@ public abstract class PlanoAtendimento extends AbstractEntity implements Seriali
 	/**
 	 * 
 	 */
-	@ManyToOne (fetch = FetchType.LAZY)
-	@JoinColumn(name="rede_apoio_id")
-	private RedeApoio redeApoio;
-	
-	/**
-	 * 
-	 */
 	@NotNull
 	private StatusPlanoAtendimento status;
 
@@ -69,11 +57,10 @@ public abstract class PlanoAtendimento extends AbstractEntity implements Seriali
 	 * @param redeApoio
 	 * @param status
 	 */
-	public PlanoAtendimento( Long id, Boolean ativo, RedeApoio redeApoio, StatusPlanoAtendimento status )
+	public PlanoAtendimento( Long id, Boolean ativo, StatusPlanoAtendimento status )
 	{
 		super(id);
 		this.ativo = ativo;
-		this.redeApoio = redeApoio;
 		this.status = status;
 	}
 
@@ -106,7 +93,6 @@ public abstract class PlanoAtendimento extends AbstractEntity implements Seriali
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ( ( ativo == null ) ? 0 : ativo.hashCode() );
-		result = prime * result + ( ( redeApoio == null ) ? 0 : redeApoio.hashCode() );
 		result = prime * result + ( ( status == null ) ? 0 : status.hashCode() );
 		return result;
 	}
@@ -126,11 +112,6 @@ public abstract class PlanoAtendimento extends AbstractEntity implements Seriali
 			if ( other.ativo != null ) return false;
 		}
 		else if ( !ativo.equals( other.ativo ) ) return false;
-		if ( redeApoio == null )
-		{
-			if ( other.redeApoio != null ) return false;
-		}
-		else if ( !redeApoio.equals( other.redeApoio ) ) return false;
 		if ( status != other.status ) return false;
 		return true;
 	}
@@ -138,7 +119,6 @@ public abstract class PlanoAtendimento extends AbstractEntity implements Seriali
 	/**
 	 * 
 	 */
-	@PrePersist
 	public void enablePlanoAtendimento()
 	{
 		this.ativo = true;
@@ -147,10 +127,27 @@ public abstract class PlanoAtendimento extends AbstractEntity implements Seriali
 	/**
 	 * 
 	 */
-	@PrePersist
 	public void disablePlanoAtendimento()
 	{
 		this.ativo = false;
+	}
+	
+	/**
+	 * 
+	 */
+	@PrePersist
+	public void initializeToPersist()
+	{
+		this.enablePlanoAtendimento();
+		this.changeToRascunho();
+	}
+	
+	/**
+	 * 
+	 */
+	public void changeToRascunho()
+	{
+		this.status = StatusPlanoAtendimento.RASCUNHO;
 	}
 	
 	/*-------------------------------------------------------------------
@@ -171,22 +168,6 @@ public abstract class PlanoAtendimento extends AbstractEntity implements Seriali
 	public void setAtivo( Boolean ativo )
 	{
 		this.ativo = ativo;
-	}
-
-	/**
-	 * @return the redeApoio
-	 */
-	public RedeApoio getRedeApoio()
-	{
-		return redeApoio;
-	}
-
-	/**
-	 * @param redeApoio the redeApoio to set
-	 */
-	public void setRedeApoio( RedeApoio redeApoio )
-	{
-		this.redeApoio = redeApoio;
 	}
 
 	/**

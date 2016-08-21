@@ -53,7 +53,11 @@ public class IntegranteFamiliarIntegrationTests extends AbstractIntegrationTests
 	 */
 	@Test
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml" 
+			"/dataset/endereco/PaisDataSet.xml", 
+			"/dataset/endereco/EstadoDataSet.xml", 
+			"/dataset/endereco/CidadeDataSet.xml", 
+			"/dataset/endereco/EnderecoDataSet.xml", 
+			"/dataset/familia/FamiliaDataSet.xml" 
 	})
 	public void insertIntegranteFamiliarMustPass()
 	{
