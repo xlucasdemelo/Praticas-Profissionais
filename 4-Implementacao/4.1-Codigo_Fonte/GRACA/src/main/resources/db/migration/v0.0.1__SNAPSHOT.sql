@@ -1,4 +1,4 @@
-SET statement_timeout = 0;
+/* SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
@@ -74,4 +74,4 @@ CREATE TABLE "public"."user"
 -----------------------
 INSERT INTO "public"."user"(
             id, created, updated, email, enabled, name, password, role)
-    VALUES (1, NOW(), null, 'admin@admin.com', TRUE, 'Administrador de Sistemas', 'd1bd2f08fead38a982aed9d4ca060152400b1b8f', 0);
+    VALUES (1, NOW(), null, 'admin@admin.com', TRUE, 'Administrador de Sistemas', 'd1bd2f08fead38a982aed9d4ca060152400b1b8f', 0); */

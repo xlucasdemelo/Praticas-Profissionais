@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
-import com.lucas.graca.domain.entity.documento.TipoDocumento;
 import com.lucas.graca.domain.entity.endereco.Endereco;
 import com.lucas.graca.domain.entity.familia.Sexo;
 import com.lucas.graca.domain.entity.integrantefamiliar.DocumentoIntegranteFamiliar;
 import com.lucas.graca.domain.entity.integrantefamiliar.GrauEscolaridade;
 import com.lucas.graca.domain.entity.integrantefamiliar.IntegranteFamiliar;
+import com.lucas.graca.domain.entity.integrantefamiliar.TipoDocumento;
 import com.lucas.graca.domain.repository.endereco.IEnderecoRepository;
 import com.lucas.graca.domain.repository.integranteFamiliar.IDocumentoIntegranteFamiliarRepository;
 import com.lucas.graca.domain.repository.integranteFamiliar.IIntegranteFamiliarRepository;

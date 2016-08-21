@@ -18,13 +18,13 @@ import org.springframework.transaction.TransactionSystemException;
 import com.digows.blank.test.domain.AbstractIntegrationTests;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
-import com.lucas.graca.domain.entity.documento.TipoDocumento;
 import com.lucas.graca.domain.entity.endereco.Endereco;
 import com.lucas.graca.domain.entity.familia.Familia;
 import com.lucas.graca.domain.entity.familia.Sexo;
 import com.lucas.graca.domain.entity.integrantefamiliar.DocumentoIntegranteFamiliar;
 import com.lucas.graca.domain.entity.integrantefamiliar.GrauEscolaridade;
 import com.lucas.graca.domain.entity.integrantefamiliar.IntegranteFamiliar;
+import com.lucas.graca.domain.entity.integrantefamiliar.TipoDocumento;
 import com.lucas.graca.domain.service.integranteFamiliar.IntegranteFamiliarService;
 
 /**

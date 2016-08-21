@@ -18,12 +18,12 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.lucas.graca.domain.entity.crianca.Crianca;
 import com.lucas.graca.domain.entity.crianca.DocumentoCrianca;
 import com.lucas.graca.domain.entity.crianca.Etnia;
-import com.lucas.graca.domain.entity.documento.TipoDocumento;
 import com.lucas.graca.domain.entity.endereco.Cidade;
 import com.lucas.graca.domain.entity.endereco.Endereco;
 import com.lucas.graca.domain.entity.familia.Familia;
 import com.lucas.graca.domain.entity.familia.Sexo;
 import com.lucas.graca.domain.entity.integrantefamiliar.GrauEscolaridade;
+import com.lucas.graca.domain.entity.integrantefamiliar.TipoDocumento;
 import com.lucas.graca.domain.service.crianca.CriancaService;
 
 

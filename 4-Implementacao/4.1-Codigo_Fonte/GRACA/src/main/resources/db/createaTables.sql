@@ -72,9 +72,6 @@ CREATE TABLE "public"."user"
 ----------------------- 
 -- DEFAULT DATA
 -----------------------
-INSERT INTO "public"."user"(
-            id, created, updated, email, enabled, name, password, role)
-    VALUES (1, NOW(), null, 'admin@admin.com', TRUE, 'Administrador de Sistemas', 'd1bd2f08fead38a982aed9d4ca060152400b1b8f', 0);
     
     
     
@@ -636,7 +633,7 @@ ALTER TABLE hibernate_sequence
   OWNER TO postgres;
 
   
-  /*
+  
   INSERT INTO public.pais values (1, now(), now(), 'Brasil');
   
   INSERT INTO public.estado values (1, now(), now(), 'Paraná', 1);
@@ -647,4 +644,8 @@ ALTER TABLE hibernate_sequence
   
   INSERT INTO public.familia values (1, now(), now(), true, 'fera', 'Silva', 'Maria', 10, 5, 'boa', '9999-9999', 0, 0, 2)
  
-  INSERT INTO public.integrante_familiar values (1, now(), now(), true, now(), 'Pessoa', 0, 'Joao', 'Nada', 1000, 0, '123', 1, 1)*/
+  INSERT INTO public.integrante_familiar values (1, now(), now(), true, now(), 'Pessoa', 0, 'Joao', 'Nada', 1000, 0, '123', 1, 1)
+  
+  INSERT INTO "public"."user"(
+            id, created, updated, email, enabled, name, password, role)
+    VALUES (1, NOW(), null, 'admin@admin.com', TRUE, 'Administrador de Sistemas', 'd1bd2f08fead38a982aed9d4ca060152400b1b8f', 0);

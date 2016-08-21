@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.lucas.graca.domain.entity.documento;
+package com.lucas.graca.domain.entity.integrantefamiliar;
 
 import org.directwebremoting.annotations.DataTransferObject;
 

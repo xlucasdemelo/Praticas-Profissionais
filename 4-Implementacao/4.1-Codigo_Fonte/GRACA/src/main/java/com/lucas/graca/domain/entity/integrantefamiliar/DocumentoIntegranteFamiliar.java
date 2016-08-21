@@ -18,8 +18,6 @@ import javax.validation.constraints.NotNull;
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 
-import com.lucas.graca.domain.entity.documento.TipoDocumento;
-
 import br.com.eits.common.domain.entity.AbstractEntity;
 
 /**
