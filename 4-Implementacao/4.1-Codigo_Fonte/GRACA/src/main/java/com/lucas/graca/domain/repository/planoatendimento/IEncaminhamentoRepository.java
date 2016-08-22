@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.lucas.graca.domain.entity.planoatendimento.Encaminhamento;
-import com.lucas.graca.domain.entity.planoatendimentofamiliar.PlanoAtendimentoFamiliar;
 
 /**
  * @author lucas
@@ -20,9 +19,10 @@ public interface IEncaminhamentoRepository extends JpaRepository<Encaminhamento,
 {
 	
 	@Query(value="SELECT new Encaminhamento( encaminhamento.id, encaminhamento.descricao, encaminhamento.observacao, encaminhamento.status, encaminhamento.planoAtendimento, encaminhamento.usuario, encaminhamento.integranteFamiliar )" +
-			   "FROM Encaminhamento encaminhamento " +
-			   "LEFT OUTER JOIN encaminhamento.integranteFamiliar " + 
-			  "WHERE ( encaminhamento.planoAtendimento.id = :idPlanoAtendimento " +
+			   " FROM Encaminhamento encaminhamento " +
+			   " LEFT OUTER JOIN encaminhamento.integranteFamiliar " + 
+			   " WHERE ( encaminhamento.planoAtendimento.id = :idPlanoAtendimento " +
+			   " AND (FILTER(encaminhamento.descricao, :filter) = TRUE)" +
 			  " ) "
 			)
 	public Page<Encaminhamento> listByPlanoAtendimentoAndFilters( @Param("idPlanoAtendimento") long idPlanoAtendimento, @Param("filter") String filter, Pageable pageable );

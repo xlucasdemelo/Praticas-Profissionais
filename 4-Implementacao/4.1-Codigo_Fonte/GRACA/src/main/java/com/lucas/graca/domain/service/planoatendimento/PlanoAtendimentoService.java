@@ -188,4 +188,14 @@ public class PlanoAtendimentoService
 	{
 		return this.encaminhamentoRepository.listByPlanoAtendimentoAndFilters( idPlanoAtendimento, filter, pageable );
 	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Encaminhamento findEncaminhamentoById( long id )
+	{
+		return this.encaminhamentoRepository.findOne( id );
+	}
 }
