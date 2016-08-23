@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.test.context.support.WithUserDetails;
 
 import com.digows.blank.test.domain.AbstractIntegrationTests;
@@ -44,7 +45,9 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	 * 
 	 */
 	@Test
+	@WithUserDetails("atendente@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/account/UserDataSet.xml", 
 			"/dataset/endereco/PaisDataSet.xml", 
 			"/dataset/endereco/EstadoDataSet.xml", 
 			"/dataset/endereco/CidadeDataSet.xml", 
@@ -59,6 +62,29 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 		planoAtendimentoFamiliar = this.planoAtendimentoService.insertPlanoAtendimentoFamiliar( planoAtendimentoFamiliar );
 		
 		Assert.assertNotNull( planoAtendimentoFamiliar );
+	}
+	
+	/**
+	 * 
+	 */
+	@Test(expected = AccessDeniedException.class)
+	@WithUserDetails("chefe_adm@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/account/UserDataSet.xml", 
+			"/dataset/endereco/PaisDataSet.xml", 
+			"/dataset/endereco/EstadoDataSet.xml", 
+			"/dataset/endereco/CidadeDataSet.xml", 
+			"/dataset/endereco/EnderecoDataSet.xml", 
+			"/dataset/familia/FamiliaDataSet.xml" 
+	})
+	public void insertPlanoAtendimentoFamiliarMustFailWithoutOperadotAtendimento()
+	{
+		
+		PlanoAtendimentoFamiliar planoAtendimentoFamiliar = new PlanoAtendimentoFamiliar( null, null, null, new Familia(100L) );
+		
+		planoAtendimentoFamiliar = this.planoAtendimentoService.insertPlanoAtendimentoFamiliar( planoAtendimentoFamiliar );
+		
+		Assert.fail();
 	}
 	
 	/**
@@ -107,7 +133,9 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	 * 
 	 */
 	@Test
+	@WithUserDetails("operador_atendimento@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/account/UserDataSet.xml", 
 			"/dataset/endereco/PaisDataSet.xml", 
 			"/dataset/endereco/EstadoDataSet.xml", 
 			"/dataset/endereco/CidadeDataSet.xml", 
@@ -115,7 +143,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 			"/dataset/familia/FamiliaDataSet.xml",
 			"/dataset/planoatendimento/PlanoAtendimentoFamiliarDataSet.xml"
 	})
-	public void listPlanoAtendimentoFamiliarByFiltersMustPass()
+	public void listPlanoAtendimentoFamiliarByFiltersMustPassWithOperadorAtendimento()
 	{
 		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoService.listByFilters( null, null ).getContent();
 		
@@ -127,7 +155,33 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	 * 
 	 */
 	@Test
+	@WithUserDetails("colaborador_externo@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/account/UserDataSet.xml", 
+			"/dataset/endereco/PaisDataSet.xml", 
+			"/dataset/endereco/EstadoDataSet.xml", 
+			"/dataset/endereco/CidadeDataSet.xml", 
+			"/dataset/endereco/EnderecoDataSet.xml", 
+			"/dataset/familia/FamiliaDataSet.xml",
+			"/dataset/planoatendimento/PlanoAtendimentoFamiliarDataSet.xml"
+	})
+	public void listPlanoAtendimentoFamiliarByFiltersMustPassWithOperadorColaboradorExterno()
+	{
+		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoService.listByFilters( null, null ).getContent();
+		
+		Assert.assertNotNull( planos );
+		Assert.assertFalse( planos.isEmpty() );
+	}
+	
+	//TODO CONTINUAR AJUSTANDO TUDO KRAI
+	
+	/**
+	 * 
+	 */
+	@Test
+	@WithUserDetails("operador_atendimento@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml", 
 			"/dataset/endereco/EstadoDataSet.xml", 
 			"/dataset/endereco/CidadeDataSet.xml", 
@@ -148,7 +202,9 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	 * 
 	 */
 	@Test
+	@WithUserDetails("operador_atendimento@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml", 
 			"/dataset/endereco/EstadoDataSet.xml", 
 			"/dataset/endereco/CidadeDataSet.xml", 
@@ -170,7 +226,9 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	 * 
 	 */
 	@Test
+	@WithUserDetails("operador_atendimento@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml", 
 			"/dataset/endereco/EstadoDataSet.xml", 
 			"/dataset/endereco/CidadeDataSet.xml", 
@@ -576,7 +634,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	/**
 	 * 
 	 */
-	@Test
+	@Test(expected= IllegalArgumentException.class)
 	@WithUserDetails("xova@testing.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
 			"/dataset/account/UserDataSet.xml",

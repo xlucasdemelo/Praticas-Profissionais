@@ -77,7 +77,7 @@ public class AccountService
 	 * @param user
 	 * @return
 	 */
-	@PreAuthorize("hasAnyAuthority('"+UserRole.ADMINISTRATOR_VALUE+"','"+UserRole.MANAGER_VALUE+"')")
+	@PreAuthorize("hasAnyAuthority('"+UserRole.ADMINISTRATOR_VALUE+"')")
 	public User insertUser( User user )
 	{
 		Assert.notNull( user );

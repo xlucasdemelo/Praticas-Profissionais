@@ -177,11 +177,28 @@ public class User extends AbstractEntity implements Serializable, UserDetails
 
 		if ( role.equals( UserRole.ADMINISTRATOR ) )
 		{
-			authorities.add( UserRole.MANAGER );
+			authorities.add( UserRole.COLABORADOR_EXTERNO );
+			authorities.add( UserRole.ATENDENTE );
+			authorities.add( UserRole.OPERADOR_ATENDIMENTOS );
+			authorities.add( UserRole.CHEFE_ADMINISTRACAO );
+			authorities.add( UserRole.OPERADOR_ADMINISNTRATIVO );
 		}
 
-		authorities.add( UserRole.USER );
-
+		if ( role.equals( UserRole.ATENDENTE ) )
+		{
+			authorities.add( UserRole.OPERADOR_ATENDIMENTOS );
+		}
+		
+		if (role.equals( UserRole.COLABORADOR_EXTERNO ) )
+		{
+			authorities.add( UserRole.COLABORADOR_EXTERNO );
+		}
+		
+		if ( role.equals( UserRole.CHEFE_ADMINISTRACAO ) )
+		{
+			authorities.add( UserRole.OPERADOR_ADMINISNTRATIVO );
+		}
+		
 		return authorities;
 	}
 

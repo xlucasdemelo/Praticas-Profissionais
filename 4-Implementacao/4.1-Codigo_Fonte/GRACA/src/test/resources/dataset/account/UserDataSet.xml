@@ -12,24 +12,32 @@
 		id="1000"
 		created="2015-03-30 00:00:00"
 		enabled="false"
-		email="user001@testing.com"
+		email="atendente@email.com"
 		password="d1bd2f08fead38a982aed9d4ca060152400b1b8f"
-		name="User 001"
-		role="0"/>
+		name="Atendente"
+		role="1"/>
 	<public.user
 		id="1001"
 		created="2015-03-30 00:00:00"
 		enabled="false"
-		email="user002@testing.com"
+		email="colaborador_externo@email.com"
 		password="d1bd2f08fead38a982aed9d4ca060152400b1b8f"
-		name="User 002"
-		role="1"/>
+		name="Colaborador Externo"
+		role="2"/>
+	<public.user
+		id="1003"
+		created="2015-03-30 00:00:00"
+		enabled="false"
+		email="operador_atendimento@email.com"
+		password="d1bd2f08fead38a982aed9d4ca060152400b1b8f"
+		name="Operador atendimentos"
+		role="3"/>
 	<public.user
 		id="1002"
 		created="2015-03-30 00:00:00"
 		enabled="false"
-		email="xova@testing.com"
+		email="chefe_adm@email.com"
 		password="d1bd2f08fead38a982aed9d4ca060152400b1b8f"
 		name="Xóva :x"
-		role="2"/>
+		role="4"/>
 </dataset>

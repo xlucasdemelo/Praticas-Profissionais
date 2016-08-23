@@ -52,7 +52,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	})
 	public void insertUserMustPass()
 	{
-		User user = new User( null, "Testing user", "test@user.com", true, UserRole.USER, "user" );
+		User user = new User( null, "Testing user", "test@user.com", true, UserRole.OPERADOR_ADMINISNTRATIVO, "user" );
 		user = this.accountService.insertUser( user );
 
 		Assert.assertNotNull( user );

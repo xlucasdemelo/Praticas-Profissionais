@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
+import org.springframework.util.Assert;
 
 import com.lucas.graca.domain.entity.abstractEntity.AbstractEntity;
 
@@ -150,6 +151,57 @@ public abstract class PlanoAtendimento extends AbstractEntity implements Seriali
 		this.status = StatusPlanoAtendimento.RASCUNHO;
 	}
 	
+	/**
+	 * 
+	 */
+	public void changeToEmExecucao()
+	{
+		
+		Assert.isTrue( this.status != StatusPlanoAtendimento.RASCUNHO, "O status deve ser RACUNHO" );
+		
+		this.status = StatusPlanoAtendimento.EM_EXECUCAO;
+	}
+	
+	/**
+	 * 
+	 */
+	public void changeToEmProcessoDesligamento()
+	{
+		
+		Assert.isTrue( this.status != StatusPlanoAtendimento.EM_EXECUCAO, "O status deve ser em execução" );
+		
+		this.status = StatusPlanoAtendimento.EM_PROCESSO_DESLIGAMENTO;
+	}
+	
+	/**
+	 * 
+	 */
+	public void changeToEmProcessoReintegracao()
+	{
+		
+		Assert.isTrue( this.status != StatusPlanoAtendimento.EM_EXECUCAO, "O status deve ser em execução" );
+		
+		this.status = StatusPlanoAtendimento.EM_PROCESSO_REINTEGRAÇÃO;
+	}
+	
+	/**
+	 * 
+	 */
+	public void changeToEmProcessoEmancipacao()
+	{
+		
+		Assert.isTrue( this.status != StatusPlanoAtendimento.EM_EXECUCAO, "O status deve ser em execução" );
+		
+		this.status = StatusPlanoAtendimento.EM_PROCESSO_EMANCIPACAO;
+	}
+	
+	/**
+	 * 
+	 */
+	public void changeToFinalizado()
+	{
+		this.status = StatusPlanoAtendimento.FINALIZADO;
+	} 
 	/*-------------------------------------------------------------------
 	 *				 		  GETTERS AND SETTERS
 	 *-------------------------------------------------------------------*/

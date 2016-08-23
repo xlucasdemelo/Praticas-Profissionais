@@ -5,10 +5,12 @@ import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.lucas.graca.domain.entity.account.UserRole;
 import com.lucas.graca.domain.entity.planoatendimento.Encaminhamento;
 import com.lucas.graca.domain.entity.planoatendimento.StatusPlanoAtendimento;
 import com.lucas.graca.domain.entity.planoatendimentofamiliar.PlanoAtendimentoFamiliar;
@@ -22,6 +24,7 @@ import com.lucas.graca.domain.repository.planoatendimento.IPlanoAtendimentoFamil
 @Service
 @RemoteProxy
 @Transactional
+@PreAuthorize("hasAuthority('"+UserRole.COLABORADOR_EXTERNO_VALUE+"') || hasAuthority('"+UserRole.ATENDENTE_VALUE+"') ")
 public class PlanoAtendimentoService
 {
 	
@@ -111,10 +114,76 @@ public class PlanoAtendimentoService
 	 * @param filter
 	 * @param pageable
 	 */
+	@PreAuthorize("hasAuthority('"+UserRole.OPERADOR_ATENDIMENTOS_VALUE+"') || hasAuthority('"+UserRole.COLABORADOR_EXTERNO_VALUE+"') ")
 	public Page<PlanoAtendimentoFamiliar> listByFilters( String filter, PageRequest pageable )
 	{
 		return this.planoAtendimentoFamiliarRepository.listByFilters( filter, pageable );
 	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public PlanoAtendimentoFamiliar changetToEmExecucao ( long id )
+	{
+		PlanoAtendimentoFamiliar planoAtendimentoFamiliar = this.planoAtendimentoFamiliarRepository.findOne( id );
+		
+		planoAtendimentoFamiliar.changeToEmExecucao();
+		return this.planoAtendimentoFamiliarRepository.save( planoAtendimentoFamiliar );
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public PlanoAtendimentoFamiliar changetToEmDesligamento ( long id )
+	{
+		PlanoAtendimentoFamiliar planoAtendimentoFamiliar = this.planoAtendimentoFamiliarRepository.findOne( id );
+		
+		planoAtendimentoFamiliar.changeToEmProcessoDesligamento();
+		return this.planoAtendimentoFamiliarRepository.save( planoAtendimentoFamiliar );
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public PlanoAtendimentoFamiliar changetToEmReintegracao ( long id )
+	{
+		PlanoAtendimentoFamiliar planoAtendimentoFamiliar = this.planoAtendimentoFamiliarRepository.findOne( id );
+		
+		planoAtendimentoFamiliar.changeToEmProcessoReintegracao();
+		return this.planoAtendimentoFamiliarRepository.save( planoAtendimentoFamiliar );
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public PlanoAtendimentoFamiliar changetToEmancipacao ( long id )
+	{
+		PlanoAtendimentoFamiliar planoAtendimentoFamiliar = this.planoAtendimentoFamiliarRepository.findOne( id );
+		
+		planoAtendimentoFamiliar.changeToEmProcessoEmancipacao();
+		return this.planoAtendimentoFamiliarRepository.save( planoAtendimentoFamiliar );
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public PlanoAtendimentoFamiliar changetToFinalizado ( long id )
+	{
+		PlanoAtendimentoFamiliar planoAtendimentoFamiliar = this.planoAtendimentoFamiliarRepository.findOne( id );
+		
+		planoAtendimentoFamiliar.changeToFinalizado();
+		return this.planoAtendimentoFamiliarRepository.save( planoAtendimentoFamiliar );
+	} 
 	
 	/*-------------------------------------------------------------------
 	 *				SERVICES ENCAMINHAMENTO
