@@ -24,7 +24,7 @@ import com.lucas.graca.domain.repository.planoatendimento.IPlanoAtendimentoFamil
 @Service
 @RemoteProxy
 @Transactional
-@PreAuthorize("hasAuthority('"+UserRole.COLABORADOR_EXTERNO_VALUE+"') || hasAuthority('"+UserRole.ATENDENTE_VALUE+"') ")
+@PreAuthorize("hasAuthority('"+UserRole.COLABORADOR_EXTERNO_VALUE+"') || hasAuthority('"+UserRole.OPERADOR_ATENDIMENTOS_VALUE+"') ")
 public class PlanoAtendimentoService
 {
 	
@@ -53,6 +53,7 @@ public class PlanoAtendimentoService
 	 * @param planoAtendimentoFamiliar
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('"+UserRole.OPERADOR_ATENDIMENTOS_VALUE+"') ")
 	public PlanoAtendimentoFamiliar insertPlanoAtendimentoFamiliar( PlanoAtendimentoFamiliar planoAtendimentoFamiliar )
 	{
 		Assert.notNull( planoAtendimentoFamiliar );
@@ -89,6 +90,7 @@ public class PlanoAtendimentoService
 	 * 
 	 * @param id
 	 */
+	@PreAuthorize("hasAuthority('"+UserRole.OPERADOR_ATENDIMENTOS_VALUE+"') ")
 	public void disablePlanoAtendimentoFamiliar( long id )
 	{
 		PlanoAtendimentoFamiliar planoAtendimentoFamiliar = this.planoAtendimentoFamiliarRepository.findOne( id );
@@ -101,6 +103,7 @@ public class PlanoAtendimentoService
 	 * 
 	 * @param id
 	 */
+	@PreAuthorize("hasAuthority('"+UserRole.OPERADOR_ATENDIMENTOS_VALUE+"') ")
 	public void enablePlanoAtendimentoFamiliar( long id )
 	{
 		PlanoAtendimentoFamiliar planoAtendimentoFamiliar = this.planoAtendimentoFamiliarRepository.findOne( id );
@@ -194,6 +197,7 @@ public class PlanoAtendimentoService
 	 * @param encaminhamento
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('"+UserRole.OPERADOR_ATENDIMENTOS_VALUE+"') ")
 	public Encaminhamento insertEncaminhamento( Encaminhamento encaminhamento )
 	{
 		Assert.notNull( encaminhamento );
@@ -224,6 +228,7 @@ public class PlanoAtendimentoService
 	 * @param id
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('"+UserRole.OPERADOR_ATENDIMENTOS_VALUE+"') ")
 	public Encaminhamento cancelEncaminhamento( long id )
 	{
 		Encaminhamento encaminhamento = this.encaminhamentoRepository.findOne( id );
@@ -238,6 +243,7 @@ public class PlanoAtendimentoService
 	 * @param id
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('"+UserRole.OPERADOR_ATENDIMENTOS_VALUE+"') ")
 	public Encaminhamento concluirEncaminhamento( long id )
 	{
 		Encaminhamento encaminhamento = this.encaminhamentoRepository.findOne( id );
@@ -253,6 +259,7 @@ public class PlanoAtendimentoService
 	 * @param pageable
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('"+UserRole.OPERADOR_ATENDIMENTOS_VALUE+"') || hasAuthority('"+UserRole.COLABORADOR_EXTERNO_VALUE+"')")
 	public Page<Encaminhamento> listEncaminhamentosByFilter( long idPlanoAtendimento, String filter, PageRequest pageable )
 	{
 		return this.encaminhamentoRepository.listByPlanoAtendimentoAndFilters( idPlanoAtendimento, filter, pageable );

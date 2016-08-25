@@ -34,4 +34,26 @@
 		user_id="1002"
 	/>
 	
+	<public.encaminhamento
+		id="1002"
+		created="2015-03-30 00:00:00"
+		updated="2015-03-30 00:00:00"
+		descricao="Descrição 12"
+		observacao="HAHA"
+		status = "1"
+		plano_atendimento_id="9999"
+		user_id="1003"
+	/>
+	
+	<public.encaminhamento
+		id="1003"
+		created="2015-03-30 00:00:00"
+		updated="2015-03-30 00:00:00"
+		descricao="Descrição 12"
+		observacao="HAHA"
+		status = "1"
+		plano_atendimento_id="9999"
+		user_id="1003"
+	/>
+	
 </dataset>

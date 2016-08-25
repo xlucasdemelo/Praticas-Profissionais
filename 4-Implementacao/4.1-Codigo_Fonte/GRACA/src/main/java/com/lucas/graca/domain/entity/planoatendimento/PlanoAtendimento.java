@@ -130,6 +130,9 @@ public abstract class PlanoAtendimento extends AbstractEntity implements Seriali
 	 */
 	public void disablePlanoAtendimento()
 	{
+		Assert.isTrue( this.status == StatusPlanoAtendimento.FINALIZADO || this.status == StatusPlanoAtendimento.RASCUNHO
+				, "Para desabilitar o plano de atendimento ele deve estar em rascunho ou finalizado" );
+		
 		this.ativo = false;
 	}
 	

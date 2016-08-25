@@ -195,7 +195,7 @@ public class Encaminhamento extends AbstractEntity implements Serializable
 	 */
 	public void changeToCancelado()
 	{
-		Assert.isTrue( (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal() == this.usuario 
+		Assert.isTrue( SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals( this.usuario )
 				|| SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains( UserRole.ADMINISTRATOR ) ,
 				"Somente o usuário criador ou o adminisntrador podem cancelar um encaminhamento" );
 		
@@ -209,7 +209,7 @@ public class Encaminhamento extends AbstractEntity implements Serializable
 	 */
 	public void changeToConcluido()
 	{
-		Assert.isTrue( (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal() == this.usuario 
+		Assert.isTrue( SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals( this.usuario )
 				|| SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains( UserRole.ADMINISTRATOR ) ,
 				"Somente o usuário criador ou o adminisntrador podem cancelar um encaminhamento" );
 		Assert.isTrue( this.status == StatusEncaminhamento.EM_EXECUCAO, "Para concluir um encaminhamento ele deve estar em execução" );

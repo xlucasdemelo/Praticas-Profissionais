@@ -28,4 +28,12 @@
 		familia_id="101"
 	/>
 	
+	<public.plano_atendimento_familiar
+		id="1002"
+		created="2015-03-30 00:00:00"
+		updated="2015-03-30 00:00:00"
+		ativo="false"
+		status = "1"
+		familia_id="101"
+	/>
 </dataset>
