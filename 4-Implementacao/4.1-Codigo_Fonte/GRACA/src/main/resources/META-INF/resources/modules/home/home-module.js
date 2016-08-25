@@ -90,6 +90,25 @@
 	        url:'/editar/{id:[0-9]{1,10}}',
 	        templateUrl: './modules/home/views/crianca/crianca-form.html'
 	     })
+	     
+	     $stateProvider.state('plano-atendimento-familiar',{
+        	abstract: true,
+        	url : "/plano-atendimento-familiar",
+        	template: '<div layout="column" flex ui-view=""/>',
+        	controller : 'PlanoAtendimentoFamiliarController as planoAtendimentoFamiliarController'
+        })
+        .state('plano-atendimento-familiar.list',{
+            url:'/listar',
+            templateUrl: './modules/home/views/planoatendimentofamiliar/plano-atendimento-familiar-list.html'
+          })
+        .state('plano-atendimento-familiar.add',{
+            url:'/inserir',
+            templateUrl: './modules/home/views/planoatendimentofamiliar/plano-atendimento-familiar-form.html'
+          })
+	    .state('plano-atendimento-familiar.edit',{
+	        url:'/editar/{id:[0-9]{1,10}}',
+	        templateUrl: './modules/home/views/planoatendimentofamiliar/plano-atendimento-familiar-form.html'
+	     })
 	});
 
 	/**
