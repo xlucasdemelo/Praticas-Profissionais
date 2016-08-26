@@ -118,7 +118,7 @@ public class PlanoAtendimentoService
 	 * @param pageable
 	 */
 	@PreAuthorize("hasAuthority('"+UserRole.OPERADOR_ATENDIMENTOS_VALUE+"') || hasAuthority('"+UserRole.COLABORADOR_EXTERNO_VALUE+"') ")
-	public Page<PlanoAtendimentoFamiliar> listByFilters( String filter, PageRequest pageable )
+	public Page<PlanoAtendimentoFamiliar> listPlanoAtendimentoFamiliarByFilters( String filter, PageRequest pageable )
 	{
 		return this.planoAtendimentoFamiliarRepository.listByFilters( filter, pageable );
 	}

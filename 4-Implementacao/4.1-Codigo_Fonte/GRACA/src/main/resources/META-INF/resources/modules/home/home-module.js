@@ -91,6 +91,7 @@
 	        templateUrl: './modules/home/views/crianca/crianca-form.html'
 	     })
 	     
+	     //Plano de atendimento familiar
 	     $stateProvider.state('plano-atendimento-familiar',{
         	abstract: true,
         	url : "/plano-atendimento-familiar",

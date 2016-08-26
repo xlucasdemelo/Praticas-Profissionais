@@ -148,7 +148,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	})
 	public void listPlanoAtendimentoFamiliarByFiltersMustPassWithOperadorAtendimento()
 	{
-		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoService.listByFilters( null, null ).getContent();
+		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoService.listPlanoAtendimentoFamiliarByFilters( null, null ).getContent();
 		
 		Assert.assertNotNull( planos );
 		Assert.assertFalse( planos.isEmpty() );
@@ -170,7 +170,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	})
 	public void listPlanoAtendimentoFamiliarByFiltersMustPassWithOperadorColaboradorExterno()
 	{
-		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoService.listByFilters( null, null ).getContent();
+		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoService.listPlanoAtendimentoFamiliarByFilters( null, null ).getContent();
 		
 		Assert.assertNotNull( planos );
 		Assert.assertFalse( planos.isEmpty() );
@@ -192,7 +192,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	})
 	public void listPlanoAtendimentoFamiliarByFiltersMustPassFilterName()
 	{
-		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoService.listByFilters( "Paia", null ).getContent();
+		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoService.listPlanoAtendimentoFamiliarByFilters( "Paia", null ).getContent();
 		
 		Assert.assertNotNull( planos );
 		Assert.assertFalse( planos.isEmpty() );
@@ -215,7 +215,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	})
 	public void listPlanoAtendimentoFamiliarByFiltersMustPassFilterNomeMae()
 	{
-		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoService.listByFilters( "Marlene Paia", null ).getContent();
+		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoService.listPlanoAtendimentoFamiliarByFilters( "Marlene Paia", null ).getContent();
 		
 		Assert.assertNotNull( planos );
 		Assert.assertFalse( planos.isEmpty() );
@@ -239,7 +239,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	})
 	public void listPlanoAtendimentoFamiliarByFiltersMustPassFilterMustRetuirnEmptyList()
 	{
-		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoService.listByFilters( "Nenhum registro", null ).getContent();
+		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoService.listPlanoAtendimentoFamiliarByFilters( "Nenhum registro", null ).getContent();
 		
 		Assert.assertNotNull( planos );
 		Assert.assertTrue( planos.isEmpty() );
