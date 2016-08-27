@@ -26,19 +26,19 @@ angular.module('home')
 			/**
 			 * Representa o estado de listagem de registros.
 			 */
-			$scope.FAMILIA_LIST_STATE = "plano-atendimento-familiar.list";
+			$scope.PLANO_ATENDIMENTO_FAMILIAR_LIST_STATE = "plano-atendimento-familiar.list";
 			/**
 			 * Representa o estado para a criação de registros.
 			 */
-			$scope.FAMILIA_ADD_STATE = "plano-atendimento-familiar.add";
+			$scope.PLANO_ATENDIMENTO_FAMILIAR_ADD_STATE = "plano-atendimento-familiar.add";
 			/**
 			 * Representa o estado para a edição de registros.
 			 */
-			$scope.FAMILIA_EDIT_STATE = "plano-atendimento-familiar.edit";
+			$scope.PLANO_ATENDIMENTO_FAMILIAR_EDIT_STATE = "plano-atendimento-familiar.edit";
 			/**
 			 * Representa o estado de detalhe de um registro.
 			 */
-			$scope.FAMILIA_DETAIL_STATE = "plano-atendimento-familiar.detail";
+			$scope.PLANO_ATENDIMENTO_FAMILIAR_DETAIL_STATE = "plano-atendimento-familiar.detail";
 			
 			//----FORM MODEL
 			
@@ -52,7 +52,7 @@ angular.module('home')
 					order : "",
 				},
 				
-				familia: {
+				planoAtendimentoFamiliar: {
 					form: null,
 					entity: new PlanoAtendimentoFamiliar(),
 					
@@ -155,25 +155,25 @@ angular.module('home')
 		    $scope.$on('$stateChangeSuccess', function( event, toState, toParams, fromState, fromParams ) {
 		    	
 		    	switch ( $state.current.name ) {
-					case $scope.FAMILIA_LIST_STATE: {
+					case $scope.PLANO_ATENDIMENTO_FAMILIAR_LIST_STATE: {
 						$scope.changeToList( false );
 						break;
 					}
-					case $scope.FAMILIA_DETAIL_STATE: {
+					case $scope.PLANO_ATENDIMENTO_FAMILIAR_DETAIL_STATE: {
 						$scope.changeToDetail( $state.params.id );
 						break;
 					}
-			        case $scope.FAMILIA_ADD_STATE: {
+			        case $scope.PLANO_ATENDIMENTO_FAMILIAR_ADD_STATE: {
 			        	$scope.changeToAdd();
 			        	break;
 			        }
-			        case $scope.FAMILIA_EDIT_STATE: {
+			        case $scope.PLANO_ATENDIMENTO_FAMILIAR_EDIT_STATE: {
 			        	$scope.changeToEdit( $state.params.id );
 			        	break;
 			        }
 			        default : {
-			        	if ( $state.current.name == $scope.FAMILIA_LIST_STATE )
-			        		$state.go( $scope.FAMILIA_LIST_STATE );
+			        	if ( $state.current.name == $scope.PLANO_ATENDIMENTO_FAMILIAR_LIST_STATE )
+			        		$state.go( $scope.PLANO_ATENDIMENTO_FAMILIARLIST_STATE );
 			        }
 				}
 		    });
@@ -247,7 +247,7 @@ angular.module('home')
 		    $scope.changeToList = function( paginate ) {
 		        console.debug("changeToList");
 		        
-		        if ( paginate ) $scope.model.familia.page.pageable.page++;
+		        if ( paginate ) $scope.model.planoAtendimentoFamiliar.page.pageable.page++;
 		        
 		        $scope.listByFilters();
 		    };
@@ -296,7 +296,7 @@ angular.module('home')
 		            familiaService.disableFamilia( $scope.model.familia.entity  , {
 		                callback : function(result) {
 		                    $scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi excluído com sucesso!" );
-		                    $state.go($scope.FAMILIA_LIST_STATE);
+		                    $state.go($scope.PLANO_ATENDIMENTO_FAMILIARLIST_STATE);
 		                    $scope.listByFilters();
 		                    $scope.$apply();
 		                },
@@ -325,7 +325,7 @@ angular.module('home')
 		            familiaService.enableFamilia( $scope.model.familia.entity  , {
 		                callback : function(result) {
 		                    $scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi ativado com sucesso!" );
-		                    $state.go($scope.FAMILIA_LIST_STATE);
+		                    $state.go($scope.PLANO_ATENDIMENTO_FAMILIARLIST_STATE);
 		                    $scope.listByFilters();
 		                    $scope.$apply();
 		                },
@@ -338,15 +338,15 @@ angular.module('home')
 			}
 		    
 		    /*-------------------------------------------------------------------
-		     * 		 				 PRIVATE BEHAVIORS
+		     * 		 				PRIVATE BEHAVIORS
 		     *-------------------------------------------------------------------*/
 			
 			$scope.listByFilters = function(){
 				
-				planoAtendimentoService.listPlanoAtendimentoFamiliarByFilters(  $scope.model.planoAtendimentoFamiliar.filters.terms.toString(), $scope.model.planoAtendimentoFamiliar.page.pageable, {
+				planoAtendimentoService.listPlanoAtendimentoFamiliarByFilters(  $scope.model.planoAtendimentoFamiliar.filters.terms.toString(), true, $scope.model.planoAtendimentoFamiliar.page.pageable, {
 	                callback : function(result) {
-	                	$scope.totalPagesFamilia = result.totalPages;
-	                	$scope.model.familia.page = {//PageImpl
+	                	$scope.totalPagesPlanoAtendimentoFamiliar = result.totalPages;
+	                	$scope.model.planoAtendimentoFamiliar.page = {//PageImpl
 	    						content : result.content,
 								pageable : {//PageRequest
 									page : result.number,
@@ -366,12 +366,12 @@ angular.module('home')
 	            });
 			}
 	        
-			$scope.listFamiliasByMoreFilters = function(){
+			$scope.listByMoreFilters = function(){
 				
-				familiaService.listFamiliasByMoreFilters(  $scope.model.familia.filters.ativo, $scope.model.familia.filters.inativo, $scope.model.familia.page.pageable, {
+				planoAtendimentoService.listPlanoAtendimentoFamiliarByFilters(  $scope.model.planoAtendimentoFamiliar.filters.terms.toString(), $scope.model.planoAtendimentoFamiliar.filters.ativo, $scope.model.planoAtendimentoFamiliar.page.pageable, {
 	                callback : function(result) {
 	                	
-	                	$scope.model.familia.page.content = result.content; 
+	                	$scope.model.planoAtendimentoFamiliar.page.content = result.content; 
 	                	$scope.$apply();
 	                	
 	                },

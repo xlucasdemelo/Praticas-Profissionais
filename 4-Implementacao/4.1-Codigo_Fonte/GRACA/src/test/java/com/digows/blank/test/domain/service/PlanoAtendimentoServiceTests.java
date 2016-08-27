@@ -8,7 +8,6 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.test.context.support.WithUserDetails;
 
@@ -65,6 +64,30 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	}
 	
 	/**
+	 * Deve falhar, pois não é permitido ter duas famílias em execução ao mesmo tempo
+	 */
+	@Test(expected=IllegalArgumentException.class)
+	@WithUserDetails("operador_atendimento@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/account/UserDataSet.xml", 
+			"/dataset/endereco/PaisDataSet.xml", 
+			"/dataset/endereco/EstadoDataSet.xml", 
+			"/dataset/endereco/CidadeDataSet.xml", 
+			"/dataset/endereco/EnderecoDataSet.xml", 
+			"/dataset/familia/FamiliaDataSet.xml",
+			"/dataset/planoatendimento/PlanoAtendimentoFamiliarDataSet.xml"
+	})
+	public void insertPlanoAtendimentoFamiliarMustFailWithPLanoALreadyInExecution()
+	{
+		
+		PlanoAtendimentoFamiliar planoAtendimentoFamiliar = new PlanoAtendimentoFamiliar( null, null, null, new Familia(101L) );
+		
+		planoAtendimentoFamiliar = this.planoAtendimentoService.insertPlanoAtendimentoFamiliar( planoAtendimentoFamiliar );
+		
+		Assert.assertNotNull( planoAtendimentoFamiliar );
+	}
+	
+	/**
 	 * 
 	 */
 	@Test(expected = AccessDeniedException.class)
@@ -112,7 +135,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	/**
 	 * 
 	 */
-	@Test(expected=DataIntegrityViolationException.class)
+	@Test(expected=NullPointerException.class)
 	@WithUserDetails("operador_atendimento@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
 			"/dataset/account/UserDataSet.xml",
@@ -148,7 +171,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	})
 	public void listPlanoAtendimentoFamiliarByFiltersMustPassWithOperadorAtendimento()
 	{
-		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoService.listPlanoAtendimentoFamiliarByFilters( null, null ).getContent();
+		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoService.listPlanoAtendimentoFamiliarByFilters( null, true, null ).getContent();
 		
 		Assert.assertNotNull( planos );
 		Assert.assertFalse( planos.isEmpty() );
@@ -170,7 +193,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	})
 	public void listPlanoAtendimentoFamiliarByFiltersMustPassWithOperadorColaboradorExterno()
 	{
-		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoService.listPlanoAtendimentoFamiliarByFilters( null, null ).getContent();
+		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoService.listPlanoAtendimentoFamiliarByFilters( null, true, null ).getContent();
 		
 		Assert.assertNotNull( planos );
 		Assert.assertFalse( planos.isEmpty() );
@@ -192,7 +215,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	})
 	public void listPlanoAtendimentoFamiliarByFiltersMustPassFilterName()
 	{
-		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoService.listPlanoAtendimentoFamiliarByFilters( "Paia", null ).getContent();
+		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoService.listPlanoAtendimentoFamiliarByFilters( "Paia", true, null ).getContent();
 		
 		Assert.assertNotNull( planos );
 		Assert.assertFalse( planos.isEmpty() );
@@ -215,7 +238,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	})
 	public void listPlanoAtendimentoFamiliarByFiltersMustPassFilterNomeMae()
 	{
-		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoService.listPlanoAtendimentoFamiliarByFilters( "Marlene Paia", null ).getContent();
+		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoService.listPlanoAtendimentoFamiliarByFilters( "Marlene Paia", true, null ).getContent();
 		
 		Assert.assertNotNull( planos );
 		Assert.assertFalse( planos.isEmpty() );
@@ -239,7 +262,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	})
 	public void listPlanoAtendimentoFamiliarByFiltersMustPassFilterMustRetuirnEmptyList()
 	{
-		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoService.listPlanoAtendimentoFamiliarByFilters( "Nenhum registro", null ).getContent();
+		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoService.listPlanoAtendimentoFamiliarByFilters( "Nenhum registro", true, null ).getContent();
 		
 		Assert.assertNotNull( planos );
 		Assert.assertTrue( planos.isEmpty() );

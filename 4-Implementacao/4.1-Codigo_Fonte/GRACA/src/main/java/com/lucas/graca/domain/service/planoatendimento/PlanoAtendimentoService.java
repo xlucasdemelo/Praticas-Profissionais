@@ -1,6 +1,8 @@
 
 package com.lucas.graca.domain.service.planoatendimento;
 
+import java.util.List;
+
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -58,6 +60,14 @@ public class PlanoAtendimentoService
 	{
 		Assert.notNull( planoAtendimentoFamiliar );
 		Assert.isNull( planoAtendimentoFamiliar.getId() );
+		Assert.notNull( planoAtendimentoFamiliar.getFamilia().getId() );
+		
+		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoFamiliarRepository.findByFamiliaId( planoAtendimentoFamiliar.getFamilia().getId() );
+		
+		for ( PlanoAtendimentoFamiliar planoAtendimentoFamiliarDB : planos )
+		{
+			planoAtendimentoFamiliarDB.validateUnicity();
+		}
 		
 		return this.planoAtendimentoFamiliarRepository.save( planoAtendimentoFamiliar );
 	}
@@ -118,9 +128,9 @@ public class PlanoAtendimentoService
 	 * @param pageable
 	 */
 	@PreAuthorize("hasAuthority('"+UserRole.OPERADOR_ATENDIMENTOS_VALUE+"') || hasAuthority('"+UserRole.COLABORADOR_EXTERNO_VALUE+"') ")
-	public Page<PlanoAtendimentoFamiliar> listPlanoAtendimentoFamiliarByFilters( String filter, PageRequest pageable )
+	public Page<PlanoAtendimentoFamiliar> listPlanoAtendimentoFamiliarByFilters( String filter, boolean ativo, PageRequest pageable )
 	{
-		return this.planoAtendimentoFamiliarRepository.listByFilters( filter, pageable );
+		return this.planoAtendimentoFamiliarRepository.listByFilters( filter, ativo, pageable );
 	}
 	
 	/**

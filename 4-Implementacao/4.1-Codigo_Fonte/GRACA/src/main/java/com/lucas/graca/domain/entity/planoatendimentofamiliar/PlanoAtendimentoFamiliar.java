@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
+import org.springframework.util.Assert;
 
 import com.lucas.graca.domain.entity.familia.Familia;
 import com.lucas.graca.domain.entity.planoatendimento.PlanoAtendimento;
@@ -108,6 +109,12 @@ public class PlanoAtendimentoFamiliar extends PlanoAtendimento
 		return true;
 	}
 
+	public void validateUnicity()
+	{
+		Assert.isTrue( this.getStatus() == StatusPlanoAtendimento.RASCUNHO || this.getStatus() == StatusPlanoAtendimento.FINALIZADO, 
+				"Já existe um plano de atendimento para esta família" );
+	}
+	
 	/*-------------------------------------------------------------------
 	 *				 		 GETTERS AND SETTERS
 	 *-------------------------------------------------------------------*/
