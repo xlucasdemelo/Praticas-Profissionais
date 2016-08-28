@@ -41,19 +41,16 @@ public class Responsavel extends AbstractEntity implements Serializable
 	/**
 	 * 	
 	 */
-	@NotNull
 	private String telefone;
 	
 	/**
 	 * 	
 	 */
-	@NotNull
 	private String cpf;
 	
 	/**
 	 * 	
 	 */
-	@NotNull
 	private String email;
 
 	/*-------------------------------------------------------------------

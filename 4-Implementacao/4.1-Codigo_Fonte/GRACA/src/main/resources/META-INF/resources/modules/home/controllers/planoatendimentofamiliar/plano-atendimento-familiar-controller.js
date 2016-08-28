@@ -22,6 +22,7 @@ angular.module('home')
 				  instance.expand();
 				});			
 			
+			$scope.tipoEncaminhamento = null;
 		    /*-------------------------------------------------------------------
 		     * 		 				 	ATTRIBUTES
 		     *-------------------------------------------------------------------*/
@@ -88,10 +89,11 @@ angular.module('home')
 					   
 					},
 					
-				    page: {//PageImpl 
-				    		content:[],
-				    		pageable : {size: 9,
+					 page: {//PageImpl 
+				    		content: [],
+				    		pageable :{ size: 9,
 							    		page: 0,
+							    		total:0,
 							        	sort:null
 				        	}
 				    },
@@ -100,9 +102,9 @@ angular.module('home')
 		        	}],
 				},
 				
-				endereco: {
+				encaminhamento: {
 					form: null,
-					entity: new Endereco(),
+					entity: new Encaminhamento(),
 					
 					filters: {
 					    terms: "",
@@ -550,6 +552,32 @@ angular.module('home')
 			/**
 			 * 
 			 */
+			
+			$scope.openAdicionarEncaminhamentoPopup = function( encaminhamento )
+			{
+				$mdDialog.show({
+				      controller: "AdicionarEncaminhamentoControllerPopup",
+				      templateUrl: './modules/home/views/planoatendimentofamiliar/popup/adicionar-encaminhamento-popup.html',			      
+				      scope: $scope.$new(),
+//				      resolve: {
+//				    	  planoAtendimento: function() {
+//				    		  return angular.copy(integranteFamiliar);
+//				    	  }
+//				      }
+					})
+				    .then(function(result) {
+				    	 $scope.listEncaminhamentosByTipo();
+				 });
+			}
+			
+			$scope.controller = function()
+			{
+				
+			}
+			
+			/**
+			 * 
+			 */
 			$scope.listPaisesByFiltes = function(filter){
 				enderecoService.listPaisesByFilters( filter, null, {
 	                callback : function(result) {
@@ -636,6 +664,35 @@ angular.module('home')
 	                	$scope.totalPagesIntegrante = result.totalPages;
 	                	
 	                	$scope.model.integranteFamiliar.page = {//PageImpl
+	    						content : result.content,
+								pageable : {//PageRequest
+									page : result.number,
+									size : result.size,
+									sort:result.sort,
+									total   : result.totalElements
+								},
+	    				};
+	                	
+	                	$scope.$apply();
+	                	
+	                },
+	                errorHandler : function(message, exception) {
+	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+	                    $scope.$apply();
+	                }
+	            });
+				
+			}
+			
+			$scope.listEncaminhamentosByTipo = function(  ){
+							
+				planoAtendimentoService.listEncaminhamentosByFilter( $scope.model.planoAtendimentoFamiliar.entity.id, 
+						"", $scope.model.encaminhamento.tipo, null, {
+	                callback : function(result) {
+	                	
+	                	$scope.totalPagesEncaminhamento = result.totalPages;
+	                	
+	                	$scope.model.encaminhamento.page = {//PageImpl
 	    						content : result.content,
 								pageable : {//PageRequest
 									page : result.number,

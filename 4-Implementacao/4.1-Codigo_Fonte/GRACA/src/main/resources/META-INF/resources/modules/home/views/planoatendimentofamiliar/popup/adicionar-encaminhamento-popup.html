@@ -1,0 +1,106 @@
+<md-dialog class="default-popup">
+
+  	<md-toolbar style="height: 60px; min-height: 60px !important;">
+  		<div flex layout="row" class="default-header">
+  			<div >
+	  			<h1 class="md-toolbar-tools" ng-if="!model.encaminhamento.entity.id">Adicionar Encaminhamento</h1>
+	  			<h1 class="md-toolbar-tools" ng-if="model.encaminhamento.entity.id">Editar Encaminhamento</h1>
+  			</div>
+    	</div> 
+  	</md-toolbar> 
+  	
+	<form name="model.encaminhamento.form" style="height: 100%;" md-theme="{{osmTheme}}" layout="column" novalidate>
+	  	<md-dialog-content layout="column" style="height: 100%;">
+	  		
+			  		<div layout="column" style="height:100%">
+			  			<div class="default-form">
+					        <div>
+						        <div class="default-info" layout="row">Informações</div>
+					        
+					            <div >
+						            <div layout="row" flex>
+							            <md-input-container layout="column"  >
+							            	<label>Data final</label>
+							            	<md-datepicker required name="dataFinal" ng-model="model.encaminhamento.entity.dataFinal" style="margin-top:25px" ></md-datepicker>
+							            	
+							            	<div ng-messages="model.encaminhamento.form.dataFinal.$error">
+							               		<div ng-message="required" ng-if="model.encaminhamento.form.$submitted">Campo obrigatório</div>
+							                </div>
+							            </md-input-container>
+						            </div>
+						            
+						            <div layout="row" flex >
+						           		<md-input-container style="width:100%" layout="column" class="md-block">
+								          <label>Descrição</label>
+								          <textarea name="descricao" required flex ng-model="model.encaminhamento.entity.descricao" md-maxlength="255" rows="3" md-select-on-focus></textarea>
+								        	
+								        	<div ng-messages="model.encaminhamento.form.dataFinal.$error">
+							               		<div ng-message="required" ng-if="model.encaminhamento.form.$submitted">Campo obrigatório</div>
+							                </div>
+								        	
+								        </md-input-container>
+				                     </div>
+				                     
+				                     <div class="default-info" layout="row">Responsável</div>
+				                     
+				                     <div layout="row">
+						            	<md-autocomplete 
+									        		required
+									        		md-input-name="responsavel"
+									        		style="margin-right:20px" 
+									        		md-selected-item="model.responsavel.selected" 
+									        		md-search-text="model.responsavel.entity.nome"
+													md-search-text-change="listResponsaveisByFilters(model.responsavel.entity.nome)" 
+													md-items="item in model.responsavel.list" 
+													md-item-text="item.nome"
+													placeholder="Nome"
+													/>
+										
+										<div md-theme="default" layout="row" layout-align="end center" ng-if="!model.responsavel.selected" class="default-header md-primary md-hue-3">
+									        <md-button class="md-raised md-accent default-save-button" ng-click="insertResponsavel()">Adicionar responsavel</md-button>
+								        </div>
+				                     </div>
+				                     
+<!-- 				                     <div layout="row"> -->
+<!-- 										<md-input-container layout="column" > -->
+<!-- 								    		<label style="position:absolute;padding-top:15px;">Email</label> -->
+<!-- 								    		<input typ="text" maxlength="255" name="email" ng-model="!model.resposnavel.entity.email ? model.responsavel.selected.eamil : model.resposnavel.entity.email" ></input> -->
+<!-- 							            </md-input-container> -->
+							            
+<!-- 							            <md-input-container layout="column" > -->
+<!-- 								    		<label style="position:absolute;padding-top:15px;">Telefone</label> -->
+<!-- 								    		<input typ="text" maxlength="255" name="telefone" ng-model="model.resposnavel.entity.telefone" ></input> -->
+<!-- 							            </md-input-container> -->
+<!-- 				                     </div> -->
+				                     
+			                     </div>
+			            	</div>
+			  			</div>
+					</div>
+	  	</md-dialog-content>
+	  	
+	  	<md-divider style="order: 2"></md-divider>
+  	
+	  	<md-dialog-actions layout="row" layout-align="end center">
+		    <div layout="row" ng-if="model.encaminhamento.entity">
+			    <div>
+				    <md-button ng-if="model.encaminhamento.entity.id" class="md-raised md-primary md-hue-3" type="button" ng-click="removeencaminhamento()">
+				    	Excluir integrante
+				    </md-button>
+			    </div>
+			    
+			    <div>
+				    <md-button class="md-raised md-primary md-hue-3" type="button" ng-click="cancel()">
+				    	Cancelar
+				    </md-button>
+			    </div>
+			    
+		    	<div >
+		        	<md-button class="md-raised md-accent default-save-button" type="submit" ng-click="model.encaminhamento.entity.id ? updateEncaminhamento() : insertEncaminhamento()">
+				    	SALVAR
+				    </md-button>
+				</div>
+		    </div>
+	    </md-dialog-actions>
+  	</form> 
+</md-dialog>

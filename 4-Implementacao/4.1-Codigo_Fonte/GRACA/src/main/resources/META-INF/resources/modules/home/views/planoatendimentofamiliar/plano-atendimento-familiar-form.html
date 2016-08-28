@@ -109,7 +109,7 @@
 									
 										<md-input-container layout="column" flex="30" style="margin: 30px 0px 20px 30px">
 									        <label>Tipo de encaminhamento</label>
-									        <md-select name="tipoEncaminhamento" required ng-model="tipoEncaminhamento">
+									        <md-select name="tipoEncaminhamento" required ng-model="model.encaminhamento.tipo" ng-change="listEncaminhamentosByTipo()">
 									          <md-option ng-repeat="tipoEncaminhamento in allTiposEncaminhamento track by $index" value="{{tipoEncaminhamento}}">{{::tipoEncaminhamento | translate}}</md-option>
 									        </md-select>
 									    </md-input-container>
@@ -118,7 +118,7 @@
 									
 									<md-divider style="order: 2"></md-divider>
 									
-									<md-expansion-panel-group md-component-id="panelGroup" ng-if="tipoEncaminhamento">
+									<md-expansion-panel-group md-component-id="panelGroup" ng-if="model.encaminhamento.tipo">
 						                <md-expansion-panel md-component-id="paperEncaminhamento">
 						                    <md-expansion-panel-collapsed>
 						                        <div class="md-title" style="max-width:100%">Encaminhamentos {{::tipoEncaminhamento | translate}}</div>
@@ -131,21 +131,23 @@
 												<md-expansion-panel-content>
 													
 													<div md-theme="default" layout="row" layout-align="end center" class="default-header md-primary md-hue-3">
-												        <md-button class="md-raised md-accent default-save-button" ng-click="changetToEmExecucao()">Novo encaminhamento</md-button>
+												        <md-button class="md-raised md-accent default-save-button" ng-click="openAdicionarEncaminhamentoPopup()">Novo encaminhamento</md-button>
 											        </div>
 													
 													<md-table-container>
 														<table md-table md-row-select multiple md-progress="promise">
 															<thead md-head md-order="query.order" md-on-reorder="getDesserts">
 																<tr md-row>
-													 			<th md-column md-order-by="nameToLower"><span>Nome</span></th>
-																<th md-column md-numeric ><span>Data de nascimento</span></th>
+													 			<th md-column md-order-by="nameToLower"><span>Número</span></th>
+																<th md-column md-numeric ><span>Descrição</span></th>
+																<th md-column md-numeric ><span>Data Limite</span></th>
 													     		</tr>
 													    	</thead>
 													     	<tbody md-body>
-													      		<tr md-row md-select="dessert" ng-repeat="integrante in model.integranteFamiliar.page.content">
-													        	<td md-cell>{{::integrante.nome}}</td>
-													        	<td md-cell>{{::integrante.dataNascimento | date : format : timezone}}</td>
+													      		<tr md-row md-select="dessert" style="cursor:pointer" ng-click="openAdicionarEncaminhamentoPopup(encaminhamento)" ng-repeat="encaminhamento in model.encaminhamento.page.content">
+														        	<td md-cell>{{::encaminhamento.id}}</td>
+														        	<td md-cell>{{::encaminhamento.descricao}}</td>
+														        	<td md-cell>{{::encaminhamento.dataFinal | date : format : timezone}}</td>
 													      		</tr>
 													     	</tbody>
 													  	</table>

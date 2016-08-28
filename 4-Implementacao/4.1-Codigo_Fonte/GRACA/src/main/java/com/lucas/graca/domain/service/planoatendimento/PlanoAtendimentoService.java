@@ -14,11 +14,13 @@ import org.springframework.util.Assert;
 
 import com.lucas.graca.domain.entity.account.UserRole;
 import com.lucas.graca.domain.entity.planoatendimento.Encaminhamento;
+import com.lucas.graca.domain.entity.planoatendimento.Responsavel;
 import com.lucas.graca.domain.entity.planoatendimento.StatusPlanoAtendimento;
 import com.lucas.graca.domain.entity.planoatendimento.TipoEncaminhamento;
 import com.lucas.graca.domain.entity.planoatendimentofamiliar.PlanoAtendimentoFamiliar;
 import com.lucas.graca.domain.repository.planoatendimento.IEncaminhamentoRepository;
 import com.lucas.graca.domain.repository.planoatendimento.IPlanoAtendimentoFamiliarRepository;
+import com.lucas.graca.domain.repository.planoatendimento.IResponsavelRepository;
 
 /**
  * @author lucas
@@ -46,6 +48,12 @@ public class PlanoAtendimentoService
 	 */
 	@Autowired
 	private IEncaminhamentoRepository encaminhamentoRepository;
+	
+	/**
+	 * 
+	 */
+	@Autowired
+	private IResponsavelRepository responsavelRepository;
 	
 	/*-------------------------------------------------------------------
 	 *				SERVICES PLANO DE ATENDIMENTO INDIVIDUAL
@@ -233,10 +241,12 @@ public class PlanoAtendimentoService
 	 * @return
 	 */
 	@PreAuthorize("hasAuthority('"+UserRole.OPERADOR_ATENDIMENTOS_VALUE+"') ")
-	public Encaminhamento insertEncaminhamento( Encaminhamento encaminhamento )
+	public Encaminhamento insertEncaminhamento( Encaminhamento encaminhamento, long planoId )
 	{
 		Assert.notNull( encaminhamento );
 		Assert.isNull( encaminhamento.getId() );
+		
+		encaminhamento.setPlanoAtendimento( new PlanoAtendimentoFamiliar(planoId) );
 		
 		return this.encaminhamentoRepository.save( encaminhamento );
 	}
@@ -295,9 +305,9 @@ public class PlanoAtendimentoService
 	 * @return
 	 */
 	@PreAuthorize("hasAuthority('"+UserRole.OPERADOR_ATENDIMENTOS_VALUE+"') || hasAuthority('"+UserRole.COLABORADOR_EXTERNO_VALUE+"')")
-	public Page<Encaminhamento> listEncaminhamentosByFilter( long idPlanoAtendimento, String filter, PageRequest pageable )
+	public Page<Encaminhamento> listEncaminhamentosByFilter( long idPlanoAtendimento, String filter, TipoEncaminhamento tipo, PageRequest pageable )
 	{
-		return this.encaminhamentoRepository.listByPlanoAtendimentoAndFilters( idPlanoAtendimento, filter, pageable );
+		return this.encaminhamentoRepository.listByPlanoAtendimentoAndFilters( idPlanoAtendimento, filter, tipo, pageable );
 	}
 	
 	/**
@@ -310,8 +320,35 @@ public class PlanoAtendimentoService
 		return this.encaminhamentoRepository.findOne( id );
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
 	public TipoEncaminhamento[] listAllTIposEncaminhamento()
 	{
 		return TipoEncaminhamento.values();
+	}
+	
+	/**
+	 * 
+	 * @param filters
+	 * @return
+	 */
+	public List<Responsavel> listResponsaveisByFilters( String filters )
+	{
+		return this.responsavelRepository.listByFilters( filters );
+	}
+	
+	/**
+	 * 
+	 * @param responsavel
+	 * @return
+	 */
+	public Responsavel isnertResposnavel( Responsavel responsavel )
+	{
+		Assert.notNull( responsavel );
+		Assert.isNull( responsavel.getId() );
+		
+		return this.responsavelRepository.save(responsavel);
 	}
 }

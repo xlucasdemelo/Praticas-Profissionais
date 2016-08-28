@@ -3,6 +3,7 @@
  */
 package com.digows.blank.test.domain.service;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.junit.Assert;
@@ -421,9 +422,9 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	})
 	public void insertEncaminhamentoMustPass()
 	{
-		Encaminhamento encaminhamento = new Encaminhamento( null, "Descrição pa", null, null, new PlanoAtendimentoFamiliar(9999L), null, null);
+		Encaminhamento encaminhamento = new Encaminhamento( null, "Descrição pa", null, null, new PlanoAtendimentoFamiliar(9999L), null, null, Calendar.getInstance(), null, null );
 		
-		encaminhamento = this.planoAtendimentoService.insertEncaminhamento( encaminhamento );
+		encaminhamento = this.planoAtendimentoService.insertEncaminhamento( encaminhamento, 9999L );
 		
 		Assert.assertNotNull( encaminhamento );
 		Assert.assertTrue( encaminhamento.getStatus() == StatusEncaminhamento.EM_EXECUCAO );
@@ -446,9 +447,9 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	})
 	public void insertEncaminhamentoMustFailWithUserWithoutAccess()
 	{
-		Encaminhamento encaminhamento = new Encaminhamento( null, "Descrição pa", null, null, new PlanoAtendimentoFamiliar(9999L), null, null);
+		Encaminhamento encaminhamento = new Encaminhamento( null, "Descrição pa", null, null, new PlanoAtendimentoFamiliar(9999L), null, null, Calendar.getInstance(), null, null);
 		
-		encaminhamento = this.planoAtendimentoService.insertEncaminhamento( encaminhamento );
+		encaminhamento = this.planoAtendimentoService.insertEncaminhamento( encaminhamento, 9999L );
 		
 		Assert.fail();
 	}
@@ -470,9 +471,9 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	})
 	public void insertEncaminhamentoMustFailIthId()
 	{
-		Encaminhamento encaminhamento = new Encaminhamento( 9999L, "Descrição pa", null, null, new PlanoAtendimentoFamiliar(9999L), null, null);
+		Encaminhamento encaminhamento = new Encaminhamento( 9999L, "Descrição pa", null, null, new PlanoAtendimentoFamiliar(9999L), null, null, Calendar.getInstance(), null, null);
 		
-		encaminhamento = this.planoAtendimentoService.insertEncaminhamento( encaminhamento );
+		encaminhamento = this.planoAtendimentoService.insertEncaminhamento( encaminhamento, 9999L );
 		
 		Assert.fail();
 	}
@@ -585,7 +586,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	})
 	public void listEncaminhamentosByPlanoAtendimentoMustPass()
 	{
-		List<Encaminhamento> encaminhamentos = this.planoAtendimentoService.listEncaminhamentosByFilter( 9999L, null, null ).getContent();
+		List<Encaminhamento> encaminhamentos = this.planoAtendimentoService.listEncaminhamentosByFilter( 9999L, null, null, null ).getContent();
 		
 		Assert.assertNotNull( encaminhamentos );
 		Assert.assertFalse( encaminhamentos.isEmpty() );
@@ -609,7 +610,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	})
 	public void listEncaminhamentosByPlanoAtendimentoMustPassWithColaboradorExterno()
 	{
-		List<Encaminhamento> encaminhamentos = this.planoAtendimentoService.listEncaminhamentosByFilter( 9999L, null, null ).getContent();
+		List<Encaminhamento> encaminhamentos = this.planoAtendimentoService.listEncaminhamentosByFilter( 9999L, null, null, null ).getContent();
 		
 		Assert.assertNotNull( encaminhamentos );
 		Assert.assertFalse( encaminhamentos.isEmpty() );
@@ -633,7 +634,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	})
 	public void listEncaminhamentosByPlanoAtendimentoMustFailWithUserWithoutPermission()
 	{
-		this.planoAtendimentoService.listEncaminhamentosByFilter( 9999L, null, null ).getContent();
+		this.planoAtendimentoService.listEncaminhamentosByFilter( 9999L, null, null, null ).getContent();
 		
 		Assert.fail();
 	}
@@ -656,7 +657,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	})
 	public void listEncaminhamentosByPlanoAtendimentoMustReturnOne()
 	{
-		List<Encaminhamento> encaminhamentos = this.planoAtendimentoService.listEncaminhamentosByFilter( 9999L, "BOLOLO", null ).getContent();
+		List<Encaminhamento> encaminhamentos = this.planoAtendimentoService.listEncaminhamentosByFilter( 9999L, "BOLOLO", null, null ).getContent();
 		
 		Assert.assertNotNull( encaminhamentos );
 		Assert.assertFalse( encaminhamentos.isEmpty() );
@@ -682,7 +683,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	})
 	public void listEncaminhamentosByPlanoAtendimentoMustReturnEmptyList()
 	{
-		List<Encaminhamento> encaminhamentos = this.planoAtendimentoService.listEncaminhamentosByFilter( 9999L, "Nenhum registro", null ).getContent();
+		List<Encaminhamento> encaminhamentos = this.planoAtendimentoService.listEncaminhamentosByFilter( 9999L, "Nenhum registro", null, null ).getContent();
 		
 		Assert.assertNotNull( encaminhamentos );
 		Assert.assertTrue( encaminhamentos.isEmpty() );

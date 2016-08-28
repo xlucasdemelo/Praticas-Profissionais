@@ -4,6 +4,7 @@
 package com.lucas.graca.domain.entity.planoatendimento;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,6 +22,7 @@ import org.springframework.util.Assert;
 import com.lucas.graca.domain.entity.account.User;
 import com.lucas.graca.domain.entity.account.UserRole;
 import com.lucas.graca.domain.entity.integrantefamiliar.IntegranteFamiliar;
+import com.lucas.graca.domain.entity.planoatendimentofamiliar.PlanoAtendimentoFamiliar;
 
 import br.com.eits.common.domain.entity.AbstractEntity;
 
@@ -64,9 +66,21 @@ public class Encaminhamento extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
+	@NotNull
+	private Calendar dataFinal;
+	
+	/**
+	 * 
+	 */
+	@NotNull
+	private TipoEncaminhamento tipo;
+	
+	/**
+	 * 
+	 */
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="plano_atendimento_id")
-	private PlanoAtendimento planoAtendimento;
+	private PlanoAtendimentoFamiliar planoAtendimentoFamiliar;
 	
 	/**
 	 * 
@@ -82,6 +96,12 @@ public class Encaminhamento extends AbstractEntity implements Serializable
 	@JoinColumn(name="integrante_familiar_id")
 	private IntegranteFamiliar integranteFamiliar;
 	
+	/**
+	 * 
+	 */
+	@ManyToOne(optional=true, fetch = FetchType.EAGER)
+	private Responsavel responsavel;
+	
 	/*-------------------------------------------------------------------
 	 *				 		     CONSTRUCTORS
 	 *-------------------------------------------------------------------*/
@@ -95,15 +115,19 @@ public class Encaminhamento extends AbstractEntity implements Serializable
 	 * @param usuario
 	 * @param integranteFamiliar
 	 */
-	public Encaminhamento( Long id, String descricao, String observacao, StatusEncaminhamento status, PlanoAtendimento planoAtendimento, User usuario, IntegranteFamiliar integranteFamiliar )
+	public Encaminhamento( Long id, String descricao, String observacao, StatusEncaminhamento status, PlanoAtendimentoFamiliar planoAtendimentoFamiliar, 
+			User usuario, IntegranteFamiliar integranteFamiliar, Calendar dataFinal, Responsavel responsavel, TipoEncaminhamento tipo )
 	{
 		super(id);
 		this.descricao = descricao;
 		this.observacao = observacao;
 		this.status = status;
-		this.planoAtendimento = planoAtendimento;
+		this.planoAtendimentoFamiliar = planoAtendimentoFamiliar;
 		this.usuario = usuario;
 		this.integranteFamiliar = integranteFamiliar;
+		this.dataFinal = dataFinal;
+		this.responsavel = responsavel;
+		this.tipo = tipo;
 	}
 
 	/**
@@ -134,11 +158,14 @@ public class Encaminhamento extends AbstractEntity implements Serializable
 	{
 		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result + ( ( dataFinal == null ) ? 0 : dataFinal.hashCode() );
 		result = prime * result + ( ( descricao == null ) ? 0 : descricao.hashCode() );
 		result = prime * result + ( ( integranteFamiliar == null ) ? 0 : integranteFamiliar.hashCode() );
 		result = prime * result + ( ( observacao == null ) ? 0 : observacao.hashCode() );
-		result = prime * result + ( ( planoAtendimento == null ) ? 0 : planoAtendimento.hashCode() );
+		result = prime * result + ( ( planoAtendimentoFamiliar == null ) ? 0 : planoAtendimentoFamiliar.hashCode() );
+		result = prime * result + ( ( responsavel == null ) ? 0 : responsavel.hashCode() );
 		result = prime * result + ( ( status == null ) ? 0 : status.hashCode() );
+		result = prime * result + ( ( tipo == null ) ? 0 : tipo.hashCode() );
 		result = prime * result + ( ( usuario == null ) ? 0 : usuario.hashCode() );
 		return result;
 	}
@@ -153,6 +180,11 @@ public class Encaminhamento extends AbstractEntity implements Serializable
 		if ( !super.equals( obj ) ) return false;
 		if ( getClass() != obj.getClass() ) return false;
 		Encaminhamento other = ( Encaminhamento ) obj;
+		if ( dataFinal == null )
+		{
+			if ( other.dataFinal != null ) return false;
+		}
+		else if ( !dataFinal.equals( other.dataFinal ) ) return false;
 		if ( descricao == null )
 		{
 			if ( other.descricao != null ) return false;
@@ -168,12 +200,18 @@ public class Encaminhamento extends AbstractEntity implements Serializable
 			if ( other.observacao != null ) return false;
 		}
 		else if ( !observacao.equals( other.observacao ) ) return false;
-		if ( planoAtendimento == null )
+		if ( planoAtendimentoFamiliar == null )
 		{
-			if ( other.planoAtendimento != null ) return false;
+			if ( other.planoAtendimentoFamiliar != null ) return false;
 		}
-		else if ( !planoAtendimento.equals( other.planoAtendimento ) ) return false;
+		else if ( !planoAtendimentoFamiliar.equals( other.planoAtendimentoFamiliar ) ) return false;
+		if ( responsavel == null )
+		{
+			if ( other.responsavel != null ) return false;
+		}
+		else if ( !responsavel.equals( other.responsavel ) ) return false;
 		if ( status != other.status ) return false;
+		if ( tipo != other.tipo ) return false;
 		if ( usuario == null )
 		{
 			if ( other.usuario != null ) return false;
@@ -291,17 +329,17 @@ public class Encaminhamento extends AbstractEntity implements Serializable
 	/**
 	 * @return the planoAtendimento
 	 */
-	public PlanoAtendimento getPlanoAtendimento()
+	public PlanoAtendimento getPlanoAtendimentoFamiliar()
 	{
-		return planoAtendimento;
+		return planoAtendimentoFamiliar;
 	}
 
 	/**
 	 * @param planoAtendimento the planoAtendimento to set
 	 */
-	public void setPlanoAtendimento( PlanoAtendimento planoAtendimento )
+	public void setPlanoAtendimento( PlanoAtendimentoFamiliar planoAtendimento )
 	{
-		this.planoAtendimento = planoAtendimento;
+		this.planoAtendimentoFamiliar = planoAtendimento;
 	}
 
 	/**
@@ -334,5 +372,77 @@ public class Encaminhamento extends AbstractEntity implements Serializable
 	public void setIntegranteFamiliar( IntegranteFamiliar integranteFamiliar )
 	{
 		this.integranteFamiliar = integranteFamiliar;
+	}
+
+	/**
+	 * @return the observacao
+	 */
+	public String getObservacao()
+	{
+		return observacao;
+	}
+
+	/**
+	 * @param observacao the observacao to set
+	 */
+	public void setObservacao( String observacao )
+	{
+		this.observacao = observacao;
+	}
+
+	/**
+	 * @return the dataFinal
+	 */
+	public Calendar getDataFinal()
+	{
+		return dataFinal;
+	}
+
+	/**
+	 * @param dataFinal the dataFinal to set
+	 */
+	public void setDataFinal( Calendar dataFinal )
+	{
+		this.dataFinal = dataFinal;
+	}
+
+	/**
+	 * @param usuario the usuario to set
+	 */
+	public void setUsuario( User usuario )
+	{
+		this.usuario = usuario;
+	}
+
+	/**
+	 * @return the responsavel
+	 */
+	public Responsavel getResponsavel()
+	{
+		return responsavel;
+	}
+
+	/**
+	 * @param responsavel the responsavel to set
+	 */
+	public void setResponsavel( Responsavel responsavel )
+	{
+		this.responsavel = responsavel;
+	}
+
+	/**
+	 * @return the tipo
+	 */
+	public TipoEncaminhamento getTipo()
+	{
+		return tipo;
+	}
+
+	/**
+	 * @param tipo the tipo to set
+	 */
+	public void setTipo( TipoEncaminhamento tipo )
+	{
+		this.tipo = tipo;
 	}
 }
