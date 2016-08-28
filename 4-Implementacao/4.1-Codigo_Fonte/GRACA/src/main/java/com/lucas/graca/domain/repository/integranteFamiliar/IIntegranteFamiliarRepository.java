@@ -30,8 +30,7 @@ public interface IIntegranteFamiliarRepository extends JpaRepository<IntegranteF
 			   "LEFT OUTER JOIN integranteFamiliar.endereco endereco " + 
 			   "LEFT OUTER JOIN integranteFamiliar.familia familia " +
 			  "WHERE ( integranteFamiliar.ativo IS TRUE AND familia.id = :familiaId " +
-			  			"AND integranteFamiliar.id <> :criancaId" + 
 			  		")"
 			)
-	public Page<IntegranteFamiliar> listIntegrantesByfamiliaToCrianca( @Param("criancaId") Long criancaId, @Param("familiaId") Long familiaId, Pageable pageable );
+	public Page<IntegranteFamiliar> listIntegrantesByfamiliaToCrianca( @Param("familiaId") Long familiaId, Pageable pageable );
 }

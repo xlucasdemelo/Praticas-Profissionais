@@ -14,6 +14,7 @@ angular.module('home')
 	     * Serviços importados do DWR
 	     */
 		$importService("integranteFamiliarService");
+		$importService("familiaService");
 		
 	    /*-------------------------------------------------------------------
 	     * 		 				 	ATTRIBUTES

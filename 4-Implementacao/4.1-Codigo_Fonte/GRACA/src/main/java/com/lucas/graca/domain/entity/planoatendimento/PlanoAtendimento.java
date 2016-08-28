@@ -160,7 +160,7 @@ public abstract class PlanoAtendimento extends AbstractEntity implements Seriali
 	public void changeToEmExecucao()
 	{
 		
-		Assert.isTrue( this.status != StatusPlanoAtendimento.RASCUNHO, "O status deve ser RACUNHO" );
+		Assert.isTrue( this.status == StatusPlanoAtendimento.RASCUNHO, "O status deve ser RASCUNHO" );
 		
 		this.status = StatusPlanoAtendimento.EM_EXECUCAO;
 	}

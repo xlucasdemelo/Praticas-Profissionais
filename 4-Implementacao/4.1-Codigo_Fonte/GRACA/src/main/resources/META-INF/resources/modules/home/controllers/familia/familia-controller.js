@@ -585,6 +585,9 @@ angular.module('home')
 	     * 		 			HANDLERS INTEGRANTE FAMILIAR
 	     *-------------------------------------------------------------------*/
 		
+		/**
+		 * 
+		 */
 		$scope.listIntegrantesFamiliaresByFamilia = function( id ){
 			
 			integranteFamiliarService.listIntegrantesByfamilia( id, $scope.model.integranteFamiliar.page.pageable, {

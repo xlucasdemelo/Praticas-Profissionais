@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" 
+	xmlns:th="http://www.thymeleaf.org" lang="pt">
+	
+<div class="main-div" >
+	
+		<md-toolbar layout="row" style="z-index: 3;">
+	    	<div flex layout="row" class="default-header">
+		        <h1 class="md-toolbar-tools">Plano de atendimento familiar</h1>
+	    	</div>
+	    	
+	        <div md-theme="default" layout="row" layout-align="end center" ng-if="model.planoAtendimentoFamiliar.entity.status == 'EM_EXECUCAO' " class="default-header md-primary md-hue-3">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="changetToEmExecucao()">Executar</md-button>
+	        </div>
+	        
+	        <div md-theme="default" layout="row" layout-align="end center" class="default-header">
+		    	<md-button class="md-raised md-accent default-save-button" ng-click="$state.go(PLANO_ATENDIMENTO_FAMILIAR_LIST_STATE)">Voltar</md-button>
+	        </div>
+	        
+	        <div ng-if="model.familia.entity.ativo == true" md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="changeToRemove()">Excluir</md-button>
+	        </div>
+	        
+	        <div ng-if="model.familia.entity.ativo == false" md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="enableFamilia()">Ativar registro</md-button>
+	        </div>
+	        
+	    </md-toolbar>
+		
+		<div layout="column" md-theme="{{}}" style="height: 100%; position:absolute; width:100%;">
+			<md-content layout="column" style="height: 93%;">
+				<md-tabs md-border-bottom style="position: static; overflow:auto" md-selected="model.ordemServico.selectedTab">
+					<md-tab label="Família">
+						
+						<div layout-fill style="height:50%">
+				    		<md-toolbar layout-fill style="min-height: 100% !important;position:absolute;" class="md-hue-3" md-theme="{{osmTheme}}">
+								<div class="default-frame" style="overflow:auto">
+									<md-toolbar layout="row" class="default-form toolbar-temp" style="padding-bottom: 0; ">
+									
+										<form novalidate name="model.familia.form" class="default-form">
+											
+											<div layout="row">
+												<md-input-container layout="column" >
+										    		<label style="position:absolute;padding-top:15px;">Família</label>
+										    		<input typ="text" disabled maxlength="255" name="familia" ng-model="model.planoAtendimentoFamiliar.entity.familia.nome" required></input>
+									                
+									                <div ng-messages="model.familia.form.familia.$error">
+									               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+												
+												<div md-theme="default" layout="row" layout-align="end center" class="default-header md-primary md-hue-3">
+											        <md-button class="md-raised md-accent default-save-button" ng-if="model.planoAtendimentoFamiliar.entity.status == 0" ng-click="openSelectFamilia()">Selecionar família</md-button>
+										        </div>
+											</div>
+									        
+									        <div class="default-info" flex> 
+												<span>Integrantes Familiares</span>
+											</div>
+											
+											<md-table-container>
+												<table md-table md-row-select multiple md-progress="promise">
+													<thead md-head md-order="query.order" md-on-reorder="getDesserts">
+														<tr md-row>
+											 			<th md-column md-order-by="nameToLower"><span>Nome</span></th>
+														<th md-column md-numeric ><span>Data de nascimento</span></th>
+											     		</tr>
+											    	</thead>
+											     	<tbody md-body>
+											      		<tr md-row md-select="dessert" ng-repeat="integrante in model.integranteFamiliar.page.content">
+											        	<td md-cell>{{::integrante.nome}}</td>
+											        	<td md-cell>{{::integrante.dataNascimento | date : format : timezone}}</td>
+											      		</tr>
+											     	</tbody>
+											  	</table>
+											</md-table-container>
+									        
+									        <div layout="column" flex class="empty-grid" layout-align="center center" ng-if="model.integranteFamiliar.page.content.length == 0">
+												Essa família não possui nenhum integrante familia
+											</div>
+											
+											<md-divider></md-divider>
+											<div class="default-paginator" layout layout-align="end center" ng-if="model.integranteFamiliar.page.content.length > 0">
+												{{ model.integranteFamiliar.page.pageable.page + 1 }} de {{ totalPagesIntegrante }}
+												<md-button class="md-icon-button" ng-disabled="(model.integranteFamiliar.page.pageable.page + 1) < 2" ng-click="onIntegrantePaginationChange(false)">
+													<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.integranteFamiliar.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
+												</md-button>
+												<md-button class="md-icon-button" ng-disabled="(model.integranteFamiliar.page.pageable.page + 1) >= totalPagesIntegrante" ng-click="onIntegrantePaginationChange(true)">
+													<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.integranteFamiliar.page.pageable.page + 1) >= Math.ceil(model.integranteFamiliar.page.total/model.familia.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
+												</md-button>
+									  		</div>
+									        
+										</form>
+									</md-toolbar>
+								</div>
+							</md-toolbar>
+						</div>
+						
+					</md-tab>
+					
+<!-- 					TAB INTEGRANTE FAMILIAR -->
+					
+					<md-tab label="Encaminhamentos" ng-if="model.planoAtendimentoFamiliar.entity.status != 'RASCUNHO'">
+						<div layout-fill style="height:50%">
+				    		<md-toolbar layout-fill style="min-height: 100% !important;position:absolute;" class="md-hue-3" md-theme="{{osmTheme}}">
+								<div class="default-frame" style="overflow:auto">
+									
+									<md-toolbar layout="row" class="dark-panel" style="background:white">
+									
+										<md-input-container layout="column" flex="30" style="margin: 30px 0px 20px 30px">
+									        <label>Tipo de encaminhamento</label>
+									        <md-select name="tipoEncaminhamento" required ng-model="tipoEncaminhamento">
+									          <md-option ng-repeat="tipoEncaminhamento in allTiposEncaminhamento track by $index" value="{{tipoEncaminhamento}}">{{::tipoEncaminhamento | translate}}</md-option>
+									        </md-select>
+									    </md-input-container>
+										
+									</md-toolbar>
+									
+									<md-divider style="order: 2"></md-divider>
+									
+									<md-expansion-panel-group md-component-id="panelGroup" ng-if="tipoEncaminhamento">
+						                <md-expansion-panel md-component-id="paperEncaminhamento">
+						                    <md-expansion-panel-collapsed>
+						                        <div class="md-title" style="max-width:100%">Encaminhamentos {{::tipoEncaminhamento | translate}}</div>
+						                        <md-expansion-panel-icon></md-expansion-panel-icon>
+						                    </md-expansion-panel-collapsed>
+						                    
+						                    <md-expansion-panel-expanded>
+												<md-expansion-panel-header>Encaminhamentos {{::tipoEncaminhamento | translate}}</md-expansion-panel-header>
+												
+												<md-expansion-panel-content>
+													
+													<div md-theme="default" layout="row" layout-align="end center" class="default-header md-primary md-hue-3">
+												        <md-button class="md-raised md-accent default-save-button" ng-click="changetToEmExecucao()">Novo encaminhamento</md-button>
+											        </div>
+													
+													<md-table-container>
+														<table md-table md-row-select multiple md-progress="promise">
+															<thead md-head md-order="query.order" md-on-reorder="getDesserts">
+																<tr md-row>
+													 			<th md-column md-order-by="nameToLower"><span>Nome</span></th>
+																<th md-column md-numeric ><span>Data de nascimento</span></th>
+													     		</tr>
+													    	</thead>
+													     	<tbody md-body>
+													      		<tr md-row md-select="dessert" ng-repeat="integrante in model.integranteFamiliar.page.content">
+													        	<td md-cell>{{::integrante.nome}}</td>
+													        	<td md-cell>{{::integrante.dataNascimento | date : format : timezone}}</td>
+													      		</tr>
+													     	</tbody>
+													  	</table>
+													</md-table-container>
+											        
+											        <div layout="column" flex class="empty-grid" layout-align="center center" ng-if="model.integranteFamiliar.page.content.length == 0">
+														Essa família não possui nenhum integrante familia
+													</div>
+													
+													<md-divider></md-divider>
+													<div class="default-paginator" layout layout-align="end center" ng-if="model.integranteFamiliar.page.content.length > 0">
+														{{ model.integranteFamiliar.page.pageable.page + 1 }} de {{ totalPagesIntegrante }}
+														<md-button class="md-icon-button" ng-disabled="(model.integranteFamiliar.page.pageable.page + 1) < 2" ng-click="onIntegrantePaginationChange(false)">
+															<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.integranteFamiliar.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
+														</md-button>
+														<md-button class="md-icon-button" ng-disabled="(model.integranteFamiliar.page.pageable.page + 1) >= totalPagesIntegrante" ng-click="onIntegrantePaginationChange(true)">
+															<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.integranteFamiliar.page.pageable.page + 1) >= Math.ceil(model.integranteFamiliar.page.total/model.familia.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
+														</md-button>
+											  		</div>
+													
+												</md-expansion-panel-content>
+												
+												<md-expansion-panel-footer>
+													<div layout="row" layout-align="end center" flex>
+														<md-button type="button" ng-click="$panel.collapse()">Fechar</md-button>
+<!-- 														<md-button type="submit" ng-click="$panel.collapse(); updatePlant( model.plant.formLocalizacao )">SAVE</md-button> -->
+													</div>
+												</md-expansion-panel-footer>
+											</md-expansion-panel-expanded>
+						                    
+						                </md-expansion-panel>
+						                
+						                <md-expansion-panel md-component-id="paperFodaci">
+						                    <md-expansion-panel-collapsed>
+						                        <div class="md-title" style="max-width:100%">Encaminhamentos {{::tipoEncaminhamento | translate}}</div>
+						                        <md-expansion-panel-icon></md-expansion-panel-icon>
+						                    </md-expansion-panel-collapsed>
+						                    
+						                    <md-expansion-panel-expanded>
+												<md-expansion-panel-header>Encaminhamentos {{::tipoEncaminhamento | translate}}</md-expansion-panel-header>
+												
+												<md-expansion-panel-content>
+													
+<!-- 													<div md-theme="default" layout="row" layout-align="end center" class="default-header md-primary md-hue-3"> -->
+<!-- 												        <md-button class="md-raised md-accent default-save-button" ng-click="changetToEmExecucao()">Novo encaminhamento</md-button> -->
+<!-- 											        </div> -->
+													
+													<md-table-container>
+														<table md-table md-row-select multiple md-progress="promise">
+															<thead md-head md-order="query.order" md-on-reorder="getDesserts">
+																<tr md-row>
+													 			<th md-column md-order-by="nameToLower"><span>Nome</span></th>
+																<th md-column md-numeric ><span>Data de nascimento</span></th>
+													     		</tr>
+													    	</thead>
+													     	<tbody md-body>
+													      		<tr md-row md-select="dessert" ng-repeat="integrante in model.integranteFamiliar.page.content">
+													        	<td md-cell>{{::integrante.nome}}</td>
+													        	<td md-cell>{{::integrante.dataNascimento | date : format : timezone}}</td>
+													      		</tr>
+													     	</tbody>
+													  	</table>
+													</md-table-container>
+											        
+											        <div layout="column" flex class="empty-grid" layout-align="center center" ng-if="model.integranteFamiliar.page.content.length == 0">
+														Essa família não possui nenhum integrante familia
+													</div>
+													
+													<md-divider></md-divider>
+													<div class="default-paginator" layout layout-align="end center" ng-if="model.integranteFamiliar.page.content.length > 0">
+														{{ model.integranteFamiliar.page.pageable.page + 1 }} de {{ totalPagesIntegrante }}
+														<md-button class="md-icon-button" ng-disabled="(model.integranteFamiliar.page.pageable.page + 1) < 2" ng-click="onIntegrantePaginationChange(false)">
+															<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.integranteFamiliar.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
+														</md-button>
+														<md-button class="md-icon-button" ng-disabled="(model.integranteFamiliar.page.pageable.page + 1) >= totalPagesIntegrante" ng-click="onIntegrantePaginationChange(true)">
+															<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.integranteFamiliar.page.pageable.page + 1) >= Math.ceil(model.integranteFamiliar.page.total/model.familia.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
+														</md-button>
+											  		</div>
+													
+												</md-expansion-panel-content>
+												
+												<md-expansion-panel-footer>
+													<div layout="row" layout-align="end center" flex>
+														<md-button type="button" ng-click="$panel.collapse()">Fechar</md-button>
+<!-- 														<md-button type="submit" ng-click="$panel.collapse(); updatePlant( model.plant.formLocalizacao )">SAVE</md-button> -->
+													</div>
+												</md-expansion-panel-footer>
+											</md-expansion-panel-expanded>
+						                    
+						                </md-expansion-panel>
+						                
+						            </md-expansion-panel-group>
+									
+								</div>
+							</md-toolbar>
+						</div>
+						
+					</md-tab>
+				</md-tabs>
+			</md-content>
+		</div>
+		
+</div>
+
+</html>

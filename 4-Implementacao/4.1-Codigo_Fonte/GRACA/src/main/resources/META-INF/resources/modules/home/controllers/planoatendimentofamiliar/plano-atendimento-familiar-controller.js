@@ -6,7 +6,7 @@
  * @param $state
  */
 angular.module('home')
-	   .controller('PlanoAtendimentoFamiliarController', function( $scope, $state, $importService, $mdToast, $mdDialog ) {
+	   .controller('PlanoAtendimentoFamiliarController', function( $scope, $state, $importService, $mdToast, $mdDialog, $mdExpansionPanel ) {
 		
 		   /**
 		     * Serviços importados do DWR
@@ -18,6 +18,9 @@ angular.module('home')
 			/**
 			 * 
 			 */
+			$mdExpansionPanel().waitFor('paperEncaminhamento').then(function (instance) {
+				  instance.expand();
+				});			
 			
 		    /*-------------------------------------------------------------------
 		     * 		 				 	ATTRIBUTES
@@ -191,7 +194,7 @@ angular.module('home')
 			$scope.changeToAdd = function() {
 				console.debug("changeToAdd");
 				
-				$scope.model.familia.entity = new Familia();//Limpa o formulário
+				$scope.model.planoAtendimentoFamiliar.entity = new PlanoAtendimentoFamiliar();//Limpa o formulário
 				
 				$scope.model.pais.selectedItem = null;
 				$scope.model.pais.searchText = null;
@@ -216,13 +219,9 @@ angular.module('home')
 		    $scope.changeToEdit = function( id ) {
 		        console.debug("changeToEdit", id);
 		        
-		        familiaService.findFamiliaById( id, {
+		        planoAtendimentoService.findPlanoAtendimentoFamiliarById( id, {
 		            callback : function(result) {	   
-		            	$scope.model.familia.entity = result;
-		            	
-		            	$scope.model.pais.selectedItem = result.endereco.cidade.estado.pais;
-		            	$scope.model.estado.selectedItem = result.endereco.cidade.estado;
-		            	$scope.model.cidade.selectedItem = result.endereco.cidade;
+		            	$scope.model.planoAtendimentoFamiliar.entity = result;
 		            	
 		            	$scope.$apply();
 		            },
@@ -490,6 +489,67 @@ angular.module('home')
 			/**
 			 * 
 			 */
+			$scope.changetToEmExecucao = function()
+			{
+				planoAtendimentoService.changetToEmExecucao( $scope.model.planoAtendimentoFamiliar.entity.id,   {
+	                callback : function(result) {
+	                	
+	                	$scope.model.planoAtendimentoFamiliar.entity = result;
+	                	
+	                	$scope.showMessage( $scope.ERROR_MESSAGE,  "Plano de atendimento enviado para execução com sucesso" );
+	                	
+	                	$scope.$apply();
+	                	
+	                },
+	                errorHandler : function(message, exception) {
+	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+	                    $scope.$apply();
+	                }
+	            });
+			}
+			
+			/**
+			 * 
+			 */
+			$scope.openSelectFamilia = function()
+			{
+				
+				$mdDialog.show({
+				      controller: "SelecionarFamiliaPopup",
+				      templateUrl: './modules/home/views/crianca/popup/selecionar-familia-popup.html',			      
+				      scope: $scope.$new(),
+					})
+				    .then(function(result) {
+				    	$scope.model.planoAtendimentoFamiliar.entity.familia = result;
+				    	$scope.associateFamilia();
+				 });
+				
+			}
+			
+			/**
+			 * 
+			 */
+			$scope.associateFamilia = function(  ){
+				
+				planoAtendimentoService.associateFamiliaToPlano( $scope.model.planoAtendimentoFamiliar.entity, {
+	                callback : function(result) {
+	                	
+	                	$scope.model.planoAtendimentoFamiliar.entity = result;
+	                	
+	                	$scope.$apply();
+	                	
+	                },
+	                errorHandler : function(message, exception) {
+	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+	                    $scope.$apply();
+	                }
+	            });
+				
+			}
+			
+			/**
+			 * 
+			 */
 			$scope.listPaisesByFiltes = function(filter){
 				enderecoService.listPaisesByFilters( filter, null, {
 	                callback : function(result) {
@@ -613,11 +673,15 @@ angular.module('home')
 				 });
 			};
 			
-			$scope.listAllGrausEscolaridade = function(){
-				integranteFamiliarService.listAllGrausEscolaridade( {
+			/**
+			 * 
+			 */
+			$scope.listAllTipoEncaminhamento= function()
+			{
+				planoAtendimentoService.listAllTIposEncaminhamento(   {
 	                callback : function(result) {
 	                	
-	                	$scope.allGrausEscolaridade = result;
+	                	$scope.allTiposEncaminhamento = result;
 	                	
 	                	$scope.$apply();
 	                	
@@ -632,6 +696,6 @@ angular.module('home')
 			/*-------------------------------------------------------------------
 		     * 		 				 	POST CONSTRUCT
 		     *-------------------------------------------------------------------*/
-		   
+			$scope.listAllTipoEncaminhamento();
 });
 }(window.angular));

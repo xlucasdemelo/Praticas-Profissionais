@@ -2,14 +2,14 @@
 	'use strict';
 
 	//Start the AngularJS
-	var module = angular.module('home', ['ngMessages', 'ngSanitize', 'ngMaterial', 'ui.router', 'eits-md', 'eits-ng', 'md.data.table', 'ngMask', 'maskMoney', 'ngCpfCnpj' ]);
+	var module = angular.module('home', ['ngMessages', 'ngSanitize', 'ngMaterial', 'ui.router', 'eits-md', 'eits-ng', 
+	                                     'md.data.table', 'ngMask', 'maskMoney', 'ngCpfCnpj', 'material.components.expansionPanels' ]);
 
 	/**
 	 * 
 	 */
 	module.config( function( $stateProvider, $urlRouterProvider, $importServiceProvider, $translateProvider, $mdThemingProvider, $mdDateLocaleProvider ) {
 		
-
 		    $mdDateLocaleProvider.formatDate = function(date) {
 		    	if (date == null)
 		    		return null;

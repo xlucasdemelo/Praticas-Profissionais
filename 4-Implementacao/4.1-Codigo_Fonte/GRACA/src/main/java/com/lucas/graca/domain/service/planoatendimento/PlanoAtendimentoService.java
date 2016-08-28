@@ -15,6 +15,7 @@ import org.springframework.util.Assert;
 import com.lucas.graca.domain.entity.account.UserRole;
 import com.lucas.graca.domain.entity.planoatendimento.Encaminhamento;
 import com.lucas.graca.domain.entity.planoatendimento.StatusPlanoAtendimento;
+import com.lucas.graca.domain.entity.planoatendimento.TipoEncaminhamento;
 import com.lucas.graca.domain.entity.planoatendimentofamiliar.PlanoAtendimentoFamiliar;
 import com.lucas.graca.domain.repository.planoatendimento.IEncaminhamentoRepository;
 import com.lucas.graca.domain.repository.planoatendimento.IPlanoAtendimentoFamiliarRepository;
@@ -107,6 +108,30 @@ public class PlanoAtendimentoService
 		
 		planoAtendimentoFamiliar.disablePlanoAtendimento();
 		planoAtendimentoFamiliarRepository.save( planoAtendimentoFamiliar );
+	}
+	
+	/**
+	 * 
+	 */
+	@PreAuthorize("hasAuthority('"+UserRole.OPERADOR_ATENDIMENTOS_VALUE+"') ")
+	public PlanoAtendimentoFamiliar associateFamiliaToPlano( PlanoAtendimentoFamiliar plano )
+	{
+		Assert.notNull( plano );
+		Assert.notNull( plano.getFamilia() );
+		
+		PlanoAtendimentoFamiliar planoBD = this.planoAtendimentoFamiliarRepository.findOne( plano.getId() );
+		
+		Assert.isTrue( planoBD.getStatus() == 
+				StatusPlanoAtendimento.RASCUNHO, "Para alterar a familia, somente no status rascunho" );
+		
+		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoFamiliarRepository.findByFamiliaId( plano.getFamilia().getId() );
+		
+		for ( PlanoAtendimentoFamiliar planoAtendimentoFamiliarDB : planos )
+		{
+			planoAtendimentoFamiliarDB.validateUnicity();
+		}
+		
+		return this.planoAtendimentoFamiliarRepository.save( plano );
 	}
 	
 	/**
@@ -283,5 +308,10 @@ public class PlanoAtendimentoService
 	public Encaminhamento findEncaminhamentoById( long id )
 	{
 		return this.encaminhamentoRepository.findOne( id );
+	}
+	
+	public TipoEncaminhamento[] listAllTIposEncaminhamento()
+	{
+		return TipoEncaminhamento.values();
 	}
 }
