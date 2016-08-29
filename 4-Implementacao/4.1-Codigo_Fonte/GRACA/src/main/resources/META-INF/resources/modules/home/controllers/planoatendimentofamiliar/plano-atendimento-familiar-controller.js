@@ -108,19 +108,46 @@ angular.module('home')
 					
 					filters: {
 					    terms: "",
-					   
+					    ativo: true,
+					    inativo: false
 					},
 					
-					page: {//PageImpl 
-				    	content: [],
-				    	pageable: {//PageRequest
-				    		size: 9,
-				    		page: 0,
-				        	sort: {//Sort
-				        		direction: 'ASC', properties: ['id']
-				        	},
-				    	}
+				    page: {//PageImpl 
+				    		content: [],
+				    		pageable :{ size: 9,
+							    		page: 0,
+							    		total:0,
+							        	sort:null
+				        	}
 				    },
+				    sort: [{//Sort
+		        		direction: 'ASC', properties: 'id', nullHandlingHint:null
+		        	}],
+					
+				},
+				
+				parecer: {
+					form: null,
+					entity: new Parecer(),
+					
+					filters: {
+					    terms: "",
+					    ativo: true,
+					    inativo: false
+					},
+					list:[],
+				    page: {//PageImpl 
+				    		content: [],
+				    		pageable :{ size: 9,
+							    		page: 0,
+							    		total:0,
+							        	sort:null
+				        	}
+				    },
+				    sort: [{//Sort
+		        		direction: 'ASC', properties: 'id', nullHandlingHint:null
+		        	}],
+					
 				},
 				
 				estado: {
@@ -549,6 +576,49 @@ angular.module('home')
 				
 			}
 			
+			$scope.insertParecer = function()
+			{
+				$scope.model.parecer.entity.planoAtendimentoFamiliar = $scope.model.planoAtendimentoFamiliar.entity;
+				$scope.model.parecer.entity.tipo = $scope.model.encaminhamento.tipo;
+				
+				planoAtendimentoService.insertParecer( $scope.model.parecer.entity, {
+	                callback : function(result) {
+	                	
+	                	$scope.model.parecer.entity = result;
+	                	
+	                	$scope.listParecerByPlanoAndTipo();
+	                	
+	                },
+	                errorHandler : function(message, exception) {
+	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+	                    $scope.$apply();
+	                }
+	            });
+				
+			}
+			
+			/**
+			 * 
+			 */
+			$scope.listParecerByPlanoAndTipo = function()
+			{
+				
+				planoAtendimentoService.listPareceresByPlanoAndTipo( $scope.model.planoAtendimentoFamiliar.entity.id, $scope.model.encaminhamento.tipo, {
+	                callback : function(result) {
+	                	
+	                	$scope.model.parecer.list = result;
+	                	
+	                	$scope.$apply();
+	                	
+	                },
+	                errorHandler : function(message, exception) {
+	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+	                    $scope.$apply();
+	                }
+	            });
+				
+			}
+			
 			/**
 			 * 
 			 */
@@ -559,11 +629,11 @@ angular.module('home')
 				      controller: "AdicionarEncaminhamentoControllerPopup",
 				      templateUrl: './modules/home/views/planoatendimentofamiliar/popup/adicionar-encaminhamento-popup.html',			      
 				      scope: $scope.$new(),
-//				      resolve: {
-//				    	  planoAtendimento: function() {
-//				    		  return angular.copy(integranteFamiliar);
-//				    	  }
-//				      }
+				      resolve: {
+				    	  encaminhamento: function() {
+				    		  return angular.copy(encaminhamento);
+				    	  }
+				      }
 					})
 				    .then(function(result) {
 				    	 $scope.listEncaminhamentosByTipo();
@@ -684,10 +754,19 @@ angular.module('home')
 				
 			}
 			
+			/**
+			 * 
+			 */
+			$scope.encaminhamentoHandler = function()
+			{
+				$scope.listEncaminhamentosByTipo();
+				$scope.listParecerByPlanoAndTipo();
+			}
+			
 			$scope.listEncaminhamentosByTipo = function(  ){
 							
 				planoAtendimentoService.listEncaminhamentosByFilter( $scope.model.planoAtendimentoFamiliar.entity.id, 
-						"", $scope.model.encaminhamento.tipo, null, {
+						"", $scope.model.encaminhamento.tipo, $scope.model.encaminhamento.page.pageable, {
 	                callback : function(result) {
 	                	
 	                	$scope.totalPagesEncaminhamento = result.totalPages;

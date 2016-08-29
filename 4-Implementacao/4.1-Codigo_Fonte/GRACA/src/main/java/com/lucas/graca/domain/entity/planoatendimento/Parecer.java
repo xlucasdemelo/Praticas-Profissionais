@@ -15,6 +15,7 @@ import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 
 import com.lucas.graca.domain.entity.account.User;
+import com.lucas.graca.domain.entity.planoatendimentofamiliar.PlanoAtendimentoFamiliar;
 
 import br.com.eits.common.domain.entity.AbstractEntity;
 
@@ -52,16 +53,16 @@ public class Parecer extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="usuario_id")
 	private User usuario;
 	
 	/**
 	 * 
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="plano_atendimento_id")
-	private PlanoAtendimento planoAtendimento;
+	private PlanoAtendimentoFamiliar planoAtendimentoFamiliar;
 	
 	/*-------------------------------------------------------------------
 	 *				 		     CONSTRUCTORS
@@ -73,13 +74,13 @@ public class Parecer extends AbstractEntity implements Serializable
 	 * @param usuario
 	 * @param planoAtendimento
 	 */
-	public Parecer( Long id, String descricao, TipoEncaminhamento tipo, User usuario, PlanoAtendimento planoAtendimento )
+	public Parecer( Long id, String descricao, TipoEncaminhamento tipo, User usuario, PlanoAtendimentoFamiliar planoAtendimento )
 	{
 		super(id);
 		this.descricao = descricao;
 		this.tipo = tipo;
 		this.usuario = usuario;
-		this.planoAtendimento = planoAtendimento;
+		this.planoAtendimentoFamiliar = planoAtendimento;
 	}
 
 	/**
@@ -111,7 +112,7 @@ public class Parecer extends AbstractEntity implements Serializable
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ( ( descricao == null ) ? 0 : descricao.hashCode() );
-		result = prime * result + ( ( planoAtendimento == null ) ? 0 : planoAtendimento.hashCode() );
+		result = prime * result + ( ( planoAtendimentoFamiliar == null ) ? 0 : planoAtendimentoFamiliar.hashCode() );
 		result = prime * result + ( ( tipo == null ) ? 0 : tipo.hashCode() );
 		result = prime * result + ( ( usuario == null ) ? 0 : usuario.hashCode() );
 		return result;
@@ -132,11 +133,11 @@ public class Parecer extends AbstractEntity implements Serializable
 			if ( other.descricao != null ) return false;
 		}
 		else if ( !descricao.equals( other.descricao ) ) return false;
-		if ( planoAtendimento == null )
+		if ( planoAtendimentoFamiliar == null )
 		{
-			if ( other.planoAtendimento != null ) return false;
+			if ( other.planoAtendimentoFamiliar != null ) return false;
 		}
-		else if ( !planoAtendimento.equals( other.planoAtendimento ) ) return false;
+		else if ( !planoAtendimentoFamiliar.equals( other.planoAtendimentoFamiliar ) ) return false;
 		if ( tipo != other.tipo ) return false;
 		if ( usuario == null )
 		{
@@ -201,16 +202,16 @@ public class Parecer extends AbstractEntity implements Serializable
 	/**
 	 * @return the planoAtendimento
 	 */
-	public PlanoAtendimento getPlanoAtendimento()
+	public PlanoAtendimentoFamiliar getPlanoAtendimentoFamiliar()
 	{
-		return planoAtendimento;
+		return planoAtendimentoFamiliar;
 	}
 
 	/**
 	 * @param planoAtendimento the planoAtendimento to set
 	 */
-	public void setPlanoAtendimento( PlanoAtendimento planoAtendimento )
+	public void setPlanoAtendimentoFamiliar( PlanoAtendimentoFamiliar planoAtendimento )
 	{
-		this.planoAtendimento = planoAtendimento;
+		this.planoAtendimentoFamiliar = planoAtendimento;
 	}
 }

@@ -8,7 +8,7 @@
  * @param $state
  */
 angular.module('home')
-	   .controller('AdicionarEncaminhamentoControllerPopup', function( $scope, $state, $importService, $mdToast, $mdDialog, $injector, $timeout ) {
+	   .controller('AdicionarEncaminhamentoControllerPopup', function( $scope, $state, $importService, $mdToast, $mdDialog, $injector, $timeout, encaminhamento ) {
 		
 	    /**
 	     * Serviços importados do DWR
@@ -27,7 +27,7 @@ angular.module('home')
 	     *
 		 */
 		$scope.model = {
-			encaminhamento: $scope.model.familia.entity,
+			encaminhamentoEdit: encaminhamento,
 
 			encaminhamento: {
 				form: null,
@@ -128,13 +128,59 @@ angular.module('home')
 		/**
 		 * 
 		 */
-		$scope.changeToEdit = function(){
-			$scope.model.integranteFamiliar.entity = $scope.integranteFamiliar;
-			$scope.listDocumentosByIntegrantefamiliar();
+		$scope.concluirEncaminhamento = function()
+		{
+			if ( !$scope.model.encaminhamento.entity.observacao || $scope.model.encaminhamento.entity.observacao == "" )
+			{
+				$scope.model.encaminhamento.form.$submitted = true;
+				$scope.showMessage( $scope.ERROR_MESSAGE,  "Para concluir um encaminhamento é necessário informar a obervação" );
+				return;
+			}
 			
-			$scope.model.pais.selectedItem = $scope.model.integranteFamiliar.entity.endereco.cidade.estado.pais;
-        	$scope.model.estado.selectedItem = $scope.model.integranteFamiliar.entity.endereco.cidade.estado;
-        	$scope.model.cidade.selectedItem = $scope.model.integranteFamiliar.entity.endereco.cidade
+			planoAtendimentoService.concluirEncaminhamento( $scope.model.encaminhamento.entity.id, $scope.model.encaminhamento.entity.observacao,{
+	            callback : function(result) {
+	            	
+	            	$scope.model.encaminhamento.list = result;
+	            	
+	            	$scope.hide();
+	            	$scope.$apply();
+	            	
+	            },
+	            errorHandler : function(message, exception) {
+	            	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+	                $scope.$apply();
+	            }
+	        });
+		}
+		
+		/**
+		 * 
+		 */
+		$scope.cancelarEncaminhamento = function()
+		{
+			planoAtendimentoService.cancelEncaminhamento( $scope.model.encaminhamento.entity.id, {
+	            callback : function(result) {
+	            	
+	            	$scope.model.encaminhamento.list = result;
+	            	
+	            	$scope.hide();
+	            	$scope.$apply();
+	            	
+	            },
+	            errorHandler : function(message, exception) {
+	            	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+	                $scope.$apply();
+	            }
+	        });
+		}
+		
+		/**
+		 * 
+		 */
+		$scope.changeToEdit = function()
+		{
+			$scope.model.encaminhamento.entity = $scope.model.encaminhamentoEdit;
+			$scope.model.responsavel.selected = $scope.model.encaminhamento.entity.responsavel;
 		}
 		
 		/**
@@ -191,11 +237,18 @@ angular.module('home')
             });
 	    }
 	    
+	    $scope.init = function()
+	    {
+	    	if ($scope.model.encaminhamentoEdit)
+	    	{
+	    		$scope.changeToEdit();
+	    	}
+	    }
 	    
 	    /*-------------------------------------------------------------------
 	     * 		 				  POST CONSTRUCT
 	     *-------------------------------------------------------------------*/
-//		$scope.init();
+		$scope.init();
 		
 });
 }(window.angular));

@@ -14,11 +14,13 @@ import org.springframework.util.Assert;
 
 import com.lucas.graca.domain.entity.account.UserRole;
 import com.lucas.graca.domain.entity.planoatendimento.Encaminhamento;
+import com.lucas.graca.domain.entity.planoatendimento.Parecer;
 import com.lucas.graca.domain.entity.planoatendimento.Responsavel;
 import com.lucas.graca.domain.entity.planoatendimento.StatusPlanoAtendimento;
 import com.lucas.graca.domain.entity.planoatendimento.TipoEncaminhamento;
 import com.lucas.graca.domain.entity.planoatendimentofamiliar.PlanoAtendimentoFamiliar;
 import com.lucas.graca.domain.repository.planoatendimento.IEncaminhamentoRepository;
+import com.lucas.graca.domain.repository.planoatendimento.IParecerRepository;
 import com.lucas.graca.domain.repository.planoatendimento.IPlanoAtendimentoFamiliarRepository;
 import com.lucas.graca.domain.repository.planoatendimento.IResponsavelRepository;
 
@@ -54,6 +56,12 @@ public class PlanoAtendimentoService
 	 */
 	@Autowired
 	private IResponsavelRepository responsavelRepository;
+	
+	/**
+	 * 
+	 */
+	@Autowired
+	private IParecerRepository parecerRepository;
 	
 	/*-------------------------------------------------------------------
 	 *				SERVICES PLANO DE ATENDIMENTO INDIVIDUAL
@@ -289,10 +297,13 @@ public class PlanoAtendimentoService
 	 * @return
 	 */
 	@PreAuthorize("hasAuthority('"+UserRole.OPERADOR_ATENDIMENTOS_VALUE+"') ")
-	public Encaminhamento concluirEncaminhamento( long id )
+	public Encaminhamento concluirEncaminhamento( long id, String observacao )
 	{
 		Encaminhamento encaminhamento = this.encaminhamentoRepository.findOne( id );
 		
+		Assert.notNull( observacao, "A observação é obrigatória para concluir" );
+		
+		encaminhamento.setObservacao(observacao);
 		encaminhamento.changeToConcluido();
 		
 		return this.encaminhamentoRepository.save( encaminhamento );
@@ -351,4 +362,34 @@ public class PlanoAtendimentoService
 		
 		return this.responsavelRepository.save(responsavel);
 	}
+	
+	/*-------------------------------------------------------------------
+	 *				SERVICES PARECER
+	 *-------------------------------------------------------------------*/
+	
+	/**
+	 * 
+	 * @param parecer
+	 * @return
+	 */
+	public Parecer insertParecer( Parecer parecer )
+	{
+		Assert.notNull( parecer );
+		
+		return this.parecerRepository.save( parecer );
+	}
+	
+	/**
+	 * 
+	 * @param idPlano
+	 * @param tipoEncaminhamento
+	 * @return
+	 */
+	public List<Parecer> listPareceresByPlanoAndTipo( long idPlano, TipoEncaminhamento tipoEncaminhamento, PageRequest pageable )
+	{
+		Assert.notNull(  tipoEncaminhamento );
+		
+		return this.parecerRepository.listByPlanoAtendimentoAndFilters( idPlano, tipoEncaminhamento, pageable );
+	}
+	
 }

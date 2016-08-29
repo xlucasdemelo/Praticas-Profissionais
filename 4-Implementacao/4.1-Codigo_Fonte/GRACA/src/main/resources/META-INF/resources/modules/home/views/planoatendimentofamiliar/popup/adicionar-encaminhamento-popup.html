@@ -21,7 +21,7 @@
 						            <div layout="row" flex>
 							            <md-input-container layout="column"  >
 							            	<label>Data final</label>
-							            	<md-datepicker required name="dataFinal" ng-model="model.encaminhamento.entity.dataFinal" style="margin-top:25px" ></md-datepicker>
+							            	<md-datepicker required name="dataFinal" ng-disabled="model.encaminhamento.entity.id" ng-model="model.encaminhamento.entity.dataFinal" style="margin-top:25px" ></md-datepicker>
 							            	
 							            	<div ng-messages="model.encaminhamento.form.dataFinal.$error">
 							               		<div ng-message="required" ng-if="model.encaminhamento.form.$submitted">Campo obrigatório</div>
@@ -32,7 +32,7 @@
 						            <div layout="row" flex >
 						           		<md-input-container style="width:100%" layout="column" class="md-block">
 								          <label>Descrição</label>
-								          <textarea name="descricao" required flex ng-model="model.encaminhamento.entity.descricao" md-maxlength="255" rows="3" md-select-on-focus></textarea>
+								          <textarea name="descricao" ng-disabled="model.encaminhamento.entity.id" required flex ng-model="model.encaminhamento.entity.descricao" md-maxlength="255" rows="3" md-select-on-focus></textarea>
 								        	
 								        	<div ng-messages="model.encaminhamento.form.dataFinal.$error">
 							               		<div ng-message="required" ng-if="model.encaminhamento.form.$submitted">Campo obrigatório</div>
@@ -45,6 +45,7 @@
 				                     
 				                     <div layout="row">
 						            	<md-autocomplete 
+						            				ng-disabled="model.encaminhamento.entity.id"
 									        		required
 									        		md-input-name="responsavel"
 									        		style="margin-right:20px" 
@@ -61,17 +62,17 @@
 								        </div>
 				                     </div>
 				                     
-<!-- 				                     <div layout="row"> -->
-<!-- 										<md-input-container layout="column" > -->
-<!-- 								    		<label style="position:absolute;padding-top:15px;">Email</label> -->
-<!-- 								    		<input typ="text" maxlength="255" name="email" ng-model="!model.resposnavel.entity.email ? model.responsavel.selected.eamil : model.resposnavel.entity.email" ></input> -->
-<!-- 							            </md-input-container> -->
-							            
-<!-- 							            <md-input-container layout="column" > -->
-<!-- 								    		<label style="position:absolute;padding-top:15px;">Telefone</label> -->
-<!-- 								    		<input typ="text" maxlength="255" name="telefone" ng-model="model.resposnavel.entity.telefone" ></input> -->
-<!-- 							            </md-input-container> -->
-<!-- 				                     </div> -->
+				                     <div layout="row" flex>
+						           		<md-input-container style="width:100%" layout="column" class="md-block">
+								          <label>Observação da finalização</label>
+								          <textarea name="descricao" required ng-if="model.encaminhamento.entity.status == 'EM_EXECUCAO'" ng-disabled="model.encaminhamento.entity.status == 'CONCLUIDO'" flex ng-model="model.encaminhamento.entity.observacao" md-maxlength="255" rows="3" md-select-on-focus></textarea>
+								        	
+								        	<div ng-messages="model.encaminhamento.form.encaminhamento.$error">
+							               		<div ng-message="required" ng-if="model.encaminhamento.form.$submitted">Campo obrigatório</div>
+							                </div>
+								        	
+								        </md-input-container>
+				                     </div>
 				                     
 			                     </div>
 			            	</div>
@@ -84,19 +85,25 @@
 	  	<md-dialog-actions layout="row" layout-align="end center">
 		    <div layout="row" ng-if="model.encaminhamento.entity">
 			    <div>
-				    <md-button ng-if="model.encaminhamento.entity.id" class="md-raised md-primary md-hue-3" type="button" ng-click="removeencaminhamento()">
-				    	Excluir integrante
+				    <md-button ng-if="model.encaminhamento.entity.status == 'EM_EXECUCAO'" class="md-raised md-primary md-hue-3" type="button" ng-click="cancelarEncaminhamento()">
+				    	Cancelar Encaminhamento
+				    </md-button>
+			    </div>
+			    
+			    <div>
+				    <md-button ng-if="model.encaminhamento.entity.status == 'EM_EXECUCAO' " class="md-raised md-primary md-hue-3" type="button" ng-click="concluirEncaminhamento()">
+				    	concluir encaminhamento
 				    </md-button>
 			    </div>
 			    
 			    <div>
 				    <md-button class="md-raised md-primary md-hue-3" type="button" ng-click="cancel()">
-				    	Cancelar
+				    	Fechar
 				    </md-button>
 			    </div>
 			    
 		    	<div >
-		        	<md-button class="md-raised md-accent default-save-button" type="submit" ng-click="model.encaminhamento.entity.id ? updateEncaminhamento() : insertEncaminhamento()">
+		        	<md-button ng-if="!model.encaminhamento.entity.id" class="md-raised md-accent default-save-button" type="submit" ng-click="model.encaminhamento.entity.id ? updateEncaminhamento() : insertEncaminhamento()">
 				    	SALVAR
 				    </md-button>
 				</div>
