@@ -8,6 +8,8 @@
 		descricao="BOLOLO"
 		observacao="HAHA"
 		status = "1"
+		tipo="0"
+		data_final= "2015-03-30 00:00:00"
 		plano_atendimento_id="9999"
 		user_id="9999"
 	/>
@@ -17,10 +19,12 @@
 		created="2015-03-30 00:00:00"
 		updated="2015-03-30 00:00:00"
 		descricao="Descrição 1"
+		tipo="0"
 		observacao="HAHA"
 		status = "2"
 		plano_atendimento_id="9999"
 		user_id="9999"
+		data_final= "2015-03-30 00:00:00"
 	/>
 	
 		<public.encaminhamento
@@ -30,8 +34,10 @@
 		descricao="Descrição 12"
 		observacao="HAHA"
 		status = "1"
+		tipo="0"
 		plano_atendimento_id="9999"
 		user_id="1002"
+		data_final= "2015-03-30 00:00:00"
 	/>
 	
 	<public.encaminhamento
@@ -43,13 +49,17 @@
 		status = "1"
 		plano_atendimento_id="9999"
 		user_id="1003"
+		data_final= "2015-03-30 00:00:00"
+		tipo="0"
 	/>
 	
 	<public.encaminhamento
 		id="1003"
+		tipo="0"
 		created="2015-03-30 00:00:00"
 		updated="2015-03-30 00:00:00"
 		descricao="Descrição 12"
+		data_final= "2015-03-30 00:00:00"
 		observacao="HAHA"
 		status = "1"
 		plano_atendimento_id="9999"
