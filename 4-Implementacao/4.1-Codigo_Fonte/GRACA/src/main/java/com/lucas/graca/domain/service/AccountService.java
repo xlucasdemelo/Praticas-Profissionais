@@ -92,6 +92,23 @@ public class AccountService
 	
 	/**
 	 * 
+	 * @param user
+	 * @param password
+	 * @param confirmPassword
+	 * @return
+	 */
+	public User changePassword( User user, String password, String confirmPassword )
+	{
+		Assert.isTrue( password.equals( confirmPassword ), "As senhas precisam ser iguais" );
+		
+		final String encodedPassword = this.passwordEncoder.encodePassword( password, this.saltSource.getSalt( user ) );
+		user.setPassword( encodedPassword );
+		
+		return this.userRepository.save( user );
+	}
+	
+	/**
+	 * 
 	 * @param id
 	 * @return
 	 */

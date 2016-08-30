@@ -23,6 +23,7 @@
 		email="colaborador_externo@email.com"
 		password="d1bd2f08fead38a982aed9d4ca060152400b1b8f"
 		name="Colaborador Externo"
+		rede_apoio_id="9999"
 		role="2"/>
 	<public.user
 		id="1003"
@@ -31,7 +32,8 @@
 		email="operador_atendimento@email.com"
 		password="d1bd2f08fead38a982aed9d4ca060152400b1b8f"
 		name="Operador atendimentos"
-		role="3"/>
+		role="3"
+		rede_apoio_id="9999"/>
 	<public.user
 		id="1002"
 		created="2015-03-30 00:00:00"

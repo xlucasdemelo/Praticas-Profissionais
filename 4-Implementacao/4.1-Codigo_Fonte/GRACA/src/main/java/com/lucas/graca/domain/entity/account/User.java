@@ -7,8 +7,8 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -16,6 +16,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
+import org.hibernate.annotations.Check;
 import org.hibernate.envers.Audited;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
@@ -23,6 +24,8 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.lucas.graca.domain.entity.redeapoio.RedeApoio;
 
 import br.com.eits.common.domain.entity.AbstractEntity;
 
@@ -36,6 +39,7 @@ import br.com.eits.common.domain.entity.AbstractEntity;
 @Audited
 @Table(name = "\"user\"")
 @DataTransferObject(javascript = "User")
+@Check(constraints = "role <> 2 OR rede_apoio_id IS NOT NULL")
 public class User extends AbstractEntity implements Serializable, UserDetails
 {
 	/**
@@ -78,14 +82,19 @@ public class User extends AbstractEntity implements Serializable, UserDetails
 	 */
 	@NotNull
 	@Column(nullable = false)
-	@Enumerated(EnumType.ORDINAL)
 	private UserRole role;
 	/**
 	 * 
 	 */
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar lastLogin;
-
+	
+	/**
+	 * 
+	 */
+	@ManyToOne(optional=true, fetch=FetchType.EAGER)
+	private RedeApoio redeApoio;
+	
 	/*-------------------------------------------------------------------
 	 * 		 					CONSTRUCTORS
 	 *-------------------------------------------------------------------*/
@@ -128,13 +137,14 @@ public class User extends AbstractEntity implements Serializable, UserDetails
 	 * @param enabled
 	 * @param role
 	 */
-	public User( Long id, String name, String email, Boolean enabled, UserRole role )
+	public User( Long id, String name, String email, Boolean enabled, UserRole role, RedeApoio redeApoio )
 	{
 		super( id );
 		this.email = email;
 		this.name = name;
 		this.enabled = enabled;
 		this.role = role;
+		this.redeApoio = redeApoio;
 	}
 
 	/**
@@ -410,5 +420,21 @@ public class User extends AbstractEntity implements Serializable, UserDetails
 	public void setLastLogin( Calendar lastLogin )
 	{
 		this.lastLogin = lastLogin;
+	}
+
+	/**
+	 * @return the redeApoio
+	 */
+	public RedeApoio getRedeApoio()
+	{
+		return redeApoio;
+	}
+
+	/**
+	 * @param redeApoio the redeApoio to set
+	 */
+	public void setRedeApoio( RedeApoio redeApoio )
+	{
+		this.redeApoio = redeApoio;
 	}
 }

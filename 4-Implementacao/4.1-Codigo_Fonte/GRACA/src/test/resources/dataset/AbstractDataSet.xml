@@ -11,4 +11,5 @@
 	<public.plano_atendimento_familiar />
 	<public.encaminhamento />
 	<public.documento_integrante_familiar></public.documento_integrante_familiar>
+	<public.rede_apoio></public.rede_apoio>
 </dataset>

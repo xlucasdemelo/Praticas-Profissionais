@@ -4,11 +4,13 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithUserDetails;
 
 import com.digows.blank.test.domain.AbstractIntegrationTests;
+import com.github.springtestdbunit.annotation.DatabaseOperation;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.lucas.graca.domain.entity.account.User;
 import com.lucas.graca.domain.repository.IAccountMailRepository;
 
@@ -18,7 +20,7 @@ import com.lucas.graca.domain.repository.IAccountMailRepository;
  * @since 09/05/2013
  * @version 1.0
  */
-@Ignore
+
 public class AccountMailRepositoryIntegrationTests extends AbstractIntegrationTests
 {
 	/*-------------------------------------------------------------------
@@ -39,6 +41,10 @@ public class AccountMailRepositoryIntegrationTests extends AbstractIntegrationTe
      * 
      */
 	@Test
+	@WithUserDetails("operador_atendimento@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/account/UserDataSet.xml"
+	})
 	public void sendNewUserAccountTestMustPass() throws InterruptedException, ExecutionException
 	{
 		final User user = new User();

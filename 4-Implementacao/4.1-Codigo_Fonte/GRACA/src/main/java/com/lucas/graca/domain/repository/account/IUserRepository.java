@@ -28,7 +28,7 @@ public interface IUserRepository extends JpaRepository<User, Long>
 	 * @param pageable
 	 * @return
 	 */
-	@Query(value="SELECT new User(user.id, user.name, user.email, user.enabled, user.role) " +
+	@Query(value="SELECT new User(user.id, user.name, user.email, user.enabled, user.role, user.redeApoio) " +
 				   "FROM User user " +
 				  "WHERE ( FILTER(user.id, :filter) = TRUE "
 				  	 + "OR FILTER(user.name, :filter) = TRUE "

@@ -1,7 +1,6 @@
 package com.digows.blank.test.domain.service;
 
 import org.junit.Assert;
-
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,11 +12,11 @@ import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.lucas.graca.domain.entity.account.User;
 import com.lucas.graca.domain.entity.account.UserRole;
+import com.lucas.graca.domain.entity.redeapoio.RedeApoio;
 import com.lucas.graca.domain.service.AccountService;
 
 /**
  * 
- * @author rodrigo.p.fraga@gmail.com
  */
 public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 {
@@ -48,11 +47,34 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/redeapoio/redeApoioDataSet.xml",
 		"/dataset/account/UserDataSet.xml",
 	})
 	public void insertUserMustPass()
 	{
 		User user = new User( null, "Testing user", "test@user.com", true, UserRole.OPERADOR_ADMINISNTRATIVO, "user" );
+		user = this.accountService.insertUser( user );
+
+		Assert.assertNotNull( user );
+		Assert.assertNotNull( user.getId() );
+		Assert.assertNotNull( user.getCreated() );
+		Assert.assertTrue( user.getEnabled() );
+		Assert.assertFalse( user.getPassword().equals( "user" ) );
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	@WithUserDetails("admin@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/redeapoio/redeApoioDataSet.xml",	
+		"/dataset/account/UserDataSet.xml",
+	})
+	public void insertExternalUserMustPass()
+	{
+		User user = new User( null, "Testing user", "test@user.com", true, UserRole.COLABORADOR_EXTERNO, "user" );
+		user.setRedeApoio( new RedeApoio(9999L) );
 		user = this.accountService.insertUser( user );
 
 		Assert.assertNotNull( user );
