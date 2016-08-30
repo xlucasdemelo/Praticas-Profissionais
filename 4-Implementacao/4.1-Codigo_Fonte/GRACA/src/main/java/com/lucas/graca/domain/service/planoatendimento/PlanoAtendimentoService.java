@@ -231,9 +231,14 @@ public class PlanoAtendimentoService
 	 * @param id
 	 * @return
 	 */
-	public PlanoAtendimentoFamiliar changetToFinalizado ( long id )
+	public PlanoAtendimentoFamiliar changetToFinalizado ( PlanoAtendimentoFamiliar planoAtendimentoFamiliar )
 	{
-		PlanoAtendimentoFamiliar planoAtendimentoFamiliar = this.planoAtendimentoFamiliarRepository.findOne( id );
+		Assert.notNull( planoAtendimentoFamiliar );
+		Assert.notNull( planoAtendimentoFamiliar.getMotivoFinalizacao(), "Prrencha o motivo pela finalização" );
+		
+		PlanoAtendimentoFamiliar planoAtendimentoFamiliarDB = this.planoAtendimentoFamiliarRepository.findOne( planoAtendimentoFamiliar.getId() );
+		
+		planoAtendimentoFamiliarDB.setMotivoFinalizacao( planoAtendimentoFamiliar.getMotivoFinalizacao() );
 		
 		planoAtendimentoFamiliar.changeToFinalizado();
 		return this.planoAtendimentoFamiliarRepository.save( planoAtendimentoFamiliar );
@@ -375,6 +380,8 @@ public class PlanoAtendimentoService
 	public Parecer insertParecer( Parecer parecer )
 	{
 		Assert.notNull( parecer );
+		
+		parecer.setUsuario();
 		
 		return this.parecerRepository.save( parecer );
 	}

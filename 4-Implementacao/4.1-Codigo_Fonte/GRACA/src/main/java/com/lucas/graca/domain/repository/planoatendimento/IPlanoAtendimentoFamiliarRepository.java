@@ -20,7 +20,7 @@ import com.lucas.graca.domain.entity.planoatendimentofamiliar.PlanoAtendimentoFa
 public interface IPlanoAtendimentoFamiliarRepository extends JpaRepository<PlanoAtendimentoFamiliar, Long>
 {
 	
-	@Query(value="SELECT new PlanoAtendimentoFamiliar(planoAtendimentoFamiliar.id, planoAtendimentoFamiliar.ativo, planoAtendimentoFamiliar.status, planoAtendimentoFamiliar.familia) " +
+	@Query(value="SELECT new PlanoAtendimentoFamiliar(planoAtendimentoFamiliar.id, planoAtendimentoFamiliar.ativo, planoAtendimentoFamiliar.status, planoAtendimentoFamiliar.familia, planoAtendimentoFamiliar.motivoFinalizacao) " +
 			   "FROM PlanoAtendimentoFamiliar planoAtendimentoFamiliar " +
 			   "LEFT OUTER JOIN planoAtendimentoFamiliar.familia " + 
 			  "WHERE ( planoAtendimentoFamiliar.ativo = :ativo AND "
@@ -29,7 +29,7 @@ public interface IPlanoAtendimentoFamiliarRepository extends JpaRepository<Plano
 			)
 	public Page<PlanoAtendimentoFamiliar> listByFilters( @Param("filter") String filter, @Param("ativo") Boolean ativo, Pageable pageable );
 	
-	@Query(value="SELECT new PlanoAtendimentoFamiliar(planoAtendimentoFamiliar.id, planoAtendimentoFamiliar.ativo, planoAtendimentoFamiliar.status, planoAtendimentoFamiliar.familia) " +
+	@Query(value="SELECT new PlanoAtendimentoFamiliar(planoAtendimentoFamiliar.id, planoAtendimentoFamiliar.ativo, planoAtendimentoFamiliar.status, planoAtendimentoFamiliar.familia, planoAtendimentoFamiliar.motivoFinalizacao) " +
 			   "FROM PlanoAtendimentoFamiliar planoAtendimentoFamiliar " +
 			   "LEFT OUTER JOIN planoAtendimentoFamiliar.familia " + 
 			  "WHERE ( planoAtendimentoFamiliar.familia.id = :id )"

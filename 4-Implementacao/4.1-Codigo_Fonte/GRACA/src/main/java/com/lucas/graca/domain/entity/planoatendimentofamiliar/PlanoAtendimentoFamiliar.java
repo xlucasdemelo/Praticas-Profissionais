@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import org.directwebremoting.annotations.DataTransferObject;
+import org.hibernate.annotations.Check;
 import org.hibernate.envers.Audited;
 import org.springframework.util.Assert;
 
@@ -23,6 +24,7 @@ import com.lucas.graca.domain.entity.planoatendimento.StatusPlanoAtendimento;
 @Entity
 @Audited
 @DataTransferObject(javascript = "PlanoAtendimentoFamiliar")
+@Check(constraints = "status <> 5 OR motivo_finalizacao IS NOT NULL")
 public class PlanoAtendimentoFamiliar extends PlanoAtendimento
 {
 
@@ -42,6 +44,9 @@ public class PlanoAtendimentoFamiliar extends PlanoAtendimento
 	@JoinColumn(name="familia_id")
 	private Familia familia;
 	
+	
+	private String motivoFinalizacao;
+	
 	/*-------------------------------------------------------------------
 	 *				 		     ATTRIBUTES
 	 *-------------------------------------------------------------------*/
@@ -53,10 +58,11 @@ public class PlanoAtendimentoFamiliar extends PlanoAtendimento
 	 * @param status
 	 * @param familia
 	 */
-	public PlanoAtendimentoFamiliar( Long id, Boolean ativo, StatusPlanoAtendimento status, Familia familia )
+	public PlanoAtendimentoFamiliar( Long id, Boolean ativo, StatusPlanoAtendimento status, Familia familia, String motivoFinalizacao )
 	{
 		super( id, ativo, status );
 		this.familia = familia;
+		this.motivoFinalizacao = motivoFinalizacao;
 	}
 
 	/**
@@ -88,6 +94,7 @@ public class PlanoAtendimentoFamiliar extends PlanoAtendimento
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ( ( familia == null ) ? 0 : familia.hashCode() );
+		result = prime * result + ( ( motivoFinalizacao == null ) ? 0 : motivoFinalizacao.hashCode() );
 		return result;
 	}
 
@@ -106,6 +113,11 @@ public class PlanoAtendimentoFamiliar extends PlanoAtendimento
 			if ( other.familia != null ) return false;
 		}
 		else if ( !familia.equals( other.familia ) ) return false;
+		if ( motivoFinalizacao == null )
+		{
+			if ( other.motivoFinalizacao != null ) return false;
+		}
+		else if ( !motivoFinalizacao.equals( other.motivoFinalizacao ) ) return false;
 		return true;
 	}
 
@@ -133,6 +145,22 @@ public class PlanoAtendimentoFamiliar extends PlanoAtendimento
 	public void setFamilia( Familia familia )
 	{
 		this.familia = familia;
+	}
+
+	/**
+	 * @return the motivoFinalizacao
+	 */
+	public String getMotivoFinalizacao()
+	{
+		return motivoFinalizacao;
+	}
+
+	/**
+	 * @param motivoFinalizacao the motivoFinalizacao to set
+	 */
+	public void setMotivoFinalizacao( String motivoFinalizacao )
+	{
+		this.motivoFinalizacao = motivoFinalizacao;
 	}
 	
 	

@@ -20,8 +20,9 @@ import com.lucas.graca.domain.entity.planoatendimento.TipoEncaminhamento;
 public interface IParecerRepository extends JpaRepository<Parecer, Long>
 {
 
-	@Query(value="SELECT new Parecer( parecer.id, parecer.descricao, parecer.tipo, parecer.usuario, parecer.planoAtendimentoFamiliar )" +
-			   " FROM Parecer parecer" +
+	@Query(value="SELECT new Parecer( parecer.id, parecer.created, parecer.descricao, parecer.tipo, usuario, parecer.planoAtendimentoFamiliar )" +
+			   " FROM Parecer parecer " +
+			   " LEFT OUTER JOIN parecer.usuario usuario " +
 			   " WHERE ( parecer.planoAtendimentoFamiliar.id = :idPlanoAtendimento " +
 			   			" AND parecer.tipo = :tipo " +
 			  " ) "

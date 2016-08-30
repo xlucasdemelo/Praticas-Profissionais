@@ -9,8 +9,12 @@
 		        <h1 class="md-toolbar-tools">Plano de atendimento familiar</h1>
 	    	</div>
 	    	
-	        <div md-theme="default" layout="row" layout-align="end center" ng-if="model.planoAtendimentoFamiliar.entity.status == 'EM_EXECUCAO' " class="default-header md-primary md-hue-3">
+	        <div md-theme="default" layout="row" layout-align="end center" ng-if="model.planoAtendimentoFamiliar.entity.status == 'RASCUNHO' " class="default-header md-primary md-hue-3">
 		        <md-button class="md-raised md-accent default-save-button" ng-click="changetToEmExecucao()">Executar</md-button>
+	        </div>
+	        
+	        <div md-theme="default" layout="row" layout-align="end center" ng-if="model.planoAtendimentoFamiliar.entity.status == 'EM_EXECUCAO' " class="default-header md-primary md-hue-3">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="changeToFinalizado($event)">Finalizar</md-button>
 	        </div>
 	        
 	        <div md-theme="default" layout="row" layout-align="end center" class="default-header">
@@ -50,7 +54,7 @@
 									            </md-input-container>
 												
 												<div md-theme="default" layout="row" layout-align="end center" class="default-header md-primary md-hue-3">
-											        <md-button class="md-raised md-accent default-save-button" ng-if="model.planoAtendimentoFamiliar.entity.status == 0" ng-click="openSelectFamilia()">Selecionar família</md-button>
+											        <md-button class="md-raised md-accent default-save-button" ng-if="!model.planoAtendimentoFamiliar.entity.id " ng-click="openSelectFamilia()">Selecionar família</md-button>
 										        </div>
 											</div>
 									        
@@ -209,8 +213,8 @@
 															      <md-list-item class="md-3-line comentario" ng-class="{'last-comment': $last}" ng-repeat="parecer in model.parecer.list">
 															        <div class="md-list-item-text">
 															        	<div ng-class="{'my-comment' : comentario.usuario.nome == user.principal.nome}">
-															        		<h3 style="font-size:14px; font-weight:bold">{{::parecer.usuario.nome}}</h3>
-																	        <h4>{{::parecer.created | date:'dd/MM/yyyy'}} às {{::comentario.created.toTimeString().substring(0,5)}}h <i class="zmdi zmdi-accounts" style="font-size: 20px; margin-left: 10px; cursor: pointer" ng-click="openParticipanteComentarioHandler(comentario)"></i></h4> 
+															        		<h3 style="font-size:14px; font-weight:bold">{{::parecer.usuario.username}}</h3>
+																	        <h4>{{::parecer.created | date:'dd/MM/yyyy'}} às {{::parecer.created.toTimeString().substring(0,5)}}h <i class="zmdi zmdi-accounts" style="font-size: 20px; margin-left: 10px; cursor: pointer" ng-click="openParticipanteComentarioHandler(comentario)"></i></h4> 
 																	        <p style="word-break:break-all">{{::parecer.descricao}}</p>
 															        	</div>
 															        </div>

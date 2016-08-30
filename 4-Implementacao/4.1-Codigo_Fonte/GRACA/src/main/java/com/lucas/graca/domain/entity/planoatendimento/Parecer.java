@@ -4,6 +4,7 @@
 package com.lucas.graca.domain.entity.planoatendimento;
 
 import java.io.Serializable;
+import java.util.Calendar;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +14,7 @@ import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import com.lucas.graca.domain.entity.account.User;
 import com.lucas.graca.domain.entity.planoatendimentofamiliar.PlanoAtendimentoFamiliar;
@@ -74,13 +76,14 @@ public class Parecer extends AbstractEntity implements Serializable
 	 * @param usuario
 	 * @param planoAtendimento
 	 */
-	public Parecer( Long id, String descricao, TipoEncaminhamento tipo, User usuario, PlanoAtendimentoFamiliar planoAtendimento )
+	public Parecer( Long id, Calendar created, String descricao, TipoEncaminhamento tipo, User usuario, PlanoAtendimentoFamiliar planoAtendimento )
 	{
 		super(id);
 		this.descricao = descricao;
 		this.tipo = tipo;
 		this.usuario = usuario;
 		this.planoAtendimentoFamiliar = planoAtendimento;
+		this.created = created;
 	}
 
 	/**
@@ -194,9 +197,9 @@ public class Parecer extends AbstractEntity implements Serializable
 	/**
 	 * @param usuario the usuario to set
 	 */
-	public void setUsuario( User usuario )
+	public void setUsuario(  )
 	{
-		this.usuario = usuario;
+		this.usuario = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	}
 
 	/**

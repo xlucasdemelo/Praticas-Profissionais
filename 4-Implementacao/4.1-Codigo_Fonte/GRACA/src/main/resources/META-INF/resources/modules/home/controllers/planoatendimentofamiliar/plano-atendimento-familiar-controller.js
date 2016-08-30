@@ -540,6 +540,63 @@ angular.module('home')
 			/**
 			 * 
 			 */
+			$scope.changeToFinalizado = function(ev)
+			{
+				    // Appending dialog to document.body to cover sidenav in docs app
+				    var confirm = $mdDialog.prompt()
+				      .title('Finalizar PLano de atendimento')
+				      .textContent('Informe o motivo da finalização')
+				      .placeholder('Motivo')
+				      .ariaLabel('Motivo')
+				      .initialValue('')
+				      .targetEvent(ev)
+				      .ok('Finalizar')
+				      .cancel('Cancelar');
+				    $mdDialog.show(confirm).then(function(result) {
+				    	
+				    	if (!result || result.length == 0 )
+				    	{
+				    		$scope.showMessage( $scope.ERROR_MESSAGE,  "Motivo é obrigatório" );
+				    		
+				    		return;
+				    	}
+				    	
+				    	if (result.length > 255)
+				    	{
+				    		$scope.showMessage( $scope.ERROR_MESSAGE,  "Motivo excede o limite permitido de caracteres" );
+				    		
+				    		return;
+				    	}
+				    	
+				    	$scope.model.planoAtendimentoFamiliar.entity.motivoFinalizacao = result;
+				    	
+				    	planoAtendimentoService.changetToFinalizado( $scope.model.planoAtendimentoFamiliar.entity,   {
+			                callback : function(result) {
+			                	
+			                	$state.go($scope.PLANO_ATENDIMENTO_FAMILIAR_LIST_STATE);
+			                	
+			                	$scope.showMessage( $scope.ERROR_MESSAGE,  "Plano de atendimento finalizado com sucesso" );
+			                	
+			                	$scope.$apply();
+			                	
+			                },
+			                errorHandler : function(message, exception) {
+			                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+			                    $scope.$apply();
+			                }
+			            });
+				    	
+				    }, function() {
+				      $scope.status = 'You didn\'t name your dog.';
+				    });
+				  
+				
+				  
+			}
+			
+			/**
+			 * 
+			 */
 			$scope.openSelectFamilia = function()
 			{
 				
@@ -550,8 +607,28 @@ angular.module('home')
 					})
 				    .then(function(result) {
 				    	$scope.model.planoAtendimentoFamiliar.entity.familia = result;
-				    	$scope.associateFamilia();
+				    	$scope.insertPlano();
+//				    	$scope.associateFamilia();
 				 });
+				
+			}
+			
+			
+			$scope.insertPlano = function(  ){
+				
+				planoAtendimentoService.insertPlanoAtendimentoFamiliar( $scope.model.planoAtendimentoFamiliar.entity, {
+	                callback : function(result) {
+	                	
+	                	$scope.model.planoAtendimentoFamiliar.entity = result;
+	                	
+	                	$scope.$apply();
+	                	
+	                },
+	                errorHandler : function(message, exception) {
+	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+	                    $scope.$apply();
+	                }
+	            });
 				
 			}
 			
