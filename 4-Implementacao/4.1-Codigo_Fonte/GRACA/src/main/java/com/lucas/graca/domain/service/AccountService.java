@@ -81,7 +81,9 @@ public class AccountService
 	public User insertUser( User user )
 	{
 		Assert.notNull( user );
-
+		
+		user.validateUsuarioExterno();
+		
 		user.setEnabled( true );
 		// encrypt password
 		final String encodedPassword = this.passwordEncoder.encodePassword( user.getPassword(), this.saltSource.getSalt( user ) );
@@ -93,13 +95,54 @@ public class AccountService
 	/**
 	 * 
 	 * @param user
+	 * @return
+	 */
+	public User updateUser( User user )
+	{
+		Assert.notNull( user );
+		Assert.isNull( user.getPassword(), "Acesso negado" );
+		
+		User userBd = this.userRepository.findOne( user.getId() );
+		
+		userBd.mergeToUpdate( user );
+		
+		return this.userRepository.save( userBd );
+	}
+	
+	/**
+	 * 
+	 * @param user
+	 * @param role
+	 * @return
+	 */
+	@PreAuthorize("hasAnyAuthority('"+UserRole.ADMINISTRATOR_VALUE+"')")
+	public User changeUserRole( User user )
+	{
+		Assert.notNull( user );
+		Assert.isNull( user.getPassword(), "Acesso negado" );
+		
+		User userBd = this.userRepository.findOne( user.getId() );
+		
+		userBd.mergeToUpdate( user );
+		userBd.setRole( user.getRole() );
+		
+		return this.userRepository.save( userBd );
+	}
+	
+	/**
+	 * 
+	 * @param user
 	 * @param password
 	 * @param confirmPassword
 	 * @return
 	 */
-	public User changePassword( User user, String password, String confirmPassword )
+	public User changePassword( long userId, String password, String confirmPassword )
 	{
 		Assert.isTrue( password.equals( confirmPassword ), "As senhas precisam ser iguais" );
+		
+		User user = this.userRepository.findOne( userId );
+		
+		user.validateChangePassword();
 		
 		final String encodedPassword = this.passwordEncoder.encodePassword( password, this.saltSource.getSalt( user ) );
 		user.setPassword( encodedPassword );

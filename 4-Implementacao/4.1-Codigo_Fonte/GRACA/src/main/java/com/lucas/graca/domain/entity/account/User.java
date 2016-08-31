@@ -23,7 +23,9 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.Assert;
 
 import com.lucas.graca.domain.entity.redeapoio.RedeApoio;
 
@@ -211,7 +213,42 @@ public class User extends AbstractEntity implements Serializable, UserDetails
 		
 		return authorities;
 	}
-
+	
+	/**
+	 * 
+	 */
+	public void validateChangePassword()
+	{
+		Assert.isTrue( (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal() == this
+				|| SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains( UserRole.ADMINISTRATOR),
+				"Operação não permitida");
+	}
+	
+	/**
+	 * 
+	 * @param user
+	 */
+	public void mergeToUpdate( User user )
+	{
+		this.email = user.getEmail();
+		this.name = user.getEmail();
+	}
+	
+	/**
+	 * 
+	 */
+	public void validateUsuarioExterno()
+	{
+		if (this.role == UserRole.COLABORADOR_EXTERNO)
+		{
+			Assert.notNull( this.redeApoio, "Para adicionar um usuário externo é obrigatório selecionar uma rede de apoio" );
+		}
+	}
+	
+	/*-------------------------------------------------------------------
+	 *							GETTERS AND SETTERS
+	 *-------------------------------------------------------------------*/
+	
 	/**
 	 * 
 	 */
@@ -286,8 +323,10 @@ public class User extends AbstractEntity implements Serializable, UserDetails
 		int result = super.hashCode();
 		result = prime * result + ( ( email == null ) ? 0 : email.hashCode() );
 		result = prime * result + ( ( enabled == null ) ? 0 : enabled.hashCode() );
+		result = prime * result + ( ( lastLogin == null ) ? 0 : lastLogin.hashCode() );
 		result = prime * result + ( ( name == null ) ? 0 : name.hashCode() );
 		result = prime * result + ( ( password == null ) ? 0 : password.hashCode() );
+		result = prime * result + ( ( redeApoio == null ) ? 0 : redeApoio.hashCode() );
 		result = prime * result + ( ( role == null ) ? 0 : role.hashCode() );
 		return result;
 	}
@@ -312,6 +351,11 @@ public class User extends AbstractEntity implements Serializable, UserDetails
 			if ( other.enabled != null ) return false;
 		}
 		else if ( !enabled.equals( other.enabled ) ) return false;
+		if ( lastLogin == null )
+		{
+			if ( other.lastLogin != null ) return false;
+		}
+		else if ( !lastLogin.equals( other.lastLogin ) ) return false;
 		if ( name == null )
 		{
 			if ( other.name != null ) return false;
@@ -322,6 +366,11 @@ public class User extends AbstractEntity implements Serializable, UserDetails
 			if ( other.password != null ) return false;
 		}
 		else if ( !password.equals( other.password ) ) return false;
+		if ( redeApoio == null )
+		{
+			if ( other.redeApoio != null ) return false;
+		}
+		else if ( !redeApoio.equals( other.redeApoio ) ) return false;
 		if ( role != other.role ) return false;
 		return true;
 	}

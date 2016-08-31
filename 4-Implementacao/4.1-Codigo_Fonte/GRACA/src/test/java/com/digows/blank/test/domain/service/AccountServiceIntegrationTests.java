@@ -1,5 +1,7 @@
 package com.digows.blank.test.domain.service;
 
+import javax.validation.ValidationException;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +67,23 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	/**
 	 * 
 	 */
+	@Test(expected=ValidationException.class)
+	@WithUserDetails("admin@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/redeapoio/redeApoioDataSet.xml",
+		"/dataset/account/UserDataSet.xml",
+	})
+	public void insertUserMustFailWithoutMandatoryFields()
+	{
+		User user = new User( null, null, "test@user.com", true, UserRole.OPERADOR_ADMINISNTRATIVO, "user" );
+		user = this.accountService.insertUser( user );
+
+		Assert.fail();
+	}
+	
+	/**
+	 * 
+	 */
 	@Test
 	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
@@ -82,6 +101,63 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 		Assert.assertNotNull( user.getCreated() );
 		Assert.assertTrue( user.getEnabled() );
 		Assert.assertFalse( user.getPassword().equals( "user" ) );
+	}
+	
+	/**
+	 * 
+	 */
+	@Test(expected=IllegalArgumentException.class)
+	@WithUserDetails("admin@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/redeapoio/redeApoioDataSet.xml",	
+		"/dataset/account/UserDataSet.xml",
+	})
+	public void insertExternalUserMustFailWithoutRedeAPoio()
+	{
+		User user = new User( null, "Testing user", "test@user.com", true, UserRole.COLABORADOR_EXTERNO, "user" );
+		user.setRedeApoio( null );
+		
+		user = this.accountService.insertUser( user );
+
+		Assert.fail();
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	@WithUserDetails("admin@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/redeapoio/redeApoioDataSet.xml",	
+		"/dataset/account/UserDataSet.xml",
+	})
+	public void changePasswordMustPass()
+	{
+		String password = "NovaSenha";
+		String confirmacao = "NovaSenha";
+		
+		this.accountService.changePassword( 9999L, password, confirmacao );
+		
+		Assert.assertTrue( password.equals( "NovaSenha" ) );
+	}
+	
+	/**
+	 * 
+	 */
+	@Test(expected=IllegalArgumentException.class)
+	@WithUserDetails("admin@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/redeapoio/redeApoioDataSet.xml",	
+		"/dataset/account/UserDataSet.xml",
+	})
+	public void changePasswordMustFail()
+	{
+		String password = "NovaSenha123";
+		String confirmacao = "NovaSenha";
+		
+		this.accountService.changePassword( 9999L, password, confirmacao );
+		
+		Assert.fail();
 	}
 	
 	/**
