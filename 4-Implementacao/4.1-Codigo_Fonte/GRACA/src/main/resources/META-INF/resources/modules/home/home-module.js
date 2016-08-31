@@ -110,6 +110,26 @@
 	        url:'/editar/{id:[0-9]{1,10}}',
 	        templateUrl: './modules/home/views/planoatendimentofamiliar/plano-atendimento-familiar-form.html'
 	     })
+	     
+	     //Usuário
+	     $stateProvider.state('user',{
+        	abstract: true,
+        	url : "/user",
+        	template: '<div layout="column" flex ui-view=""/>',
+        	controller : 'UserController as userController'
+        })
+        .state('user.list',{
+            url:'/listar',
+            templateUrl: './modules/home/views/user/user-list.html'
+          })
+        .state('user.add',{
+            url:'/inserir',
+            templateUrl: './modules/home/views/user/user-form.html'
+          })
+	    .state('user.edit',{
+	        url:'/editar/{id:[0-9]{1,10}}',
+	        templateUrl: './modules/home/views/user/user-form.html'
+	     })
 	});
 
 	/**

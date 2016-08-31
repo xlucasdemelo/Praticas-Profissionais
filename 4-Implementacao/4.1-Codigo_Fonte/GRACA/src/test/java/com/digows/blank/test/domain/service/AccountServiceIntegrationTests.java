@@ -165,6 +165,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	 */
 	@Test
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/redeapoio/redeApoioDataSet.xml",
 		"/dataset/account/UserDataSet.xml",
     })
 	public void findUserByIdMustPass()
@@ -182,11 +183,12 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	 */
 	@Test
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/redeapoio/redeApoioDataSet.xml",
 		"/dataset/account/UserDataSet.xml",
 	})
 	public void listUsersByFiltersMustReturn2()
 	{
-		final Page<User> users = this.accountService.listUsersByFilters( "user", null );
+		final Page<User> users = this.accountService.listUsersByFilters( "adm", null );
 		
 		Assert.assertNotNull( users );
 		Assert.assertEquals( 2, users.getTotalElements() );
@@ -197,6 +199,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	 */
 	@Test
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/redeapoio/redeApoioDataSet.xml",
 		"/dataset/account/UserDataSet.xml",
 	})
 	public void listUsersByFiltersMustReturn3()
@@ -212,13 +215,14 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	 */
 	@Test
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-		"/dataset/account/UserDataSet.xml",
+		"/dataset/redeapoio/redeApoioDataSet.xml",
+		"/dataset/account/UserDataSet.xml"
 	})
 	public void listUsersByFiltersMustReturnAll()
 	{
 		final Page<User> users = this.accountService.listUsersByFilters( null, null );
 		
 		Assert.assertNotNull( users );
-		Assert.assertEquals( 4, users.getTotalElements() );
+		Assert.assertEquals( 5, users.getTotalElements() );
 	}
 }
