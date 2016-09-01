@@ -51,7 +51,7 @@
 											
 											<md-input-container layout="column" flex="30" ">
 									    		<label>Nome</label>
-								                <input md-maxlength="50" name="name" required ng-model="model.user.entity.name">
+								                <input maxlength="50" md-maxlength="50" name="name" required ng-model="model.user.entity.name">
 								
 								                <div ng-messages="model.user.form.name.$error">
 								                	<div ng-message="required" ng-if="model.user.form.$submitted">Campo obrigatório</div>
@@ -61,7 +61,7 @@
 											
 											<md-input-container layout="column" flex="30" ">
 									    		<label>Email</label>
-								                <input type="email" md-maxlength="144" name="email" required ng-model="model.user.entity.email">
+								                <input type="email" maxlength="144" md-maxlength="144" name="email" required ng-model="model.user.entity.email">
 								
 								                <div ng-messages="model.user.form.email.$error">
 								                	<div ng-message="required" ng-if="model.user.form.$submitted">Campo obrigatório</div>
@@ -69,6 +69,17 @@
 								                	<div ng-message="email" ng-if="model.user.form.$submitted">Email inválido</div>
 								                </div>
 								            </md-input-container>
+								            
+								            <md-input-container ng-if="model.user.entity.role == 'COLABORADOR_EXTERNO' " layout="column" flex="30" style="margin-right:30px">
+										        <label>Rede de Apoio</label>
+										        <md-select name="redeApoio" required ng-model="model.user.entity.redeApoio">
+										          <md-option ng-repeat="rede in allRedeApoio" value="{{rede}}">{{rede.nome}}</md-option>
+										        </md-select>
+										        
+										        <div ng-messages="model.user.form.redeApoio.$error">
+								                	<div ng-message="required" ng-if="model.user.form.$submitted">Campo obrigatório</div>
+								                </div>
+										    </md-input-container>
 								            
 										</form>
 									</md-toolbar>

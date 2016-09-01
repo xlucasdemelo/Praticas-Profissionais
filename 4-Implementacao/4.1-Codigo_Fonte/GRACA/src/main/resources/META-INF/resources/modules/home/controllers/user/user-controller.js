@@ -410,11 +410,18 @@ angular.module('home')
 					return;
 				}
 				
+				if ($scope.model.user.entity.role == 'COLABORADOR_EXTERNO')
+				{
+					$scope.model.user.entity.redeApoio = new RedeApoio();
+					$scope.model.user.entity.redeApoio.id = 1;
+				}
+				
 				accountService.insertUser(  $scope.model.user.entity, {
 	                callback : function(result) {
 	                	
 	                	$scope.model.user.entity = result;
 	                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi cadastrado com sucesso!" );
+	                	$state.go(USER_EDIT_STATE)
 	                	$scope.$apply();
 	                	
 	                },
@@ -816,10 +823,17 @@ angular.module('home')
 				 });
 			};
 			
+			$scope.listAllRedeApoio = function()
+			{
+				var redeApoio = new RedeApoio();
+				redeApoio.nome = "CREA";
+				$scope.allRedeApoio = [redeApoio];
+			}
 			
 			/*-------------------------------------------------------------------
 		     * 		 				 	POST CONSTRUCT
 		     *-------------------------------------------------------------------*/
 			$scope.listAllTiposMoradia();
+			$scope.listAllRedeApoio();
 });
 }(window.angular));

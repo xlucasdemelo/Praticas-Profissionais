@@ -140,14 +140,13 @@ public class User extends AbstractEntity implements Serializable, UserDetails
 	 * @param enabled
 	 * @param role
 	 */
-	public User( Long id, String name, String email, Boolean enabled, UserRole role, RedeApoio redeApoio )
+	public User( Long id, String name, String email, Boolean enabled, UserRole role )
 	{
 		super( id );
 		this.email = email;
 		this.name = name;
 		this.enabled = enabled;
 		this.role = role;
-		this.redeApoio = redeApoio;
 	}
 
 	/**

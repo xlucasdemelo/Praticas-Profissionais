@@ -85,6 +85,7 @@ public class AccountService
 		user.validateUsuarioExterno();
 		
 		user.setEnabled( true );
+		user.setPassword( "123456" );
 		// encrypt password
 		final String encodedPassword = this.passwordEncoder.encodePassword( user.getPassword(), this.saltSource.getSalt( user ) );
 		user.setPassword( encodedPassword );

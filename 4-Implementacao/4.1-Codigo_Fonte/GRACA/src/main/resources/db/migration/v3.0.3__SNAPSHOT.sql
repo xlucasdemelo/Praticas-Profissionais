@@ -647,3 +647,5 @@ ALTER TABLE hibernate_sequence
   INSERT INTO "public"."user"(
             id, created, updated, email, enabled, name, password, role)
     VALUES (1, NOW(), null, 'admin@admin.com', TRUE, 'Administrador de Sistemas', 'd1bd2f08fead38a982aed9d4ca060152400b1b8f', 0);
+    
+    insert into public.rede_apoio values(1, now(), now(), 'CREA', '123133', 1, 1)
