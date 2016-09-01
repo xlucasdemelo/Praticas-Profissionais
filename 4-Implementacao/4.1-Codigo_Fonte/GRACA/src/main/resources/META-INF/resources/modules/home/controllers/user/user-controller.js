@@ -220,16 +220,8 @@ angular.module('home')
 			$scope.changeToAdd = function() {
 				console.debug("changeToAdd");
 				
-				$scope.model.user.entity = new PlanoAtendimentoFamiliar();//Limpa o formulário
+				$scope.model.user.entity = new User();//Limpa o formulário
 				
-				$scope.model.pais.selectedItem = null;
-				$scope.model.pais.searchText = null;
-	        	
-				$scope.model.estado.selectedItem = null;
-				$scope.model.estado.searchText = null;
-				
-	        	$scope.model.cidade.selectedItem = null;
-	        	$scope.model.cidade.searchText = null;
 				
 			};
 			
@@ -245,7 +237,7 @@ angular.module('home')
 		    $scope.changeToEdit = function( id ) {
 		        console.debug("changeToEdit", id);
 		        
-		        planoAtendimentoService.findPlanoAtendimentoFamiliarById( id, {
+		        accountService.findUserById( id, {
 		            callback : function(result) {	   
 		            	$scope.model.user.entity = result;
 		            	
@@ -410,31 +402,18 @@ angular.module('home')
 			/**
 			 * 
 			 */
-			$scope.insertFamilia = function()
+			$scope.insertUser = function()
 			{
-				$scope.model.familia.form.$submitted = true;
-				if ($scope.model.familia.form.$invalid ){
+				$scope.model.user.form.$submitted = true;
+				if ($scope.model.user.form.$invalid ){
 					$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
 					return;
 				}
 				
-//				$scope.model.familia.entity.endereco = $scope.model.endereco.entity; 
-				
-				if ( !$scope.model.pais.selectedItem )
-					return $scope.showMessage( $scope.ERROR_MESSAGE,  "Selecione um país" );
-				if ( !$scope.model.estado.selectedItem )
-					return $scope.showMessage( $scope.ERROR_MESSAGE,  "Selecione um estado" );
-				if ( !$scope.model.cidade.selectedItem )
-					return $scope.showMessage( $scope.ERROR_MESSAGE,  "Selecione uma cidade" );
-					
-				$scope.model.familia.entity.endereco.cidade = $scope.model.cidade.selectedItem ;
-				$scope.model.familia.entity.endereco.cidade.estado = $scope.model.estado.selectedItem ;
-				$scope.model.familia.entity.endereco.cidade.estado.pais = $scope.model.pais.selectedItem ;
-				
-				familiaService.insertFamilia(  $scope.model.familia.entity, {
+				accountService.insertUser(  $scope.model.user.entity, {
 	                callback : function(result) {
 	                	
-	                	$scope.model.familia.entity = result;
+	                	$scope.model.user.entity = result;
 	                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi cadastrado com sucesso!" );
 	                	$scope.$apply();
 	                	
@@ -472,30 +451,11 @@ angular.module('home')
 			/**
 			 * 
 			 */
-			$scope.listAllTiposImovel = function(){
-				familiaService.listAllTiposImovel(   {
-	                callback : function(result) {
-	                	
-	                	$scope.allTiposImovel = result;
-	                	
-	                	$scope.$apply();
-	                	
-	                },
-	                errorHandler : function(message, exception) {
-	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
-	                    $scope.$apply();
-	                }
-	            });
-			}
-			
-			/**
-			 * 
-			 */
 			$scope.listAllTiposMoradia = function(){
-				familiaService.listAllTiposMoradia(   {
+				accountService.listAllUserRoles(   {
 	                callback : function(result) {
 	                	
-	                	$scope.allTiposMoradia = result;
+	                	$scope.allUserRoles = result;
 	                	
 	                	$scope.$apply();
 	                	
@@ -617,6 +577,8 @@ angular.module('home')
 	                callback : function(result) {
 	                	
 	                	$scope.model.user.entity = result;
+	                	
+	                	$scope.listIntegrantesFamiliaresByFamilia($scope.model.entity.familia.id);
 	                	
 	                	$scope.$apply();
 	                	
@@ -858,5 +820,6 @@ angular.module('home')
 			/*-------------------------------------------------------------------
 		     * 		 				 	POST CONSTRUCT
 		     *-------------------------------------------------------------------*/
+			$scope.listAllTiposMoradia();
 });
 }(window.angular));

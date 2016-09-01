@@ -49,14 +49,14 @@
 									        		required
 									        		md-input-name="responsavel"
 									        		style="margin-right:20px" 
-									        		md-selected-item="model.responsavel.selected" 
-									        		md-search-text="model.responsavel.entity.nome"
-													md-search-text-change="listResponsaveisByFilters(model.responsavel.entity.nome)" 
+									        		md-selected-item="item.nome" 
+									        		md-search-text="model.responsavel.searchText"
+													md-search-text-change="listResponsaveisByFilters(model.responsavel.searchText)" 
 													md-items="item in model.responsavel.list" 
 													md-item-text="item.nome"
 													placeholder="Nome"
 													/>
-										
+										{{model.responsavel}}
 										<div md-theme="default" layout="row" layout-align="end center" ng-if="!model.responsavel.selected" class="default-header md-primary md-hue-3">
 									        <md-button class="md-raised md-accent default-save-button" ng-click="insertResponsavel()">Adicionar responsavel</md-button>
 								        </div>

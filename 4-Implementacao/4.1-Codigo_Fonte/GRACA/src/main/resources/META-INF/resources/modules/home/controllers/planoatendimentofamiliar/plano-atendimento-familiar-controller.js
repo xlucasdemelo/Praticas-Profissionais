@@ -224,16 +224,7 @@ angular.module('home')
 				console.debug("changeToAdd");
 				
 				$scope.model.planoAtendimentoFamiliar.entity = new PlanoAtendimentoFamiliar();//Limpa o formulário
-				
-				$scope.model.pais.selectedItem = null;
-				$scope.model.pais.searchText = null;
-	        	
-				$scope.model.estado.selectedItem = null;
-				$scope.model.estado.searchText = null;
-				
-	        	$scope.model.cidade.selectedItem = null;
-	        	$scope.model.cidade.searchText = null;
-				
+				$scope.selectedTab = 0;
 			};
 			
 			/**
@@ -251,7 +242,7 @@ angular.module('home')
 		        planoAtendimentoService.findPlanoAtendimentoFamiliarById( id, {
 		            callback : function(result) {	   
 		            	$scope.model.planoAtendimentoFamiliar.entity = result;
-		            	
+		            	$scope.listIntegrantesFamiliaresByFamilia($scope.model.planoAtendimentoFamiliar.entity.familia.id);
 		            	$scope.$apply();
 		            },
 		            errorHandler : function(message, exception) {
@@ -259,8 +250,6 @@ angular.module('home')
 		                $scope.$apply();
 		            }
 		        });
-		        
-		        $scope.listIntegrantesFamiliaresByFamilia(id);
 		    };
 			
 			/**
@@ -452,11 +441,11 @@ angular.module('home')
 			/**
 			 * 
 			 */
-			$scope.onFamiliaPaginationChange = function(paginate) {
+			$scope.onPlanoPaginationChange = function(paginate) {
 	        	if (paginate) {
-	        		$scope.model.familia.page.pageable.page++;
+	        		$scope.model.planoAtendimentoFamiliar.page.pageable.page++;
 	        	} else {
-	        		$scope.model.familia.page.pageable.page--;
+	        		$scope.model.planoAtendimentoFamiliar.page.pageable.page--;
 	        	}
 	        		
 	        	$scope.listByFilters();
@@ -620,7 +609,7 @@ angular.module('home')
 	                callback : function(result) {
 	                	
 	                	$scope.model.planoAtendimentoFamiliar.entity = result;
-	                	
+	                	$scope.listIntegrantesFamiliaresByFamilia(result.familia.id);
 	                	$scope.$apply();
 	                	
 	                },

@@ -10,7 +10,7 @@
 	    	</div>
 	    	
 	        <div md-theme="default" layout="row" layout-align="end center" class="default-header">
-		        <md-button class="md-raised md-accent default-save-button" ng-click="$state.go( USUARIO_ADD_STATE )">Novo</md-button>
+		        <md-button class="md-raised md-accent default-save-button" ng-click="$state.go( USER_ADD_STATE )">Novo</md-button>
 	        </div>
 	    </md-toolbar>
 	
@@ -60,10 +60,10 @@
 					      </tr>
 					    </thead>
 					    <tbody md-body>
-					      <tr md-row md-select="dessert" style="cursor:pointer" ng-click="$state.go( USUARIO_EDIT_STATE, {id:planoAtendimentoFamiliar.id} )" md-select-id="name" md-auto-select ng-repeat="user in model.user.page.content">
+					      <tr md-row md-select="dessert" style="cursor:pointer" ng-click="$state.go( USER_EDIT_STATE, {id:user.id} )" md-select-id="name" md-auto-select ng-repeat="user in model.user.page.content">
 					        <td md-cell>{{::user.name}}</td>
 					        <td md-cell>{{::user.email}}</td>
-					        <td md-cell>{{::user.role}}</td>
+					        <td md-cell>{{::user.role | translate}}</td>
 					      </tr>
 					    </tbody>
 					  </table>

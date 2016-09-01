@@ -14,7 +14,7 @@ angular.module('home')
 	     * Serviços importados do DWR
 	     */
 		$importService("planoAtendimentoService");
-		
+		$scope.selectedResponsavel = null;
 	    /*-------------------------------------------------------------------
 	     * 		 				 	ATTRIBUTES
 	     *-------------------------------------------------------------------*/
@@ -56,7 +56,8 @@ angular.module('home')
 				    terms: "",
 				   
 				},
-				selected:null,
+				searchText:null,
+				
 				list:[],
 			    page: {//PageImpl 
 			    		size: 9,

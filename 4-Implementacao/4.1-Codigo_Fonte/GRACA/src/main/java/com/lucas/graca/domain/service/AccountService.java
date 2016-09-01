@@ -152,6 +152,16 @@ public class AccountService
 	
 	/**
 	 * 
+	 * @return
+	 */
+	@Transactional(readOnly=true)
+	public UserRole[] listAllUserRoles()
+	{
+		return UserRole.values();
+	}
+	
+	/**
+	 * 
 	 * @param id
 	 * @return
 	 */
