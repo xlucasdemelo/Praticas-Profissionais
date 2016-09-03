@@ -249,7 +249,6 @@ angular.module('home')
 		            }
 		        });
 		        
-		        $scope.listIntegrantesFamiliaresByFamilia(id);
 		    };
 			
 			/**
@@ -458,7 +457,7 @@ angular.module('home')
 			/**
 			 * 
 			 */
-			$scope.listAllTiposMoradia = function(){
+			$scope.listAllUserRoles= function(){
 				accountService.listAllUserRoles(   {
 	                callback : function(result) {
 	                	
@@ -479,214 +478,71 @@ angular.module('home')
 				$scope.pais = pais;
 			}
 			
-			/**
-			 * 
-			 */
-			$scope.changetToEmExecucao = function()
-			{
-				planoAtendimentoService.changetToEmExecucao( $scope.model.user.entity.id,   {
-	                callback : function(result) {
-	                	
-	                	$scope.model.user.entity = result;
-	                	
-	                	$scope.showMessage( $scope.ERROR_MESSAGE,  "Plano de atendimento enviado para execução com sucesso" );
-	                	
-	                	$scope.$apply();
-	                	
-	                },
-	                errorHandler : function(message, exception) {
-	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
-	                    $scope.$apply();
-	                }
-	            });
-			}
-			
-			/**
-			 * 
-			 */
-			$scope.changeToFinalizado = function(ev)
-			{
-				    // Appending dialog to document.body to cover sidenav in docs app
-				    var confirm = $mdDialog.prompt()
-				      .title('Finalizar PLano de atendimento')
-				      .textContent('Informe o motivo da finalização')
-				      .placeholder('Motivo')
-				      .ariaLabel('Motivo')
-				      .initialValue('')
-				      .targetEvent(ev)
-				      .ok('Finalizar')
-				      .cancel('Cancelar');
-				    $mdDialog.show(confirm).then(function(result) {
-				    	
-				    	if (!result || result.length == 0 )
-				    	{
-				    		$scope.showMessage( $scope.ERROR_MESSAGE,  "Motivo é obrigatório" );
-				    		
-				    		return;
-				    	}
-				    	
-				    	if (result.length > 255)
-				    	{
-				    		$scope.showMessage( $scope.ERROR_MESSAGE,  "Motivo excede o limite permitido de caracteres" );
-				    		
-				    		return;
-				    	}
-				    	
-				    	$scope.model.user.entity.motivoFinalizacao = result;
-				    	
-				    	planoAtendimentoService.changetToFinalizado( $scope.model.user.entity,   {
-			                callback : function(result) {
-			                	
-			                	$state.go($scope.USER_LIST_STATE);
-			                	
-			                	$scope.showMessage( $scope.ERROR_MESSAGE,  "Plano de atendimento finalizado com sucesso" );
-			                	
-			                	$scope.$apply();
-			                	
-			                },
-			                errorHandler : function(message, exception) {
-			                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
-			                    $scope.$apply();
-			                }
-			            });
-				    	
-				    }, function() {
-				      $scope.status = 'You didn\'t name your dog.';
-				    });
-				  
-				
-				  
-			}
-			
-			/**
-			 * 
-			 */
-			$scope.openSelectFamilia = function()
-			{
-				
-				$mdDialog.show({
-				      controller: "SelecionarFamiliaPopup",
-				      templateUrl: './modules/home/views/crianca/popup/selecionar-familia-popup.html',			      
-				      scope: $scope.$new(),
-					})
-				    .then(function(result) {
-				    	$scope.model.user.entity.familia = result;
-				    	$scope.insertPlano();
-//				    	$scope.associateFamilia();
-				 });
-				
-			}
-			
-			
-			$scope.insertPlano = function(  ){
-				
-				planoAtendimentoService.insertPlanoAtendimentoFamiliar( $scope.model.user.entity, {
-	                callback : function(result) {
-	                	
-	                	$scope.model.user.entity = result;
-	                	
-	                	$scope.listIntegrantesFamiliaresByFamilia($scope.model.entity.familia.id);
-	                	
-	                	$scope.$apply();
-	                	
-	                },
-	                errorHandler : function(message, exception) {
-	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
-	                    $scope.$apply();
-	                }
-	            });
-				
-			}
-			
-			/**
-			 * 
-			 */
-			$scope.associateFamilia = function(  ){
-				
-				planoAtendimentoService.associateFamiliaToPlano( $scope.model.user.entity, {
-	                callback : function(result) {
-	                	
-	                	$scope.model.user.entity = result;
-	                	
-	                	$scope.$apply();
-	                	
-	                },
-	                errorHandler : function(message, exception) {
-	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
-	                    $scope.$apply();
-	                }
-	            });
-				
-			}
-			
-			$scope.insertParecer = function()
-			{
-				$scope.model.parecer.entity.planoAtendimentoFamiliar = $scope.model.user.entity;
-				$scope.model.parecer.entity.tipo = $scope.model.encaminhamento.tipo;
-				
-				planoAtendimentoService.insertParecer( $scope.model.parecer.entity, {
-	                callback : function(result) {
-	                	
-	                	$scope.model.parecer.entity = result;
-	                	
-	                	$scope.listParecerByPlanoAndTipo();
-	                	
-	                },
-	                errorHandler : function(message, exception) {
-	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
-	                    $scope.$apply();
-	                }
-	            });
-				
-			}
-			
-			/**
-			 * 
-			 */
-			$scope.listParecerByPlanoAndTipo = function()
-			{
-				
-				planoAtendimentoService.listPareceresByPlanoAndTipo( $scope.model.user.entity.id, $scope.model.encaminhamento.tipo, {
-	                callback : function(result) {
-	                	
-	                	$scope.model.parecer.list = result;
-	                	
-	                	$scope.$apply();
-	                	
-	                },
-	                errorHandler : function(message, exception) {
-	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
-	                    $scope.$apply();
-	                }
-	            });
-				
-			}
 			
 			/**
 			 * 
 			 */
 			
-			$scope.openAdicionarEncaminhamentoPopup = function( encaminhamento )
+			$scope.openChangePasswordHandler = function( id )
 			{
 				$mdDialog.show({
-				      controller: "AdicionarEncaminhamentoControllerPopup",
-				      templateUrl: './modules/home/views/planoatendimentofamiliar/popup/adicionar-encaminhamento-popup.html',			      
+				      controller: $scope.changePasswordController(id),
+				      templateUrl: './modules/home/views/user/popup/change-password-modal.html',			      
 				      scope: $scope.$new(),
-				      resolve: {
-				    	  encaminhamento: function() {
-				    		  return angular.copy(encaminhamento);
-				    	  }
-				      }
 					})
 				    .then(function(result) {
 				    	 $scope.listEncaminhamentosByTipo();
 				 });
 			}
 			
-			$scope.controller = function()
-			{
-				
-			}
+			$scope.changePasswordController = function(id){
+		    	
+		    	$scope.form = null;
+		    	$scope.modal = {
+		    			newPassword:null,
+		    			confirmNewPassword: null
+		    	}
+		    	  
+		    	$scope.hide = function (result) {
+		    		$mdDialog.hide(result);
+		  	    };
+		  	    
+		  	    $scope.cancel = function () {
+			        $mdDialog.cancel();
+			    };
+		  	    
+		  	    $scope.changePassword = function()
+		  	    {
+		  	    	
+		  	    	if ( !$scope.modal.newPassword || !$scope.modal.confirmNewPassword )
+		  	    	{
+		  	    		$scope.showMessage( $scope.SUCCESS_MESSAGE,  "Preencha os campos obrigatórios" );
+		  	    		return;
+		  	    	}
+		  	    	
+		  	    	if ( $scope.modal.newPassword != $scope.modal.confirmNewPassword )
+		  	    	{
+		  	    		$scope.showMessage( $scope.SUCCESS_MESSAGE,  "A senha e confirmação precisam ser iguais" );
+		  	    		return;
+		  	    	}
+		  	    	
+		  	    	accountService.changePassword(  id, $scope.modal.newPassword, $scope.modal.confirmNewPassword, {
+		                callback : function(result) {
+		                	
+		                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "A senha foi alterada com sucesso!" );
+		                	$scope.hide();
+		                	$scope.$apply();
+		                	
+		                },
+		                errorHandler : function(message, exception) {
+		                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+		                    $scope.$apply();
+		                }
+		            });
+		  	    	
+		  	    }
+		  	    
+		      }
 			
 			/**
 			 * 
@@ -833,7 +689,7 @@ angular.module('home')
 			/*-------------------------------------------------------------------
 		     * 		 				 	POST CONSTRUCT
 		     *-------------------------------------------------------------------*/
-			$scope.listAllTiposMoradia();
+			$scope.listAllUserRoles();
 			$scope.listAllRedeApoio();
 });
 }(window.angular));
