@@ -309,7 +309,7 @@ angular.module('home')
 		        $mdDialog.show(confirm).then(function (result) {
 		            console.log(result);
 		
-		            familiaService.disableFamilia( $scope.model.familia.entity  , {
+		            accountService.disableFamilia( $scope.model.familia.entity  , {
 		                callback : function(result) {
 		                    $scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi excluído com sucesso!" );
 		                    $state.go($scope.PLANO_ATENDIMENTO_FAMILIARLIST_STATE);
