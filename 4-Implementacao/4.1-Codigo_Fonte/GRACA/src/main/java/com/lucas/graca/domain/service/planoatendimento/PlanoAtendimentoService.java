@@ -183,6 +183,13 @@ public class PlanoAtendimentoService
 	{
 		PlanoAtendimentoFamiliar planoAtendimentoFamiliar = this.planoAtendimentoFamiliarRepository.findOne( id );
 		
+		List<PlanoAtendimentoFamiliar> planos = this.planoAtendimentoFamiliarRepository.findByFamiliaId( planoAtendimentoFamiliar.getFamilia().getId() );
+		
+		for ( PlanoAtendimentoFamiliar planoAtendimentoFamiliarDB : planos )
+		{
+			planoAtendimentoFamiliarDB.validateUnicity();
+		}
+		
 		planoAtendimentoFamiliar.changeToEmExecucao();
 		return this.planoAtendimentoFamiliarRepository.save( planoAtendimentoFamiliar );
 	}
@@ -256,8 +263,13 @@ public class PlanoAtendimentoService
 	@PreAuthorize("hasAuthority('"+UserRole.OPERADOR_ATENDIMENTOS_VALUE+"') ")
 	public Encaminhamento insertEncaminhamento( Encaminhamento encaminhamento, long planoId )
 	{
+		PlanoAtendimentoFamiliar plano = this.planoAtendimentoFamiliarRepository.findOne( planoId );
+		
+		Assert.isTrue( plano.getStatus() == StatusPlanoAtendimento.EM_EXECUCAO );
 		Assert.notNull( encaminhamento );
 		Assert.isNull( encaminhamento.getId() );
+
+		this.isnertResposnavel( encaminhamento.getResponsavel() );
 		
 		encaminhamento.setPlanoAtendimento( new PlanoAtendimentoFamiliar(planoId) );
 		

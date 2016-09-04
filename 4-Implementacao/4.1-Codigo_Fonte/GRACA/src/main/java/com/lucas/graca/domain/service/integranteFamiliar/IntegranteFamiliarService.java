@@ -104,6 +104,19 @@ public class IntegranteFamiliarService
 	
 	/**
 	 * 
+	 * @param familiaId
+	 * @param pageable
+	 * @return
+	 */
+	public Page<IntegranteFamiliar> listIntegrantesByfamiliaAndFilters( Long familiaId, String filter, PageRequest pageable )
+	{
+		Assert.notNull( familiaId );
+		
+		return this.integranteFamiliarRepository.listIntegrantesByfamilia( familiaId, pageable );
+	}
+	
+	/**
+	 * 
 	 * @param integranteFamiliar
 	 * @return
 	 */

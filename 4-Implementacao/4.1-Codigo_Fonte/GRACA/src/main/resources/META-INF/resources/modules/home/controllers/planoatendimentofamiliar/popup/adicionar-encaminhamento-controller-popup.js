@@ -221,8 +221,15 @@ angular.module('home')
 				return;
 			}
 	    	
-			$scope.model.encaminhamento.entity.responsavel = $scope.model.responsavel.selected;
 			$scope.model.encaminhamento.entity.tipo = $scope.$parent.model.encaminhamento.tipo;
+			
+			if ($scope.model.encaminhamento.entity.integranteFamiliar){
+				
+				//gambi
+				var a = JSON.parse($scope.model.encaminhamento.entity.integranteFamiliar);
+				$scope.model.encaminhamento.entity.integranteFamiliar = new IntegranteFamiliar();
+				$scope.model.encaminhamento.entity.integranteFamiliar.id = a.id;
+			}
 			
 			planoAtendimentoService.insertEncaminhamento( $scope.model.encaminhamento.entity, $scope.$parent.model.planoAtendimentoFamiliar.entity.id, {
                 callback : function(result) {

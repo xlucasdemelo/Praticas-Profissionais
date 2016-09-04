@@ -644,10 +644,13 @@ angular.module('home')
 			
 			$scope.insertParecer = function()
 			{
-				$scope.model.parecer.entity.planoAtendimentoFamiliar = $scope.model.planoAtendimentoFamiliar.entity;
-				$scope.model.parecer.entity.tipo = $scope.model.encaminhamento.tipo;
 				
-				planoAtendimentoService.insertParecer( $scope.model.parecer.entity, {
+				var novoParecer = new Parecer();
+				novoParecer.planoAtendimentoFamiliar = $scope.model.planoAtendimentoFamiliar.entity;
+				novoParecer.tipo = $scope.model.encaminhamento.tipo;
+				novoParecer.descricao = $scope.model.parecer.entity.descricao;
+				
+				planoAtendimentoService.insertParecer( novoParecer, {
 	                callback : function(result) {
 	                	
 	                	$scope.model.parecer.entity = result;

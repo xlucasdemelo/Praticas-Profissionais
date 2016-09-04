@@ -81,7 +81,7 @@
 						<md-button class="md-icon-button" ng-disabled="(model.planoAtendimentoFamiliar.page.pageable.page + 1) < 2" ng-click="onPlanoPaginationChange(false)">
 							<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.planoAtendimentoFamiliar.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
 						</md-button>
-						<md-button class="md-icon-button" ng-disabled="(model.planoAtendimentoFamiliar.page.pageable.page + 1) >= totalPagesFamilia" ng-click="onPlanoPaginationChange(true)">
+						<md-button class="md-icon-button" ng-disabled="(model.planoAtendimentoFamiliar.page.pageable.page + 1) >= totalPagesPlanoAtendimentoFamiliar" ng-click="onPlanoPaginationChange(true)">
 							<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.planoAtendimentoFamiliar.page.pageable.page + 1) >= Math.ceil(model.planoAtendimentoFamiliar.page.total/model.planoAtendimentoFamiliar.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
 						</md-button>
 			  		</div>

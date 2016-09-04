@@ -135,7 +135,7 @@
 												<md-expansion-panel-content>
 													
 													<div md-theme="default" layout="row" layout-align="end center" class="default-header md-primary md-hue-3">
-												        <md-button class="md-raised md-accent default-save-button" ng-click="openAdicionarEncaminhamentoPopup()">Novo encaminhamento</md-button>
+												        <md-button class="md-raised md-accent default-save-button" ng-if="model.planoAtendimentoFamiliar.entity.status == 'EM_EXECUCAO' " ng-click="openAdicionarEncaminhamentoPopup()">Novo encaminhamento</md-button>
 											        </div>
 													
 													<md-table-container>
@@ -224,7 +224,7 @@
 													        
 													        <md-divider ></md-divider>
 													        
-													        <div class="default-frame" style="padding-top: 20px; margin-bottom: 0px;" md-theme="{{::miscellaneous}}">
+													        <div ng-if="model.planoAtendimentoFamiliar.entity.status == 'EM_EXECUCAO' " class="default-frame" style="padding-top: 20px; margin-bottom: 0px;" md-theme="{{::miscellaneous}}">
 													        	<form name="model.comentario.form" layout="row" layout-align="end center">
 															    	<md-input-container flex layout="column">
 																        <label>Digite seu comentário</label>

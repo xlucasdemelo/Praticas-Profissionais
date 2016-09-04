@@ -41,31 +41,33 @@
 								        </md-input-container>
 				                     </div>
 				                     
-				                     <div class="default-info" layout="row">Responsável</div>
+				                     <md-input-container layout="column" flex="30" style="margin-right:30px">
+							    		<label>Nome do responsável</label>
+						                <input md-maxlength="255" name="nome" required ng-model="model.encaminhamento.entity.responsavel.nome">
+						
+						                <div ng-messages="model.encaminhamento.form.responsavel.$error">
+						                	<div ng-message="required" ng-if="model.familia.encaminhamento.$submitted">Campo obrigatório</div>
+						                	<div ng-message="md-maxlength" ng-if="model.encaminhamento.form.$submitted">Limite de caracteres excedido</div>
+						                </div>
+						            </md-input-container>
+				                     
+				                     <div class="default-info" layout="row">Integrante Familiar</div>
 				                     
 				                     <div layout="row">
-						            	<md-autocomplete 
-						            				ng-disabled="model.encaminhamento.entity.id"
-									        		required
-									        		md-input-name="responsavel"
-									        		style="margin-right:20px" 
-									        		md-selected-item="item.nome" 
-									        		md-search-text="model.responsavel.searchText"
-													md-search-text-change="listResponsaveisByFilters(model.responsavel.searchText)" 
-													md-items="item in model.responsavel.list" 
-													md-item-text="item.nome"
-													placeholder="Nome"
-													/>
-										{{model.responsavel}}
-										<div md-theme="default" layout="row" layout-align="end center" ng-if="!model.responsavel.selected" class="default-header md-primary md-hue-3">
-									        <md-button class="md-raised md-accent default-save-button" ng-click="insertResponsavel()">Adicionar responsavel</md-button>
-								        </div>
+						            	
+						            	<md-select name="role" style="width:35%" ng-disabled="model.encaminhamento.entity.id" ng-model="model.encaminhamento.entity.integranteFamiliar">
+								          <md-option ng-repeat="integrante in $parent.model.integranteFamiliar.page.content" value="{{integrante}}">{{integrante.nome}}</md-option>
+								        </md-select>
+													
+<!-- 										<div md-theme="default" layout="row" layout-align="end center" ng-if="!model.responsavel.selected" class="default-header md-primary md-hue-3"> -->
+<!-- 									        <md-button class="md-raised md-accent default-save-button" ng-click="insertResponsavel()">Adicionar responsavel</md-button> -->
+<!-- 								        </div> -->
 				                     </div>
 				                     
 				                     <div layout="row" flex>
-						           		<md-input-container style="width:100%" layout="column" class="md-block">
+						           		<md-input-container style="width:100%" ng-if="model.encaminhamento.entity.status == 'EM_EXECUCAO'" layout="column" class="md-block">
 								          <label>Observação da finalização</label>
-								          <textarea name="descricao" required ng-if="model.encaminhamento.entity.status == 'EM_EXECUCAO'" ng-disabled="model.encaminhamento.entity.status == 'CONCLUIDO'" flex ng-model="model.encaminhamento.entity.observacao" md-maxlength="255" rows="3" md-select-on-focus></textarea>
+								          <textarea name="descricao" required ng-disabled="model.encaminhamento.entity.status == 'CONCLUIDO'" flex ng-model="model.encaminhamento.entity.observacao" md-maxlength="255" rows="3" md-select-on-focus></textarea>
 								        	
 								        	<div ng-messages="model.encaminhamento.form.encaminhamento.$error">
 							               		<div ng-message="required" ng-if="model.encaminhamento.form.$submitted">Campo obrigatório</div>
