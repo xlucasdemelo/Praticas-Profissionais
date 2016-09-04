@@ -24,8 +24,9 @@
 								<input type="text" name="filtro" ng-disabled="moreFilters" ng-model="model.user.filters.terms" maxlength="255">
 							</md-input-container>
 					            
-				            <div layout="row" layout-align="end center" ng-init="currentOption = 'down'">
-					            <md-button class="md-raised md-primary md-hue-2" ng-click="!moreFilters ? listByFilters() : listByMoreFilters()">Filtrar</md-button>
+				            <div layout="row" layout-align="end center" ng-init="currentOption = 'down'"> 
+<!-- 				            	// !moreFilters ? listByFilters() : listByMoreFilters() -->
+					            <md-button class="md-raised md-primary md-hue-2" ng-click="listByFilters()">Filtrar</md-button>
 					            <md-button class="md-raised md-primary md-hue-3" ng-click="openMaisOpcoes(); currentOption = !currentOption" style="padding-left: 14px;">
 					            	Mais opções
 					            	<i ng-if="!currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-down"></i>
@@ -76,10 +77,10 @@
 					<md-divider></md-divider>
 					<div class="default-paginator" layout layout-align="end center" ng-if="model.user.page.content.length > 0">
 						{{ model.user.page.pageable.page + 1 }} de {{ totalPagesPlanoAtendimentoFamiliar }}
-						<md-button class="md-icon-button" ng-disabled="(model.user.page.pageable.page + 1) < 2" ng-click="onFamiliaPaginationChange(false)">
+						<md-button class="md-icon-button" ng-disabled="(model.user.page.pageable.page + 1) < 2" ng-click="onUserPaginationChange(false)">
 							<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.user.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
 						</md-button>
-						<md-button class="md-icon-button" ng-disabled="(model.user.page.pageable.page + 1) >= totalPagesFamilia" ng-click="onFamiliaPaginationChange(true)">
+						<md-button class="md-icon-button" ng-disabled="(model.user.page.pageable.page + 1) >= totalPagesUser" ng-click="onUserPaginationChange(true)">
 							<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.user.page.pageable.page + 1) >= Math.ceil(model.user.page.total/model.user.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
 						</md-button>
 			  		</div>

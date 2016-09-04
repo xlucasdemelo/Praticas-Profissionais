@@ -60,7 +60,7 @@ public class RedeApoio extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="responsavel_id")
 	private Responsavel responsavel;
 

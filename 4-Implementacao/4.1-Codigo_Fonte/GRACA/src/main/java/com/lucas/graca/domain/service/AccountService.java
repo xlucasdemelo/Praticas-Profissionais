@@ -85,11 +85,15 @@ public class AccountService
 		this.userRepository.save( user );
 	}
 	
-	public void disableUser( long id )
+	/**
+	 * 
+	 * @param id
+	 */
+	public void enableUser( long id )
 	{
 		User user = this.userRepository.findOne( id );
 		
-		user.disableUser();
+		user.enableUser();
 		this.userRepository.save( user );
 	}
 	
@@ -160,9 +164,10 @@ public class AccountService
 	 */
 	public User changePassword( long userId, String password, String confirmPassword )
 	{
-		Assert.isTrue( password.equals( confirmPassword ), "As senhas precisam ser iguais" );
-		
 		User user = this.userRepository.findOne( userId );
+		
+		Assert.isTrue( user.isEnabled(), "O usuário precisa estar ativo" );
+		Assert.isTrue( password.equals( confirmPassword ), "As senhas precisam ser iguais" );
 		
 		user.validateChangePassword();
 		
@@ -202,8 +207,8 @@ public class AccountService
 	 * @return
 	 */
 	@Transactional(readOnly=true)
-	public Page<User> listUsersByFilters( String filter, PageRequest pageable )
+	public Page<User> listByFilters( String filter, boolean enabled, PageRequest pageable )
 	{
-		return this.userRepository.listByFilters( filter, pageable );
+		return this.userRepository.listByFilters( filter, enabled, pageable );
 	}
 }

@@ -150,12 +150,31 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 		"/dataset/redeapoio/redeApoioDataSet.xml",	
 		"/dataset/account/UserDataSet.xml",
 	})
-	public void changePasswordMustFail()
+	public void changePasswordMustFailSenhaDiferente()
 	{
 		String password = "NovaSenha123";
 		String confirmacao = "NovaSenha";
 		
 		this.accountService.changePassword( 9999L, password, confirmacao );
+		
+		Assert.fail();
+	}
+	
+	/**
+	 * 
+	 */
+	@Test(expected=IllegalArgumentException.class)
+	@WithUserDetails("admin@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/redeapoio/redeApoioDataSet.xml",	
+		"/dataset/account/UserDataSet.xml",
+	})
+	public void changePasswordDisabledUserMustFail()
+	{
+		String password = "NovaSenha";
+		String confirmacao = "NovaSenha";
+		
+		this.accountService.changePassword( 1001L, password, confirmacao );
 		
 		Assert.fail();
 	}
@@ -185,10 +204,28 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
 		"/dataset/redeapoio/redeApoioDataSet.xml",
 		"/dataset/account/UserDataSet.xml",
-	})
-	public void listUsersByFiltersMustReturn2()
+    })
+	public void findUserMustReturnExternalUser()
 	{
-		final Page<User> users = this.accountService.listUsersByFilters( "adm", null );
+		final User user = this.accountService.findUserById( 1001L );
+		
+		Assert.assertNotNull( user );
+		Assert.assertNotNull( user.getId() );
+		Assert.assertNotNull( user.getCreated() );
+		Assert.assertTrue( user.getRole() == UserRole.COLABORADOR_EXTERNO );
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/redeapoio/redeApoioDataSet.xml",
+		"/dataset/account/UserDataSet.xml",
+	})
+	public void listByFiltersMustReturn2()
+	{
+		final Page<User> users = this.accountService.listByFilters( "adm", true, null );
 		
 		Assert.assertNotNull( users );
 		Assert.assertEquals( 2, users.getTotalElements() );
@@ -202,12 +239,12 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 		"/dataset/redeapoio/redeApoioDataSet.xml",
 		"/dataset/account/UserDataSet.xml",
 	})
-	public void listUsersByFiltersMustReturn3()
+	public void listByFiltersMustReturn1()
 	{
-		final Page<User> users = this.accountService.listUsersByFilters( "1000,1001,xó", null );
+		final Page<User> users = this.accountService.listByFilters( "1000,1001,xó", true, null );
 		
 		Assert.assertNotNull( users );
-		Assert.assertEquals( 3, users.getTotalElements());
+		Assert.assertEquals( 1, users.getTotalElements());
 	}
 	
 	/**
@@ -218,11 +255,27 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 		"/dataset/redeapoio/redeApoioDataSet.xml",
 		"/dataset/account/UserDataSet.xml"
 	})
-	public void listUsersByFiltersMustReturnAll()
+	public void listByFiltersMustReturnAllEnabled()
 	{
-		final Page<User> users = this.accountService.listUsersByFilters( null, null );
+		final Page<User> users = this.accountService.listByFilters( null, true, null );
 		
 		Assert.assertNotNull( users );
-		Assert.assertEquals( 5, users.getTotalElements() );
+		Assert.assertEquals( 1, users.getTotalElements() );
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/redeapoio/redeApoioDataSet.xml",
+		"/dataset/account/UserDataSet.xml"
+	})
+	public void listByFiltersMustReturnAllDisabled()
+	{
+		final Page<User> users = this.accountService.listByFilters( null, false, null );
+		
+		Assert.assertNotNull( users );
+		Assert.assertEquals( 4, users.getTotalElements() );
 	}
 }

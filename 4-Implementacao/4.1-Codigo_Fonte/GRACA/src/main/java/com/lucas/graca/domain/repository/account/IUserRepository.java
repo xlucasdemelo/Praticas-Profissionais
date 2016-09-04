@@ -30,8 +30,8 @@ public interface IUserRepository extends JpaRepository<User, Long>
 	 */
 	@Query(value="SELECT new User(user.id, user.name, user.email, user.enabled, user.role) " +
 				   "FROM User user " +
-				  "WHERE ( FILTER(user.id, :filter) = TRUE "
+				  "WHERE ( user.enabled = :enabled AND ( FILTER(user.id, :filter) = TRUE "
 				  	 + "OR FILTER(user.name, :filter) = TRUE "
-				  	 + "OR FILTER(user.email, :filter) = TRUE )" )
-	public Page<User> listByFilters( @Param("filter") String filter, Pageable pageable );
+				  	 + "OR FILTER(user.email, :filter) = TRUE ))" )
+	public Page<User> listByFilters( @Param("filter") String filter, @Param("enabled") Boolean enabled, Pageable pageable );
 }

@@ -309,25 +309,26 @@ angular.module('home')
 		        $mdDialog.show(confirm).then(function (result) {
 		            console.log(result);
 		
-		            accountService.disableFamilia( $scope.model.familia.entity  , {
-		                callback : function(result) {
-		                    $scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi excluído com sucesso!" );
-		                    $state.go($scope.PLANO_ATENDIMENTO_FAMILIARLIST_STATE);
-		                    $scope.listByFilters();
-		                    $scope.$apply();
-		                },
-		                errorHandler : function(message, exception) {
-		                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
-		                    $scope.$apply();
-		                }
-		            });
+		            accountService.disableUser( $scope.model.user.entity.id, {
+			            callback : function(result) {	   
+			            	
+			            	$state.go($scope.USER_LIST_STATE);
+			            	
+			            	$scope.$apply();
+			            },
+			            errorHandler : function(message, exception) {
+			            	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+			                $scope.$apply();
+			            }
+			        });
+		            
 		        });
 		    };
 			
 		    /**
 			 * 
 			 */
-			$scope.enableFamilia = function(){
+			$scope.enableUser = function(){
 				
 				var confirm = $mdDialog.confirm()
 	            .title('Tem certeza que deseja ativar este registro?')
@@ -338,10 +339,11 @@ angular.module('home')
 		        $mdDialog.show(confirm).then(function (result) {
 		            console.log(result);
 		
-		            familiaService.enableFamilia( $scope.model.familia.entity  , {
+		            accountService.enableUser( $scope.model.user.entity.id  , {
 		                callback : function(result) {
 		                    $scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi ativado com sucesso!" );
-		                    $state.go($scope.PLANO_ATENDIMENTO_FAMILIARLIST_STATE);
+		                    $state.go($scope.USER_LIST_STATE);
+		                    
 		                    $scope.listByFilters();
 		                    $scope.$apply();
 		                },
@@ -359,7 +361,7 @@ angular.module('home')
 			
 			$scope.listByFilters = function(){
 				
-				accountService.listUsersByFilters(  $scope.model.user.filters.terms.toString(), $scope.model.user.page.pageable, {
+				accountService.listByFilters(  $scope.model.user.filters.terms.toString(), $scope.model.user.filters.ativo, $scope.model.user.page.pageable, {
 	                callback : function(result) {
 	                	$scope.totalPagesUser = result.totalPages;
 	                	$scope.model.user.page = {//PageImpl
@@ -434,11 +436,11 @@ angular.module('home')
 			/**
 			 * 
 			 */
-			$scope.onFamiliaPaginationChange = function(paginate) {
+			$scope.onUserPaginationChange = function(paginate) {
 	        	if (paginate) {
-	        		$scope.model.familia.page.pageable.page++;
+	        		$scope.model.user.page.pageable.page++;
 	        	} else {
-	        		$scope.model.familia.page.pageable.page--;
+	        		$scope.model.user.page.pageable.page--;
 	        	}
 	        		
 	        	$scope.listByFilters();
@@ -491,7 +493,6 @@ angular.module('home')
 				      scope: $scope.$new(),
 					})
 				    .then(function(result) {
-				    	 $scope.listEncaminhamentosByTipo();
 				 });
 			}
 			
@@ -625,59 +626,25 @@ angular.module('home')
 		     * 		 			HANDLERS INTEGRANTE FAMILIAR
 		     *-------------------------------------------------------------------*/
 			
-			$scope.listIntegrantesFamiliaresByFamilia = function( id ){
-				
-				integranteFamiliarService.listIntegrantesByfamilia( id, $scope.model.integranteFamiliar.page.pageable, {
-	                callback : function(result) {
-	                	
-	                	$scope.totalPagesIntegrante = result.totalPages;
-	                	
-	                	$scope.model.integranteFamiliar.page = {//PageImpl
-	    						content : result.content,
-								pageable : {//PageRequest
-									page : result.number,
-									size : result.size,
-									sort:result.sort,
-									total   : result.totalElements
-								},
-	    				};
-	                	
-	                	$scope.$apply();
-	                	
-	                },
-	                errorHandler : function(message, exception) {
-	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
-	                    $scope.$apply();
-	                }
-	            });
-				
-			}
-			
 			/**
 			 * 
 			 */
-			$scope.encaminhamentoHandler = function()
-			{
-				$scope.listEncaminhamentosByTipo();
-				$scope.listParecerByPlanoAndTipo();
+			$scope.disableUser = function(){
+				
+				accountService.disableUser( id, {
+		            callback : function(result) {	   
+		            	
+		            	$state.go($scope.USER_LIST_STATE);
+		            	
+		            	$scope.$apply();
+		            },
+		            errorHandler : function(message, exception) {
+		            	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+		                $scope.$apply();
+		            }
+		        });
+				
 			}
-			
-			$scope.openAdicionarIntegranteFamiliarHandler = function( integranteFamiliar ) {
-
-				$mdDialog.show({
-				      controller: "AdicionarIntegranteFamiliarControllerPopup",
-				      templateUrl: './modules/home/views/familia/popup/adicionar-integrante-familiar-popup.html',			      
-				      scope: $scope.$new(),
-				      resolve: {
-				    	  integrante: function() {
-				    		  return angular.copy(integranteFamiliar);
-				    	  }
-				      }
-					})
-				    .then(function(result) {
-				    	 $scope.listIntegrantesFamiliaresByFamilia($scope.model.familia.entity.id);
-				 });
-			};
 			
 			$scope.listAllRedeApoio = function()
 			{

@@ -21,11 +21,11 @@
 		        <md-button class="md-raised md-accent default-save-button" ng-click="changeToRemove()">Excluir</md-button>
 	        </div>
 	        
-	        <div ng-if="model.familia.entity.ativo == false" md-theme="default" layout="row" layout-align="end center" class="default-header">
-		        <md-button class="md-raised md-accent default-save-button" ng-click="enableFamilia()">Ativar registro</md-button>
+	        <div ng-if="model.user.entity.enabled == false" md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="enableUser()">Ativar registro</md-button>
 	        </div>
 	        
-	        <div md-theme="default" layout="row" layout-align="end center" ng-if="model.user.entity.enabled || !model.user.entity.id" class="default-header md-primary md-hue-3">
+	        <div md-theme="default" layout="row" layout-align="end center" ng-if="model.user.entity.enabled && model.user.entity.id" class="default-header md-primary md-hue-3">
 		        <md-button class="md-raised md-accent default-save-button" ng-click="openChangePasswordHandler(model.user.entity.id)">Alterar Senha</md-button>
 	        </div>
 	        
