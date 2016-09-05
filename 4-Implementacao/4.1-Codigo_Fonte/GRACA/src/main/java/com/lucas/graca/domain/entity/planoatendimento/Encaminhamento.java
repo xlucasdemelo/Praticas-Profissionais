@@ -274,6 +274,19 @@ public class Encaminhamento extends AbstractEntity implements Serializable
 		this.descricao = encaminhamento.getDescricao();
 	}
 	
+	/**
+	 * 
+	 */
+	public Boolean isEmExecucao()
+	{
+		if (this.status == StatusEncaminhamento.EM_EXECUCAO)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 	/*-------------------------------------------------------------------
 	 *				 		     GETTERS AND SETTERS
 	 *-------------------------------------------------------------------*/

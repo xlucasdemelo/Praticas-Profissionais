@@ -5,6 +5,7 @@ package com.lucas.graca.domain.entity.familia;
 
 import java.io.Serializable;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -66,51 +67,51 @@ public class Familia extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
-	@NotNull
+	@Basic
 	private String telefone;
 	
 	/**
 	 * 
 	 */
-	@NotNull
+	@Basic
 	private Integer numeroComodos;
 	
 	/**
 	 * 
 	 */
-	@NotNull
+	@Basic
 	private Integer numeroDormitorios;
 	
 	/**
 	 * 
 	 */
-	@NotNull
+	@Basic
 	private String situacaoImovel;
 	
 	/**
 	 * 
 	 */
-	@NotNull
+	@Basic
 	private String infraestrutura;
 	
 	/**
 	 * 
 	 */
-	@Column(nullable = false)
+	@Column(nullable = true)
 	@Enumerated(EnumType.ORDINAL)
 	private TipoImovel tipoImovel;
 	
 	/**
 	 * 
 	 */
-	@Column(nullable = false)
+	@Column(nullable = true)
 	@Enumerated(EnumType.ORDINAL)
 	private TipoMoradia tipoMoradia;
 	
 	/**
 	 * 
 	 */
-	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
+	@ManyToOne(optional=true, fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
 	@JoinColumn(name="endereco_id")
 	private Endereco endereco;
 

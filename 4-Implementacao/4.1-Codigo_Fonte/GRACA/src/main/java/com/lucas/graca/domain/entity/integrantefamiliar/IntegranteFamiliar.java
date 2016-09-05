@@ -67,13 +67,11 @@ public class IntegranteFamiliar extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
-	@NotNull
 	private String ocupacao;
 	
 	/**
 	 * 
 	 */
-	@NotNull
 	private BigDecimal rendaMensal;
 	
 	/**
@@ -85,7 +83,6 @@ public class IntegranteFamiliar extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
-	@NotNull
 	private String telefone;
 	
 	/**
@@ -103,14 +100,14 @@ public class IntegranteFamiliar extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
-	@Column(nullable = false)
+	@Column(nullable = true)
 	@Enumerated(EnumType.ORDINAL)
 	private GrauEscolaridade grauEscolaridade;
 	
 	/**
 	 * 
 	 */
-	@ManyToOne (fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
+	@ManyToOne (optional= true, fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
 	@JoinColumn(name="endereco_id")
 	private Endereco endereco;
 	

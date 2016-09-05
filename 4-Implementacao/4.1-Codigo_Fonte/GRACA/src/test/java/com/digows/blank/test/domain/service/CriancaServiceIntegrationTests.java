@@ -68,20 +68,6 @@ public class CriancaServiceIntegrationTests extends AbstractIntegrationTests
 	/**
 	 * 
 	 */
-	@Test(expected=TransactionSystemException.class)
-	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml" 
-	})
-	public void insertCriancaMustFailSuperClassAttributesNull()
-	{
-		Crianca crianca = new Crianca( null, "lucas", Calendar.getInstance(), null, null,
-				"Paia 23", "9999-9999", Sexo.MASCULINO, new Endereco(100L), new Boolean( true ), new Familia(100L), 
-				GrauEscolaridade.FUNDAMENTAL_COMPLETO, "100", "Sofre violencia", "123456789", 
-				"1,92", Calendar.getInstance(), Calendar.getInstance(), Calendar.getInstance(), Etnia.BRANCO, "Conselho tutelar" );
-	
-		crianca = this.criancaService.insertCrianca( crianca );
-		Assert.assertNotNull( crianca );
-	}
 	
 	/**
 	 * 

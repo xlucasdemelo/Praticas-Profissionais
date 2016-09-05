@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+	<public.casa_lar
+		id="9999"
+		created="2015-03-30 00:00:00"
+		numero="1"
+		cuidadora_residente_id="9999"
+		cuidadora_apoiadora_id="1000"
+		enabled="true"
+	/>
+		
+</dataset>

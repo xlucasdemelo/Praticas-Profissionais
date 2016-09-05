@@ -215,37 +215,6 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 		Assert.assertTrue( user.getRole() == UserRole.COLABORADOR_EXTERNO );
 	}
 	
-	/**
-	 * 
-	 */
-	@Test
-	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-		"/dataset/redeapoio/redeApoioDataSet.xml",
-		"/dataset/account/UserDataSet.xml",
-	})
-	public void listByFiltersMustReturn2()
-	{
-		final Page<User> users = this.accountService.listByFilters( "adm", true, null );
-		
-		Assert.assertNotNull( users );
-		Assert.assertEquals( 2, users.getTotalElements() );
-	}
-	
-	/**
-	 * 
-	 */
-	@Test
-	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-		"/dataset/redeapoio/redeApoioDataSet.xml",
-		"/dataset/account/UserDataSet.xml",
-	})
-	public void listByFiltersMustReturn1()
-	{
-		final Page<User> users = this.accountService.listByFilters( "1000,1001,xó", true, null );
-		
-		Assert.assertNotNull( users );
-		Assert.assertEquals( 1, users.getTotalElements());
-	}
 	
 	/**
 	 * 

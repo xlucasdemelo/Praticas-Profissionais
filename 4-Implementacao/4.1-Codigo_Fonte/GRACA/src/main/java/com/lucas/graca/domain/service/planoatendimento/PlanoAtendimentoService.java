@@ -243,6 +243,13 @@ public class PlanoAtendimentoService
 		Assert.notNull( planoAtendimentoFamiliar );
 		Assert.notNull( planoAtendimentoFamiliar.getMotivoFinalizacao(), "Prrencha o motivo pela finalização" );
 		
+		List<Encaminhamento> encmainhamentos = this.encaminhamentoRepository.findByPlanoAtendimentoFamiliarId( planoAtendimentoFamiliar.getId() );
+		
+		for ( Encaminhamento encaminhamento : encmainhamentos )
+		{
+			Assert.isTrue( !encaminhamento.isEmExecucao(), "Não é possível finalizar o plano de atendimento, pois existe um encaminhamento em execução" );
+		}
+		
 		PlanoAtendimentoFamiliar planoAtendimentoFamiliarDB = this.planoAtendimentoFamiliarRepository.findOne( planoAtendimentoFamiliar.getId() );
 		
 		planoAtendimentoFamiliarDB.setMotivoFinalizacao( planoAtendimentoFamiliar.getMotivoFinalizacao() );

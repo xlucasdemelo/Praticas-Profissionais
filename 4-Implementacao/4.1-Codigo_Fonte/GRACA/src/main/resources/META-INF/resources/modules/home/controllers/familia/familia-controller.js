@@ -412,16 +412,15 @@ angular.module('home')
 			
 //			$scope.model.familia.entity.endereco = $scope.model.endereco.entity; 
 			
-			if ( !$scope.model.pais.selectedItem )
-				return $scope.showMessage( $scope.ERROR_MESSAGE,  "Selecione um país" );
-			if ( !$scope.model.estado.selectedItem )
-				return $scope.showMessage( $scope.ERROR_MESSAGE,  "Selecione um estado" );
-			if ( !$scope.model.cidade.selectedItem )
-				return $scope.showMessage( $scope.ERROR_MESSAGE,  "Selecione uma cidade" );
-				
-			$scope.model.familia.entity.endereco.cidade = $scope.model.cidade.selectedItem ;
-			$scope.model.familia.entity.endereco.cidade.estado = $scope.model.estado.selectedItem ;
-			$scope.model.familia.entity.endereco.cidade.estado.pais = $scope.model.pais.selectedItem ;
+			if (!$scope.model.familia.entity.endereco)
+				$scope.model.familia.entity.endereco = new Endereco();
+			
+			if ( $scope.model.pais.selectedItem )
+				$scope.model.familia.entity.endereco.cidade = $scope.model.cidade.selectedItem ;
+			if ( $scope.model.estado.selectedItem )
+				$scope.model.familia.entity.endereco.cidade.estado = $scope.model.estado.selectedItem ;
+			if ( $scope.model.cidade.selectedItem )
+				$scope.model.familia.entity.endereco.cidade.estado.pais = $scope.model.pais.selectedItem ;
 			
 			familiaService.insertFamilia(  $scope.model.familia.entity, {
                 callback : function(result) {

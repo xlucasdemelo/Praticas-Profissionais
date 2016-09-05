@@ -3,6 +3,8 @@
  */
 package com.lucas.graca.domain.repository.planoatendimento;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -31,4 +33,5 @@ public interface IEncaminhamentoRepository extends JpaRepository<Encaminhamento,
 			)
 	public Page<Encaminhamento> listByPlanoAtendimentoAndFilters( @Param("idPlanoAtendimento") long idPlanoAtendimento, @Param("filter") String filter, @Param("tipo") TipoEncaminhamento tipo, Pageable pageable );
 	
+	public List<Encaminhamento> findByPlanoAtendimentoFamiliarId( Long planoAtendimentoFamiliarId );
 }

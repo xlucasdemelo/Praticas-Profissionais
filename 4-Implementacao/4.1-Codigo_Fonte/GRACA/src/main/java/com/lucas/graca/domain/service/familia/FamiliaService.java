@@ -3,6 +3,8 @@
  */
 package com.lucas.graca.domain.service.familia;
 
+import java.util.List;
+
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,8 +16,10 @@ import org.springframework.util.Assert;
 import com.lucas.graca.domain.entity.familia.Familia;
 import com.lucas.graca.domain.entity.familia.TipoImovel;
 import com.lucas.graca.domain.entity.familia.TipoMoradia;
+import com.lucas.graca.domain.entity.planoatendimentofamiliar.PlanoAtendimentoFamiliar;
 import com.lucas.graca.domain.repository.endereco.IEnderecoRepository;
 import com.lucas.graca.domain.repository.familia.IFamiliaRepository;
+import com.lucas.graca.domain.repository.planoatendimento.IPlanoAtendimentoFamiliarRepository;
 
 /**
  * @author lucas
@@ -42,6 +46,11 @@ public class FamiliaService
 	@Autowired
 	private IEnderecoRepository enderecoRepository;
 	
+	/**
+	 * 
+	 */
+	@Autowired
+	private IPlanoAtendimentoFamiliarRepository planoAtendimentoFamiliarRepository ;
 	/*-------------------------------------------------------------------
 	 *				 		 SERVICES FAMILIA
 	 *-------------------------------------------------------------------*/
@@ -87,7 +96,10 @@ public class FamiliaService
 	public Familia insertFamilia( Familia familia )
 	{
 		Assert.notNull( familia );
-		this.enderecoRepository.save( familia.getEndereco() );
+		
+		if (familia.getEndereco() != null)
+			this.enderecoRepository.save( familia.getEndereco() );
+		
 		return this.familiaRepository.save( familia );
 	}
 	
@@ -110,6 +122,13 @@ public class FamiliaService
 	public Familia disableFamilia( Familia familia )
 	{
 		Assert.notNull( familia );
+		
+		List<PlanoAtendimentoFamiliar> planosAtendimentoFamiliar = this.planoAtendimentoFamiliarRepository.findByFamiliaId(familia.getId());
+		
+		for ( PlanoAtendimentoFamiliar planoAtendimentoFamiliar : planosAtendimentoFamiliar )
+		{
+			Assert.isTrue( !planoAtendimentoFamiliar.isEmExecucao(), "Família possuí um plano de atendimento em execução. finalize-o para excluir este registro" );
+		}
 		
 		familia = this.familiaRepository.findOne( familia.getId() );
 		familia.disableFamilia();

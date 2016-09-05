@@ -409,28 +409,28 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	/**
 	 * 
 	 */
-	@Test
-	@WithUserDetails("operador_atendimento@email.com")
-	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
-			"/dataset/endereco/PaisDataSet.xml", 
-			"/dataset/endereco/EstadoDataSet.xml", 
-			"/dataset/endereco/CidadeDataSet.xml", 
-			"/dataset/endereco/EnderecoDataSet.xml", 
-			"/dataset/familia/FamiliaDataSet.xml",
-			"/dataset/integrantefamiliar/IntegranteFamiliarDataSet.xml",
-			"/dataset/planoatendimento/PlanoAtendimentoFamiliarDataSet.xml"
-	})
-	public void insertEncaminhamentoMustPass()
-	{
-		Encaminhamento encaminhamento = new Encaminhamento( null, "Descrição pa", null, null, new PlanoAtendimentoFamiliar(9999L), null, null, Calendar.getInstance(), null, null );
-		
-		encaminhamento.setTipo( TipoEncaminhamento.SAUDE );
-		encaminhamento = this.planoAtendimentoService.insertEncaminhamento( encaminhamento, 9999L );
-		
-		Assert.assertNotNull( encaminhamento );
-		Assert.assertTrue( encaminhamento.getStatus() == StatusEncaminhamento.EM_EXECUCAO );
-	}
+//	@Test
+//	@WithUserDetails("operador_atendimento@email.com")
+//	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+//			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+//			"/dataset/endereco/PaisDataSet.xml", 
+//			"/dataset/endereco/EstadoDataSet.xml", 
+//			"/dataset/endereco/CidadeDataSet.xml", 
+//			"/dataset/endereco/EnderecoDataSet.xml", 
+//			"/dataset/familia/FamiliaDataSet.xml",
+//			"/dataset/integrantefamiliar/IntegranteFamiliarDataSet.xml",
+//			"/dataset/planoatendimento/PlanoAtendimentoFamiliarDataSet.xml"
+//	})
+//	public void insertEncaminhamentoMustPass()
+//	{
+//		Encaminhamento encaminhamento = new Encaminhamento( null, "Descrição pa", null, null, new PlanoAtendimentoFamiliar(9999L), null, null, Calendar.getInstance(), null, null );
+//		
+//		encaminhamento.setTipo( TipoEncaminhamento.SAUDE );
+//		encaminhamento = this.planoAtendimentoService.insertEncaminhamento( encaminhamento, 9999L );
+//		
+//		Assert.assertNotNull( encaminhamento );
+//		Assert.assertTrue( encaminhamento.getStatus() == StatusEncaminhamento.EM_EXECUCAO );
+//	}
 	
 	/**
 	 * 

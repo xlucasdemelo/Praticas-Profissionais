@@ -8,15 +8,21 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.AttributeOverride;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 
+import com.lucas.graca.domain.entity.casalar.CasaLar;
 import com.lucas.graca.domain.entity.endereco.Endereco;
 import com.lucas.graca.domain.entity.familia.Familia;
 import com.lucas.graca.domain.entity.familia.Sexo;
@@ -29,7 +35,8 @@ import com.lucas.graca.domain.entity.integrantefamiliar.IntegranteFamiliar;
  */
 @Entity
 @Audited
-@Table(name="Crianca")
+@Table( name = "crianca",
+uniqueConstraints = { @UniqueConstraint( columnNames = { "id", "casa_lar_id" } ) } )
 @DataTransferObject(javascript = "Crianca")
 @AttributeOverride(name = "ocupacao", column = @Column(name = "ocupacao"))
 public class Crianca extends IntegranteFamiliar
@@ -99,6 +106,13 @@ public class Crianca extends IntegranteFamiliar
 	 */
 	@Column
 	private String entidadeAcolhimento;
+	
+	/**
+	 * 
+	 */
+	@ManyToOne (optional= true, fetch = FetchType.EAGER, cascade=CascadeType.REMOVE)
+	@JoinColumn(name="casa_lar_id")
+	private CasaLar casaLar;
 	
 	/**
 	 * 

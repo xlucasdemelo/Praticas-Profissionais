@@ -127,6 +127,20 @@ public class PlanoAtendimentoFamiliar extends PlanoAtendimento
 				"Já existe um plano de atendimento para esta família" );
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
+	public Boolean isEmExecucao()
+	{
+		if (this.getStatus() == StatusPlanoAtendimento.EM_EXECUCAO)
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 	/*-------------------------------------------------------------------
 	 *				 		 GETTERS AND SETTERS
 	 *-------------------------------------------------------------------*/

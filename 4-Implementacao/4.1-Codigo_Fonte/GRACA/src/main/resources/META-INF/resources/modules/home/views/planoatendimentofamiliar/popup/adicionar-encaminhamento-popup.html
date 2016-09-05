@@ -21,7 +21,7 @@
 						            <div layout="row" flex>
 							            <md-input-container layout="column"  >
 							            	<label>Data final</label>
-							            	<md-datepicker required name="dataFinal" ng-disabled="model.encaminhamento.entity.id" ng-model="model.encaminhamento.entity.dataFinal" style="margin-top:25px" ></md-datepicker>
+							            	<md-datepicker md-min-date="minDate" required name="dataFinal" ng-disabled="model.encaminhamento.entity.id" ng-model="model.encaminhamento.entity.dataFinal" style="margin-top:25px" ></md-datepicker>
 							            	
 							            	<div ng-messages="model.encaminhamento.form.dataFinal.$error">
 							               		<div ng-message="required" ng-if="model.encaminhamento.form.$submitted">Campo obrigatório</div>

@@ -4,6 +4,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithUserDetails;
@@ -45,6 +46,7 @@ public class AccountMailRepositoryIntegrationTests extends AbstractIntegrationTe
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
 			"/dataset/account/UserDataSet.xml"
 	})
+	@Ignore
 	public void sendNewUserAccountTestMustPass() throws InterruptedException, ExecutionException
 	{
 		final User user = new User();
