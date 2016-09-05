@@ -3,6 +3,8 @@
  */
 package com.lucas.graca.domain.service.casalar;
 
+import java.util.List;
+
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -119,6 +121,17 @@ public class CasaLarService
 	{
 		CasaLar casaLar = this.casaLarRepository.findOne( id );
 		casaLar.disableCasaLar();
+		
+		/**
+		 * 
+		 */
+		List<Crianca>criancasCasaLar = this.criancaRepository.findByCasaLarId( id, null ).getContent();
+		
+		for ( Crianca crianca : criancasCasaLar )
+		{
+			crianca.setCasaLar( null );
+			this.criancaRepository.save( crianca );
+		}
 		
 		this.casaLarRepository.delete( casaLar );
 	}

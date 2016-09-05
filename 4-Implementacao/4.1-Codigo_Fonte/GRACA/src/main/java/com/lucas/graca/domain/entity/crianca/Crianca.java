@@ -19,8 +19,6 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.envers.Audited;
 
 import com.lucas.graca.domain.entity.casalar.CasaLar;
@@ -112,7 +110,6 @@ public class Crianca extends IntegranteFamiliar
 	 * 
 	 */
 	@ManyToOne (optional= true, fetch = FetchType.EAGER)
-	@Cascade({CascadeType.DELETE})
 	@JoinColumn(name="casa_lar_id")
 	private CasaLar casaLar;
 	
@@ -151,7 +148,7 @@ public class Crianca extends IntegranteFamiliar
 	public Crianca( Long id, String nome, Calendar dataNascimento, String ocupacao, BigDecimal rendaMensal, String filiacao, String telefone, 
 			Sexo sexo, Endereco endereco, Boolean ativo, Familia familia, GrauEscolaridade grauEscolaridade, String peso, 
 			String motivoAcolhimento, String numeroProcesso, String altura, Calendar dataElaboracaoPIA, Calendar dataLimite, 
-			Calendar dataAcolhimento, Etnia etnia, String entidadeAcolhimento )
+			Calendar dataAcolhimento, Etnia etnia, String entidadeAcolhimento, CasaLar casaLar )
 	{
 		super( id, nome, dataNascimento, ocupacao, rendaMensal, filiacao, telefone, sexo, endereco, ativo, familia, grauEscolaridade );
 		this.peso = peso;
@@ -163,6 +160,7 @@ public class Crianca extends IntegranteFamiliar
 		this.dataAcolhimento = dataAcolhimento;
 		this.etnia = etnia;
 		this.entidadeAcolhimento = entidadeAcolhimento;
+		this.casaLar = casaLar;
 	}
 
 	/**
@@ -352,6 +350,22 @@ public class Crianca extends IntegranteFamiliar
 	public void setDocumentosCrianca( List<DocumentoCrianca> documentosCrianca )
 	{
 		this.documentosCrianca = documentosCrianca;
+	}
+
+	/**
+	 * @return the casaLar
+	 */
+	public CasaLar getCasaLar()
+	{
+		return casaLar;
+	}
+
+	/**
+	 * @param casaLar the casaLar to set
+	 */
+	public void setCasaLar( CasaLar casaLar )
+	{
+		this.casaLar = casaLar;
 	}
 
 }

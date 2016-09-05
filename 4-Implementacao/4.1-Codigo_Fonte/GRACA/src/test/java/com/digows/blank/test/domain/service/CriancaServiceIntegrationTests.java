@@ -59,7 +59,7 @@ public class CriancaServiceIntegrationTests extends AbstractIntegrationTests
 		Crianca crianca = new Crianca( null, "lucas", Calendar.getInstance(), "DEV", new BigDecimal( 9000 ),
 				"Paia 23", "9999-9999", Sexo.MASCULINO, new Endereco(null, "bairro paia", "rua", null, null, new Cidade(100L)), new Boolean( true ), new Familia(100L), 
 				GrauEscolaridade.FUNDAMENTAL_COMPLETO, "100", "Sofre violencia", "123456789", 
-				"1,92", Calendar.getInstance(), Calendar.getInstance(), Calendar.getInstance(), Etnia.BRANCO, "Conselho tutelar" );
+				"1,92", Calendar.getInstance(), Calendar.getInstance(), Calendar.getInstance(), Etnia.BRANCO, "Conselho tutelar", null );
 	
 		crianca = this.criancaService.insertCrianca( crianca );
 		Assert.assertNotNull( crianca );
@@ -81,7 +81,7 @@ public class CriancaServiceIntegrationTests extends AbstractIntegrationTests
 		Crianca crianca = new Crianca( null, null, Calendar.getInstance(), "DEV", new BigDecimal( 9000 ),
 				"Paia 23", "9999-9999", Sexo.MASCULINO, new Endereco(100L), new Boolean( true ), null, 
 				GrauEscolaridade.FUNDAMENTAL_COMPLETO, "100", "Sofre violencia", "123456789", 
-				"1,92", Calendar.getInstance(), Calendar.getInstance(), Calendar.getInstance(), Etnia.BRANCO, null );
+				"1,92", Calendar.getInstance(), Calendar.getInstance(), Calendar.getInstance(), Etnia.BRANCO, null, null );
 	
 		crianca = this.criancaService.insertCrianca( crianca );
 		Assert.assertNotNull( crianca );
