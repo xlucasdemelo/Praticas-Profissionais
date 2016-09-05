@@ -8,7 +8,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.AttributeOverride;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,6 +19,8 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import org.hibernate.envers.Audited;
 
 import com.lucas.graca.domain.entity.casalar.CasaLar;
@@ -110,7 +111,8 @@ public class Crianca extends IntegranteFamiliar
 	/**
 	 * 
 	 */
-	@ManyToOne (optional= true, fetch = FetchType.EAGER, cascade=CascadeType.REMOVE)
+	@ManyToOne (optional= true, fetch = FetchType.EAGER)
+	@Cascade({CascadeType.DELETE})
 	@JoinColumn(name="casa_lar_id")
 	private CasaLar casaLar;
 	

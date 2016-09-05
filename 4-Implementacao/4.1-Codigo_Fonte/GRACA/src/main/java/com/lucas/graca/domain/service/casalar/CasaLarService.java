@@ -14,7 +14,9 @@ import org.springframework.util.Assert;
 
 import com.lucas.graca.domain.entity.account.UserRole;
 import com.lucas.graca.domain.entity.casalar.CasaLar;
+import com.lucas.graca.domain.entity.crianca.Crianca;
 import com.lucas.graca.domain.repository.casalar.ICasaLarRepository;
+import com.lucas.graca.domain.repository.crianca.ICriancaRepository;
 import com.lucas.graca.domain.repository.planoatendimento.IResponsavelRepository;
 
 /**
@@ -40,6 +42,12 @@ public class CasaLarService
 	 */
 	@Autowired
 	private IResponsavelRepository responsavelRepository;
+	
+	/**
+	 * 
+	 */
+	@Autowired
+	private ICriancaRepository criancaRepository;
 	
 	/*-------------------------------------------------------------------
 	 *				 		     ATTRIBUTES
@@ -85,6 +93,12 @@ public class CasaLarService
 		this.responsavelRepository.save( casaLar.getCuidadoraApoiadora() );
 		
 		return this.casaLarRepository.save( casaLar );
+	}
+	
+	
+	public Page<Crianca> listCriancasByCasaLar(long casaLarId, PageRequest pageable)
+	{
+		return this.criancaRepository.findByCasaLarId( casaLarId, pageable );
 	}
 	
 	/**

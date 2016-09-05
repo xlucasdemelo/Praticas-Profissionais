@@ -27,11 +27,11 @@
 				            <div layout="row" layout-align="end center" ng-init="currentOption = 'down'"> 
 <!-- 				            	// !moreFilters ? listByFilters() : listByMoreFilters() -->
 					            <md-button class="md-raised md-primary md-hue-2" ng-click="listByFilters()">Filtrar</md-button>
-					            <md-button class="md-raised md-primary md-hue-3" ng-click="openMaisOpcoes(); currentOption = !currentOption" style="padding-left: 14px;">
-					            	Mais opções
-					            	<i ng-if="!currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-down"></i>
-					            	<i ng-if="currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-up"></i> 
-					            </md-button>
+<!-- 					            <md-button class="md-raised md-primary md-hue-3" ng-click="openMaisOpcoes(); currentOption = !currentOption" style="padding-left: 14px;"> -->
+<!-- 					            	Mais opções -->
+<!-- 					            	<i ng-if="!currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-down"></i> -->
+<!-- 					            	<i ng-if="currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-up"></i>  -->
+<!-- 					            </md-button> -->
 				            </div>			            			            			            			            
 				    	</div>
 				    	
@@ -60,7 +60,7 @@
 					      </tr>
 					    </thead>
 					    <tbody md-body>
-					      <tr md-row md-select="dessert" style="cursor:pointer" ng-click="$state.go( CASA_LAR_EDIT_STATE, {id:user.id} )" md-select-id="name" md-auto-select ng-repeat="casaLar in model.casaLar.page.content">
+					      <tr md-row md-select="dessert" style="cursor:pointer" ng-click="$state.go( CASA_LAR_EDIT_STATE, {id:casaLar.id} )" md-select-id="name" md-auto-select ng-repeat="casaLar in model.casaLar.page.content">
 					        <td md-cell >{{::casaLar.numero}}</td>
 					        <td md-cell >{{::casaLar.cuidadoraResidente.nome}}</td>
 					      </tr>

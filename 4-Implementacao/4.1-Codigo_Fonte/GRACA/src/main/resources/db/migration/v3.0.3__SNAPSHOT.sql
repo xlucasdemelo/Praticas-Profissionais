@@ -1583,14 +1583,6 @@ ALTER TABLE ONLY responsavel
     ADD CONSTRAINT responsavel_pkey PRIMARY KEY (id);
 
 
---
--- TOC entry 2156 (class 2606 OID 232437)
--- Name: uk_casa_lar_enabled; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
---
-
-ALTER TABLE ONLY casa_lar
-    ADD CONSTRAINT uk_casa_lar_enabled UNIQUE (enabled);
-
 
 --
 -- TOC entry 2118 (class 2606 OID 232439)

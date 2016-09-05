@@ -5,7 +5,6 @@ package com.lucas.graca.domain.entity.casalar;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -41,7 +40,6 @@ public class CasaLar extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
-	@Column(unique=true)
 	@NotNull
 	private Boolean enabled; 
 	

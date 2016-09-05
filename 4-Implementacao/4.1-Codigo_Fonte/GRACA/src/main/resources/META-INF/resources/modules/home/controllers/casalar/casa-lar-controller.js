@@ -55,7 +55,7 @@ angular.module('home')
 				
 				casaLar: {
 					form: null,
-					entity: new User(),
+					entity: new CasaLar(),
 					
 					filters: {
 					    terms: "",
@@ -77,9 +77,9 @@ angular.module('home')
 					
 				},
 				
-				integranteFamiliar: {
+				crianca: {
 					form: null,
-					entity: new IntegranteFamiliar(),
+					entity: new Crianca(),
 					
 					filters: {
 					    terms: "",
@@ -220,7 +220,7 @@ angular.module('home')
 			$scope.changeToAdd = function() {
 				console.debug("changeToAdd");
 				
-				$scope.model.casaLar.entity = new User();//Limpa o formulário
+				$scope.model.casaLar.entity = new CasaLar();//Limpa o formulário
 				
 				
 			};
@@ -237,9 +237,11 @@ angular.module('home')
 		    $scope.changeToEdit = function( id ) {
 		        console.debug("changeToEdit", id);
 		        
-		        accountService.findUserById( id, {
+		        casaLarService.findCasaLarById( id, {
 		            callback : function(result) {	   
 		            	$scope.model.casaLar.entity = result;
+		            	
+		            	$scope.listCriancasByCasaLar(id);
 		            	
 		            	$scope.$apply();
 		            },
@@ -309,11 +311,11 @@ angular.module('home')
 		        $mdDialog.show(confirm).then(function (result) {
 		            console.log(result);
 		
-		            accountService.disableUser( $scope.model.casaLar.entity.id, {
+		            casaLarService.removeCasaLar( $scope.model.casaLar.entity.id, {
 			            callback : function(result) {	   
 			            	
 			            	$state.go($scope.CASA_LAR_LIST_STATE);
-			            	
+			            	$scope.showMessage( $scope.ERROR_MESSAGE,  "Registro excluído com sucesso" );
 			            	$scope.$apply();
 			            },
 			            errorHandler : function(message, exception) {
@@ -403,7 +405,7 @@ angular.module('home')
 			/**
 			 * 
 			 */
-			$scope.insertUser = function()
+			$scope.insertCasaLar = function()
 			{
 				$scope.model.casaLar.form.$submitted = true;
 				if ($scope.model.casaLar.form.$invalid ){
@@ -411,13 +413,7 @@ angular.module('home')
 					return;
 				}
 				
-				if ($scope.model.casaLar.entity.role == 'COLABORADOR_EXTERNO')
-				{
-					$scope.model.casaLar.entity.redeApoio = new RedeApoio();
-					$scope.model.casaLar.entity.redeApoio.id = 1;
-				}
-				
-				accountService.insertUser(  $scope.model.casaLar.entity, {
+				casaLarService.insertCasaLar(  $scope.model.casaLar.entity, {
 	                callback : function(result) {
 	                	
 	                	$scope.model.casaLar.entity = result;
@@ -644,6 +640,31 @@ angular.module('home')
 		            }
 		        });
 				
+			}
+			
+			$scope.listCriancasByCasaLar = function(id)
+			{
+				casaLarService.listCriancasByCasaLar( id, $scope.model.crianca.page.pageable, {
+		            callback : function(result) {	   
+		            	
+		            	$scope.totalPagesCrianca = result.totalPages;
+	                	$scope.model.crianca.page = {//PageImpl
+	    						content : result.content,
+								pageable : {//PageRequest
+									page : result.number,
+									size : result.size,
+									sort:result.sort,
+									total   : result.totalElements
+								},
+	    				};
+	                	
+	                	$scope.$apply();
+		            },
+		            errorHandler : function(message, exception) {
+		            	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+		                $scope.$apply();
+		            }
+		        });
 			}
 			
 			$scope.listAllRedeApoio = function()

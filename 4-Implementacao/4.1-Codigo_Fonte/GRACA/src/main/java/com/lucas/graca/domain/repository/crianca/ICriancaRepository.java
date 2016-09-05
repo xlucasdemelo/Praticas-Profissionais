@@ -59,4 +59,12 @@ public interface ICriancaRepository extends JpaRepository<Crianca, Long>
 			  ")"
 			)
 	public Page<Crianca> listCriancasByMoreFilters( @Param("ativo") boolean ativo, @Param("inativo") boolean inativo, Pageable pageable );
+	
+	/**
+	 * 
+	 * @param casaLarId
+	 * @param pageable
+	 * @return
+	 */
+	public Page<Crianca> findByCasaLarId(long casaLarId, Pageable pageable);
 }
