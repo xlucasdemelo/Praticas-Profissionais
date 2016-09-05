@@ -111,6 +111,26 @@
 	        templateUrl: './modules/home/views/planoatendimentofamiliar/plano-atendimento-familiar-form.html'
 	     })
 	     
+	      //Casa lar
+	     $stateProvider.state('casa-lar',{
+        	abstract: true,
+        	url : "/casa-lar",
+        	template: '<div layout="column" flex ui-view=""/>',
+        	controller : 'CasaLarController as casaLarcontroller'
+        })
+        .state('casa-lar.list',{
+            url:'/listar',
+            templateUrl: './modules/home/views/casalar/casa-lar-list.html'
+          })
+        .state('casa-lar.add',{
+            url:'/inserir',
+            templateUrl: './modules/home/views/casalar/casa-lar-form.html'
+          })
+	    .state('casa-lar.edit',{
+	        url:'/editar/{id:[0-9]{1,10}}',
+	        templateUrl: './modules/home/views/casalar/casa-lar-form.html'
+	     })
+	     
 	     //Usuário
 	     $stateProvider.state('user',{
         	abstract: true,

@@ -57,7 +57,7 @@
         	</activation>
 			<properties>
 				<!-- Database -->
-				<mvn.jdbc.jdbcUrl>jdbc:postgresql://127.0.0.1:5432/gracae</mvn.jdbc.jdbcUrl>
+				<mvn.jdbc.jdbcUrl>jdbc:postgresql://127.0.0.1:5432/graca</mvn.jdbc.jdbcUrl>
 				<mvn.jdbc.username>postgres</mvn.jdbc.username>
 				<mvn.jdbc.password>postgres</mvn.jdbc.password>
 

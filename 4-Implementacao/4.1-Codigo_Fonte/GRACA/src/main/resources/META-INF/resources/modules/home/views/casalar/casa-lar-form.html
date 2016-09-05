@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" 
+	xmlns:th="http://www.thymeleaf.org" lang="pt">
+	
+<div class="main-div" >
+	
+		<md-toolbar layout="row" style="z-index: 3;">
+	    	<div flex layout="row" class="default-header">
+		        <h1 class="md-toolbar-tools">Casa Lar</h1>
+	    	</div>
+	    	
+	        <div md-theme="default" layout="row" layout-align="end center" ng-if="model.casaLar.entity.enabled || !model.casaLar.entity.id" class="default-header md-primary md-hue-3">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="insertUser()">Salvar</md-button>
+	        </div>
+	        
+	         <div md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="$state.go(USER_LIST_STATE)">Voltar</md-button>
+	        </div>
+	        
+	        <div ng-if="model.casaLar.entity.enabled == true" md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="changeToRemove()">Excluir</md-button>
+	        </div>
+	        
+	        <div ng-if="model.casaLar.entity.enabled == false" md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="enableUser()">Ativar registro</md-button>
+	        </div>
+	        
+	        <div md-theme="default" layout="row" layout-align="end center" ng-if="model.casaLar.entity.enabled && model.casaLar.entity.id" class="default-header md-primary md-hue-3">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="openChangePasswordHandler(model.casaLar.entity.id)">Alterar Senha</md-button>
+	        </div>
+	        
+	    </md-toolbar>
+		
+		<div layout="column" md-theme="{{}}" style="height: 100%; position:absolute; width:100%;">
+			<md-content layout="column" style="height: 93%;">
+				<md-tabs md-border-bottom style="position: static; overflow:auto" md-selected="model.ordemServico.selectedTab">
+					<md-tab label="Usuário">
+						
+						<div layout-fill style="height:50%">
+				    		<md-toolbar layout-fill style="min-height: 100% !important;position:absolute;" class="md-hue-3" md-theme="{{osmTheme}}">
+								<div class="default-frame" style="overflow:auto">
+									<md-toolbar layout="row" class="default-form toolbar-temp" style="padding-bottom: 0; ">
+										<form novalidate name="model.casaLar.form" class="default-form">
+											
+											<md-input-container layout="column" flex="30" ">
+									    		<label>Nome</label>
+								                <input type="number" name="numero" required ng-model="model.casaLar.entity.numero">
+								
+								                <div ng-messages="model.casaLar.form.numero.$error">
+								                	<div ng-message="required" ng-if="model.casaLar.form.$submitted">Campo obrigatório</div>
+								                	<div ng-message="md-maxlength" ng-if="model.casaLar.form.$submitted">Limite de caracteres excedido</div>
+								                </div>
+								            </md-input-container>
+											
+											<md-input-container layout="column" flex="30" ">
+									    		<label>Email</label>
+								                <input type="email" ng-disabled="!model.casaLar.entity.enabled" maxlength="144" md-maxlength="144" name="email" required ng-model="model.casaLar.entity.email">
+								
+								                <div ng-messages="model.casaLar.form.email.$error">
+								                	<div ng-message="required" ng-if="model.casaLar.form.$submitted">Campo obrigatório</div>
+								                	<div ng-message="md-maxlength" ng-if="model.casaLar.form.$submitted">Limite de caracteres excedido</div>
+								                	<div ng-message="email" ng-if="model.casaLar.form.$submitted">Email inválido</div>
+								                </div>
+								            </md-input-container>
+								            
+								            <md-input-container ng-if="model.casaLar.entity.role == 'COLABORADOR_EXTERNO' " layout="column" flex="30" style="margin-right:30px">
+										        <label>Rede de Apoio</label>
+										        <md-select name="redeApoio" ng-disabled="!model.casaLar.entity.enabled" required ng-model="model.casaLar.entity.redeApoio">
+										          <md-option ng-repeat="rede in allRedeApoio" value="{{rede}}">{{rede.nome}}</md-option>
+										        </md-select>
+										        
+										        <div ng-messages="model.casaLar.form.redeApoio.$error">
+								                	<div ng-message="required" ng-if="model.casaLar.form.$submitted">Campo obrigatório</div>
+								                </div>
+										    </md-input-container>
+								            
+										</form>
+									</md-toolbar>
+								</div>
+							</md-toolbar>
+						</div>
+						
+					</md-tab>
+					
+				</md-tabs>
+			</md-content>
+		</div>
+		
+</div>
+
+</html>
