@@ -35,11 +35,11 @@
 						<div layout-fill style="height:50%">
 				    		<md-toolbar layout-fill style="min-height: 100% !important;position:absolute;" class="md-hue-3" md-theme="{{osmTheme}}">
 								<div class="default-frame" style="overflow:auto">
+								
 									<md-toolbar layout="row" class="default-form toolbar-temp" style="padding-bottom: 0; ">
 									
 										<form novalidate name="model.crianca.form" class="default-form">
 											
-											<div>
 										        <div class="default-info" layout="row">Informações da criança</div>
 									        
 									            <div >
@@ -62,17 +62,9 @@
 											                </div>
 											            </div>
 											            
-											            <md-input-container layout="column" flex="35" style="margin-left:25px">
-												    		<label>Altura</label>
-											                <input type="text" name="altura" ng-model="model.crianca.entity.altura" maxlength="255" required>
-											                
-											                <div ng-messages="model.crianca.form.altura.$error">
-											               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
-											                </div>
-										            	</md-input-container>
 										            </div>
 										            
-										            <div layout="row" ">
+										            <div layout="row" >
 										           		<md-input-container layout="column" gap="20px">
 										            		<label>Sexo</label>
 										            		<md-select style="margin-top:24px" required name="sexo" ng-model="model.crianca.entity.sexo">
@@ -83,161 +75,50 @@
 											               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
 											                </div>
 										            	</md-input-container>
-										            	
-										            	<md-input-container layout="column" gap="20px">
-										            		<label>Grau de escolaridade</label>
-										            		<md-select style="margin-top:24px" required name="grauEscolaridade" ng-model="model.crianca.entity.grauEscolaridade">
-													        	<md-option required ng-repeat="grau in allGrausEscolaridade" value="{{grau}}">{{::grau | translate}}</md-option>
-													        </md-select>
-													        
-													        <div ng-messages="model.crianca.form.grauEscolaridade.$error">
-											               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
-											                </div>
-										            	</md-input-container>
-										            	
-										            	<md-input-container layout="column" gap="20px">
-										            		<label>Etnia</label>
-										            		<md-select style="margin-top:24px" required name="etnia" ng-model="model.crianca.entity.etnia">
-													        	<md-option required ng-repeat="etnia in allEtnias track by $index" value="{{etnia}}">{{::etnia | translate}}</md-option>
-													        </md-select>
-													        
-													        <div ng-messages="model.crianca.form.etnia.$error">
-											               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
-											                </div>
-										            	</md-input-container>
-										            	
-										            	<md-input-container layout="column" flex="35" style="margin-left:25px">
-												    		<label>Ocupação</label>
-											                <input type="text" name="ocupacao" ng-model="model.crianca.entity.ocupacao" maxlength="255" required>
-											                
-											                <div ng-messages="model.crianca.form.ocupacao.$error">
-											               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
-											                </div>
-										            	</md-input-container>
-										            	
-										            	
-								                     </div>
-								                        
-								                     <div layout="row">
-										            	<md-input-container layout="column" flex="30">
-												    		<label>Renda mensal</label>
-											                <input type="text" name="rendaMensal" required maxlength="12" mask-money prefix="'R$ '" name="rendaMensal" ng-model="model.crianca.entity.rendaMensal" >
-											            
-											            	<div ng-messages="model.crianca.form.rendaMensal.$error">
-											               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
-											                </div>
-											            </md-input-container>
-											            
-											            <md-input-container layout="column" flex="30">
-												    		<label>Telefone</label>
-											                <input type="text" mask="(999) 9?9999-9999" name="telefone" required  ng-model="model.crianca.entity.telefone" >
-											            
-											            	<div ng-messages="model.crianca.form.telefone.$error">
-											               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
-											                </div>
-											            </md-input-container>
-								                     </div>
-								                     
-								                     <div layout="row">
-										            	<md-input-container layout="column" flex="30">
-												    		<label>Filiação</label>
-											                <input type="text" name="filiacao" required max-length="255" name="filiacao" ng-model="model.crianca.entity.filiacao" >
-											            
-											            	<div ng-messages="model.crianca.form.filiacao.$error">
-											               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
-											                </div>
-											            </md-input-container>
-								                     </div>
-								                     
-								                     <div class="default-info" flex> 
-														<span>ENDEREÇO</span>
-													</div>
-													
-													<div layout="row">
-										    			<md-input-container layout="column" flex="30" style="margin-right:30px">
-												    		<label>Rua</label>                                  
-											                <input maxlength="144" name="rua" required ng-model="model.crianca.entity.endereco.rua">
-											
-											                <div ng-messages="model.crianca.form.rua.$error">
-											                	<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
-											                </div>
-											            </md-input-container>
-											            
-											            <md-input-container layout="column" flex="30" ">
-												    		<label>Bairro</label>
-											                <input maxlength="144" name="bairro" required ng-model="model.crianca.entity.endereco.bairro">
-											
-											                <div ng-messages="model.crianca.form.bairro.$error">
-											                	<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
-											                </div>	
-											            </md-input-container>
-											        </div>
-											        
-											        <div layout="row">
-											        	<md-autocomplete 
-											        		style="margin-right:20px" 
-											        		md-selected-item="model.pais.selectedItem" 
-											        		md-search-text="model.pais.searchText"
-															md-search-text-change="listPaisesByFiltes(model.pais.searchText)" 
-															md-items="item in model.pais.itens" 
-															md-item-text="item.nome"
-															placeholder="País"
-															>
-															
-															<md-item-template>
-																<span md-highlight-text="searchText">{{item.nome}}</span>
-														    </md-item-template>
-														    <md-not-found>
-														    	Nenhum país encontrado
-														    </md-not-found>
-														</md-autocomplete>
-														
-														<md-autocomplete 
-															style="margin-right:20px"
-															md-selected-item="model.estado.selectedItem" 
-															md-search-text="model.estado.searchText" 
-															md-search-text-change="listEstadosByFiltes(model.estado.searchText)" 
-															md-items="item in model.estado.itens" 
-															md-item-text="item.nome"
-															placeholder="Estado"
-															>
-															
-															<md-item-template>
-																<span md-highlight-text="searchText">{{item.nome}}</span>
-														    </md-item-template>
-														    <md-not-found>
-														    	Nenhum estado encontrado
-														    </md-not-found>
-														</md-autocomplete>
-														
-														<md-autocomplete 
-															md-selected-item="model.cidade.selectedItem" 
-															md-search-text="model.cidade.searchText" 
-															md-search-text-change="listCidadesByFiltes(model.cidade.searchText)" 
-															md-items="item in model.cidade.itens" 
-															md-item-text="item.nome"
-															placeholder="Cidade"
-															>
-															<md-item-template>
-																<span md-highlight-text="searchText">{{item.nome}}</span>
-														    </md-item-template>
-														    <md-not-found>
-														    	Nenhum estado encontrado
-														    </md-not-found>
-														</md-autocomplete>
-														
-											        </div>
-								                     
 							                     </div>
+												
+												<div layout="row" style="margin-top:15px">
+									            	<md-input-container layout="column" flex>
+											    		<label style="position:absolute;padding-top:15px;">Motivo do acolhimento</label>
+											    		<textarea maxlength="255" name="motivoAcolhimento" ng-model="model.crianca.entity.motivoAcolhimento" rows="3" required></textarea>
+										                
+										                <div ng-messages="model.crianca.form.motivoAcolhimento.$error">
+										               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
+										                </div>
+										            </md-input-container>
+							                     </div>
+												
+												<div layout="row">
+																	                     
+								                    <md-input-container layout="column" flex="50">
+											    	   <label style="position:absolute;padding-top:15px;padding-left:15px">Número do processo</label>
+											    	   <input maxlength="255" name="numeroProcesso" ng-model="model.crianca.entity.numeroProcesso" rows="3" required></input>
+										                
+										               <div ng-messages="model.crianca.form.numeroProcesso.$error">
+										                  <div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
+										               </div>
+										            </md-input-container>
+							                     	
+							                     	<div layout="column"  >
+										            	<label style="color:black">Data de acolhimento</label>
+										            	<md-datepicker required name="dataAcolhimento" ng-model="model.crianca.entity.dataAcolhimento" style="margin-top:25px; background:white" ></md-datepicker>
+										            	
+										            	<div ng-messages="model.crianca.form.dataAcolhimento.$error">
+										               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
+										                </div>
+										            </div>
+							                     	
+							                    </div>
+							                    
 							            	</div>
 											
 										</form>
 									</md-toolbar>
 								</div>
-							</md-toolbar>
 						</div>
 						
 					</md-tab>
+					
 					
 <!-- 					TAB INFORMACOES DE ACOLHIMENTO -->
 					
@@ -248,73 +129,197 @@
 								<div class="default-frame" style="overflow:auto">
 									<md-toolbar layout="row" class="default-form toolbar-temp" style="padding-bottom: 0; ">
 									
-										<form novalidate name="model.acolhimento.form" class="default-form">
-											
 											<div>
 										        <div class="default-info" layout="row">Informações do acolhimento</div>
 									        
 									            <div >
-										            <div layout="row" flex>
-											            <md-input-container layout="column" flex="50">
-												    		<label style="position:absolute;padding-top:15px;padding-left:15px">Número do processo</label>
-												    		<input maxlength="255" name="numeroProcesso" ng-model="model.crianca.entity.numeroProcesso" rows="3" required></input>
+									            	
+									            												<md-input-container layout="column" gap="20px">
+							            		<label>Grau de escolaridade</label>
+							            		<md-select style="margin-top:24px"  name="grauEscolaridade" ng-model="model.crianca.entity.grauEscolaridade">
+										        	<md-option  ng-repeat="grau in allGrausEscolaridade" value="{{grau}}">{{::grau | translate}}</md-option>
+										        </md-select>
+										        
+										        <div ng-messages="model.crianca.form.grauEscolaridade.$error">
+								               		<div ng-message="" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
+								                </div>
+							            	</md-input-container>
+							            	
+							            	<md-input-container layout="column" gap="20px">
+							            		<label>Etnia</label>
+							            		<md-select style="margin-top:24px"  name="etnia" ng-model="model.crianca.entity.etnia">
+										        	<md-option  ng-repeat="etnia in allEtnias track by $index" value="{{etnia}}">{{::etnia | translate}}</md-option>
+										        </md-select>
+										        
+										        <div ng-messages="model.crianca.form.etnia.$error">
+								               		<div ng-message="" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
+								                </div>
+							            	</md-input-container>
+							            	
+<!-- 							            	<md-input-container layout="column" flex="35" style="margin-left:25px"> -->
+<!-- 									    		<label>Ocupação</label> -->
+<!-- 								                <input type="text" name="ocupacao" ng-model="model.crianca.entity.ocupacao" maxlength="255" > -->
+								                
+<!-- 								                <div ng-messages="model.crianca.form.ocupacao.$error"> -->
+<!-- 								               		<div ng-message="" ng-if="model.crianca.form.$submitted">Campo obrigatório</div> -->
+<!-- 								                </div> -->
+<!-- 							            	</md-input-container> -->
+							            	
+<!-- 							            	 <md-input-container layout="column" flex="35" style="margin-left:25px"> -->
+<!-- 												    		<label>Altura</label> -->
+<!-- 											                <input type="text" name="altura" ng-model="model.crianca.entity.altura" maxlength="255" > -->
 											                
-											                <div ng-messages="model.acolhimento.form.numeroProcesso.$error">
-											               		<div ng-message="required" ng-if="model.acolhimento.form.$submitted">Campo obrigatório</div>
-											                </div>
-											            </md-input-container>
+<!-- 											                <div ng-messages="model.crianca.form.altura.$error"> -->
+<!-- 											               		<div ng-message="" ng-if="model.crianca.form.$submitted">Campo obrigatório</div> -->
+<!-- 											                </div> -->
+<!-- 										            	</md-input-container> -->
+							            	
+					                     </div>
+					                        
+<!-- 					                     <div layout="row"> -->
+<!-- 							            	<md-input-container layout="column" flex="30"> -->
+<!-- 									    		<label>Renda mensal</label> -->
+<!-- 								                <input type="text" name="rendaMensal"  maxlength="12" mask-money prefix="'R$ '" name="rendaMensal" ng-model="model.crianca.entity.rendaMensal" > -->
+								            
+<!-- 								            	<div ng-messages="model.crianca.form.rendaMensal.$error"> -->
+<!-- 								               		<div ng-message="" ng-if="model.crianca.form.$submitted">Campo obrigatório</div> -->
+<!-- 								                </div> -->
+<!-- 								            </md-input-container> -->
+								            
+<!-- 								            <md-input-container layout="column" flex="30"> -->
+<!-- 									    		<label>Telefone</label> -->
+<!-- 								                <input type="text" mask="(999) 9?9999-9999" name="telefone"   ng-model="model.crianca.entity.telefone" > -->
+								            
+<!-- 								            	<div ng-messages="model.crianca.form.telefone.$error"> -->
+<!-- 								               		<div ng-message="" ng-if="model.crianca.form.$submitted">Campo obrigatório</div> -->
+<!-- 								                </div> -->
+<!-- 								            </md-input-container> -->
+<!-- 					                     </div> -->
+					                     
+<!-- 					                     <div layout="row"> -->
+<!-- 							            	<md-input-container layout="column" flex="30"> -->
+<!-- 									    		<label>Filiação</label> -->
+<!-- 								                <input type="text" name="filiacao"  max-length="255" name="filiacao" ng-model="model.crianca.entity.filiacao" > -->
+								            
+<!-- 								            	<div ng-messages="model.crianca.form.filiacao.$error"> -->
+<!-- 								               		<div ng-message="" ng-if="model.crianca.form.$submitted">Campo obrigatório</div> -->
+<!-- 								                </div> -->
+<!-- 								            </md-input-container> -->
+<!-- 					                     </div> -->
+					                     
+<!-- 					                     <div class="default-info" flex>  -->
+<!-- 											<span>ENDEREÇO</span> -->
+<!-- 										</div> -->
+										
+<!-- 										<div layout="row"> -->
+<!-- 							    			<md-input-container layout="column" flex="30" style="margin-right:30px"> -->
+<!-- 									    		<label>Rua</label>                                   -->
+<!-- 								                <input maxlength="144" name="rua"  ng-model="model.crianca.entity.endereco.rua"> -->
+								
+<!-- 								                <div ng-messages="model.crianca.form.rua.$error"> -->
+<!-- 								                	<div ng-message="" ng-if="model.crianca.form.$submitted">Campo obrigatório</div> -->
+<!-- 								                </div> -->
+<!-- 								            </md-input-container> -->
+								            
+<!-- 								            <md-input-container layout="column" flex="30" "> -->
+<!-- 									    		<label>Bairro</label> -->
+<!-- 								                <input maxlength="144" name="bairro"  ng-model="model.crianca.entity.endereco.bairro"> -->
+								
+<!-- 								                <div ng-messages="model.crianca.form.bairro.$error"> -->
+<!-- 								                	<div ng-message="" ng-if="model.crianca.form.$submitted">Campo obrigatório</div> -->
+<!-- 								                </div>	 -->
+<!-- 								            </md-input-container> -->
+<!-- 								        </div> -->
+								        
+<!-- 								        <div layout="row"> -->
+<!-- 								        	<md-autocomplete  -->
+<!-- 								        		style="margin-right:20px"  -->
+<!-- 								        		md-selected-item="model.pais.selectedItem"  -->
+<!-- 								        		md-search-text="model.pais.searchText" -->
+<!-- 												md-search-text-change="listPaisesByFiltes(model.pais.searchText)"  -->
+<!-- 												md-items="item in model.pais.itens"  -->
+<!-- 												md-item-text="item.nome" -->
+<!-- 												placeholder="País" -->
+<!-- 												> -->
+												
+<!-- 												<md-item-template> -->
+<!-- 													<span md-highlight-text="searchText">{{item.nome}}</span> -->
+<!-- 											    </md-item-template> -->
+<!-- 											    <md-not-found> -->
+<!-- 											    	Nenhum país encontrado -->
+<!-- 											    </md-not-found> -->
+<!-- 											</md-autocomplete> -->
+											
+<!-- 											<md-autocomplete  -->
+<!-- 												style="margin-right:20px" -->
+<!-- 												md-selected-item="model.estado.selectedItem"  -->
+<!-- 												md-search-text="model.estado.searchText"  -->
+<!-- 												md-search-text-change="listEstadosByFiltes(model.estado.searchText)"  -->
+<!-- 												md-items="item in model.estado.itens"  -->
+<!-- 												md-item-text="item.nome" -->
+<!-- 												placeholder="Estado" -->
+<!-- 												> -->
+												
+<!-- 												<md-item-template> -->
+<!-- 													<span md-highlight-text="searchText">{{item.nome}}</span> -->
+<!-- 											    </md-item-template> -->
+<!-- 											    <md-not-found> -->
+<!-- 											    	Nenhum estado encontrado -->
+<!-- 											    </md-not-found> -->
+<!-- 											</md-autocomplete> -->
+											
+<!-- 											<md-autocomplete  -->
+<!-- 												md-selected-item="model.cidade.selectedItem"  -->
+<!-- 												md-search-text="model.cidade.searchText"  -->
+<!-- 												md-search-text-change="listCidadesByFiltes(model.cidade.searchText)"  -->
+<!-- 												md-items="item in model.cidade.itens"  -->
+<!-- 												md-item-text="item.nome" -->
+<!-- 												placeholder="Cidade" -->
+<!-- 												> -->
+<!-- 												<md-item-template> -->
+<!-- 													<span md-highlight-text="searchText">{{item.nome}}</span> -->
+<!-- 											    </md-item-template> -->
+<!-- 											    <md-not-found> -->
+<!-- 											    	Nenhum estado encontrado -->
+<!-- 											    </md-not-found> -->
+<!-- 											</md-autocomplete> -->
+											
+<!-- 								        </div> -->
+									            	
+<!-- 										            <div layout="row" flex> -->
 											            
-										            	<md-input-container layout="column" flex="50">
-												    		<label style="position:absolute;padding-top:15px;padding-left:15px">Entidade de acolhimento</label>
-												    		<input maxlength="255" name="entidadeAcolhimento" ng-model="model.crianca.entity.entidadeAcolhimento" rows="3" required></input>
+<!-- 										            	<md-input-container layout="column" flex="50"> -->
+<!-- 												    		<label style="position:absolute;padding-top:15px;padding-left:15px">Entidade de acolhimento</label> -->
+<!-- 												    		<input maxlength="255" name="entidadeAcolhimento" ng-model="model.crianca.entity.entidadeAcolhimento" rows="3" ></input> -->
 											                
-											                <div ng-messages="model.acolhimento.form.entidadeAcolhimento.$error">
-											               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
-											                </div>
-											            </md-input-container>
+<!-- 											                <div ng-messages="model.acolhimento.form.entidadeAcolhimento.$error"> -->
+<!-- 											               		<div ng-message="" ng-if="model.crianca.form.$submitted">Campo obrigatório</div> -->
+<!-- 											                </div> -->
+<!-- 											            </md-input-container> -->
 											            
-										            </div>
+<!-- 										            </div> -->
 										            
-										            <div layout="row" ">
-										            	<div layout="column">
-											           		<label style="color:black">Data de acolhimento</label>
-											            	<md-datepicker required ng-model="model.crianca.entity.dataAcolhimento" style="margin-top:25px;" ></md-datepicker>
-											            	
-											            	<div ng-messages="model.acolhimento.form.dataAcolhimento.$error">
-											               		<div ng-message="required" ng-if="model.acolhimento.form.$submitted">Campo obrigatório</div>
-											                </div>
-										                </div>
+										            <div layout="row" >
 										            	
 										            	<div layout="column">
 											           		<label style="color:black">Data de elaboração PIA</label>
-											            	<md-datepicker required name="dataElaboracaoPIA" ng-model="model.crianca.entity.dataElaboracaoPIA" style="margin-top:25px;" ></md-datepicker>
+											            	<md-datepicker  name="dataElaboracaoPIA" ng-model="model.crianca.entity.dataElaboracaoPIA" style="margin-top:25px;" ></md-datepicker>
 											            	
 											            	<div ng-messages="model.acolhimento.form.dataElaboracaoPIA.$error">
-											               		<div ng-message="required" ng-if="model.acolhimento.form.$submitted">Campo obrigatório</div>
+											               		<div ng-message="" ng-if="model.acolhimento.form.$submitted">Campo obrigatório</div>
 											                </div>
 										                </div>
 										                
 										                <div layout="column">
 											           		<label style="color:black">Data limite</label>
-											            	<md-datepicker required ng-model="model.crianca.entity.dataLimite" style="margin-top:25px;" ></md-datepicker>
+											            	<md-datepicker  ng-model="model.crianca.entity.dataLimite" style="margin-top:25px;" ></md-datepicker>
 											            	
 											            	<div ng-messages="model.acolhimento.form.dataLimite.$error">
-											               		<div ng-message="required" ng-if="model.acolhimento.form.$submitted">Campo obrigatório</div>
+											               		<div ng-message="" ng-if="model.acolhimento.form.$submitted">Campo obrigatório</div>
 											                </div>
 										                </div>
 								                     </div>
 								                        
-								                     <div layout="row" style="margin-top:15px">
-										            	<md-input-container layout="column" flex>
-												    		<label style="position:absolute;padding-top:15px;">Motivo do acolhimento</label>
-												    		<textarea maxlength="255" name="motivoAcolhimento" ng-model="model.crianca.entity.motivoAcolhimento" rows="3" required></textarea>
-											                
-											                <div ng-messages="model.acolhimento.form.motivoAcolhimento.$error">
-											               		<div ng-message="required" ng-if="model.acolhimento.form.$submitted">Campo obrigatório</div>
-											                </div>
-											            </md-input-container>
-								                     </div>
-								                     
 								                     <div layout="row" flex>
 									  					<md-input-container layout="column" gap="20px">
 										            		<label>Documento</label>
@@ -379,17 +384,13 @@
 							                     </div>
 							            	</div>
 											
-										</form>
 									</md-toolbar>
 								</div>
 							</md-toolbar>
-						</div>
 						
-					</md-tab>
-					
-<!-- 					TAB FAMILIA -->
-					
-					<md-tab label="Família" ng-if="model.crianca.entity.id">
+						</md-tab>
+						
+					<md-tab label="Família" ng-if="model.crianca.entity.id" >
 						<div layout-fill style="height:50%">
 				    		<md-toolbar layout-fill style="min-height: 100% !important;position:absolute;" class="md-hue-3" md-theme="{{osmTheme}}">
 								<div class="default-frame" style="overflow:auto">
@@ -446,6 +447,11 @@
 						</div>
 						
 					</md-tab>
+						
+					</md-tab>
+					
+<!-- 					TAB FAMILIA -->
+					
 				</md-tabs>
 			</md-content>
 		</div>

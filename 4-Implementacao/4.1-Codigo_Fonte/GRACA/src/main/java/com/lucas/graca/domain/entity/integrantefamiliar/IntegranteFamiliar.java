@@ -8,7 +8,6 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -77,7 +76,6 @@ public class IntegranteFamiliar extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
-	@NotNull
 	private String filiacao;
 	
 	/**
@@ -107,7 +105,7 @@ public class IntegranteFamiliar extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
-	@ManyToOne (optional= true, fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
+	@ManyToOne (optional= true, fetch = FetchType.EAGER)
 	@JoinColumn(name="endereco_id")
 	private Endereco endereco;
 	

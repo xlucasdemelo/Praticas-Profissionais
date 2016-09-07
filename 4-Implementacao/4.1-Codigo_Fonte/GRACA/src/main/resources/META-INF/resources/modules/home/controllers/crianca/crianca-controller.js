@@ -6,7 +6,7 @@
  * @param $state
  */
 angular.module('home')
-	   .controller('CriancaController', function( $scope, $state, $importService, $mdToast, $mdDialog ) {
+	   .controller('CriancaController', function( $scope, $state, $importService, $mdToast, $mdDialog, $mdExpansionPanel ) {
 		
 	    /**
 	     * Serviços importados do DWR
@@ -19,6 +19,9 @@ angular.module('home')
 		/**
 		 * 
 		 */
+		$mdExpansionPanel().waitFor('paperCrianca').then(function (instance) {
+			  instance.expand();
+			});		
 		
 	    /*-------------------------------------------------------------------
 	     * 		 				 	ATTRIBUTES
@@ -86,6 +89,7 @@ angular.module('home')
 		 */
 		$scope.model = {
 			acolhimento: {form:null},
+			informacoesBasicas : {form:null},
 			query:{
 				order : "",
 			},
@@ -279,9 +283,9 @@ angular.module('home')
 	            	$scope.listDocumentosByCrianca();
 	            	$scope.listParentesByCrianca();
 	            	
-	            	$scope.model.pais.selectedItem = result.endereco.cidade.estado.pais;
-	            	$scope.model.estado.selectedItem = result.endereco.cidade.estado;
-	            	$scope.model.cidade.selectedItem = result.endereco.cidade;
+//	            	$scope.model.pais.selectedItem = result.endereco.cidade.estado.pais;
+//	            	$scope.model.estado.selectedItem = result.endereco.cidade.estado;
+//	            	$scope.model.cidade.selectedItem = result.endereco.cidade;
 	            	
 	            	$scope.$apply();
 	            },
@@ -485,16 +489,15 @@ angular.module('home')
 				return;
 			}
 			
-			if ( !$scope.model.pais.selectedItem )
-				return $scope.showMessage( $scope.ERROR_MESSAGE,  "Selecione um país" );
-			if ( !$scope.model.estado.selectedItem )
+			if ( $scope.model.pais.selectedItem && !$scope.model.estado.selectedItem  ){
 				return $scope.showMessage( $scope.ERROR_MESSAGE,  "Selecione um estado" );
-			if ( !$scope.model.cidade.selectedItem )
+			}
+			else if ( $scope.model.estado.selectedItem && !$scope.model.estado.selectedItem )
 				return $scope.showMessage( $scope.ERROR_MESSAGE,  "Selecione uma cidade" );
 			
-			$scope.model.crianca.entity.endereco.cidade = $scope.model.cidade.selectedItem ;
-			$scope.model.crianca.entity.endereco.cidade.estado = $scope.model.estado.selectedItem ;
-			$scope.model.crianca.entity.endereco.cidade.estado.pais = $scope.model.pais.selectedItem ;
+//			$scope.model.crianca.entity.endereco.cidade = !$scope.model.cidade.selectedItem  ? null : $scope.model.cidade.selectedItem ;
+//			$scope.model.crianca.entity.endereco.cidade.estado = !$scope.model.estado.selectedItem ? null : $scope.model.crianca.entity.endereco.cidade.estado ;
+//			$scope.model.crianca.entity.endereco.cidade.estado.pais = !$scope.model.pais.selectedItem ? null : $scope.model.crianca.entity.endereco.cidade.estado.pais;
 			
 			criancaService.insertCrianca(  $scope.model.crianca.entity, {
                 callback : function(result) {

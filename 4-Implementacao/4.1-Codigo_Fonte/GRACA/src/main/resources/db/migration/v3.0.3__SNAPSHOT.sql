@@ -541,23 +541,23 @@ CREATE TABLE crianca (
     updated timestamp without time zone,
     ativo boolean NOT NULL,
     data_nascimento timestamp without time zone NOT NULL,
-    filiacao character varying(255) NOT NULL,
-    grau_escolaridade integer NOT NULL,
+    filiacao character varying(255) ,
+    grau_escolaridade integer ,
     nome character varying(255) NOT NULL,
-    ocupacao character varying(255) NOT NULL,
-    renda_mensal numeric(19,2) NOT NULL,
+    ocupacao character varying(255) ,
+    renda_mensal numeric(19,2) ,
     sexo integer NOT NULL,
-    telefone character varying(255) NOT NULL,
+    telefone character varying(255) ,
     endereco_id bigint,
     familia_id bigint,
     altura character varying(255),
-    data_acolhimento timestamp without time zone,
-    data_elaboracaopia timestamp without time zone,
+    data_acolhimento timestamp without time zone NOT NULL,
+    data_elaboracaopia timestamp without time zone ,
     data_limite timestamp without time zone,
     entidade_acolhimento character varying(255),
-    etnia integer NOT NULL,
-    motivo_acolhimento character varying(255),
-    numero_processo character varying(255),
+    etnia integer ,
+    motivo_acolhimento character varying(255) NOT NULL,
+    numero_processo character varying(255) NOT NULL,
     peso character varying(255),
     casa_lar_id bigint
 );
@@ -565,6 +565,14 @@ CREATE TABLE crianca (
 
 ALTER TABLE public.crianca OWNER TO postgres;
 
+CREATE SEQUENCE crianca_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+    ALTER TABLE public.crianca_id_seq OWNER TO postgres;
 --
 -- TOC entry 199 (class 1259 OID 228074)
 -- Name: documento_crianca; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -838,11 +846,11 @@ CREATE TABLE integrante_familiar (
     updated timestamp without time zone,
     ativo boolean NOT NULL,
     data_nascimento timestamp without time zone NOT NULL,
-    filiacao character varying(255) NOT NULL,
-    grau_escolaridade integer NOT NULL,
+    filiacao character varying(255) ,
+    grau_escolaridade integer ,
     nome character varying(255) NOT NULL,
-    ocupacao character varying(255) NOT NULL,
-    renda_mensal numeric(19,2) NOT NULL,
+    ocupacao character varying(255) ,
+    renda_mensal numeric(19,2) ,
     sexo integer NOT NULL,
     telefone character varying(255) NOT NULL,
     endereco_id bigint,
@@ -1166,6 +1174,7 @@ ALTER TABLE ONLY cidade ALTER COLUMN id SET DEFAULT nextval('cidade_id_seq'::reg
 
 ALTER TABLE ONLY documento_crianca ALTER COLUMN id SET DEFAULT nextval('documento_crianca_id_seq'::regclass);
 
+ALTER TABLE ONLY crianca ALTER COLUMN id SET DEFAULT nextval('crianca_id_seq'::regclass);
 
 --
 -- TOC entry 2058 (class 2604 OID 228085)

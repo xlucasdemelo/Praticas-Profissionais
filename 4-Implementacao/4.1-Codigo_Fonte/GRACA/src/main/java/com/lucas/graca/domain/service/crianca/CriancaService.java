@@ -80,7 +80,10 @@ public class CriancaService
 	public Crianca insertCrianca( Crianca crianca )
 	{
 		Assert.notNull( crianca );
-		this.enderecoRepository.save( crianca.getEndereco() );
+		
+//		if (crianca.getEndereco() != null)
+//			this.enderecoRepository.save( crianca.getEndereco() );
+		
 		return this.criancaRepository.save( crianca );
 	}
 	

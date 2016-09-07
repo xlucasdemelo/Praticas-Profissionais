@@ -56,18 +56,16 @@ public class Crianca extends IntegranteFamiliar
 	@Column
 	private String peso;
 	
-	//TODO Casa lar
-	
 	/**
 	 * 
 	 */
-	@Column
+	@NotNull
 	private String motivoAcolhimento;
 	
 	/**
 	 * 
 	 */
-	@Column
+	@NotNull
 	private String numeroProcesso;
 	
 	/**
@@ -79,25 +77,22 @@ public class Crianca extends IntegranteFamiliar
 	/**
 	 * DATA de elaboracao do plano individual avaliativo
 	 */
-	@Column
 	private Calendar dataElaboracaoPIA;
 	
 	/**
 	 * 
 	 */
-	@Column
 	private Calendar dataLimite;
 	
 	/**
 	 * 
 	 */
-	@Column
+	@NotNull
 	private Calendar dataAcolhimento;
 	
 	/**
 	 * 
 	 */
-	@NotNull
 	private Etnia etnia;
 
 	/**
