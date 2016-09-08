@@ -44,7 +44,7 @@
 											
 											<md-input-container layout="column" flex="30" style="margin-right:30px">
 										        <label>Tipo de usuário</label>
-										        <md-select name="role" ng-disabled="!model.user.entity.enabled" required ng-model="model.user.entity.role">
+										        <md-select name="role" ng-disabled="!model.user.entity.enabled && model.user.entity.id" required ng-model="model.user.entity.role">
 										          <md-option ng-repeat="role in allUserRoles" value="{{role}}">{{::role | translate}}</md-option>
 										        </md-select>
 										        
@@ -74,16 +74,20 @@
 								                </div>
 								            </md-input-container>
 								            
-								            <md-input-container ng-if="model.user.entity.role == 'COLABORADOR_EXTERNO' " layout="column" flex="30" style="margin-right:30px">
-										        <label>Rede de Apoio</label>
-										        <md-select name="redeApoio" ng-disabled="!model.user.entity.enabled" required ng-model="model.user.entity.redeApoio">
-										          <md-option ng-repeat="rede in allRedeApoio" value="{{rede}}">{{rede.nome}}</md-option>
-										        </md-select>
-										        
-										        <div ng-messages="model.user.form.redeApoio.$error">
-								                	<div ng-message="required" ng-if="model.user.form.$submitted">Campo obrigatório</div>
-								                </div>
-										    </md-input-container>
+								            <div layout="row" ng-if="model.user.entity.role == 'COLABORADOR_EXTERNO'">
+												<md-input-container layout="column" >
+										    		<label style="position:absolute;padding-top:15px;">Rede de apoio</label>
+										    		<input typ="text" maxlength="255" disabled name="familia" ng-model="model.user.entity.redeApoio" required></input>
+									                
+									                <div ng-messages="model.familia.form.familia.$error">
+									               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+												
+												<div md-theme="default" ng-if="!model.redeApoio.entity.enabled" layout="row" layout-align="end center" class="default-header md-primary md-hue-3">
+											        <md-button class="md-raised md-accent default-save-button" ng-click="openSelecionarRedeApoioHandler()">Selecionar família</md-button>
+										        </div>
+											</div>
 								            
 										</form>
 									</md-toolbar>

@@ -67,7 +67,7 @@ public class RedeApoio extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
-	@ManyToOne(optional= false, fetch = FetchType.EAGER)
+	@ManyToOne(optional= false, fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
 	@JoinColumn(name="responsavel_id")
 	private Responsavel responsavel;
 

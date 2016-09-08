@@ -293,6 +293,17 @@ angular.module('home')
 		        });
 		    };
 		    
+		    $scope.openSelecionarRedeApoioHandler = function(  ) {
+
+				$mdDialog.show({
+				      controller: "SelecionarRedeApoioPopup",
+				      templateUrl: './modules/home/views/redeapoio/popup/selecionar-rede-apoio-popup.html',			      
+				      scope: $scope.$new(),
+					})
+				    .then(function(result) {
+				 });
+			};
+		    
 		    /**
 		     * Realiza os procedimentos iniciais (prepara o estado)
 		     * para a tela de exclusão.

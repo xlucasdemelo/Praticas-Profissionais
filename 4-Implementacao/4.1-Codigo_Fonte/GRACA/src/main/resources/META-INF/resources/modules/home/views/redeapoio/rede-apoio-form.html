@@ -10,7 +10,7 @@
 	    	</div>
 	    	
 	        <div md-theme="default" layout="row" layout-align="end center" ng-if="model.redeApoio.entity.enabled || !model.redeApoio.entity.id" class="default-header md-primary md-hue-3">
-		        <md-button class="md-raised md-accent default-save-button" ng-click="insertRedeApoio()">Salvar</md-button>
+		        <md-button class="md-raised md-accent default-save-button" ng-click="$state.current.name == REDE_APOIO_ADD_STATE ? insertRedeApoio() : updateRedeApoio()">Salvar</md-button>
 	        </div>
 	        
 	         <div md-theme="default" layout="row" layout-align="end center" class="default-header">
@@ -144,6 +144,43 @@
 												</md-autocomplete>
 												
 									        </div>
+								            
+								            <div layout="row" style="margin-top:30px">
+								            	
+								            	<md-input-container layout="column" flex="30" ">
+										    		<label>Nome do responsável</label>
+									                <input  maxlength="255" md-maxlength="255" name="nomeResponsavel" required ng-model="model.redeApoio.entity.responsavel.nome">
+									
+									                <div ng-messages="model.redeApoio.form.nomeResponsavel.$error">
+									                	<div ng-message="required" ng-if="model.redeApoio.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+									            
+								            </div>
+								            
+								            <div layout="row">
+								            	
+								            	<md-input-container layout="column" flex="30">
+										    		<label>Número do cpf</label>
+									                <input type="text" maxlength="14" name="cpf" mask="999.999.999-99" ng-model="model.redeApoio.entity.responsavel.cpf" ng-cpf>
+									            	
+									            	<div ng-messages="model.integranteFamiliar.form.cpf.$error">
+									               		<div ng-message="cpf"  ng-if="model.redeApoio.form.$submitted">CPF inválido</div>
+									                </div>
+									            	
+									            </md-input-container>
+								            	
+								            	<md-input-container layout="column" flex="30">
+										    		<label>Email do responsável</label>
+									                <input type="email" maxlength="255" md-maxlength="255" name="email" ng-model="model.redeApoio.entity.responsavel.email">
+									            	
+									            	<div ng-messages="model.integranteFamiliar.form.email.$error">
+									               		<div ng-message="email"  ng-if="model.redeApoio.form.$submitted">Email inválido</div>
+									                </div>
+									            	
+									            </md-input-container>
+								            	
+								            </div>
 								            
 								            <div ng-if="bla" class="default-info" flex> 
 												<span>Crianças</span>

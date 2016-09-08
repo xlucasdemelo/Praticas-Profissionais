@@ -1,7 +1,7 @@
 (function ( angular ) {
     'use strict';
 
-/**
+/**s
  * @param $scope
  * @param $state
  */
@@ -12,6 +12,7 @@ angular.module('home')
 		     * Serviços importados do DWR
 		     */
 			$importService("redeApoioService");
+			$importService("enderecoService");
 			/**
 			 * 
 			 */
@@ -220,7 +221,7 @@ angular.module('home')
 			$scope.changeToAdd = function() {
 				console.debug("changeToAdd");
 				
-				$scope.model.redeApoio.entity = new CasaLar();//Limpa o formulário
+				$scope.model.redeApoio.entity = new RedeApoio();//Limpa o formulário
 				
 				
 			};
@@ -425,7 +426,33 @@ angular.module('home')
 	                    $scope.$apply();
 	                }
 	            });
+				
+				
 			}
+			
+			$scope.updateRedeApoio = function()
+			{
+				$scope.model.redeApoio.form.$submitted = true;
+				if ($scope.model.redeApoio.form.$invalid ){
+					$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
+					return;
+				}
+				
+				redeApoioService.updateRedeApoio(  $scope.model.redeApoio.entity, {
+	                callback : function(result) {
+	                	
+	                	$scope.model.redeApoio.entity = result;
+	                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi cadastrado com sucesso!" );
+	                	$state.go(REDE_APOIO_EDIT_STATE)
+	                	$scope.$apply();
+	                	
+	                },
+	                errorHandler : function(message, exception) {
+	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+	                    $scope.$apply();
+	                }
+	            });
+			 }
 			
 			/**
 			 * 

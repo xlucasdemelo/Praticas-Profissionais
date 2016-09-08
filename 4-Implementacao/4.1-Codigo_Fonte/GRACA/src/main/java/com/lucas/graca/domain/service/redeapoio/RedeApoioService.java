@@ -14,6 +14,7 @@ import org.springframework.util.Assert;
 
 import com.lucas.graca.domain.entity.account.UserRole;
 import com.lucas.graca.domain.entity.redeapoio.RedeApoio;
+import com.lucas.graca.domain.repository.planoatendimento.IResponsavelRepository;
 import com.lucas.graca.domain.repository.redeApoio.IRedeApoioRepository;
 
 
@@ -39,6 +40,11 @@ public class RedeApoioService
 	@Autowired
 	private IRedeApoioRepository redeApoioRepository;
 	
+	/**
+	 * 
+	 */
+	@Autowired
+	private IResponsavelRepository responsavelRepository;
 	/*-------------------------------------------------------------------
 	 *				 	SERVICES REDE DE APOIO
 	 *-------------------------------------------------------------------*/
@@ -51,8 +57,13 @@ public class RedeApoioService
 	public RedeApoio insertRedeApoio( RedeApoio redeApoio )
 	{
 		Assert.notNull( redeApoio );
-		Assert.isNull( redeApoio.getId(), "O ID não pode ser nulo" );
+		Assert.isNull( redeApoio.getId(), "O ID deve ser nulo" );
 		Assert.notNull( redeApoio.getNome(), "O campo nome é obrigatório" );
+		
+		if (redeApoio.getResponsavel() != null)
+		{
+			this.responsavelRepository.save( redeApoio.getResponsavel() );
+		}
 		
 		return this.redeApoioRepository.save( redeApoio );
 	}
