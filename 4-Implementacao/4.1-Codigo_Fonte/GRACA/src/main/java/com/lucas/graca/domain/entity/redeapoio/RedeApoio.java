@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
@@ -48,19 +49,25 @@ public class RedeApoio extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
+	@NotNull
+	private Boolean enabled;
+	
+	/**
+	 * 
+	 */
 	private String telefone;
 	
 	/**
 	 * 
 	 */
-	@ManyToOne(fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
+	@ManyToOne(optional=true, fetch = FetchType.EAGER, cascade=CascadeType.MERGE)
 	@JoinColumn(name="endereco_id")
 	private Endereco endereco;
 	
 	/**
 	 * 
 	 */
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(optional= false, fetch = FetchType.EAGER)
 	@JoinColumn(name="responsavel_id")
 	private Responsavel responsavel;
 
@@ -74,13 +81,14 @@ public class RedeApoio extends AbstractEntity implements Serializable
 	 * @param endereco
 	 * @param responsavel
 	 */
-	public RedeApoio( Long id, String nome, String telefone, Endereco endereco, Responsavel responsavel )
+	public RedeApoio( Long id, String nome, String telefone, Endereco endereco, Responsavel responsavel, Boolean enabled )
 	{
 		super( id );
 		this.nome = nome;
 		this.telefone = telefone;
 		this.endereco = endereco;
 		this.responsavel = responsavel;
+		this.enabled = enabled;
 	}
 
 	/**
@@ -111,6 +119,7 @@ public class RedeApoio extends AbstractEntity implements Serializable
 	{
 		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result + ( ( enabled == null ) ? 0 : enabled.hashCode() );
 		result = prime * result + ( ( endereco == null ) ? 0 : endereco.hashCode() );
 		result = prime * result + ( ( nome == null ) ? 0 : nome.hashCode() );
 		result = prime * result + ( ( responsavel == null ) ? 0 : responsavel.hashCode() );
@@ -128,6 +137,11 @@ public class RedeApoio extends AbstractEntity implements Serializable
 		if ( !super.equals( obj ) ) return false;
 		if ( getClass() != obj.getClass() ) return false;
 		RedeApoio other = ( RedeApoio ) obj;
+		if ( enabled == null )
+		{
+			if ( other.enabled != null ) return false;
+		}
+		else if ( !enabled.equals( other.enabled ) ) return false;
 		if ( endereco == null )
 		{
 			if ( other.endereco != null ) return false;
@@ -150,7 +164,33 @@ public class RedeApoio extends AbstractEntity implements Serializable
 		else if ( !telefone.equals( other.telefone ) ) return false;
 		return true;
 	}
-
+	
+	/**
+	 * 
+	 */
+	@PrePersist
+	public void enableRedeApoio()
+	{
+		this.enabled = true;
+	}
+	
+	/**
+	 * 
+	 */
+	public void disableRedeApoio()
+	{
+		this.enabled = false;
+	}
+	
+	/**
+	 * 
+	 * @param redeApoio
+	 */
+	public void mergeToUpdate( RedeApoio redeApoio )
+	{
+//		this.nome
+	}
+	
 	/*-------------------------------------------------------------------
 	 *				 		  GETTERS AND SETTERS
 	 *-------------------------------------------------------------------*/
@@ -217,5 +257,21 @@ public class RedeApoio extends AbstractEntity implements Serializable
 	public void setResponsavel( Responsavel responsavel )
 	{
 		this.responsavel = responsavel;
+	}
+
+	/**
+	 * @return the enabled
+	 */
+	public Boolean getEnabled()
+	{
+		return enabled;
+	}
+
+	/**
+	 * @param enabled the enabled to set
+	 */
+	public void setEnabled( Boolean enabled )
+	{
+		this.enabled = enabled;
 	}
 }

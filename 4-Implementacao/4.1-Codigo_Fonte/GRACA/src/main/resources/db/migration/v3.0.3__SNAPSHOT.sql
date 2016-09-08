@@ -565,14 +565,14 @@ CREATE TABLE crianca (
 
 ALTER TABLE public.crianca OWNER TO postgres;
 
-CREATE SEQUENCE crianca_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
+--CREATE SEQUENCE crianca_id_seq
+ --   START WITH 1
+  --  INCREMENT BY 1
+   -- NO MINVALUE
+    --NO MAXVALUE
+    --CACHE 1;
 
-    ALTER TABLE public.crianca_id_seq OWNER TO postgres;
+    --ALTER TABLE public.crianca_id_seq OWNER TO postgres;
 --
 -- TOC entry 199 (class 1259 OID 228074)
 -- Name: documento_crianca; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
@@ -1174,7 +1174,7 @@ ALTER TABLE ONLY cidade ALTER COLUMN id SET DEFAULT nextval('cidade_id_seq'::reg
 
 ALTER TABLE ONLY documento_crianca ALTER COLUMN id SET DEFAULT nextval('documento_crianca_id_seq'::regclass);
 
-ALTER TABLE ONLY crianca ALTER COLUMN id SET DEFAULT nextval('crianca_id_seq'::regclass);
+--ALTER TABLE ONLY crianca ALTER COLUMN id SET DEFAULT nextval('crianca_id_seq'::regclass);
 
 --
 -- TOC entry 2058 (class 2604 OID 228085)
@@ -2038,7 +2038,6 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 -- PostgreSQL database dump complete
 --
   
-
 /*-------------------------------------------------------------------
 	 *				 		     SEQUENCES
 	 *-------------------------------------------------------------------*/
@@ -2070,5 +2069,3 @@ ALTER TABLE hibernate_sequence
     VALUES (1, NOW(), null, 'admin@admin.com', TRUE, 'Administrador de Sistemas', 'd1bd2f08fead38a982aed9d4ca060152400b1b8f', 0);
     
     insert into public.responsavel values(1, now(), now(), '1234565789', 'responsavel@email.com', 'nome', '9999-9999');
-    
-    insert into public.rede_apoio values(1, now(), now(), 'CREA', '123133', 1, 1)

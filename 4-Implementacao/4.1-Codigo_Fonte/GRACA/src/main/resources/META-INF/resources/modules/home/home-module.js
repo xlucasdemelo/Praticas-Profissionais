@@ -131,6 +131,26 @@
 	        templateUrl: './modules/home/views/casalar/casa-lar-form.html'
 	     })
 	     
+	     //Casa lar
+	     $stateProvider.state('rede-apoio',{
+        	abstract: true,
+        	url : "/rede-apoio",
+        	template: '<div layout="column" flex ui-view=""/>',
+        	controller : 'RedeApoioController as redeApoioController'
+        })
+        .state('rede-apoio.list',{
+            url:'/listar',
+            templateUrl: './modules/home/views/redeapoio/rede-apoio-list.html'
+          })
+        .state('rede-apoio.add',{
+            url:'/inserir',
+            templateUrl: './modules/home/views/redeapoio/rede-apoio-form.html'
+          })
+	    .state('rede-apoio.edit',{
+	        url:'/editar/{id:[0-9]{1,10}}',
+	        templateUrl: './modules/home/views/redeapoio/rede-apoio-form.html'
+	     })
+	     
 	     //Usuário
 	     $stateProvider.state('user',{
         	abstract: true,
