@@ -31,24 +31,22 @@
 						    <thead md-head md-order="query.order" md-on-reorder="getDesserts">
 						      <tr md-row>
 						        <th md-column md-order-by="nameToLower"><span>Nome</span></th>
-						        <th md-column md-numeric md-order-by="calories.value"><span>Nome da Mãe</span></th>
-						        <th md-column md-numeric>Endereço</th>
+						        <th md-column md-numeric md-order-by="calories.value"><span>Responsável</span></th>
 						        <th md-column md-numeric>Telefone</th>
 						      </tr>
 						    </thead>
 						    <tbody md-body>
-						      <tr md-row md-select="dessert" style="cursor:pointer" ng-click="selectFamilia(familia)" md-select-id="name" md-auto-select ng-repeat="familia in model.redeApoio.page.content">
-						        <td md-cell>{{::familia.nome}}</td>
-						        <td md-cell>{{::familia.nomeMae}}</td>
-						        <td md-cell>{{::familia.endereco.rua}}</td>
-						        <td md-cell>{{::familia.telefone}}</td>
+						      <tr md-row md-select="dessert" style="cursor:pointer" ng-click="selectRedeApoio(redeApoio)" md-select-id="name" md-auto-select ng-repeat="redeApoio in model.redeApoio.page.content">
+						        <td md-cell>{{::redeApoio.nome}}</td>
+						        <td md-cell>{{::redeApoio.responsavel.nome}}</td>
+						        <td md-cell>{{::redeApoio.telefone}}</td>
 						      </tr>
 						    </tbody>
 						  </table>
 						</md-table-container>
 											
 						<div layout="column" flex class="empty-grid" layout-align="center center" ng-if="model.redeApoio.page.content.length == 0">
-							Nenhum registro de família encontrado
+							Nenhum registro de rede de apoio
 						</div>
 						
 						<md-divider></md-divider>

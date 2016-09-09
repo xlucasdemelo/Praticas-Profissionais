@@ -78,9 +78,9 @@ angular.module('home')
 					
 				},
 				
-				crianca: {
+				user: {
 					form: null,
-					entity: new Crianca(),
+					entity: new User(),
 					
 					filters: {
 					    terms: "",
@@ -241,7 +241,7 @@ angular.module('home')
 		        redeApoioService.findById( id, {
 		            callback : function(result) {	   
 		            	$scope.model.redeApoio.entity = result;
-		            	
+		            	$scope.listUsersByRedeApoio();
 		            	$scope.$apply();
 		            },
 		            errorHandler : function(message, exception) {
@@ -667,13 +667,13 @@ angular.module('home')
 				
 			}
 			
-			$scope.listCriancasByCasaLar = function(id)
+			$scope.listUsersByRedeApoio = function()
 			{
-				redeApoioService.listCriancasByCasaLar( id, $scope.model.crianca.page.pageable, {
+				redeApoioService.listUsersByRedeApoio( $scope.model.redeApoio.entity.id, $scope.model.user.page.pageable, {
 		            callback : function(result) {	   
 		            	
-		            	$scope.totalPagesCrianca = result.totalPages;
-	                	$scope.model.crianca.page = {//PageImpl
+		            	$scope.totalPagesUser = result.totalPages;
+	                	$scope.model.user.page = {//PageImpl
 	    						content : result.content,
 								pageable : {//PageRequest
 									page : result.number,

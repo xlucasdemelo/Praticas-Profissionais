@@ -34,4 +34,11 @@ public interface IUserRepository extends JpaRepository<User, Long>
 				  	 + "OR FILTER(user.name, :filter) = TRUE "
 				  	 + "OR FILTER(user.email, :filter) = TRUE ))" )
 	public Page<User> listByFilters( @Param("filter") String filter, @Param("enabled") Boolean enabled, Pageable pageable );
+	
+	/**
+	 * 
+	 * @param redeApoioId
+	 * @return
+	 */
+	public Page<User> findByRedeApoioId(Long redeApoioId, Pageable pageable);
 }

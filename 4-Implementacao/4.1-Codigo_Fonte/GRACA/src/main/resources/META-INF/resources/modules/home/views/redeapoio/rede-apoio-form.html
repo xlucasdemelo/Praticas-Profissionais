@@ -164,7 +164,7 @@
 										    		<label>Número do cpf</label>
 									                <input type="text" maxlength="14" name="cpf" mask="999.999.999-99" ng-model="model.redeApoio.entity.responsavel.cpf" ng-cpf>
 									            	
-									            	<div ng-messages="model.integranteFamiliar.form.cpf.$error">
+									            	<div ng-messages="model.user.form.cpf.$error">
 									               		<div ng-message="cpf"  ng-if="model.redeApoio.form.$submitted">CPF inválido</div>
 									                </div>
 									            	
@@ -174,7 +174,7 @@
 										    		<label>Email do responsável</label>
 									                <input type="email" maxlength="255" md-maxlength="255" name="email" ng-model="model.redeApoio.entity.responsavel.email">
 									            	
-									            	<div ng-messages="model.integranteFamiliar.form.email.$error">
+									            	<div ng-messages="model.user.form.email.$error">
 									               		<div ng-message="email"  ng-if="model.redeApoio.form.$submitted">Email inválido</div>
 									                </div>
 									            	
@@ -182,41 +182,39 @@
 								            	
 								            </div>
 								            
-								            <div ng-if="bla" class="default-info" flex> 
-												<span>Crianças</span>
+								            <div ng-if="model.user.page.content.length > 0" class="default-info" flex> 
+												<span>Usuários</span>
 											</div>
 											
-											<md-table-container ng-if="bla">
+											<md-table-container ng-if="model.user.page.content.length > 0">
 											  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
 											    <thead md-head md-order="query.order" md-on-reorder="getDesserts">
 											      <tr md-row>
 											        <th md-column md-order-by="nameToLower"><span>Nome</span></th>
-											        <th md-column md-order-by="nameToLower"><span>Data de acolhimento</span></th>
-											        <th md-column md-numeric ><span>Nome da família</span></th>
+											        <th md-column md-order-by="nameToLower"><span>Email</span></th>
 											      </tr>
 											    </thead>
 											    <tbody md-body>
-											      <tr md-row md-select="dessert" style="cursor:pointer" md-select-id="name" md-auto-select ng-repeat="crianca in model.crianca.page.content">
-											        <td md-cell>{{::crianca.nome}}</td>
-											        <td md-cell>{{::crianca.dataAcolhimento | date : format : timezone}}</td>
-											        <td md-cell>{{::crianca.familia.nome}}</td>
+											      <tr md-row md-select="dessert" style="cursor:pointer" md-select-id="name" md-auto-select ng-repeat="user in model.user.page.content">
+											        <td md-cell>{{::user.name}}</td>
+											        <td md-cell>{{::user.email}}
 											      </tr>
 											    </tbody>
 											  </table>
 											</md-table-container>
 									        
-									        <div layout="column" flex class="empty-grid" layout-align="center center" ng-if="bla && model.crianca.page.content.length == 0">
-												Não há nenhuma criança acolhida por esta casa lar . 
+									        <div layout="column" flex class="empty-grid" layout-align="center center" ng-if="model.user.page.content.length == 0">
+												Esta rede de apoio não possuí nenhum usuário no sistema
 											</div>
 											
 											<md-divider></md-divider>
-											<div class="default-paginator" layout layout-align="end center" ng-if="model.integranteFamiliar.page.content.length > 0">
-												{{ model.integranteFamiliar.page.pageable.page + 1 }} de {{ totalPagesIntegrante }}
-												<md-button class="md-icon-button" ng-disabled="(model.integranteFamiliar.page.pageable.page + 1) < 2" ng-click="onIntegrantePaginationChange(false)">
-													<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.integranteFamiliar.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
+											<div class="default-paginator" layout layout-align="end center" ng-if="model.user.page.content.length > 0">
+												{{ model.user.page.pageable.page + 1 }} de {{ totalPagesUser }}
+												<md-button class="md-icon-button" ng-disabled="(model.user.page.pageable.page + 1) < 2" ng-click="onIntegrantePaginationChange(false)">
+													<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.user.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
 												</md-button>
-												<md-button class="md-icon-button" ng-disabled="(model.integranteFamiliar.page.pageable.page + 1) >= totalPagesIntegrante" ng-click="onIntegrantePaginationChange(true)">
-													<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.integranteFamiliar.page.pageable.page + 1) >= Math.ceil(model.integranteFamiliar.page.total/model.redeApoio.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
+												<md-button class="md-icon-button" ng-disabled="(model.user.page.pageable.page + 1) >= totalPagesUser" ng-click="onIntegrantePaginationChange(true)">
+													<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.user.page.pageable.page + 1) >= Math.ceil(model.user.page.total/model.redeApoio.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
 												</md-button>
 									  		</div>
 								            

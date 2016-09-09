@@ -301,6 +301,7 @@ angular.module('home')
 				      scope: $scope.$new(),
 					})
 				    .then(function(result) {
+				    	$scope.model.user.entity.redeApoio = result;
 				 });
 			};
 		    
@@ -426,6 +427,9 @@ angular.module('home')
 				{
 					$scope.model.user.entity.redeApoio = new RedeApoio();
 					$scope.model.user.entity.redeApoio.id = 1;
+				} else
+				{
+					$scope.model.user.entity.redeApoio = null;
 				}
 				
 				accountService.insertUser(  $scope.model.user.entity, {

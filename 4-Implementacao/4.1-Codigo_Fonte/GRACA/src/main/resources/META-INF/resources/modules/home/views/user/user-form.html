@@ -55,7 +55,7 @@
 											
 											<md-input-container layout="column" flex="30" ">
 									    		<label>Nome</label>
-								                <input maxlength="50" ng-disabled="!model.user.entity.enabled" md-maxlength="50" name="name" required ng-model="model.user.entity.name">
+								                <input maxlength="50" ng-disabled="!model.user.entity.enabled && model.user.entity.id" md-maxlength="50" name="name" required ng-model="model.user.entity.name">
 								
 								                <div ng-messages="model.user.form.name.$error">
 								                	<div ng-message="required" ng-if="model.user.form.$submitted">Campo obrigatório</div>
@@ -65,7 +65,7 @@
 											
 											<md-input-container layout="column" flex="30" ">
 									    		<label>Email</label>
-								                <input type="email" ng-disabled="!model.user.entity.enabled" maxlength="144" md-maxlength="144" name="email" required ng-model="model.user.entity.email">
+								                <input type="email" ng-disabled="!model.user.entity.enabled && model.user.entity.id" maxlength="144" md-maxlength="144" name="email" required ng-model="model.user.entity.email">
 								
 								                <div ng-messages="model.user.form.email.$error">
 								                	<div ng-message="required" ng-if="model.user.form.$submitted">Campo obrigatório</div>
@@ -77,7 +77,7 @@
 								            <div layout="row" ng-if="model.user.entity.role == 'COLABORADOR_EXTERNO'">
 												<md-input-container layout="column" >
 										    		<label style="position:absolute;padding-top:15px;">Rede de apoio</label>
-										    		<input typ="text" maxlength="255" disabled name="familia" ng-model="model.user.entity.redeApoio" required></input>
+										    		<input typ="text" maxlength="255" disabled name="redeApoio" ng-model="model.user.entity.redeApoio.nome" required></input>
 									                
 									                <div ng-messages="model.familia.form.familia.$error">
 									               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>

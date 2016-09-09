@@ -177,8 +177,8 @@ angular.module('home')
 		/**
 		 * 
 		 */
-		$scope.selectFamilia = function( familia ){
-			$mdDialog.hide(familia);
+		$scope.selectRedeApoio = function( redeApoio ){
+			$mdDialog.hide(redeApoio);
 		}
 		
 		$scope.onFamiliaPaginationChange = function(paginate) {
@@ -196,7 +196,7 @@ angular.module('home')
 		 */
 		$scope.listRedeApoioByFilters = function(){
 			
-			redeApoioService.listByFilters(  $scope.model.redeApoio.filters.terms.toString(), $scope.model.redeApoio.page.pageable, {
+			redeApoioService.listByFilters(  $scope.model.redeApoio.filters.terms.toString(), true, $scope.model.redeApoio.page.pageable, {
                 callback : function(result) {
                 	
                 	$scope.totalPagesRedeApoio = result.totalPages;

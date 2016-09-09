@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.lucas.graca.domain.entity.account.User;
 import com.lucas.graca.domain.entity.account.UserRole;
 import com.lucas.graca.domain.entity.redeapoio.RedeApoio;
+import com.lucas.graca.domain.repository.account.IUserRepository;
 import com.lucas.graca.domain.repository.planoatendimento.IResponsavelRepository;
 import com.lucas.graca.domain.repository.redeApoio.IRedeApoioRepository;
 
@@ -45,6 +47,12 @@ public class RedeApoioService
 	 */
 	@Autowired
 	private IResponsavelRepository responsavelRepository;
+	
+	/**
+	 * 
+	 */
+	@Autowired
+	private IUserRepository userRepository;
 	/*-------------------------------------------------------------------
 	 *				 	SERVICES REDE DE APOIO
 	 *-------------------------------------------------------------------*/
@@ -66,6 +74,11 @@ public class RedeApoioService
 		}
 		
 		return this.redeApoioRepository.save( redeApoio );
+	}
+	
+	public Page<User> listUsersByRedeApoio( long redeApoioId, PageRequest pageable )
+	{
+		return this.userRepository.findByRedeApoioId( redeApoioId, pageable );
 	}
 	
 	/**
