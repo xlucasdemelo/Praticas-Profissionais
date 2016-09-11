@@ -24,13 +24,28 @@ public interface IQuestionarioReposiotry extends JpaRepository<Questionario, Lon
 	 * @param pageable
 	 * @return
 	 */
-	@Query(value="SELECT new Questionario( questionario.id, questionario.nome, questionario.descricao, usuarioCriador ) " +
+	@Query(value="SELECT new Questionario( questionario.id, questionario.nome, questionario.descricao, usuarioCriador, questionario.enabled ) " +
+			   " FROM Questionario questionario " +
+			   " LEFT OUTER JOIN questionario.usuarioCriador usuarioCriador " + 
+			   " WHERE ( usuarioCriador.id = :userId " +
+			   			" AND (FILTER(questionario.nome, :filter) = TRUE)" +
+			  " ) "
+			)
+	public Page<Questionario> listQuestionariosByUserAndFilters( @Param("filter") String filter, @Param("userId") Long userId, Pageable pageable );
+	
+	/**
+	 * 
+	 * @param filter
+	 * @param pageable
+	 * @return
+	 */
+	@Query(value="SELECT new Questionario( questionario.id, questionario.nome, questionario.descricao, usuarioCriador, questionario.enabled ) " +
 			   " FROM Questionario questionario " +
 			   " LEFT OUTER JOIN questionario.usuarioCriador usuarioCriador " + 
 			   " WHERE (  " +
 			   			" (FILTER(questionario.nome, :filter) = TRUE)" +
 			  " ) "
 			)
-	public Page<Questionario> listQuestionariosByFilters( @Param("filter") String filter , Pageable pageable );
+	public Page<Questionario> listQuestionariosByFilters( @Param("filter") String filter, Pageable pageable );
 	
 }

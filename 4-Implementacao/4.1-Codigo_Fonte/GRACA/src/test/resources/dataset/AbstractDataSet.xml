@@ -14,4 +14,7 @@
 	<public.rede_apoio></public.rede_apoio>
 	<public.casa_lar></public.casa_lar>
 	<public.responsavel></public.responsavel>
+	<public.questionario></public.questionario>
+	<public.questao></public.questao>
+	<public.versao_questionario></public.versao_questionario>
 </dataset>

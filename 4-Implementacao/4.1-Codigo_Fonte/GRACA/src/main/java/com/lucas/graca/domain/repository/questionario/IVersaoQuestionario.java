@@ -22,6 +22,13 @@ public interface IVersaoQuestionario extends JpaRepository<VersaoQuestionario, L
 	 * @param pageable
 	 * @return
 	 */
-	Page<VersaoQuestionario> findByQuestionarioId ( Long questionarioId, Pageable pageable );
+	public Page<VersaoQuestionario> findByQuestionarioId ( Long questionarioId, Pageable pageable );
+	
+	/**
+	 * 
+	 * @param questionarioId
+	 * @return
+	 */
+	public VersaoQuestionario findTopByQuestionarioIdOrderByNumeroVersaoDesc ( Long questionarioId );
 	
 }

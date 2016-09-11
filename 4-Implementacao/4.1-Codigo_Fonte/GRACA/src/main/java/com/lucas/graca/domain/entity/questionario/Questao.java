@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
+import org.springframework.util.Assert;
 
 import br.com.eits.common.domain.entity.AbstractEntity;
 
@@ -38,7 +39,7 @@ public class Questao extends AbstractEntity implements Serializable
 	 * 
 	 */
 	@NotNull
-	private Integer descricao;
+	private String descricao;
 	
 	/**
 	 * 
@@ -61,7 +62,7 @@ public class Questao extends AbstractEntity implements Serializable
 	 * @param tipoQuestao
 	 * @param versaoQuestionario
 	 */
-	public Questao( Long id, Integer descricao, TipoQuestao tipoQuestao, VersaoQuestionario versaoQuestionario )
+	public Questao( Long id, String descricao, TipoQuestao tipoQuestao, VersaoQuestionario versaoQuestionario )
 	{
 		super(id);
 		this.descricao = descricao;
@@ -126,7 +127,28 @@ public class Questao extends AbstractEntity implements Serializable
 		else if ( !versaoQuestionario.equals( other.versaoQuestionario ) ) return false;
 		return true;
 	}
-
+	
+	/**
+	 * 
+	 */
+	public void isRascunho()
+	{
+		Assert.isTrue( this.getVersaoQuestionario().getStatus() == StatusVersaoQuestionario.RASCUNHO, "O questionário precisa estar em rascunho" );
+	}
+	
+	/**
+	 * 
+	 */
+	public Questao clone()
+	{
+		Questao novaQuestao = new Questao();
+		
+		novaQuestao.setDescricao( this.descricao ) ;
+		novaQuestao.setTipoQuestao( this.tipoQuestao );
+		
+		return novaQuestao;
+	}
+	
 	/*-------------------------------------------------------------------
 	 *				 		     GETTERS AND SETTERS
 	 *-------------------------------------------------------------------*/
@@ -134,7 +156,7 @@ public class Questao extends AbstractEntity implements Serializable
 	/**
 	 * @return the descricao
 	 */
-	public Integer getDescricao()
+	public String getDescricao()
 	{
 		return descricao;
 	}
@@ -142,7 +164,7 @@ public class Questao extends AbstractEntity implements Serializable
 	/**
 	 * @param descricao the descricao to set
 	 */
-	public void setDescricao( Integer descricao )
+	public void setDescricao( String descricao )
 	{
 		this.descricao = descricao;
 	}

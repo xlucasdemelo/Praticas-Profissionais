@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+	<public.questao
+		id="9999"
+		created="2015-03-30 00:00:00"
+		updated="2015-03-30 00:00:00"
+		descricao="quantidade de irmaos"
+		tipo_questao="0"
+		versao_questionario_id="9999"
+	/>
+	
+	<public.questao
+		id="1000"
+		created="2015-03-30 00:00:00"
+		updated="2015-03-30 00:00:00"
+		descricao="quantidade de irmaos"
+		tipo_questao="0"
+		versao_questionario_id="1000"
+	/>
+	
+</dataset>

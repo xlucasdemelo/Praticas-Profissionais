@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
+import org.springframework.util.Assert;
 
 import com.lucas.graca.domain.entity.account.User;
 
@@ -175,6 +176,7 @@ public class VersaoQuestionario extends AbstractEntity implements Serializable
 	 */
 	public void changeToAguardandoAprovacao()
 	{
+		Assert.isTrue( this.status == StatusVersaoQuestionario.RASCUNHO || this.status == StatusVersaoQuestionario.REJEITADO , "O status deve ser rascunho, ou rejeitado" );
 		this.status = StatusVersaoQuestionario.AGUARDANDO_APROVACAO;
 	}
 	
@@ -183,6 +185,7 @@ public class VersaoQuestionario extends AbstractEntity implements Serializable
 	 */
 	public void changeToAprovado()
 	{
+		Assert.isTrue( this.status == StatusVersaoQuestionario.AGUARDANDO_APROVACAO, "O status deve ser aguando aprovação" );
 		this.status = StatusVersaoQuestionario.APROVADO;
 	}
 	
@@ -191,7 +194,32 @@ public class VersaoQuestionario extends AbstractEntity implements Serializable
 	 */
 	public void changeToRejeitado()
 	{
+		Assert.isTrue( this.status == StatusVersaoQuestionario.AGUARDANDO_APROVACAO, "O status deve ser aguando aprovação" );
 		this.status = StatusVersaoQuestionario.REJEITADO;
+	}
+	
+	/**
+	 * 
+	 */
+	public void isRascunho()
+	{
+		Assert.isTrue( this.status == StatusVersaoQuestionario.RASCUNHO, "O status deve ser rascunho" );
+	}
+	
+	/**
+	 * 
+	 */
+	public void isAprovado()
+	{
+		Assert.isTrue( this.status == StatusVersaoQuestionario.APROVADO, "O status deve ser 'Aprovado'" );
+	}
+	
+	/**
+	 * 
+	 */
+	public void isAguardandoaprovacao()
+	{
+		Assert.isTrue( this.status == StatusVersaoQuestionario.AGUARDANDO_APROVACAO, "O status deve ser 'Aguardando aprovação'" );
 	}
 	
 	/*-------------------------------------------------------------------
