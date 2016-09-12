@@ -10,14 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.lucas.graca.domain.entity.account.User;
 import com.lucas.graca.domain.entity.account.UserRole;
 import com.lucas.graca.domain.entity.questionario.Questao;
 import com.lucas.graca.domain.entity.questionario.Questionario;
 import com.lucas.graca.domain.entity.questionario.StatusVersaoQuestionario;
+import com.lucas.graca.domain.entity.questionario.TipoQuestao;
 import com.lucas.graca.domain.entity.questionario.VersaoQuestionario;
 import com.lucas.graca.domain.repository.questionario.IQuestaoRepository;
 import com.lucas.graca.domain.repository.questionario.IQuestionarioReposiotry;
@@ -70,6 +73,8 @@ public class QuestionarioService
 		Assert.notNull( questionario );
 		Assert.isNull( questionario.getId(), "Id precisa ser nulo" );
 		Assert.notNull( questionario.getNome(), "Nome é obrigatório" );
+		
+		questionario.setUsuarioCriador( (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal() );
 		
 		VersaoQuestionario versao = new VersaoQuestionario();
 		versao.setNumeroVersao( 1 );
@@ -238,6 +243,16 @@ public class QuestionarioService
 		
 		return this.versaoQuestionarioRepository.findTopByQuestionarioIdOrderByNumeroVersaoDesc( questionarioId );
 		
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	@Transactional(readOnly=true)
+	public TipoQuestao[] listAllTiposQuestao()
+	{
+		return TipoQuestao.values();
 	}
 	
 	/*-------------------------------------------------------------------
