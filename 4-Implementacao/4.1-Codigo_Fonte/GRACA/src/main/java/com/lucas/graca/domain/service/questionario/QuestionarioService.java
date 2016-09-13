@@ -271,9 +271,10 @@ public class QuestionarioService
 		Assert.notNull( questao.getTipoQuestao(), "Tipo não pode ser nulo" );
 		Assert.notNull( questao.getVersaoQuestionario(), "Versão não pode ser nula");
 		
-		VersaoQuestionario versao = this.versaoQuestionarioRepository.findOne( questao.getVersaoQuestionario().getId() );
-		
+		VersaoQuestionario versao = this.versaoQuestionarioRepository.findTopByQuestionarioIdOrderByNumeroVersaoDesc( questao.getVersaoQuestionario().getQuestionario().getId() );
 		Assert.isTrue( versao.getStatus() == StatusVersaoQuestionario.RASCUNHO, "Status precisa ser rascunho" );
+		
+		questao.setVersaoQuestionario( versao );
 		
 		return this.questaoRepository.save( questao );
 	}

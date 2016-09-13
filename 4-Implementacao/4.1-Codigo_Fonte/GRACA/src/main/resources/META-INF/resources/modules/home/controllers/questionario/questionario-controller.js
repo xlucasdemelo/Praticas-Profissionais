@@ -223,10 +223,10 @@ angular.module('home')
 		 * 
 		 */
 		$scope.listQuestoesByVersao = function(){
-			questionarioService.listQuestoesByVersao(  $scope.model.questionario.entity.versao, $scope.model.questionario.page.pageable, {
+			questionarioService.listQuestoesByVersao(  $scope.model.questionario.entity.id, $scope.model.questionario.page.pageable, {
 				callback : function(result) {
 					$scope.totalPagesQuestionario = result.totalPages;
-					$scope.model.questionario.page = {//PageImpl
+					$scope.model.questao.page = {//PageImpl
 							content : result.content,
 							pageable : {//PageRequest
 								page : result.number,
@@ -266,10 +266,7 @@ angular.module('home')
 			questionarioService.insertQuestionario(  $scope.model.questionario.entity, {
                 callback : function(result) {
                 	$state.go( $scope.QUESTIONARIO_EDIT_STATE, {id: result.id}, {reload: true } )
-                	$scope.model.questionario.entity = result;
                 	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi cadastrado com sucesso!" );
-                	$scope.$apply();
-                	
                 },
                 errorHandler : function(message, exception) {
                 	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
@@ -306,6 +303,8 @@ angular.module('home')
 		$scope.openInsertUpdateQuestaoHandler = function( questao ) {
 			$mdDialog.show({
 			      controller: function( $scope, questao ) {
+			    	  	$scope.model.questao.entity = questao ? questao : new Questao();
+			    	  	
 						$scope.cancel = function() {
 							$mdDialog.cancel();
 						};
@@ -316,13 +315,14 @@ angular.module('home')
 				  		$scope.insertQuestao = function() {
 				  			$scope.model.questao.form.$submitted = true;
 				  			
-				  		//TODO mudar enum
-				  			$scope.model.questao.entity.tipoQuestao = "TEXTO";
-				  			
 				  			if ($scope.model.questao.form.$invalid ){
 				  				$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
 				  				return;
 				  			}
+				  			
+				  			$scope.model.questao.entity.versaoQuestionario = new VersaoQuestionario();
+				  			$scope.model.questao.entity.versaoQuestionario.questionario = new Questionario();
+				  			$scope.model.questao.entity.versaoQuestionario.questionario.id = $scope.model.questionario.entity.id;
 				  			
 				  			questionarioService.insertQuestao(  $scope.model.questao.entity, {
 				                  callback : function(result) {
@@ -347,6 +347,10 @@ angular.module('home')
 				  				return;
 				  			}
 				  			
+				  			$scope.model.questao.entity.versaoQuestionario = new VersaoQuestionario();
+				  			$scope.model.questao.entity.versaoQuestionario.questionario = new Questionario();
+				  			$scope.model.questao.entity.versaoQuestionario.questionario.id = $scope.model.questionario.entity.id;
+				  			
 				  			questionarioService.updateQuestao(  $scope.model.questao.entity, {
 				  				callback : function(result) {
 				  					$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi alterado com sucesso!" );
@@ -366,7 +370,7 @@ angular.module('home')
 			      templateUrl: './modules/home/views/questionario/popup/adicionar-questao-popup.html',			      
 			      resolve: {
 			    	  questao: function() {
-			    		  return questao;
+			    		  return angular.copy(questao);
 			    	  }
 			      },
 			      scope: $scope.$new(),
@@ -401,19 +405,16 @@ angular.module('home')
 		 * 
 		 */
 		$scope.listAllTiposQuestao = function(){
-			//TODO USAR ENUM CORRETO DO BACKEND
-//			questionarioService.listAllTiposQuestao(   {
-//                callback : function(result) {
-//                	$scope.allTiposQuestao = result;
-//                	$scope.$apply();
-//                },
-//                errorHandler : function(message, exception) {
-//                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
-//                    $scope.$apply();
-//                }
-//            });
-			
-			$scope.allTiposQuestao = ["TEXTO", "BOOLEANO"];
+			questionarioService.listAllTiposQuestao(   {
+                callback : function(result) {
+                	$scope.allTiposQuestao = result;
+                	$scope.$apply();
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
 		};
 		
 		/*-------------------------------------------------------------------

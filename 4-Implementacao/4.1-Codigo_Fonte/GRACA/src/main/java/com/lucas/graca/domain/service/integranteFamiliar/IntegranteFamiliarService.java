@@ -63,9 +63,12 @@ public class IntegranteFamiliarService
 	{
 		Assert.notNull( integranteFamiliar );
 		
-		integranteFamiliar.getEndereco().setId( null );
-		
-		this.enderecoRepository.save( integranteFamiliar.getEndereco() );
+		if (integranteFamiliar.getEndereco() != null)
+		{
+			integranteFamiliar.getEndereco().setId( null );
+			
+			this.enderecoRepository.save( integranteFamiliar.getEndereco() );
+		}
 		
 		return this.integranteFamiliarRepository.save( integranteFamiliar );
 	}

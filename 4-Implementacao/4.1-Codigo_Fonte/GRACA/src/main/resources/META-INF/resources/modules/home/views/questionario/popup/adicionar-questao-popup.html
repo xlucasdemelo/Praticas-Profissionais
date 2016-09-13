@@ -14,7 +14,7 @@
 		        
 	            <md-input-container layout="column" flex>
 		    		<label>Descrição</label>
-		    		<textarea maxlength="255" name="descricao" ng-model="model.questao.entity.nome" rows="5" required></textarea>
+		    		<textarea maxlength="255" name="descricao" ng-model="model.questao.entity.descricao" rows="5" required></textarea>
 	                
 	                <div ng-messages="model.questao.form.descricao.$error">
 	               		<div ng-message="required" ng-if="model.questao.form.$submitted">Campo obrigatório</div>

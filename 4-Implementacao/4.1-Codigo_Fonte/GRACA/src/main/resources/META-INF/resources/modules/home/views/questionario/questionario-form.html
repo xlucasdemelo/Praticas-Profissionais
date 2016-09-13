@@ -3,23 +3,23 @@
 	xmlns:th="http://www.thymeleaf.org" lang="pt">
 	
 	<div class="main-div" layout="column" flex>
-		<md-toolbar layout="row" style="z-index: 3;">
-	    	<div flex layout="row" class="default-header">
+		<md-toolbar layout="row">
+	    	<div layout="row" flex>
 		        <h1 class="md-toolbar-tools">Questionário</h1>
 	    	</div>
 	    	
-	    	<div layout="row" style="margin-right: 30px;">
+	    	<div layout="row" style="margin-right: 30px;" layout-align="end center">
 		        <md-button class="md-raised" ng-click="$state.go( QUESTIONARIO_LIST_STATE )">Voltar</md-button>
 		        <md-button class="md-raised md-accent" ng-click="save()">Salvar</md-button>
 	    	</div>
 	    </md-toolbar>
 			
-		<md-content layout="column" flex>
-			<md-tabs md-border-bottom md-selected="model.questionario.selectedTab" flex>
-				<md-tab label="Questionário">
-					<div class="default-frame" layout="column">
-						<md-toolbar layout class="md-hue-1">
-							<form novalidate name="model.questionario.form" class="default-form" flex>
+		<md-content layout="column" flex style="height:100%">
+			<md-tabs style="height:100%" md-border-bottom md-selected="model.questionario.selectedTab" flex>
+				<md-tab style="height:100%" label="Questionário">
+					<div style="height:100%" class="default-frame" layout="column">
+						<md-toolbar layout style="height:100%" class="md-hue-1">
+							<form novalidate name="model.questionario.form" style="height:100%" class="default-form" flex>
 								<div class="default-info" flex> 
 									<span>INFORMAÇÕES DO QUESTIONÁRIO</span>
 								</div>
@@ -53,7 +53,7 @@
 					</div>
 				</md-tab>
 				
-				<md-tab label="Questões">
+				<md-tab label="Questões" ng-click="listQuestoesByVersao()">
 					<div class="default-frame" layout="column">
 						<div layout="row" flex>
 							<div class="default-info" flex>QUESTÕES</div>
@@ -66,13 +66,13 @@
 									<thead md-head md-order="" md-on-reorder="">
 										<tr md-row>
 											<th md-column>Nome</th>
-											<th md-column md-numeric md-order-by="">Tipo</th>
+											<th md-column md-order-by="">Tipo</th>
 										</tr>
 									</thead>
 									<tbody md-body>
-										<tr md-row md-select="dessert" style="cursor:pointer" ng-click="$state.go( FAMILIA_EDIT_STATE, {id:familia.id} )" md-select-id="name" md-auto-select ng-repeat="familia in model.familia.page.content">
-											<td md-cell>{{::questionario.nome}}</td>
-											<td md-cell>{{::questionario.tipo}}</td>
+										<tr md-row md-select="dessert" style="cursor:pointer" ng-click="openInsertUpdateQuestaoHandler( questao )" md-auto-select ng-repeat="questao in model.questao.page.content track by questao.id">
+											<td md-cell>{{ questao.descricao }}</td>
+											<td md-cell>{{ questao.tipoQuestao | translate }}</td>
 										</tr>
 									</tbody>
 								</table>

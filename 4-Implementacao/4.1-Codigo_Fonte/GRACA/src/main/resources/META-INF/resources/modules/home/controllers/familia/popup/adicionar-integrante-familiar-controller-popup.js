@@ -100,7 +100,7 @@ angular.module('home')
 			$scope.model.integranteFamiliar.entity = new IntegranteFamiliar();
 			$scope.model.integranteFamiliar.entity.familia = $scope.model.familia;
 			
-			if ($scope.model.familia.endereco) {
+			if ($scope.model.familia.endereco.complemento) {
 				$scope.model.integranteFamiliar.entity.endereco = angular.copy($scope.model.familia.endereco);
 				
 				$scope.model.pais.selectedItem = $scope.model.integranteFamiliar.entity.endereco.cidade.estado.pais;

@@ -18,6 +18,5 @@ public interface IConfiguracaoAvaliacaorepository extends JpaRepository<Configur
 	 * 
 	 * @return
 	 */
-	public ConfiguracaoAvaliacaoIndividual findTopByIdOrderByIdDesc();
 	
 }

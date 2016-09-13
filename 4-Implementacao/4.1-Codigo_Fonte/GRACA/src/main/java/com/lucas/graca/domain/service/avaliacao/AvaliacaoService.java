@@ -88,7 +88,7 @@ public class AvaliacaoService
 		Assert.isNull( avaliacaoIndividual.getId(), "Id precisa ser nulo" );
 		Assert.notNull( avaliacaoIndividual.getCrianca(), "Criança é obrigatória" );
 		
-		ConfiguracaoAvaliacaoIndividual configuracaoAvaliacaoIndividual = this.configuracaoAvaliacaorepository.findTopByIdOrderByIdDesc();
+		ConfiguracaoAvaliacaoIndividual configuracaoAvaliacaoIndividual = this.configuracaoAvaliacaorepository.findOne(1L );
 		
 		avaliacaoIndividual.setQuestionario( configuracaoAvaliacaoIndividual.getQuestionario() );
 		avaliacaoIndividual.setAvaliador( (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal() );
