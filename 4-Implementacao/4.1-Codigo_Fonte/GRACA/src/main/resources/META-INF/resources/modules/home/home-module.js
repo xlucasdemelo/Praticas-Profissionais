@@ -17,18 +17,16 @@
 		    };
 		    
 		
-//		$mdThemingProvider.theme('default')
-//	    .primaryPalette('light-blue', {
-//	      'default': '300', // by default use shade 400 from the pink palette for primary intentions
-//	      'hue-1': '100', // use shade 100 for the <code>md-hue-1</code> class
-//	      'hue-2': '600', // use shade 600 for the <code>md-hue-2</code> class
-//	      'hue-3': 'A100' // use shade A100 for the <code>md-hue-3</code> class
-//	    })
-//	    // If you specify less than all of the keys, it will inherit from the
-//	    // default shades
-//	    .accentPalette('red', {
-//	      'default': '700' // use shade 200 for default, and keep all other shades the same
-//	    });
+		$mdThemingProvider.theme('default')
+	    .primaryPalette('indigo', {
+	      'default': '800', // by default use shade 400 from the pink palette for primary intentions
+	      'hue-1': '50', // use shade 100 for the <code>md-hue-1</code> class
+	    })
+	    // If you specify less than all of the keys, it will inherit from the
+	    // default shades
+	    .accentPalette('amber', {
+	      'default': '700' // use shade 200 for default, and keep all other shades the same
+	    });
 
 		
 		//-------
@@ -89,6 +87,26 @@
 	    .state('crianca.edit',{
 	        url:'/editar/{id:[0-9]{1,10}}',
 	        templateUrl: './modules/home/views/crianca/crianca-form.html'
+	     })
+	     
+	     //QUESTIONARIO
+	     $stateProvider.state('questionario',{
+	    	 abstract: true,
+	    	 url : "/questionario",
+	    	 template: '<div layout="column" flex ui-view=""/>',
+	    	 controller : 'QuestionarioController as questionarioController'
+	     })
+	     .state('questionario.list',{
+	    	 url:'/listar',
+	    	 templateUrl: './modules/home/views/questionario/questionario-list.html'
+	     })
+	     .state('questionario.add',{
+	    	 url:'/inserir',
+	    	 templateUrl: './modules/home/views/questionario/questionario-form.html'
+	     })
+	     .state('questionario.edit',{
+	    	 url:'/editar/{id:[0-9]{1,10}}',
+	    	 templateUrl: './modules/home/views/questionario/questionario-form.html'
 	     })
 	     
 	     //Plano de atendimento familiar

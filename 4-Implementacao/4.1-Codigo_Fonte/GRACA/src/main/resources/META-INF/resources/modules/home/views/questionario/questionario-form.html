@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" 
+	xmlns:th="http://www.thymeleaf.org" lang="pt">
+	
+	<div class="main-div" layout="column" flex>
+		<md-toolbar layout="row" style="z-index: 3;">
+	    	<div flex layout="row" class="default-header">
+		        <h1 class="md-toolbar-tools">Questionário</h1>
+	    	</div>
+	    	
+	    	<div layout="row" style="margin-right: 30px;">
+		        <md-button class="md-raised" ng-click="$state.go( QUESTIONARIO_LIST_STATE )">Voltar</md-button>
+		        <md-button class="md-raised md-accent" ng-click="save()">Salvar</md-button>
+	    	</div>
+	    </md-toolbar>
+			
+		<md-content layout="column" flex>
+			<md-tabs md-border-bottom md-selected="model.questionario.selectedTab" flex>
+				<md-tab label="Questionário">
+					<div class="default-frame" layout="column">
+						<md-toolbar layout class="md-hue-1">
+							<form novalidate name="model.questionario.form" class="default-form" flex>
+								<div class="default-info" flex> 
+									<span>INFORMAÇÕES DO QUESTIONÁRIO</span>
+								</div>
+								
+								<div style="margin-bottom: 20px;" flex>Status: TODO</div>
+								
+				    			<div layout="column">
+					    			<md-input-container layout="column" flex="30" style="margin-right:30px">
+							    		<label>Nome</label>
+						                <input md-maxlength="255" name="nome" required ng-model="model.questionario.entity.nome">
+						
+						                <div ng-messages="model.questionario.form.nome.$error">
+						                	<div ng-message="required" ng-if="model.questionario.form.$submitted">Campo Obrigatório</div>
+						                	<div ng-message="md-maxlength" ng-if="model.questionario.form.$submitted">Limite de caracteres excedido</div>
+						                </div>
+						            </md-input-container>
+				    			</div>
+					            
+					            <div layout="column">
+						            <md-input-container layout="column" flex>
+							    		<label>Descrição</label>
+							    		<textarea maxlength="255" name="descricao" ng-model="model.questionario.entity.descricao" rows="5" required></textarea>
+						                
+						                <div ng-messages="model.questionario.form.descricao.$error">
+						               		<div ng-message="required" ng-if="model.questionario.form.$submitted">Campo obrigatório</div>
+						                </div>
+						            </md-input-container>
+								</div>
+							</form>
+						</md-toolbar>
+					</div>
+				</md-tab>
+				
+				<md-tab label="Questões">
+					<div class="default-frame" layout="column">
+						<div layout="row" flex>
+							<div class="default-info" flex>QUESTÕES</div>
+						 	<md-button class="md-raised" ng-click="openInsertUpdateQuestaoHandler()">Nova Questão</md-button>
+						</div>
+						
+						<md-toolbar class="md-hue-1" layout flex>
+							<md-table-container flex>
+								<table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+									<thead md-head md-order="" md-on-reorder="">
+										<tr md-row>
+											<th md-column>Nome</th>
+											<th md-column md-numeric md-order-by="">Tipo</th>
+										</tr>
+									</thead>
+									<tbody md-body>
+										<tr md-row md-select="dessert" style="cursor:pointer" ng-click="$state.go( FAMILIA_EDIT_STATE, {id:familia.id} )" md-select-id="name" md-auto-select ng-repeat="familia in model.familia.page.content">
+											<td md-cell>{{::questionario.nome}}</td>
+											<td md-cell>{{::questionario.tipo}}</td>
+										</tr>
+									</tbody>
+								</table>
+							</md-table-container>
+						</md-toolbar>
+					</div>
+				</md-tab>
+			</md-tabs>
+		</md-content>
+	</div>
+
+</html>
