@@ -39,7 +39,6 @@ public class Resposta extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
-	@NotNull
 	private String Resposta;
 	
 	/**
