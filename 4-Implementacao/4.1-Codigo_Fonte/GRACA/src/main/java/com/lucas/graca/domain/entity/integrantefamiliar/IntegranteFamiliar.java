@@ -25,10 +25,11 @@ import javax.validation.constraints.NotNull;
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 
-import com.lucas.graca.domain.entity.abstractEntity.AbstractEntity;
 import com.lucas.graca.domain.entity.endereco.Endereco;
 import com.lucas.graca.domain.entity.familia.Familia;
 import com.lucas.graca.domain.entity.familia.Sexo;
+
+import br.com.eits.common.domain.entity.AbstractEntity;
 
 /**
  * @author lucas
@@ -37,7 +38,7 @@ import com.lucas.graca.domain.entity.familia.Sexo;
 @Entity
 @Audited
 @Table(name = "integrante_familiar")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 @DataTransferObject(javascript = "IntegranteFamiliar")
 public class IntegranteFamiliar extends AbstractEntity implements Serializable
 {

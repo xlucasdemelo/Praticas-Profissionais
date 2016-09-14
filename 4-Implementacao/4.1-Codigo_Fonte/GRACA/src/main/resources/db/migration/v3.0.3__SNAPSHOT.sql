@@ -17,7 +17,28 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- TOC entry 176 (class 1259 OID 227942)
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.3.14
+-- Dumped by pg_dump version 9.3.13
+-- Started on 2016-09-14 05:58:25 BRT
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+
+SET search_path = auditing, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- TOC entry 177 (class 1259 OID 384396)
 -- Name: apoio_audited; Type: TABLE; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -33,7 +54,7 @@ CREATE TABLE apoio_audited (
 ALTER TABLE auditing.apoio_audited OWNER TO postgres;
 
 --
--- TOC entry 223 (class 1259 OID 232423)
+-- TOC entry 179 (class 1259 OID 384406)
 -- Name: casa_lar_audited; Type: TABLE; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -51,7 +72,7 @@ CREATE TABLE casa_lar_audited (
 ALTER TABLE auditing.casa_lar_audited OWNER TO postgres;
 
 --
--- TOC entry 177 (class 1259 OID 227947)
+-- TOC entry 180 (class 1259 OID 384411)
 -- Name: cidade_audited; Type: TABLE; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -67,25 +88,13 @@ CREATE TABLE cidade_audited (
 ALTER TABLE auditing.cidade_audited OWNER TO postgres;
 
 --
--- TOC entry 178 (class 1259 OID 227952)
+-- TOC entry 182 (class 1259 OID 384421)
 -- Name: crianca_audited; Type: TABLE; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE crianca_audited (
     id bigint NOT NULL,
     revision bigint NOT NULL,
-    revision_type smallint,
-    ativo boolean,
-    data_nascimento timestamp without time zone,
-    filiacao character varying(255),
-    grau_escolaridade integer,
-    nome character varying(255),
-    ocupacao character varying(255),
-    renda_mensal numeric(19,2),
-    sexo integer,
-    telefone character varying(255),
-    endereco_id bigint,
-    familia_id bigint,
     altura character varying(255),
     data_acolhimento timestamp without time zone,
     data_elaboracaopia timestamp without time zone,
@@ -102,7 +111,7 @@ CREATE TABLE crianca_audited (
 ALTER TABLE auditing.crianca_audited OWNER TO postgres;
 
 --
--- TOC entry 179 (class 1259 OID 227960)
+-- TOC entry 183 (class 1259 OID 384429)
 -- Name: documento_crianca_audited; Type: TABLE; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -119,7 +128,7 @@ CREATE TABLE documento_crianca_audited (
 ALTER TABLE auditing.documento_crianca_audited OWNER TO postgres;
 
 --
--- TOC entry 180 (class 1259 OID 227965)
+-- TOC entry 184 (class 1259 OID 384434)
 -- Name: documento_integrante_familiar_audited; Type: TABLE; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -136,7 +145,7 @@ CREATE TABLE documento_integrante_familiar_audited (
 ALTER TABLE auditing.documento_integrante_familiar_audited OWNER TO postgres;
 
 --
--- TOC entry 181 (class 1259 OID 227970)
+-- TOC entry 185 (class 1259 OID 384439)
 -- Name: encaminhamento_audited; Type: TABLE; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -159,7 +168,7 @@ CREATE TABLE encaminhamento_audited (
 ALTER TABLE auditing.encaminhamento_audited OWNER TO postgres;
 
 --
--- TOC entry 182 (class 1259 OID 227978)
+-- TOC entry 186 (class 1259 OID 384447)
 -- Name: endereco_audited; Type: TABLE; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -178,7 +187,7 @@ CREATE TABLE endereco_audited (
 ALTER TABLE auditing.endereco_audited OWNER TO postgres;
 
 --
--- TOC entry 183 (class 1259 OID 227986)
+-- TOC entry 187 (class 1259 OID 384455)
 -- Name: estado_audited; Type: TABLE; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -194,7 +203,7 @@ CREATE TABLE estado_audited (
 ALTER TABLE auditing.estado_audited OWNER TO postgres;
 
 --
--- TOC entry 184 (class 1259 OID 227991)
+-- TOC entry 188 (class 1259 OID 384460)
 -- Name: familia_audited; Type: TABLE; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -219,7 +228,7 @@ CREATE TABLE familia_audited (
 ALTER TABLE auditing.familia_audited OWNER TO postgres;
 
 --
--- TOC entry 185 (class 1259 OID 227999)
+-- TOC entry 189 (class 1259 OID 384468)
 -- Name: integrante_familiar_audited; Type: TABLE; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -244,7 +253,7 @@ CREATE TABLE integrante_familiar_audited (
 ALTER TABLE auditing.integrante_familiar_audited OWNER TO postgres;
 
 --
--- TOC entry 186 (class 1259 OID 228007)
+-- TOC entry 190 (class 1259 OID 384476)
 -- Name: pais_audited; Type: TABLE; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -259,7 +268,7 @@ CREATE TABLE pais_audited (
 ALTER TABLE auditing.pais_audited OWNER TO postgres;
 
 --
--- TOC entry 187 (class 1259 OID 228012)
+-- TOC entry 191 (class 1259 OID 384481)
 -- Name: parecer_audited; Type: TABLE; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -277,7 +286,7 @@ CREATE TABLE parecer_audited (
 ALTER TABLE auditing.parecer_audited OWNER TO postgres;
 
 --
--- TOC entry 188 (class 1259 OID 228017)
+-- TOC entry 192 (class 1259 OID 384486)
 -- Name: parente_audited; Type: TABLE; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -294,7 +303,7 @@ CREATE TABLE parente_audited (
 ALTER TABLE auditing.parente_audited OWNER TO postgres;
 
 --
--- TOC entry 189 (class 1259 OID 228022)
+-- TOC entry 193 (class 1259 OID 384491)
 -- Name: plano_atendimento_familiar_audited; Type: TABLE; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -312,7 +321,7 @@ CREATE TABLE plano_atendimento_familiar_audited (
 ALTER TABLE auditing.plano_atendimento_familiar_audited OWNER TO postgres;
 
 --
--- TOC entry 190 (class 1259 OID 228027)
+-- TOC entry 196 (class 1259 OID 384509)
 -- Name: rede_apoio_audited; Type: TABLE; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -320,6 +329,7 @@ CREATE TABLE rede_apoio_audited (
     id bigint NOT NULL,
     revision bigint NOT NULL,
     revision_type smallint,
+    enabled boolean,
     nome character varying(255),
     telefone character varying(255),
     endereco_id bigint,
@@ -330,7 +340,7 @@ CREATE TABLE rede_apoio_audited (
 ALTER TABLE auditing.rede_apoio_audited OWNER TO postgres;
 
 --
--- TOC entry 191 (class 1259 OID 228035)
+-- TOC entry 197 (class 1259 OID 384517)
 -- Name: responsavel_audited; Type: TABLE; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -348,7 +358,7 @@ CREATE TABLE responsavel_audited (
 ALTER TABLE auditing.responsavel_audited OWNER TO postgres;
 
 --
--- TOC entry 193 (class 1259 OID 228045)
+-- TOC entry 200 (class 1259 OID 384532)
 -- Name: revision; Type: TABLE; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -362,7 +372,7 @@ CREATE TABLE revision (
 ALTER TABLE auditing.revision OWNER TO postgres;
 
 --
--- TOC entry 192 (class 1259 OID 228043)
+-- TOC entry 199 (class 1259 OID 384530)
 -- Name: revision_id_seq; Type: SEQUENCE; Schema: auditing; Owner: postgres
 --
 
@@ -377,8 +387,8 @@ CREATE SEQUENCE revision_id_seq
 ALTER TABLE auditing.revision_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2313 (class 0 OID 0)
--- Dependencies: 192
+-- TOC entry 2328 (class 0 OID 0)
+-- Dependencies: 199
 -- Name: revision_id_seq; Type: SEQUENCE OWNED BY; Schema: auditing; Owner: postgres
 --
 
@@ -386,7 +396,7 @@ ALTER SEQUENCE revision_id_seq OWNED BY revision.id;
 
 
 --
--- TOC entry 194 (class 1259 OID 228051)
+-- TOC entry 201 (class 1259 OID 384538)
 -- Name: user_audited; Type: TABLE; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -409,7 +419,7 @@ ALTER TABLE auditing.user_audited OWNER TO postgres;
 SET search_path = public, pg_catalog;
 
 --
--- TOC entry 175 (class 1259 OID 227936)
+-- TOC entry 176 (class 1259 OID 384390)
 -- Name: apoio; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -425,7 +435,7 @@ CREATE TABLE apoio (
 ALTER TABLE public.apoio OWNER TO postgres;
 
 --
--- TOC entry 174 (class 1259 OID 227934)
+-- TOC entry 175 (class 1259 OID 384388)
 -- Name: apoio_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -440,8 +450,8 @@ CREATE SEQUENCE apoio_id_seq
 ALTER TABLE public.apoio_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2314 (class 0 OID 0)
--- Dependencies: 174
+-- TOC entry 2329 (class 0 OID 0)
+-- Dependencies: 175
 -- Name: apoio_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -449,7 +459,7 @@ ALTER SEQUENCE apoio_id_seq OWNED BY apoio.id;
 
 
 --
--- TOC entry 225 (class 1259 OID 232430)
+-- TOC entry 206 (class 1259 OID 384558)
 -- Name: casa_lar; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -467,7 +477,7 @@ CREATE TABLE casa_lar (
 ALTER TABLE public.casa_lar OWNER TO postgres;
 
 --
--- TOC entry 224 (class 1259 OID 232428)
+-- TOC entry 205 (class 1259 OID 384556)
 -- Name: casa_lar_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -482,8 +492,8 @@ CREATE SEQUENCE casa_lar_id_seq
 ALTER TABLE public.casa_lar_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2315 (class 0 OID 0)
--- Dependencies: 224
+-- TOC entry 2330 (class 0 OID 0)
+-- Dependencies: 205
 -- Name: casa_lar_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -491,7 +501,7 @@ ALTER SEQUENCE casa_lar_id_seq OWNED BY casa_lar.id;
 
 
 --
--- TOC entry 196 (class 1259 OID 228058)
+-- TOC entry 208 (class 1259 OID 384566)
 -- Name: cidade; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -507,7 +517,7 @@ CREATE TABLE cidade (
 ALTER TABLE public.cidade OWNER TO postgres;
 
 --
--- TOC entry 195 (class 1259 OID 228056)
+-- TOC entry 207 (class 1259 OID 384564)
 -- Name: cidade_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -522,8 +532,8 @@ CREATE SEQUENCE cidade_id_seq
 ALTER TABLE public.cidade_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2316 (class 0 OID 0)
--- Dependencies: 195
+-- TOC entry 2331 (class 0 OID 0)
+-- Dependencies: 207
 -- Name: cidade_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -531,50 +541,29 @@ ALTER SEQUENCE cidade_id_seq OWNED BY cidade.id;
 
 
 --
--- TOC entry 197 (class 1259 OID 228064)
+-- TOC entry 211 (class 1259 OID 384580)
 -- Name: crianca; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
 CREATE TABLE crianca (
-    id bigint NOT NULL,
-    created timestamp without time zone NOT NULL,
-    updated timestamp without time zone,
-    ativo boolean NOT NULL,
-    data_nascimento timestamp without time zone NOT NULL,
-    filiacao character varying(255) ,
-    grau_escolaridade integer ,
-    nome character varying(255) NOT NULL,
-    ocupacao character varying(255) ,
-    renda_mensal numeric(19,2) ,
-    sexo integer NOT NULL,
-    telefone character varying(255) ,
-    endereco_id bigint,
-    familia_id bigint,
     altura character varying(255),
     data_acolhimento timestamp without time zone NOT NULL,
-    data_elaboracaopia timestamp without time zone ,
+    data_elaboracaopia timestamp without time zone,
     data_limite timestamp without time zone,
     entidade_acolhimento character varying(255),
-    etnia integer ,
+    etnia integer,
     motivo_acolhimento character varying(255) NOT NULL,
     numero_processo character varying(255) NOT NULL,
     peso character varying(255),
+    id bigint NOT NULL,
     casa_lar_id bigint
 );
 
 
 ALTER TABLE public.crianca OWNER TO postgres;
 
---CREATE SEQUENCE crianca_id_seq
- --   START WITH 1
-  --  INCREMENT BY 1
-   -- NO MINVALUE
-    --NO MAXVALUE
-    --CACHE 1;
-
-    --ALTER TABLE public.crianca_id_seq OWNER TO postgres;
 --
--- TOC entry 199 (class 1259 OID 228074)
+-- TOC entry 213 (class 1259 OID 384590)
 -- Name: documento_crianca; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -591,7 +580,7 @@ CREATE TABLE documento_crianca (
 ALTER TABLE public.documento_crianca OWNER TO postgres;
 
 --
--- TOC entry 198 (class 1259 OID 228072)
+-- TOC entry 212 (class 1259 OID 384588)
 -- Name: documento_crianca_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -606,8 +595,8 @@ CREATE SEQUENCE documento_crianca_id_seq
 ALTER TABLE public.documento_crianca_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2317 (class 0 OID 0)
--- Dependencies: 198
+-- TOC entry 2332 (class 0 OID 0)
+-- Dependencies: 212
 -- Name: documento_crianca_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -615,7 +604,7 @@ ALTER SEQUENCE documento_crianca_id_seq OWNED BY documento_crianca.id;
 
 
 --
--- TOC entry 201 (class 1259 OID 228082)
+-- TOC entry 215 (class 1259 OID 384598)
 -- Name: documento_integrante_familiar; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -632,7 +621,7 @@ CREATE TABLE documento_integrante_familiar (
 ALTER TABLE public.documento_integrante_familiar OWNER TO postgres;
 
 --
--- TOC entry 200 (class 1259 OID 228080)
+-- TOC entry 214 (class 1259 OID 384596)
 -- Name: documento_integrante_familiar_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -647,8 +636,8 @@ CREATE SEQUENCE documento_integrante_familiar_id_seq
 ALTER TABLE public.documento_integrante_familiar_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2318 (class 0 OID 0)
--- Dependencies: 200
+-- TOC entry 2333 (class 0 OID 0)
+-- Dependencies: 214
 -- Name: documento_integrante_familiar_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -656,7 +645,7 @@ ALTER SEQUENCE documento_integrante_familiar_id_seq OWNED BY documento_integrant
 
 
 --
--- TOC entry 203 (class 1259 OID 228090)
+-- TOC entry 217 (class 1259 OID 384606)
 -- Name: encaminhamento; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -680,7 +669,7 @@ CREATE TABLE encaminhamento (
 ALTER TABLE public.encaminhamento OWNER TO postgres;
 
 --
--- TOC entry 202 (class 1259 OID 228088)
+-- TOC entry 216 (class 1259 OID 384604)
 -- Name: encaminhamento_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -695,8 +684,8 @@ CREATE SEQUENCE encaminhamento_id_seq
 ALTER TABLE public.encaminhamento_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2319 (class 0 OID 0)
--- Dependencies: 202
+-- TOC entry 2334 (class 0 OID 0)
+-- Dependencies: 216
 -- Name: encaminhamento_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -704,7 +693,7 @@ ALTER SEQUENCE encaminhamento_id_seq OWNED BY encaminhamento.id;
 
 
 --
--- TOC entry 205 (class 1259 OID 228102)
+-- TOC entry 219 (class 1259 OID 384618)
 -- Name: endereco; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -723,7 +712,7 @@ CREATE TABLE endereco (
 ALTER TABLE public.endereco OWNER TO postgres;
 
 --
--- TOC entry 204 (class 1259 OID 228100)
+-- TOC entry 218 (class 1259 OID 384616)
 -- Name: endereco_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -738,8 +727,8 @@ CREATE SEQUENCE endereco_id_seq
 ALTER TABLE public.endereco_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2320 (class 0 OID 0)
--- Dependencies: 204
+-- TOC entry 2335 (class 0 OID 0)
+-- Dependencies: 218
 -- Name: endereco_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -747,7 +736,7 @@ ALTER SEQUENCE endereco_id_seq OWNED BY endereco.id;
 
 
 --
--- TOC entry 207 (class 1259 OID 228113)
+-- TOC entry 221 (class 1259 OID 384629)
 -- Name: estado; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -763,7 +752,7 @@ CREATE TABLE estado (
 ALTER TABLE public.estado OWNER TO postgres;
 
 --
--- TOC entry 206 (class 1259 OID 228111)
+-- TOC entry 220 (class 1259 OID 384627)
 -- Name: estado_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -778,8 +767,8 @@ CREATE SEQUENCE estado_id_seq
 ALTER TABLE public.estado_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2321 (class 0 OID 0)
--- Dependencies: 206
+-- TOC entry 2336 (class 0 OID 0)
+-- Dependencies: 220
 -- Name: estado_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -787,7 +776,7 @@ ALTER SEQUENCE estado_id_seq OWNED BY estado.id;
 
 
 --
--- TOC entry 209 (class 1259 OID 228121)
+-- TOC entry 223 (class 1259 OID 384637)
 -- Name: familia; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -812,7 +801,7 @@ CREATE TABLE familia (
 ALTER TABLE public.familia OWNER TO postgres;
 
 --
--- TOC entry 208 (class 1259 OID 228119)
+-- TOC entry 222 (class 1259 OID 384635)
 -- Name: familia_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -827,8 +816,8 @@ CREATE SEQUENCE familia_id_seq
 ALTER TABLE public.familia_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2322 (class 0 OID 0)
--- Dependencies: 208
+-- TOC entry 2337 (class 0 OID 0)
+-- Dependencies: 222
 -- Name: familia_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -836,7 +825,7 @@ ALTER SEQUENCE familia_id_seq OWNED BY familia.id;
 
 
 --
--- TOC entry 210 (class 1259 OID 228130)
+-- TOC entry 225 (class 1259 OID 384648)
 -- Name: integrante_familiar; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -846,13 +835,13 @@ CREATE TABLE integrante_familiar (
     updated timestamp without time zone,
     ativo boolean NOT NULL,
     data_nascimento timestamp without time zone NOT NULL,
-    filiacao character varying(255) ,
-    grau_escolaridade integer ,
+    filiacao character varying(255),
+    grau_escolaridade integer,
     nome character varying(255) NOT NULL,
-    ocupacao character varying(255) ,
-    renda_mensal numeric(19,2) ,
+    ocupacao character varying(255),
+    renda_mensal numeric(19,2),
     sexo integer NOT NULL,
-    telefone character varying(255) NOT NULL,
+    telefone character varying(255),
     endereco_id bigint,
     familia_id bigint
 );
@@ -861,7 +850,31 @@ CREATE TABLE integrante_familiar (
 ALTER TABLE public.integrante_familiar OWNER TO postgres;
 
 --
--- TOC entry 212 (class 1259 OID 228140)
+-- TOC entry 224 (class 1259 OID 384646)
+-- Name: integrante_familiar_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE integrante_familiar_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.integrante_familiar_id_seq OWNER TO postgres;
+
+--
+-- TOC entry 2338 (class 0 OID 0)
+-- Dependencies: 224
+-- Name: integrante_familiar_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE integrante_familiar_id_seq OWNED BY integrante_familiar.id;
+
+
+--
+-- TOC entry 227 (class 1259 OID 384659)
 -- Name: pais; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -876,7 +889,7 @@ CREATE TABLE pais (
 ALTER TABLE public.pais OWNER TO postgres;
 
 --
--- TOC entry 211 (class 1259 OID 228138)
+-- TOC entry 226 (class 1259 OID 384657)
 -- Name: pais_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -891,8 +904,8 @@ CREATE SEQUENCE pais_id_seq
 ALTER TABLE public.pais_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2323 (class 0 OID 0)
--- Dependencies: 211
+-- TOC entry 2339 (class 0 OID 0)
+-- Dependencies: 226
 -- Name: pais_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -900,7 +913,7 @@ ALTER SEQUENCE pais_id_seq OWNED BY pais.id;
 
 
 --
--- TOC entry 214 (class 1259 OID 228148)
+-- TOC entry 229 (class 1259 OID 384667)
 -- Name: parecer; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -918,7 +931,7 @@ CREATE TABLE parecer (
 ALTER TABLE public.parecer OWNER TO postgres;
 
 --
--- TOC entry 213 (class 1259 OID 228146)
+-- TOC entry 228 (class 1259 OID 384665)
 -- Name: parecer_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -933,8 +946,8 @@ CREATE SEQUENCE parecer_id_seq
 ALTER TABLE public.parecer_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2324 (class 0 OID 0)
--- Dependencies: 213
+-- TOC entry 2340 (class 0 OID 0)
+-- Dependencies: 228
 -- Name: parecer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -942,7 +955,7 @@ ALTER SEQUENCE parecer_id_seq OWNED BY parecer.id;
 
 
 --
--- TOC entry 216 (class 1259 OID 228156)
+-- TOC entry 231 (class 1259 OID 384675)
 -- Name: parente; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -959,7 +972,7 @@ CREATE TABLE parente (
 ALTER TABLE public.parente OWNER TO postgres;
 
 --
--- TOC entry 215 (class 1259 OID 228154)
+-- TOC entry 230 (class 1259 OID 384673)
 -- Name: parente_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -974,8 +987,8 @@ CREATE SEQUENCE parente_id_seq
 ALTER TABLE public.parente_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2325 (class 0 OID 0)
--- Dependencies: 215
+-- TOC entry 2341 (class 0 OID 0)
+-- Dependencies: 230
 -- Name: parente_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -983,7 +996,7 @@ ALTER SEQUENCE parente_id_seq OWNED BY parente.id;
 
 
 --
--- TOC entry 217 (class 1259 OID 228162)
+-- TOC entry 232 (class 1259 OID 384681)
 -- Name: plano_atendimento_familiar; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1002,7 +1015,7 @@ CREATE TABLE plano_atendimento_familiar (
 ALTER TABLE public.plano_atendimento_familiar OWNER TO postgres;
 
 --
--- TOC entry 219 (class 1259 OID 228170)
+-- TOC entry 238 (class 1259 OID 384708)
 -- Name: rede_apoio; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1010,17 +1023,18 @@ CREATE TABLE rede_apoio (
     id bigint NOT NULL,
     created timestamp without time zone NOT NULL,
     updated timestamp without time zone,
+    enabled boolean NOT NULL,
     nome character varying(255) NOT NULL,
     telefone character varying(255),
     endereco_id bigint,
-    responsavel_id bigint
+    responsavel_id bigint NOT NULL
 );
 
 
 ALTER TABLE public.rede_apoio OWNER TO postgres;
 
 --
--- TOC entry 218 (class 1259 OID 228168)
+-- TOC entry 237 (class 1259 OID 384706)
 -- Name: rede_apoio_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1035,8 +1049,8 @@ CREATE SEQUENCE rede_apoio_id_seq
 ALTER TABLE public.rede_apoio_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2326 (class 0 OID 0)
--- Dependencies: 218
+-- TOC entry 2342 (class 0 OID 0)
+-- Dependencies: 237
 -- Name: rede_apoio_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1044,7 +1058,7 @@ ALTER SEQUENCE rede_apoio_id_seq OWNED BY rede_apoio.id;
 
 
 --
--- TOC entry 221 (class 1259 OID 228181)
+-- TOC entry 240 (class 1259 OID 384719)
 -- Name: responsavel; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1062,7 +1076,7 @@ CREATE TABLE responsavel (
 ALTER TABLE public.responsavel OWNER TO postgres;
 
 --
--- TOC entry 220 (class 1259 OID 228179)
+-- TOC entry 239 (class 1259 OID 384717)
 -- Name: responsavel_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1077,8 +1091,8 @@ CREATE SEQUENCE responsavel_id_seq
 ALTER TABLE public.responsavel_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2327 (class 0 OID 0)
--- Dependencies: 220
+-- TOC entry 2343 (class 0 OID 0)
+-- Dependencies: 239
 -- Name: responsavel_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1086,7 +1100,7 @@ ALTER SEQUENCE responsavel_id_seq OWNED BY responsavel.id;
 
 
 --
--- TOC entry 173 (class 1259 OID 227927)
+-- TOC entry 174 (class 1259 OID 384381)
 -- Name: user; Type: TABLE; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1108,7 +1122,7 @@ CREATE TABLE "user" (
 ALTER TABLE public."user" OWNER TO postgres;
 
 --
--- TOC entry 172 (class 1259 OID 227925)
+-- TOC entry 173 (class 1259 OID 384379)
 -- Name: user_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -1123,8 +1137,8 @@ CREATE SEQUENCE user_id_seq
 ALTER TABLE public.user_id_seq OWNER TO postgres;
 
 --
--- TOC entry 2328 (class 0 OID 0)
--- Dependencies: 172
+-- TOC entry 2344 (class 0 OID 0)
+-- Dependencies: 173
 -- Name: user_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
@@ -1134,7 +1148,7 @@ ALTER SEQUENCE user_id_seq OWNED BY "user".id;
 SET search_path = auditing, pg_catalog;
 
 --
--- TOC entry 2055 (class 2604 OID 228048)
+-- TOC entry 2073 (class 2604 OID 384535)
 -- Name: id; Type: DEFAULT; Schema: auditing; Owner: postgres
 --
 
@@ -1144,7 +1158,7 @@ ALTER TABLE ONLY revision ALTER COLUMN id SET DEFAULT nextval('revision_id_seq':
 SET search_path = public, pg_catalog;
 
 --
--- TOC entry 2054 (class 2604 OID 227939)
+-- TOC entry 2072 (class 2604 OID 384393)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1152,7 +1166,7 @@ ALTER TABLE ONLY apoio ALTER COLUMN id SET DEFAULT nextval('apoio_id_seq'::regcl
 
 
 --
--- TOC entry 2070 (class 2604 OID 232433)
+-- TOC entry 2074 (class 2604 OID 384561)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1160,7 +1174,7 @@ ALTER TABLE ONLY casa_lar ALTER COLUMN id SET DEFAULT nextval('casa_lar_id_seq':
 
 
 --
--- TOC entry 2056 (class 2604 OID 228061)
+-- TOC entry 2075 (class 2604 OID 384569)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1168,16 +1182,15 @@ ALTER TABLE ONLY cidade ALTER COLUMN id SET DEFAULT nextval('cidade_id_seq'::reg
 
 
 --
--- TOC entry 2057 (class 2604 OID 228077)
+-- TOC entry 2076 (class 2604 OID 384593)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY documento_crianca ALTER COLUMN id SET DEFAULT nextval('documento_crianca_id_seq'::regclass);
 
---ALTER TABLE ONLY crianca ALTER COLUMN id SET DEFAULT nextval('crianca_id_seq'::regclass);
 
 --
--- TOC entry 2058 (class 2604 OID 228085)
+-- TOC entry 2077 (class 2604 OID 384601)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1185,7 +1198,7 @@ ALTER TABLE ONLY documento_integrante_familiar ALTER COLUMN id SET DEFAULT nextv
 
 
 --
--- TOC entry 2059 (class 2604 OID 228093)
+-- TOC entry 2078 (class 2604 OID 384609)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1193,7 +1206,7 @@ ALTER TABLE ONLY encaminhamento ALTER COLUMN id SET DEFAULT nextval('encaminhame
 
 
 --
--- TOC entry 2061 (class 2604 OID 228105)
+-- TOC entry 2080 (class 2604 OID 384621)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1201,7 +1214,7 @@ ALTER TABLE ONLY endereco ALTER COLUMN id SET DEFAULT nextval('endereco_id_seq':
 
 
 --
--- TOC entry 2062 (class 2604 OID 228116)
+-- TOC entry 2081 (class 2604 OID 384632)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1209,7 +1222,7 @@ ALTER TABLE ONLY estado ALTER COLUMN id SET DEFAULT nextval('estado_id_seq'::reg
 
 
 --
--- TOC entry 2063 (class 2604 OID 228124)
+-- TOC entry 2082 (class 2604 OID 384640)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1217,7 +1230,15 @@ ALTER TABLE ONLY familia ALTER COLUMN id SET DEFAULT nextval('familia_id_seq'::r
 
 
 --
--- TOC entry 2064 (class 2604 OID 228143)
+-- TOC entry 2083 (class 2604 OID 384651)
+-- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY integrante_familiar ALTER COLUMN id SET DEFAULT nextval('integrante_familiar_id_seq'::regclass);
+
+
+--
+-- TOC entry 2084 (class 2604 OID 384662)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1225,7 +1246,7 @@ ALTER TABLE ONLY pais ALTER COLUMN id SET DEFAULT nextval('pais_id_seq'::regclas
 
 
 --
--- TOC entry 2065 (class 2604 OID 228151)
+-- TOC entry 2085 (class 2604 OID 384670)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1233,7 +1254,7 @@ ALTER TABLE ONLY parecer ALTER COLUMN id SET DEFAULT nextval('parecer_id_seq'::r
 
 
 --
--- TOC entry 2066 (class 2604 OID 228159)
+-- TOC entry 2086 (class 2604 OID 384678)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1241,7 +1262,7 @@ ALTER TABLE ONLY parente ALTER COLUMN id SET DEFAULT nextval('parente_id_seq'::r
 
 
 --
--- TOC entry 2068 (class 2604 OID 228173)
+-- TOC entry 2088 (class 2604 OID 384711)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1249,7 +1270,7 @@ ALTER TABLE ONLY rede_apoio ALTER COLUMN id SET DEFAULT nextval('rede_apoio_id_s
 
 
 --
--- TOC entry 2069 (class 2604 OID 228184)
+-- TOC entry 2089 (class 2604 OID 384722)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1257,7 +1278,7 @@ ALTER TABLE ONLY responsavel ALTER COLUMN id SET DEFAULT nextval('responsavel_id
 
 
 --
--- TOC entry 2052 (class 2604 OID 227930)
+-- TOC entry 2070 (class 2604 OID 384384)
 -- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -1267,7 +1288,7 @@ ALTER TABLE ONLY "user" ALTER COLUMN id SET DEFAULT nextval('user_id_seq'::regcl
 SET search_path = auditing, pg_catalog;
 
 --
--- TOC entry 2078 (class 2606 OID 227946)
+-- TOC entry 2097 (class 2606 OID 384400)
 -- Name: apoio_audited_pkey; Type: CONSTRAINT; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -1276,7 +1297,7 @@ ALTER TABLE ONLY apoio_audited
 
 
 --
--- TOC entry 2152 (class 2606 OID 232427)
+-- TOC entry 2099 (class 2606 OID 384410)
 -- Name: casa_lar_audited_pkey; Type: CONSTRAINT; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -1285,7 +1306,7 @@ ALTER TABLE ONLY casa_lar_audited
 
 
 --
--- TOC entry 2080 (class 2606 OID 227951)
+-- TOC entry 2101 (class 2606 OID 384415)
 -- Name: cidade_audited_pkey; Type: CONSTRAINT; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -1294,7 +1315,7 @@ ALTER TABLE ONLY cidade_audited
 
 
 --
--- TOC entry 2082 (class 2606 OID 227959)
+-- TOC entry 2103 (class 2606 OID 384428)
 -- Name: crianca_audited_pkey; Type: CONSTRAINT; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -1303,7 +1324,7 @@ ALTER TABLE ONLY crianca_audited
 
 
 --
--- TOC entry 2084 (class 2606 OID 227964)
+-- TOC entry 2105 (class 2606 OID 384433)
 -- Name: documento_crianca_audited_pkey; Type: CONSTRAINT; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -1312,7 +1333,7 @@ ALTER TABLE ONLY documento_crianca_audited
 
 
 --
--- TOC entry 2086 (class 2606 OID 227969)
+-- TOC entry 2107 (class 2606 OID 384438)
 -- Name: documento_integrante_familiar_audited_pkey; Type: CONSTRAINT; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -1321,7 +1342,7 @@ ALTER TABLE ONLY documento_integrante_familiar_audited
 
 
 --
--- TOC entry 2088 (class 2606 OID 227977)
+-- TOC entry 2109 (class 2606 OID 384446)
 -- Name: encaminhamento_audited_pkey; Type: CONSTRAINT; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -1330,7 +1351,7 @@ ALTER TABLE ONLY encaminhamento_audited
 
 
 --
--- TOC entry 2090 (class 2606 OID 227985)
+-- TOC entry 2111 (class 2606 OID 384454)
 -- Name: endereco_audited_pkey; Type: CONSTRAINT; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -1339,7 +1360,7 @@ ALTER TABLE ONLY endereco_audited
 
 
 --
--- TOC entry 2092 (class 2606 OID 227990)
+-- TOC entry 2113 (class 2606 OID 384459)
 -- Name: estado_audited_pkey; Type: CONSTRAINT; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -1348,7 +1369,7 @@ ALTER TABLE ONLY estado_audited
 
 
 --
--- TOC entry 2094 (class 2606 OID 227998)
+-- TOC entry 2115 (class 2606 OID 384467)
 -- Name: familia_audited_pkey; Type: CONSTRAINT; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -1357,7 +1378,7 @@ ALTER TABLE ONLY familia_audited
 
 
 --
--- TOC entry 2096 (class 2606 OID 228006)
+-- TOC entry 2117 (class 2606 OID 384475)
 -- Name: integrante_familiar_audited_pkey; Type: CONSTRAINT; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -1366,7 +1387,7 @@ ALTER TABLE ONLY integrante_familiar_audited
 
 
 --
--- TOC entry 2098 (class 2606 OID 228011)
+-- TOC entry 2119 (class 2606 OID 384480)
 -- Name: pais_audited_pkey; Type: CONSTRAINT; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -1375,7 +1396,7 @@ ALTER TABLE ONLY pais_audited
 
 
 --
--- TOC entry 2100 (class 2606 OID 228016)
+-- TOC entry 2121 (class 2606 OID 384485)
 -- Name: parecer_audited_pkey; Type: CONSTRAINT; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -1384,7 +1405,7 @@ ALTER TABLE ONLY parecer_audited
 
 
 --
--- TOC entry 2102 (class 2606 OID 228021)
+-- TOC entry 2123 (class 2606 OID 384490)
 -- Name: parente_audited_pkey; Type: CONSTRAINT; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -1393,7 +1414,7 @@ ALTER TABLE ONLY parente_audited
 
 
 --
--- TOC entry 2104 (class 2606 OID 228026)
+-- TOC entry 2125 (class 2606 OID 384495)
 -- Name: plano_atendimento_familiar_audited_pkey; Type: CONSTRAINT; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -1402,7 +1423,7 @@ ALTER TABLE ONLY plano_atendimento_familiar_audited
 
 
 --
--- TOC entry 2106 (class 2606 OID 228034)
+-- TOC entry 2127 (class 2606 OID 384516)
 -- Name: rede_apoio_audited_pkey; Type: CONSTRAINT; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -1411,7 +1432,7 @@ ALTER TABLE ONLY rede_apoio_audited
 
 
 --
--- TOC entry 2108 (class 2606 OID 228042)
+-- TOC entry 2129 (class 2606 OID 384524)
 -- Name: responsavel_audited_pkey; Type: CONSTRAINT; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -1420,7 +1441,7 @@ ALTER TABLE ONLY responsavel_audited
 
 
 --
--- TOC entry 2110 (class 2606 OID 228050)
+-- TOC entry 2131 (class 2606 OID 384537)
 -- Name: revision_pkey; Type: CONSTRAINT; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -1429,7 +1450,7 @@ ALTER TABLE ONLY revision
 
 
 --
--- TOC entry 2112 (class 2606 OID 228055)
+-- TOC entry 2133 (class 2606 OID 384542)
 -- Name: user_audited_pkey; Type: CONSTRAINT; Schema: auditing; Owner: postgres; Tablespace: 
 --
 
@@ -1440,7 +1461,7 @@ ALTER TABLE ONLY user_audited
 SET search_path = public, pg_catalog;
 
 --
--- TOC entry 2076 (class 2606 OID 227941)
+-- TOC entry 2095 (class 2606 OID 384395)
 -- Name: apoio_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1449,7 +1470,7 @@ ALTER TABLE ONLY apoio
 
 
 --
--- TOC entry 2154 (class 2606 OID 232435)
+-- TOC entry 2135 (class 2606 OID 384563)
 -- Name: casa_lar_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1458,7 +1479,7 @@ ALTER TABLE ONLY casa_lar
 
 
 --
--- TOC entry 2114 (class 2606 OID 228063)
+-- TOC entry 2137 (class 2606 OID 384571)
 -- Name: cidade_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1467,7 +1488,7 @@ ALTER TABLE ONLY cidade
 
 
 --
--- TOC entry 2116 (class 2606 OID 228071)
+-- TOC entry 2139 (class 2606 OID 384587)
 -- Name: crianca_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1476,7 +1497,7 @@ ALTER TABLE ONLY crianca
 
 
 --
--- TOC entry 2120 (class 2606 OID 228079)
+-- TOC entry 2143 (class 2606 OID 384595)
 -- Name: documento_crianca_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1485,7 +1506,7 @@ ALTER TABLE ONLY documento_crianca
 
 
 --
--- TOC entry 2124 (class 2606 OID 228087)
+-- TOC entry 2147 (class 2606 OID 384603)
 -- Name: documento_integrante_familiar_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1494,7 +1515,7 @@ ALTER TABLE ONLY documento_integrante_familiar
 
 
 --
--- TOC entry 2128 (class 2606 OID 228099)
+-- TOC entry 2151 (class 2606 OID 384615)
 -- Name: encaminhamento_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1503,7 +1524,7 @@ ALTER TABLE ONLY encaminhamento
 
 
 --
--- TOC entry 2130 (class 2606 OID 228110)
+-- TOC entry 2153 (class 2606 OID 384626)
 -- Name: endereco_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1512,7 +1533,7 @@ ALTER TABLE ONLY endereco
 
 
 --
--- TOC entry 2132 (class 2606 OID 228118)
+-- TOC entry 2155 (class 2606 OID 384634)
 -- Name: estado_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1521,7 +1542,7 @@ ALTER TABLE ONLY estado
 
 
 --
--- TOC entry 2134 (class 2606 OID 228129)
+-- TOC entry 2157 (class 2606 OID 384645)
 -- Name: familia_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1530,7 +1551,7 @@ ALTER TABLE ONLY familia
 
 
 --
--- TOC entry 2138 (class 2606 OID 228137)
+-- TOC entry 2161 (class 2606 OID 384656)
 -- Name: integrante_familiar_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1539,7 +1560,7 @@ ALTER TABLE ONLY integrante_familiar
 
 
 --
--- TOC entry 2140 (class 2606 OID 228145)
+-- TOC entry 2163 (class 2606 OID 384664)
 -- Name: pais_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1548,7 +1569,7 @@ ALTER TABLE ONLY pais
 
 
 --
--- TOC entry 2142 (class 2606 OID 228153)
+-- TOC entry 2165 (class 2606 OID 384672)
 -- Name: parecer_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1557,7 +1578,7 @@ ALTER TABLE ONLY parecer
 
 
 --
--- TOC entry 2144 (class 2606 OID 228161)
+-- TOC entry 2167 (class 2606 OID 384680)
 -- Name: parente_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1566,7 +1587,7 @@ ALTER TABLE ONLY parente
 
 
 --
--- TOC entry 2146 (class 2606 OID 228167)
+-- TOC entry 2169 (class 2606 OID 384686)
 -- Name: plano_atendimento_familiar_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1575,7 +1596,7 @@ ALTER TABLE ONLY plano_atendimento_familiar
 
 
 --
--- TOC entry 2148 (class 2606 OID 228178)
+-- TOC entry 2171 (class 2606 OID 384716)
 -- Name: rede_apoio_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1584,7 +1605,7 @@ ALTER TABLE ONLY rede_apoio
 
 
 --
--- TOC entry 2150 (class 2606 OID 228189)
+-- TOC entry 2173 (class 2606 OID 384727)
 -- Name: responsavel_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1592,9 +1613,8 @@ ALTER TABLE ONLY responsavel
     ADD CONSTRAINT responsavel_pkey PRIMARY KEY (id);
 
 
-
 --
--- TOC entry 2118 (class 2606 OID 232439)
+-- TOC entry 2141 (class 2606 OID 384747)
 -- Name: uk_crianca_casa_lar_id_id; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1603,7 +1623,7 @@ ALTER TABLE ONLY crianca
 
 
 --
--- TOC entry 2122 (class 2606 OID 228193)
+-- TOC entry 2145 (class 2606 OID 384749)
 -- Name: uk_documento_crianca_crianca_id_tipo_documento; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1612,7 +1632,7 @@ ALTER TABLE ONLY documento_crianca
 
 
 --
--- TOC entry 2126 (class 2606 OID 228195)
+-- TOC entry 2149 (class 2606 OID 384751)
 -- Name: uk_documento_integrante_familiar_integrante_familiar_id_tipo_d; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1621,7 +1641,7 @@ ALTER TABLE ONLY documento_integrante_familiar
 
 
 --
--- TOC entry 2136 (class 2606 OID 228197)
+-- TOC entry 2159 (class 2606 OID 384753)
 -- Name: uk_familia_nome_nome_mae; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1630,7 +1650,7 @@ ALTER TABLE ONLY familia
 
 
 --
--- TOC entry 2072 (class 2606 OID 228191)
+-- TOC entry 2091 (class 2606 OID 384745)
 -- Name: uk_user_email; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1639,7 +1659,7 @@ ALTER TABLE ONLY "user"
 
 
 --
--- TOC entry 2074 (class 2606 OID 227933)
+-- TOC entry 2093 (class 2606 OID 384387)
 -- Name: user_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace: 
 --
 
@@ -1650,7 +1670,7 @@ ALTER TABLE ONLY "user"
 SET search_path = auditing, pg_catalog;
 
 --
--- TOC entry 2159 (class 2606 OID 228208)
+-- TOC entry 2176 (class 2606 OID 384764)
 -- Name: fk_apoio_audited_revision; Type: FK CONSTRAINT; Schema: auditing; Owner: postgres
 --
 
@@ -1659,7 +1679,7 @@ ALTER TABLE ONLY apoio_audited
 
 
 --
--- TOC entry 2195 (class 2606 OID 232440)
+-- TOC entry 2177 (class 2606 OID 384774)
 -- Name: fk_casa_lar_audited_revision; Type: FK CONSTRAINT; Schema: auditing; Owner: postgres
 --
 
@@ -1668,7 +1688,7 @@ ALTER TABLE ONLY casa_lar_audited
 
 
 --
--- TOC entry 2160 (class 2606 OID 228213)
+-- TOC entry 2178 (class 2606 OID 384779)
 -- Name: fk_cidade_audited_revision; Type: FK CONSTRAINT; Schema: auditing; Owner: postgres
 --
 
@@ -1677,16 +1697,16 @@ ALTER TABLE ONLY cidade_audited
 
 
 --
--- TOC entry 2161 (class 2606 OID 228218)
--- Name: fk_crianca_audited_revision; Type: FK CONSTRAINT; Schema: auditing; Owner: postgres
+-- TOC entry 2179 (class 2606 OID 384789)
+-- Name: fk_crianca_audited_id_revision; Type: FK CONSTRAINT; Schema: auditing; Owner: postgres
 --
 
 ALTER TABLE ONLY crianca_audited
-    ADD CONSTRAINT fk_crianca_audited_revision FOREIGN KEY (revision) REFERENCES revision(id);
+    ADD CONSTRAINT fk_crianca_audited_id_revision FOREIGN KEY (id, revision) REFERENCES integrante_familiar_audited(id, revision);
 
 
 --
--- TOC entry 2162 (class 2606 OID 228223)
+-- TOC entry 2180 (class 2606 OID 384794)
 -- Name: fk_documento_crianca_audited_revision; Type: FK CONSTRAINT; Schema: auditing; Owner: postgres
 --
 
@@ -1695,7 +1715,7 @@ ALTER TABLE ONLY documento_crianca_audited
 
 
 --
--- TOC entry 2163 (class 2606 OID 228228)
+-- TOC entry 2181 (class 2606 OID 384799)
 -- Name: fk_documento_integrante_familiar_audited_revision; Type: FK CONSTRAINT; Schema: auditing; Owner: postgres
 --
 
@@ -1704,7 +1724,7 @@ ALTER TABLE ONLY documento_integrante_familiar_audited
 
 
 --
--- TOC entry 2164 (class 2606 OID 228233)
+-- TOC entry 2182 (class 2606 OID 384804)
 -- Name: fk_encaminhamento_audited_revision; Type: FK CONSTRAINT; Schema: auditing; Owner: postgres
 --
 
@@ -1713,7 +1733,7 @@ ALTER TABLE ONLY encaminhamento_audited
 
 
 --
--- TOC entry 2165 (class 2606 OID 228238)
+-- TOC entry 2183 (class 2606 OID 384809)
 -- Name: fk_endereco_audited_revision; Type: FK CONSTRAINT; Schema: auditing; Owner: postgres
 --
 
@@ -1722,7 +1742,7 @@ ALTER TABLE ONLY endereco_audited
 
 
 --
--- TOC entry 2166 (class 2606 OID 228243)
+-- TOC entry 2184 (class 2606 OID 384814)
 -- Name: fk_estado_audited_revision; Type: FK CONSTRAINT; Schema: auditing; Owner: postgres
 --
 
@@ -1731,7 +1751,7 @@ ALTER TABLE ONLY estado_audited
 
 
 --
--- TOC entry 2167 (class 2606 OID 228248)
+-- TOC entry 2185 (class 2606 OID 384819)
 -- Name: fk_familia_audited_revision; Type: FK CONSTRAINT; Schema: auditing; Owner: postgres
 --
 
@@ -1740,7 +1760,7 @@ ALTER TABLE ONLY familia_audited
 
 
 --
--- TOC entry 2168 (class 2606 OID 228253)
+-- TOC entry 2186 (class 2606 OID 384824)
 -- Name: fk_integrante_familiar_audited_revision; Type: FK CONSTRAINT; Schema: auditing; Owner: postgres
 --
 
@@ -1749,7 +1769,7 @@ ALTER TABLE ONLY integrante_familiar_audited
 
 
 --
--- TOC entry 2169 (class 2606 OID 228258)
+-- TOC entry 2187 (class 2606 OID 384829)
 -- Name: fk_pais_audited_revision; Type: FK CONSTRAINT; Schema: auditing; Owner: postgres
 --
 
@@ -1758,7 +1778,7 @@ ALTER TABLE ONLY pais_audited
 
 
 --
--- TOC entry 2170 (class 2606 OID 228263)
+-- TOC entry 2188 (class 2606 OID 384834)
 -- Name: fk_parecer_audited_revision; Type: FK CONSTRAINT; Schema: auditing; Owner: postgres
 --
 
@@ -1767,7 +1787,7 @@ ALTER TABLE ONLY parecer_audited
 
 
 --
--- TOC entry 2171 (class 2606 OID 228268)
+-- TOC entry 2189 (class 2606 OID 384839)
 -- Name: fk_parente_audited_revision; Type: FK CONSTRAINT; Schema: auditing; Owner: postgres
 --
 
@@ -1776,7 +1796,7 @@ ALTER TABLE ONLY parente_audited
 
 
 --
--- TOC entry 2172 (class 2606 OID 228273)
+-- TOC entry 2190 (class 2606 OID 384844)
 -- Name: fk_plano_atendimento_familiar_audited_revision; Type: FK CONSTRAINT; Schema: auditing; Owner: postgres
 --
 
@@ -1785,7 +1805,7 @@ ALTER TABLE ONLY plano_atendimento_familiar_audited
 
 
 --
--- TOC entry 2173 (class 2606 OID 228278)
+-- TOC entry 2191 (class 2606 OID 384859)
 -- Name: fk_rede_apoio_audited_revision; Type: FK CONSTRAINT; Schema: auditing; Owner: postgres
 --
 
@@ -1794,7 +1814,7 @@ ALTER TABLE ONLY rede_apoio_audited
 
 
 --
--- TOC entry 2174 (class 2606 OID 228283)
+-- TOC entry 2192 (class 2606 OID 384864)
 -- Name: fk_responsavel_audited_revision; Type: FK CONSTRAINT; Schema: auditing; Owner: postgres
 --
 
@@ -1803,7 +1823,7 @@ ALTER TABLE ONLY responsavel_audited
 
 
 --
--- TOC entry 2175 (class 2606 OID 228288)
+-- TOC entry 2193 (class 2606 OID 384874)
 -- Name: fk_user_audited_revision; Type: FK CONSTRAINT; Schema: auditing; Owner: postgres
 --
 
@@ -1814,7 +1834,7 @@ ALTER TABLE ONLY user_audited
 SET search_path = public, pg_catalog;
 
 --
--- TOC entry 2158 (class 2606 OID 228203)
+-- TOC entry 2175 (class 2606 OID 384759)
 -- Name: fk_apoio_rede_apoio_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1823,7 +1843,7 @@ ALTER TABLE ONLY apoio
 
 
 --
--- TOC entry 2196 (class 2606 OID 232445)
+-- TOC entry 2194 (class 2606 OID 384899)
 -- Name: fk_casa_lar_cuidadora_apoiadora_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1832,7 +1852,7 @@ ALTER TABLE ONLY casa_lar
 
 
 --
--- TOC entry 2197 (class 2606 OID 232450)
+-- TOC entry 2195 (class 2606 OID 384904)
 -- Name: fk_casa_lar_cuidadora_residente_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1841,7 +1861,7 @@ ALTER TABLE ONLY casa_lar
 
 
 --
--- TOC entry 2176 (class 2606 OID 228293)
+-- TOC entry 2196 (class 2606 OID 384909)
 -- Name: fk_cidade_estado_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1850,7 +1870,7 @@ ALTER TABLE ONLY cidade
 
 
 --
--- TOC entry 2179 (class 2606 OID 232455)
+-- TOC entry 2197 (class 2606 OID 384919)
 -- Name: fk_crianca_casa_lar_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1859,25 +1879,16 @@ ALTER TABLE ONLY crianca
 
 
 --
--- TOC entry 2177 (class 2606 OID 228298)
--- Name: fk_crianca_endereco_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- TOC entry 2198 (class 2606 OID 384924)
+-- Name: fk_crianca_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY crianca
-    ADD CONSTRAINT fk_crianca_endereco_id FOREIGN KEY (endereco_id) REFERENCES endereco(id);
+    ADD CONSTRAINT fk_crianca_id FOREIGN KEY (id) REFERENCES integrante_familiar(id);
 
 
 --
--- TOC entry 2178 (class 2606 OID 228303)
--- Name: fk_crianca_familia_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY crianca
-    ADD CONSTRAINT fk_crianca_familia_id FOREIGN KEY (familia_id) REFERENCES familia(id);
-
-
---
--- TOC entry 2180 (class 2606 OID 228308)
+-- TOC entry 2199 (class 2606 OID 384929)
 -- Name: fk_documento_crianca_crianca_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1886,7 +1897,25 @@ ALTER TABLE ONLY documento_crianca
 
 
 --
--- TOC entry 2181 (class 2606 OID 228313)
+-- TOC entry 2200 (class 2606 OID 384934)
+-- Name: fk_documento_integrante_familiar_integrante_familiar_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY documento_integrante_familiar
+    ADD CONSTRAINT fk_documento_integrante_familiar_integrante_familiar_id FOREIGN KEY (integrante_familiar_id) REFERENCES integrante_familiar(id);
+
+
+--
+-- TOC entry 2201 (class 2606 OID 384939)
+-- Name: fk_encaminhamento_integrante_familiar_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY encaminhamento
+    ADD CONSTRAINT fk_encaminhamento_integrante_familiar_id FOREIGN KEY (integrante_familiar_id) REFERENCES integrante_familiar(id);
+
+
+--
+-- TOC entry 2202 (class 2606 OID 384944)
 -- Name: fk_encaminhamento_plano_atendimento_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1895,7 +1924,7 @@ ALTER TABLE ONLY encaminhamento
 
 
 --
--- TOC entry 2182 (class 2606 OID 228318)
+-- TOC entry 2203 (class 2606 OID 384949)
 -- Name: fk_encaminhamento_responsavel_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1904,7 +1933,7 @@ ALTER TABLE ONLY encaminhamento
 
 
 --
--- TOC entry 2183 (class 2606 OID 228323)
+-- TOC entry 2204 (class 2606 OID 384954)
 -- Name: fk_encaminhamento_user_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1913,7 +1942,7 @@ ALTER TABLE ONLY encaminhamento
 
 
 --
--- TOC entry 2184 (class 2606 OID 228328)
+-- TOC entry 2205 (class 2606 OID 384959)
 -- Name: fk_endereco_cidade_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1922,7 +1951,7 @@ ALTER TABLE ONLY endereco
 
 
 --
--- TOC entry 2185 (class 2606 OID 228333)
+-- TOC entry 2206 (class 2606 OID 384964)
 -- Name: fk_estado_pais_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1931,7 +1960,7 @@ ALTER TABLE ONLY estado
 
 
 --
--- TOC entry 2186 (class 2606 OID 228338)
+-- TOC entry 2207 (class 2606 OID 384969)
 -- Name: fk_familia_endereco_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1940,7 +1969,7 @@ ALTER TABLE ONLY familia
 
 
 --
--- TOC entry 2187 (class 2606 OID 228343)
+-- TOC entry 2208 (class 2606 OID 384974)
 -- Name: fk_integrante_familiar_endereco_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1949,7 +1978,7 @@ ALTER TABLE ONLY integrante_familiar
 
 
 --
--- TOC entry 2188 (class 2606 OID 228348)
+-- TOC entry 2209 (class 2606 OID 384979)
 -- Name: fk_integrante_familiar_familia_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1958,7 +1987,7 @@ ALTER TABLE ONLY integrante_familiar
 
 
 --
--- TOC entry 2189 (class 2606 OID 228353)
+-- TOC entry 2210 (class 2606 OID 384984)
 -- Name: fk_parecer_plano_atendimento_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1967,7 +1996,7 @@ ALTER TABLE ONLY parecer
 
 
 --
--- TOC entry 2190 (class 2606 OID 228358)
+-- TOC entry 2211 (class 2606 OID 384989)
 -- Name: fk_parecer_usuario_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1976,7 +2005,7 @@ ALTER TABLE ONLY parecer
 
 
 --
--- TOC entry 2191 (class 2606 OID 228363)
+-- TOC entry 2212 (class 2606 OID 384994)
 -- Name: fk_parente_crianca_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1985,7 +2014,16 @@ ALTER TABLE ONLY parente
 
 
 --
--- TOC entry 2192 (class 2606 OID 228368)
+-- TOC entry 2213 (class 2606 OID 384999)
+-- Name: fk_parente_integrante_familiar_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY parente
+    ADD CONSTRAINT fk_parente_integrante_familiar_id FOREIGN KEY (integrante_familiar_id) REFERENCES integrante_familiar(id);
+
+
+--
+-- TOC entry 2214 (class 2606 OID 385004)
 -- Name: fk_plano_atendimento_familiar_familia_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1994,7 +2032,7 @@ ALTER TABLE ONLY plano_atendimento_familiar
 
 
 --
--- TOC entry 2193 (class 2606 OID 228373)
+-- TOC entry 2215 (class 2606 OID 385019)
 -- Name: fk_rede_apoio_endereco_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2003,7 +2041,7 @@ ALTER TABLE ONLY rede_apoio
 
 
 --
--- TOC entry 2194 (class 2606 OID 228378)
+-- TOC entry 2216 (class 2606 OID 385024)
 -- Name: fk_rede_apoio_responsavel_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2012,7 +2050,7 @@ ALTER TABLE ONLY rede_apoio
 
 
 --
--- TOC entry 2157 (class 2606 OID 228198)
+-- TOC entry 2174 (class 2606 OID 384754)
 -- Name: fk_user_rede_apoio_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -2020,11 +2058,12 @@ ALTER TABLE ONLY "user"
     ADD CONSTRAINT fk_user_rede_apoio_id FOREIGN KEY (rede_apoio_id) REFERENCES rede_apoio(id);
 
 
+-- Completed on 2016-09-14 05:58:25 BRT
+
 --
--- TOC entry 2311 (class 0 OID 0)
--- Dependencies: 6
--- Name: public; Type: ACL; Schema: -; Owner: postgres
+-- PostgreSQL database dump complete
 --
+
 
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 REVOKE ALL ON SCHEMA public FROM postgres;
