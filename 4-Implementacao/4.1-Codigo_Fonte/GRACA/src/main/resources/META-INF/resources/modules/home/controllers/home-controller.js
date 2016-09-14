@@ -27,6 +27,8 @@ angular.module('home')
        $rootScope.$broadcast('$locationChangeSuccess', next, current);
    });
    
+//   $scope.user = user;
+   
 	//-----
 	/**
 	 * 
@@ -107,6 +109,23 @@ angular.module('home')
     };
     
 });
+
+$scope.hasPermission = function(role) {
+	var roles = (typeof role == "string") ? [role] : role;
+	var authorities = $scope.user.principal.authorities;
+	
+	for(var role in roles) {
+		for(var i in authorities) {
+			switch(authorities[i].$name) {
+				case roles[role]:
+					return true;
+					break;
+			}
+		}
+	}
+	
+	return false;
+}
 
 //angular.module('home').directive('cpfValido', function () {
 //    return {

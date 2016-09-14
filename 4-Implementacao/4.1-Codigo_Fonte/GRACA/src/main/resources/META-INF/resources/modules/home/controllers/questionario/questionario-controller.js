@@ -91,6 +91,24 @@ angular.module('home')
 	        		direction: 'ASC', properties: 'id', nullHandlingHint:null
 	        	}],
 			},
+			
+			versao: {
+				entity: new VersaoQuestionario(),
+				filters: {
+				    terms: "",
+				},
+				
+			    page: {//PageImpl 
+			    		content:[],
+			    		pageable : {size: 9,
+						    		page: 0,
+						        	sort:null
+			        	}
+			    },
+			    sort: [{//Sort
+	        		direction: 'ASC', properties: 'id', nullHandlingHint:null
+	        	}],
+			},
 		};
 		
 		
@@ -146,6 +164,7 @@ angular.module('home')
 		$scope.changeToAdd = function() {
 			console.debug("changeToAdd");
 			$scope.model.questionario.entity = new Questionario();//Limpa o formulário
+			$scope.model.versao.entity = new VersaoQuestionario();
 		};
 		
 		/**
@@ -163,6 +182,7 @@ angular.module('home')
 	        questionarioService.findQuestionarioById( id, {
 	            callback : function(result) {	   
 	            	$scope.model.questionario.entity = result;
+	            	$scope.findLastVersaoByQuestionario(id);
 	            	$scope.$apply();
 	            },
 	            errorHandler : function(message, exception) {
@@ -172,6 +192,23 @@ angular.module('home')
 	        });
 	    };
 		
+	    /**
+	     * 
+	     */
+	    $scope.findLastVersaoByQuestionario = function(id)
+	    {
+	    	questionarioService.findLastVersaoByQuestionario( id, {
+	            callback : function(result) {	   
+	            	$scope.model.versao.entity = result;
+	            	$scope.$apply();
+	            },
+	            errorHandler : function(message, exception) {
+	            	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+	                $scope.$apply();
+	            }
+	        });
+	    }
+	    
 		/**
 	     * Realiza os procedimentos iniciais (prepara o estado)
 	     * para a tela de consulta e após isso, muda o estado para list.
@@ -197,6 +234,9 @@ angular.module('home')
 	     * 
 	     */
 		$scope.listQuestionariosByFilters = function(){
+			
+			//TODO distinguir listagem de usuario comum e de usuario admininstrador 
+			
 			questionarioService.listQuestionariosByFilters(  $scope.model.questionario.filters.terms.toString(), $scope.model.questionario.page.pageable, {
                 callback : function(result) {
                 	$scope.totalPagesQuestionario = result.totalPages;
@@ -297,6 +337,93 @@ angular.module('home')
 			});
 		};
 		
+		/**
+		 * 
+		 */
+		$scope.enviarParaAprovacao = function (entity) {
+			
+	        var confirm = $mdDialog.confirm()
+	            .title('Tem certeza que deseja enviar este questionário para aprovação ?')
+	            .content('Não será possível mais altera-lo')
+	            .ok('Sim')
+	            .cancel('Cancelar');
+	
+	        $mdDialog.show(confirm).then(function (result) {
+	            console.log(result);
+	
+	            questionarioService.enviarVersaoParaAprovacao( $scope.model.questionario.entity.id, {
+		            callback : function(result) {	   
+		            	$scope.model.versao.entity = result;
+		            	$scope.showMessage( $scope.ERROR_MESSAGE,  "Registro foi enviado para aprovação com sucesso" );
+		            	$scope.$apply();
+		            },
+		            errorHandler : function(message, exception) {
+		            	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+		                $scope.$apply();
+		            }
+		        });
+	            
+	        });
+	    };
+		
+	    /**
+	     * 
+	     */
+	    $scope.aprovarQuestionario = function() {
+			
+	        var confirm = $mdDialog.confirm()
+	            .title('Tem certeza que deseja aprovar este questionário ?')
+	            .content(' Este questionário ficará disponível para ser utilizado ')
+	            .ok('Sim')
+	            .cancel('Cancelar');
+	
+	        $mdDialog.show(confirm).then(function (result) {
+	            console.log(result);
+	
+	            questionarioService.aprovarVersao( $scope.model.questionario.entity.id, {
+		            callback : function(result) {	   
+		            	$scope.model.versao.entity = result;
+		            	$scope.showMessage( $scope.ERROR_MESSAGE,  "Registro foi aprovado com sucesso" );
+		            	$scope.$apply();
+		            },
+		            errorHandler : function(message, exception) {
+		            	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+		                $scope.$apply();
+		            }
+		        });
+	            
+	        });
+	    };
+	    
+	    /**
+	     * 
+	     */
+	    $scope.aumentarVersaoQuestionario = function() {
+			
+	        var confirm = $mdDialog.confirm()
+	            .title('Tem certeza que deseja aumentar a versão deste questionário ?')
+	            .content('')
+	            .ok('Sim')
+	            .cancel('Cancelar');
+	
+	        $mdDialog.show(confirm).then(function (result) {
+	            console.log(result);
+	
+	            questionarioService.aumentarVersao( $scope.model.questionario.entity.id, {
+		            callback : function(result) {	   
+		            	$scope.model.versao.entity = result;
+		            	$scope.showMessage( $scope.ERROR_MESSAGE,  "A versão foi alterada com sucesso" );
+		            	$scope.$apply();
+		            },
+		            errorHandler : function(message, exception) {
+		            	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+		                $scope.$apply();
+		            }
+		        });
+	            
+	        });
+	    };
+	    
 		/**
 		 * 
 		 */

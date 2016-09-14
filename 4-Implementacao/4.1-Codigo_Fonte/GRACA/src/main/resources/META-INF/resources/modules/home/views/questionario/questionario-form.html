@@ -10,6 +10,9 @@
 	    	
 	    	<div layout="row" style="margin-right: 30px;" layout-align="end center">
 		        <md-button class="md-raised" ng-click="$state.go( QUESTIONARIO_LIST_STATE )">Voltar</md-button>
+		        <md-button class="md-raised " ng-click="enviarParaAprovacao()" ng-if="model.questionario.entity.id && ( model.versao.entity.status == 'RASCUNHO' || model.versao.entity.status == 'REJEITADO' )">Enviar para aprovação</md-button>
+		        <md-button class="md-raised " ng-click="aprovarQuestionario()" ng-if="model.questionario.entity.id && ( model.versao.entity.status == 'AGUARDANDO_APROVACAO' || model.versao.entity.status == 'REJEITADO' )">Aprovar questionário</md-button>
+		        <md-button class="md-raised " ng-click="aumentarVersaoQuestionario()" ng-if="model.questionario.entity.id && ( model.versao.entity.status == 'APROVADO' )">Aumentar versão</md-button>
 		        <md-button class="md-raised md-accent" ng-click="save()">Salvar</md-button>
 	    	</div>
 	    </md-toolbar>
@@ -22,14 +25,16 @@
 							<form novalidate name="model.questionario.form" style="height:100%" class="default-form" flex>
 								<div class="default-info" flex> 
 									<span>INFORMAÇÕES DO QUESTIONÁRIO</span>
+									<i ng-if="model.versao.entity.id">v.{{model.versao.entity.numeroVersao}}</i>
 								</div>
 								
-								<div style="margin-bottom: 20px;" flex>Status: TODO</div>
+								
+								<div style="margin-bottom: 20px;" flex>Status: {{model.versao.entity.status | translate}}</div>
 								
 				    			<div layout="column">
 					    			<md-input-container layout="column" flex="30" style="margin-right:30px">
 							    		<label>Nome</label>
-						                <input md-maxlength="255" name="nome" required ng-model="model.questionario.entity.nome">
+						                <input md-maxlength="255" ng-disabled="model.questionario.entity.id && ( model.versao.entity.status == 'AGUARDANDO_APROVACAO' || model.versao.entity.status == 'APROVADO' )" name="nome" required ng-model="model.questionario.entity.nome">
 						
 						                <div ng-messages="model.questionario.form.nome.$error">
 						                	<div ng-message="required" ng-if="model.questionario.form.$submitted">Campo Obrigatório</div>
@@ -41,7 +46,7 @@
 					            <div layout="column">
 						            <md-input-container layout="column" flex>
 							    		<label>Descrição</label>
-							    		<textarea maxlength="255" name="descricao" ng-model="model.questionario.entity.descricao" rows="5" required></textarea>
+							    		<textarea maxlength="255" name="descricao" ng-disabled="model.questionario.entity.id && ( model.versao.entity.status == 'AGUARDANDO_APROVACAO' || model.versao.entity.status == 'APROVADO' )" ng-model="model.questionario.entity.descricao" rows="5" required></textarea>
 						                
 						                <div ng-messages="model.questionario.form.descricao.$error">
 						               		<div ng-message="required" ng-if="model.questionario.form.$submitted">Campo obrigatório</div>
@@ -53,11 +58,11 @@
 					</div>
 				</md-tab>
 				
-				<md-tab label="Questões" ng-click="listQuestoesByVersao()">
+				<md-tab label="Questões" ng-click="listQuestoesByVersao()" ng-if="model.questionario.entity.id">
 					<div class="default-frame" layout="column">
 						<div layout="row" flex>
 							<div class="default-info" flex>QUESTÕES</div>
-						 	<md-button class="md-raised" ng-click="openInsertUpdateQuestaoHandler()">Nova Questão</md-button>
+						 	<md-button class="md-raised" ng-if="model.questionario.entity.id && ( model.versao.entity.status == 'RASCUNHO')" ng-click="openInsertUpdateQuestaoHandler()">Nova Questão</md-button>
 						</div>
 						
 						<md-toolbar class="md-hue-1" layout flex>
@@ -80,6 +85,35 @@
 						</md-toolbar>
 					</div>
 				</md-tab>
+				
+				<md-tab label="Versão" ng-click="listQuestoesByVersao()" ng-if="model.questionario.entity.id && model.versao.page.pageable.length > 0">
+					<div class="default-frame" layout="column">
+						<div layout="row" flex>
+							<div class="default-info" flex>QUESTÕES</div>
+						 	<md-button class="md-raised" ng-if="model.questionario.entity.id && ( model.versao.entity.status == 'RASCUNHO')" ng-click="openInsertUpdateQuestaoHandler()">Nova Questão</md-button>
+						</div>
+						
+						<md-toolbar class="md-hue-1" layout flex>
+							<md-table-container flex>
+								<table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+									<thead md-head md-order="" md-on-reorder="">
+										<tr md-row>
+											<th md-column>Nome</th>
+											<th md-column md-order-by="">Tipo</th>
+										</tr>
+									</thead>
+									<tbody md-body>
+										<tr md-row md-select="dessert" style="cursor:pointer" ng-click="openInsertUpdateQuestaoHandler( questao )" md-auto-select ng-repeat="questao in model.questao.page.content track by questao.id">
+											<td md-cell>{{ questao.descricao }}</td>
+											<td md-cell>{{ questao.tipoQuestao | translate }}</td>
+										</tr>
+									</tbody>
+								</table>
+							</md-table-container>
+						</md-toolbar>
+					</div>
+				</md-tab>
+				
 			</md-tabs>
 		</md-content>
 	</div>

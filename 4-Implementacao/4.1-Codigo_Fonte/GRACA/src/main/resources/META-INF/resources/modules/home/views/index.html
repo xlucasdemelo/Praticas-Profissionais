@@ -53,7 +53,7 @@
 		<ng-include src="'./modules/home/views/menu-sidenav.html'"></ng-include>
 
 		<!-- Header -->
-  		<md-toolbar md-scroll-shrink="">
+  		<md-toolbar style="height:50px !important; min-height:50px !important">
     		<eits-hbox class="md-toolbar-tools" padding-left="20" padding-right="20" vertical-align="center">
     			<md-button class="md-icon-button" aria-label="Menu" 
     				ng-click="toggleMenuSideNavHandler($event)">
@@ -102,8 +102,12 @@
     		
   		</md-toolbar>
   		
-  		<md-content style="width: 100%; height: calc(100% - 64px); overflow:hidden" ui-view="">
+  		<md-content flex="" ui-view="" layout="column" style="height:100%">
 			
   		</md-content>
+  		
+<!--   		<md-content style="width: 100%; height: calc(100% - 64px); overflow:hidden" ui-view=""> -->
+			
+<!--   		</md-content> -->
 	</body>
 </html>
