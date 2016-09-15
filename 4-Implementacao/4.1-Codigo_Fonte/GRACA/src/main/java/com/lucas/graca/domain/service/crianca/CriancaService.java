@@ -81,8 +81,8 @@ public class CriancaService
 	{
 		Assert.notNull( crianca );
 		
-//		if (crianca.getEndereco() != null)
-//			this.enderecoRepository.save( crianca.getEndereco() );
+		if (crianca.getEndereco() != null)
+			this.enderecoRepository.save( crianca.getEndereco() );
 		
 		return this.criancaRepository.save( crianca );
 	}

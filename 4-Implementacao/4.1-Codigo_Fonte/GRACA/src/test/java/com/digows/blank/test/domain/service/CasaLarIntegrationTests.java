@@ -40,6 +40,7 @@ public class CasaLarIntegrationTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/casalar/ResponsavelDataSet.xml",
 		"/dataset/redeapoio/redeApoioDataSet.xml",
 		"/dataset/account/UserDataSet.xml",
 	})
@@ -63,8 +64,9 @@ public class CasaLarIntegrationTests extends AbstractIntegrationTests
 	@Test(expected=IllegalArgumentException.class)
 	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-		"/dataset/redeapoio/redeApoioDataSet.xml",
-		"/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml",
+			"/dataset/redeapoio/redeApoioDataSet.xml",
+			"/dataset/account/UserDataSet.xml",
 	})
 	public void insertCasalarMustFailWithoutMandaToryFields()
 	{
@@ -86,10 +88,10 @@ public class CasaLarIntegrationTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-		"/dataset/redeapoio/redeApoioDataSet.xml",
-		"/dataset/account/UserDataSet.xml",
-		"/dataset/casalar/ResponsavelDataSet.xml",
-		"/dataset/casalar/CasaLarDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml",
+			"/dataset/redeapoio/redeApoioDataSet.xml",
+			"/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/CasaLarDataSet.xml",
 	})
 	public void updateCasaLarMustPass()
 	{
@@ -107,10 +109,9 @@ public class CasaLarIntegrationTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-		"/dataset/redeapoio/redeApoioDataSet.xml",
-		"/dataset/account/UserDataSet.xml",
-		"/dataset/casalar/ResponsavelDataSet.xml",
-		"/dataset/casalar/CasaLarDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml",
+			"/dataset/redeapoio/redeApoioDataSet.xml",
+			"/dataset/account/UserDataSet.xml",
 	})
 	public void updateCasaLarMustFail()
 	{
@@ -125,10 +126,10 @@ public class CasaLarIntegrationTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-		"/dataset/redeapoio/redeApoioDataSet.xml",
-		"/dataset/account/UserDataSet.xml",
-		"/dataset/casalar/ResponsavelDataSet.xml",
-		"/dataset/casalar/CasaLarDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml",
+			"/dataset/redeapoio/redeApoioDataSet.xml",
+			"/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/CasaLarDataSet.xml"
 	})
 	public void removeCasaLarMustPass()
 	{
@@ -147,10 +148,10 @@ public class CasaLarIntegrationTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-		"/dataset/redeapoio/redeApoioDataSet.xml",
-		"/dataset/account/UserDataSet.xml",
-		"/dataset/casalar/ResponsavelDataSet.xml",
-		"/dataset/casalar/CasaLarDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml",
+			"/dataset/redeapoio/redeApoioDataSet.xml",
+			"/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/CasaLarDataSet.xml",
 	})
 	public void listCasaLarByIdMustPass()
 	{
@@ -166,10 +167,10 @@ public class CasaLarIntegrationTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-		"/dataset/redeapoio/redeApoioDataSet.xml",
-		"/dataset/account/UserDataSet.xml",
-		"/dataset/casalar/ResponsavelDataSet.xml",
-		"/dataset/casalar/CasaLarDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml",
+			"/dataset/redeapoio/redeApoioDataSet.xml",
+			"/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/CasaLarDataSet.xml",
 	})
 	public void listCasaLarByIdMustReturnOne()
 	{

@@ -49,6 +49,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/casalar/ResponsavelDataSet.xml",
 		"/dataset/redeapoio/redeApoioDataSet.xml",
 		"/dataset/account/UserDataSet.xml",
 	})
@@ -70,6 +71,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	@Test(expected=ValidationException.class)
 	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/casalar/ResponsavelDataSet.xml",
 		"/dataset/redeapoio/redeApoioDataSet.xml",
 		"/dataset/account/UserDataSet.xml",
 	})
@@ -87,6 +89,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/casalar/ResponsavelDataSet.xml",
 		"/dataset/redeapoio/redeApoioDataSet.xml",	
 		"/dataset/account/UserDataSet.xml",
 	})
@@ -109,6 +112,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	@Test(expected=IllegalArgumentException.class)
 	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/casalar/ResponsavelDataSet.xml",
 		"/dataset/redeapoio/redeApoioDataSet.xml",	
 		"/dataset/account/UserDataSet.xml",
 	})
@@ -128,6 +132,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/casalar/ResponsavelDataSet.xml",
 		"/dataset/redeapoio/redeApoioDataSet.xml",	
 		"/dataset/account/UserDataSet.xml",
 	})
@@ -147,6 +152,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	@Test(expected=IllegalArgumentException.class)
 	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/casalar/ResponsavelDataSet.xml",
 		"/dataset/redeapoio/redeApoioDataSet.xml",	
 		"/dataset/account/UserDataSet.xml",
 	})
@@ -166,6 +172,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	@Test(expected=IllegalArgumentException.class)
 	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/casalar/ResponsavelDataSet.xml",
 		"/dataset/redeapoio/redeApoioDataSet.xml",	
 		"/dataset/account/UserDataSet.xml",
 	})
@@ -184,6 +191,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	 */
 	@Test
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/casalar/ResponsavelDataSet.xml",
 		"/dataset/redeapoio/redeApoioDataSet.xml",
 		"/dataset/account/UserDataSet.xml",
     })
@@ -202,6 +210,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	 */
 	@Test
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/casalar/ResponsavelDataSet.xml",
 		"/dataset/redeapoio/redeApoioDataSet.xml",
 		"/dataset/account/UserDataSet.xml",
     })
@@ -221,6 +230,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	 */
 	@Test
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/casalar/ResponsavelDataSet.xml",
 		"/dataset/redeapoio/redeApoioDataSet.xml",
 		"/dataset/account/UserDataSet.xml"
 	})
@@ -237,6 +247,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	 */
 	@Test
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/casalar/ResponsavelDataSet.xml",	
 		"/dataset/redeapoio/redeApoioDataSet.xml",
 		"/dataset/account/UserDataSet.xml"
 	})

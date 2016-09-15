@@ -460,6 +460,7 @@ public class QuestionarioServiceIntegrationTests extends AbstractIntegrationTest
 		questao.setDescricao( "bla bla" );
 		questao.setTipoQuestao( TipoQuestao.TEXTO );
 		questao.setVersaoQuestionario( new VersaoQuestionario(9999L) );
+		questao.getVersaoQuestionario().setQuestionario( new Questionario(9999L) );
 		
 		questao = this.questionarioService.insertQuestao( questao );
 		
@@ -484,6 +485,7 @@ public class QuestionarioServiceIntegrationTests extends AbstractIntegrationTest
 		questao.setDescricao( "bla bla" );
 		questao.setTipoQuestao( TipoQuestao.TEXTO );
 		questao.setVersaoQuestionario( new VersaoQuestionario(1000L) );
+		questao.getVersaoQuestionario().setQuestionario( new Questionario(1000L) );
 		
 		questao = this.questionarioService.insertQuestao( questao );
 		

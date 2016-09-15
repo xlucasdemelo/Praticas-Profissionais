@@ -18,7 +18,6 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.lucas.graca.domain.entity.familia.Familia;
 import com.lucas.graca.domain.entity.planoatendimento.Encaminhamento;
 import com.lucas.graca.domain.entity.planoatendimento.StatusEncaminhamento;
-import com.lucas.graca.domain.entity.planoatendimento.TipoEncaminhamento;
 import com.lucas.graca.domain.entity.planoatendimentofamiliar.PlanoAtendimentoFamiliar;
 import com.lucas.graca.domain.service.planoatendimento.PlanoAtendimentoService;
 
@@ -48,7 +47,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("operador_atendimento@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml", 
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml", 
 			"/dataset/endereco/PaisDataSet.xml", 
 			"/dataset/endereco/EstadoDataSet.xml", 
 			"/dataset/endereco/CidadeDataSet.xml", 
@@ -71,7 +70,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test(expected=IllegalArgumentException.class)
 	@WithUserDetails("operador_atendimento@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml", 
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml", 
 			"/dataset/endereco/PaisDataSet.xml", 
 			"/dataset/endereco/EstadoDataSet.xml", 
 			"/dataset/endereco/CidadeDataSet.xml", 
@@ -95,7 +94,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test(expected = AccessDeniedException.class)
 	@WithUserDetails("chefe_adm@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml", 
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml", 
 			"/dataset/endereco/PaisDataSet.xml", 
 			"/dataset/endereco/EstadoDataSet.xml", 
 			"/dataset/endereco/CidadeDataSet.xml", 
@@ -118,7 +117,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test(expected=IllegalArgumentException.class)
 	@WithUserDetails("operador_atendimento@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml", 
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml", 
 			"/dataset/endereco/PaisDataSet.xml", 
 			"/dataset/endereco/EstadoDataSet.xml", 
 			"/dataset/endereco/CidadeDataSet.xml", 
@@ -140,7 +139,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test(expected=NullPointerException.class)
 	@WithUserDetails("operador_atendimento@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml", 
 			"/dataset/endereco/EstadoDataSet.xml", 
 			"/dataset/endereco/CidadeDataSet.xml", 
@@ -163,7 +162,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("operador_atendimento@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml", 
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml", 
 			"/dataset/endereco/PaisDataSet.xml", 
 			"/dataset/endereco/EstadoDataSet.xml", 
 			"/dataset/endereco/CidadeDataSet.xml", 
@@ -185,7 +184,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("colaborador_externo@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml", 
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml", 
 			"/dataset/endereco/PaisDataSet.xml", 
 			"/dataset/endereco/EstadoDataSet.xml", 
 			"/dataset/endereco/CidadeDataSet.xml", 
@@ -207,7 +206,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("operador_atendimento@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml", 
 			"/dataset/endereco/EstadoDataSet.xml", 
 			"/dataset/endereco/CidadeDataSet.xml", 
@@ -230,7 +229,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("operador_atendimento@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml", 
 			"/dataset/endereco/EstadoDataSet.xml", 
 			"/dataset/endereco/CidadeDataSet.xml", 
@@ -254,7 +253,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("operador_atendimento@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml", 
 			"/dataset/endereco/EstadoDataSet.xml", 
 			"/dataset/endereco/CidadeDataSet.xml", 
@@ -276,7 +275,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("operador_atendimento@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml", 
 			"/dataset/endereco/EstadoDataSet.xml", 
 			"/dataset/endereco/CidadeDataSet.xml", 
@@ -297,7 +296,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("operador_atendimento@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml", 
 			"/dataset/endereco/EstadoDataSet.xml", 
 			"/dataset/endereco/CidadeDataSet.xml", 
@@ -321,7 +320,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test(expected= AccessDeniedException.class)
 	@WithUserDetails("colaborador_externo@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml", 
 			"/dataset/endereco/EstadoDataSet.xml", 
 			"/dataset/endereco/CidadeDataSet.xml", 
@@ -342,7 +341,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test(expected= IllegalArgumentException.class)
 	@WithUserDetails("operador_atendimento@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml", 
 			"/dataset/endereco/EstadoDataSet.xml", 
 			"/dataset/endereco/CidadeDataSet.xml", 
@@ -363,7 +362,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("operador_atendimento@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml", 
 			"/dataset/endereco/EstadoDataSet.xml", 
 			"/dataset/endereco/CidadeDataSet.xml", 
@@ -387,7 +386,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test(expected=AccessDeniedException.class)
 	@WithUserDetails("colaborador_externo@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml", 
 			"/dataset/endereco/EstadoDataSet.xml", 
 			"/dataset/endereco/CidadeDataSet.xml", 
@@ -412,7 +411,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 //	@Test
 //	@WithUserDetails("operador_atendimento@email.com")
 //	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-//			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+//			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 //			"/dataset/endereco/PaisDataSet.xml", 
 //			"/dataset/endereco/EstadoDataSet.xml", 
 //			"/dataset/endereco/CidadeDataSet.xml", 
@@ -438,7 +437,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test(expected=AccessDeniedException.class)
 	@WithUserDetails("colaborador_externo@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml", 
 			"/dataset/endereco/EstadoDataSet.xml", 
 			"/dataset/endereco/CidadeDataSet.xml", 
@@ -462,7 +461,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test(expected=IllegalArgumentException.class)
 	@WithUserDetails("operador_atendimento@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml",
 			"/dataset/endereco/EstadoDataSet.xml",
 			"/dataset/endereco/CidadeDataSet.xml",
@@ -486,7 +485,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("operador_atendimento@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml",
 			"/dataset/endereco/EstadoDataSet.xml",
 			"/dataset/endereco/CidadeDataSet.xml",
@@ -516,7 +515,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml",
 			"/dataset/endereco/EstadoDataSet.xml",
 			"/dataset/endereco/CidadeDataSet.xml",
@@ -549,7 +548,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test(expected=IllegalArgumentException.class)
 	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml",
 			"/dataset/endereco/EstadoDataSet.xml",
 			"/dataset/endereco/CidadeDataSet.xml",
@@ -576,7 +575,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("operador_atendimento@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml",
 			"/dataset/endereco/EstadoDataSet.xml",
 			"/dataset/endereco/CidadeDataSet.xml",
@@ -598,7 +597,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("colaborador_externo@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml",
 			"/dataset/endereco/EstadoDataSet.xml",
 			"/dataset/endereco/CidadeDataSet.xml",
@@ -621,7 +620,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test(expected=AccessDeniedException.class)
 	@WithUserDetails("chefe_adm@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml",
 			"/dataset/endereco/EstadoDataSet.xml",
 			"/dataset/endereco/CidadeDataSet.xml",
@@ -644,7 +643,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("operador_atendimento@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml",
 			"/dataset/endereco/EstadoDataSet.xml",
 			"/dataset/endereco/CidadeDataSet.xml",
@@ -667,7 +666,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("operador_atendimento@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml",
 			"/dataset/endereco/EstadoDataSet.xml",
 			"/dataset/endereco/CidadeDataSet.xml",
@@ -691,7 +690,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml",
 			"/dataset/endereco/EstadoDataSet.xml",
 			"/dataset/endereco/CidadeDataSet.xml",
@@ -718,7 +717,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("operador_atendimento@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml",
 			"/dataset/endereco/EstadoDataSet.xml",
 			"/dataset/endereco/CidadeDataSet.xml",
@@ -745,7 +744,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test(expected=IllegalArgumentException.class)
 	@WithUserDetails("atendente@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml",
 			"/dataset/endereco/EstadoDataSet.xml",
 			"/dataset/endereco/CidadeDataSet.xml",
@@ -772,7 +771,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test(expected=IllegalArgumentException.class)
 	@WithUserDetails("operador_atendimento@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml",
 			"/dataset/endereco/EstadoDataSet.xml",
 			"/dataset/endereco/CidadeDataSet.xml",
@@ -798,7 +797,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml",
 			"/dataset/endereco/EstadoDataSet.xml",
 			"/dataset/endereco/CidadeDataSet.xml",
@@ -825,7 +824,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("operador_atendimento@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml",
 			"/dataset/endereco/EstadoDataSet.xml",
 			"/dataset/endereco/CidadeDataSet.xml",
@@ -852,7 +851,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test(expected=AccessDeniedException.class)
 	@WithUserDetails("colaborador_externo@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml",
 			"/dataset/endereco/EstadoDataSet.xml",
 			"/dataset/endereco/CidadeDataSet.xml",
@@ -878,7 +877,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test(expected=IllegalArgumentException.class)
 	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml",
 			"/dataset/endereco/EstadoDataSet.xml",
 			"/dataset/endereco/CidadeDataSet.xml",
@@ -904,7 +903,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test(expected=IllegalArgumentException.class)
 	@WithUserDetails("atendente@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml",
 			"/dataset/endereco/EstadoDataSet.xml",
 			"/dataset/endereco/CidadeDataSet.xml",
@@ -931,7 +930,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test(expected=AccessDeniedException.class)
 	@WithUserDetails("chefe_adm@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml",
 			"/dataset/endereco/EstadoDataSet.xml",
 			"/dataset/endereco/CidadeDataSet.xml",
@@ -957,7 +956,7 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	@Test
 	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/redeapoio/redeApoioDataSet.xml", "/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
 			"/dataset/endereco/PaisDataSet.xml",
 			"/dataset/endereco/EstadoDataSet.xml",
 			"/dataset/endereco/CidadeDataSet.xml",

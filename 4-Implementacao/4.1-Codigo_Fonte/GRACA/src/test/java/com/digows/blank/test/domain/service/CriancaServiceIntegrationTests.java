@@ -7,10 +7,11 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.validation.ValidationException;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.TransactionSystemException;
 
 import com.digows.blank.test.domain.AbstractIntegrationTests;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
@@ -52,7 +53,11 @@ public class CriancaServiceIntegrationTests extends AbstractIntegrationTests
 	 */
 	@Test
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml" 
+			"/dataset/endereco/PaisDataSet.xml", 
+			"/dataset/endereco/EstadoDataSet.xml", 
+			"/dataset/endereco/CidadeDataSet.xml", 
+			"/dataset/endereco/EnderecoDataSet.xml", 
+			"/dataset/familia/FamiliaDataSet.xml"
 	})
 	public void insertCriancaMustPass()
 	{
@@ -72,7 +77,7 @@ public class CriancaServiceIntegrationTests extends AbstractIntegrationTests
 	/**
 	 * 
 	 */
-	@Test(expected=TransactionSystemException.class)
+	@Test(expected=ValidationException.class)
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
 			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml" 
 	})
@@ -89,7 +94,7 @@ public class CriancaServiceIntegrationTests extends AbstractIntegrationTests
 	
 	@Test
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml", "/dataset/crianca/CriancaDataSet.xml"  
+			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml", "/dataset/integrantefamiliar/IntegranteFamiliarDataSet.xml" , "/dataset/crianca/CriancaDataSet.xml"  
 	})
 	public void updateCriancaMustPass()
 	{
@@ -106,7 +111,7 @@ public class CriancaServiceIntegrationTests extends AbstractIntegrationTests
 	 */
 	@Test
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml", "/dataset/crianca/CriancaDataSet.xml"  
+			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml", "/dataset/integrantefamiliar/IntegranteFamiliarDataSet.xml" , "/dataset/crianca/CriancaDataSet.xml"  
 	})
 	public void updateCriancaMustFail()
 	{
@@ -123,7 +128,7 @@ public class CriancaServiceIntegrationTests extends AbstractIntegrationTests
 	 */
 	@Test
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml", "/dataset/crianca/CriancaDataSet.xml"  
+			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml", "/dataset/integrantefamiliar/IntegranteFamiliarDataSet.xml" , "/dataset/crianca/CriancaDataSet.xml"  
 	})
 	public void listCriancasByFiltersNullMustPass()
 	{
@@ -142,7 +147,7 @@ public class CriancaServiceIntegrationTests extends AbstractIntegrationTests
 	 */
 	@Test
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml", "/dataset/crianca/CriancaDataSet.xml"  
+			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml", "/dataset/integrantefamiliar/IntegranteFamiliarDataSet.xml" , "/dataset/crianca/CriancaDataSet.xml"  
 	})
 	public void listCriancasByFiltersMustPass()
 	{
@@ -158,7 +163,7 @@ public class CriancaServiceIntegrationTests extends AbstractIntegrationTests
 	 */
 	@Test
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml", "/dataset/crianca/CriancaDataSet.xml"  
+			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml", "/dataset/integrantefamiliar/IntegranteFamiliarDataSet.xml" , "/dataset/crianca/CriancaDataSet.xml"  
 	})
 	public void listCriancasByFiltersMustReturnEmptyList()
 	{
@@ -172,7 +177,12 @@ public class CriancaServiceIntegrationTests extends AbstractIntegrationTests
 	 */
 	@Test
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml", "/dataset/crianca/CriancaDataSet.xml"  
+			"/dataset/endereco/PaisDataSet.xml", 
+			"/dataset/endereco/EstadoDataSet.xml", 
+			"/dataset/endereco/CidadeDataSet.xml", 
+			"/dataset/endereco/EnderecoDataSet.xml",
+			"/dataset/familia/FamiliaDataSet.xml",
+			"/dataset/integrantefamiliar/IntegranteFamiliarDataSet.xml" , "/dataset/crianca/CriancaDataSet.xml"
 	})
 	public void disableCriancaMustPass()
 	{
@@ -191,7 +201,7 @@ public class CriancaServiceIntegrationTests extends AbstractIntegrationTests
 	 */
 	@Test
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml", "/dataset/crianca/CriancaDataSet.xml"  
+			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml", "/dataset/integrantefamiliar/IntegranteFamiliarDataSet.xml" , "/dataset/crianca/CriancaDataSet.xml"  
 	})
 	public void enableCriancaMustPass()
 	{
@@ -210,7 +220,7 @@ public class CriancaServiceIntegrationTests extends AbstractIntegrationTests
 	 */
 	@Test
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml", "/dataset/crianca/CriancaDataSet.xml", "/dataset/crianca/DocumentoCriancaDataSet.xml"  
+			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml", "/dataset/integrantefamiliar/IntegranteFamiliarDataSet.xml" , "/dataset/crianca/CriancaDataSet.xml", "/dataset/crianca/DocumentoCriancaDataSet.xml"  
 	})
 	public void listDocumentosByCriacaMustPass()
 	{
@@ -226,7 +236,7 @@ public class CriancaServiceIntegrationTests extends AbstractIntegrationTests
 	
 	@Test
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml", "/dataset/crianca/CriancaDataSet.xml"  
+			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml", "/dataset/integrantefamiliar/IntegranteFamiliarDataSet.xml" , "/dataset/crianca/CriancaDataSet.xml"  
 	})
 	public void insertDocumentoCriancaMustPass()
 	{

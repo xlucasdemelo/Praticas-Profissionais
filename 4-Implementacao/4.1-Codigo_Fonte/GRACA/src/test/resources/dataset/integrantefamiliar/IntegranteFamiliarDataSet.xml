@@ -20,7 +20,7 @@
 	<public.integrante_familiar
 		id="101"
 		created="2015-03-30 00:00:00"
-		nome="Maynard James Keenan"
+		nome="Billy Corgan"
 		data_nascimento="2098-03-30"
 		ocupacao="vocalista"
 		renda_mensal = "90000"

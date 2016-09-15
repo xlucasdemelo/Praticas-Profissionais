@@ -70,7 +70,7 @@ public class IntegranteFamiliarIntegrationTests extends AbstractIntegrationTests
 	/**
 	 * 
 	 */
-	@Test(expected= TransactionSystemException.class)
+	@Test(expected= ValidationException.class)
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
 			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml" 
 	})
@@ -102,7 +102,12 @@ public class IntegranteFamiliarIntegrationTests extends AbstractIntegrationTests
 	 */
 	@Test
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/endereco/PaisDataSet.xml", "/dataset/endereco/EstadoDataSet.xml", "/dataset/endereco/CidadeDataSet.xml", "/dataset/endereco/EnderecoDataSet.xml", "/dataset/familia/FamiliaDataSet.xml", "/dataset/integrantefamiliar/IntegranteFamiliarDataSet.xml"  
+			"/dataset/endereco/PaisDataSet.xml", 
+			"/dataset/endereco/EstadoDataSet.xml", 
+			"/dataset/endereco/CidadeDataSet.xml", 
+			"/dataset/endereco/EnderecoDataSet.xml", 
+			"/dataset/familia/FamiliaDataSet.xml", 
+			"/dataset/integrantefamiliar/IntegranteFamiliarDataSet.xml"  
 	})
 	public void listIntegrantesByFamiliaMustReturnEmptyList()
 	{
