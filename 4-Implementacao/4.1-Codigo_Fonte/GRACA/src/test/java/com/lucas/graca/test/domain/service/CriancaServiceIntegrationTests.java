@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.digows.blank.test.domain.service;
+package com.lucas.graca.test.domain.service;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -13,7 +13,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.digows.blank.test.domain.AbstractIntegrationTests;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.lucas.graca.domain.entity.crianca.Crianca;
@@ -26,6 +25,7 @@ import com.lucas.graca.domain.entity.familia.Sexo;
 import com.lucas.graca.domain.entity.integrantefamiliar.GrauEscolaridade;
 import com.lucas.graca.domain.entity.integrantefamiliar.TipoDocumento;
 import com.lucas.graca.domain.service.crianca.CriancaService;
+import com.lucas.graca.test.domain.AbstractIntegrationTests;
 
 
 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.digows.blank.test.domain.service;
+package com.lucas.graca.test.domain.service;
 
 import java.util.Calendar;
 import java.util.List;
@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.test.context.support.WithUserDetails;
 
-import com.digows.blank.test.domain.AbstractIntegrationTests;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.lucas.graca.domain.entity.familia.Familia;
@@ -20,6 +19,7 @@ import com.lucas.graca.domain.entity.planoatendimento.Encaminhamento;
 import com.lucas.graca.domain.entity.planoatendimento.StatusEncaminhamento;
 import com.lucas.graca.domain.entity.planoatendimentofamiliar.PlanoAtendimentoFamiliar;
 import com.lucas.graca.domain.service.planoatendimento.PlanoAtendimentoService;
+import com.lucas.graca.test.domain.AbstractIntegrationTests;
 
 /**
  * @author lucas

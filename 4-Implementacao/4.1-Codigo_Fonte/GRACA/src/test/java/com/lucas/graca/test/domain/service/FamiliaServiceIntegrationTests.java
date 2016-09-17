@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.digows.blank.test.domain.service;
+package com.lucas.graca.test.domain.service;
 
 import javax.validation.ValidationException;
 
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 
-import com.digows.blank.test.domain.AbstractIntegrationTests;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.lucas.graca.domain.entity.endereco.Endereco;
@@ -19,6 +18,7 @@ import com.lucas.graca.domain.entity.familia.Familia;
 import com.lucas.graca.domain.entity.familia.TipoImovel;
 import com.lucas.graca.domain.entity.familia.TipoMoradia;
 import com.lucas.graca.domain.service.familia.FamiliaService;
+import com.lucas.graca.test.domain.AbstractIntegrationTests;
 
 /**
  * @author lucas

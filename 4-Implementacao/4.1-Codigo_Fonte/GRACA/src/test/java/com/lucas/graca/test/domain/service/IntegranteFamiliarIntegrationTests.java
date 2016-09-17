@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.digows.blank.test.domain.service;
+package com.lucas.graca.test.domain.service;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.transaction.TransactionSystemException;
 
-import com.digows.blank.test.domain.AbstractIntegrationTests;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.lucas.graca.domain.entity.endereco.Endereco;
@@ -26,6 +25,7 @@ import com.lucas.graca.domain.entity.integrantefamiliar.GrauEscolaridade;
 import com.lucas.graca.domain.entity.integrantefamiliar.IntegranteFamiliar;
 import com.lucas.graca.domain.entity.integrantefamiliar.TipoDocumento;
 import com.lucas.graca.domain.service.integranteFamiliar.IntegranteFamiliarService;
+import com.lucas.graca.test.domain.AbstractIntegrationTests;
 
 /**
  * @author lucas

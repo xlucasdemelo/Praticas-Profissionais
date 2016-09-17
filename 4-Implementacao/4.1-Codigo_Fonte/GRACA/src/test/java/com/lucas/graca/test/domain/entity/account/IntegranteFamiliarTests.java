@@ -1,13 +1,13 @@
 /**
  * 
  */
-package com.digows.blank.test.domain.entity.account;
+package com.lucas.graca.test.domain.entity.account;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import com.digows.blank.test.domain.AbstractUnitTests;
 import com.lucas.graca.domain.entity.integrantefamiliar.IntegranteFamiliar;
+import com.lucas.graca.test.domain.AbstractUnitTests;
 
 /**
  * @author lucas

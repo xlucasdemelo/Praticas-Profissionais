@@ -102,6 +102,14 @@ public class AvaliacaoIndividual extends AbstractEntity implements Serializable
 		super();
 	}
 
+	/**
+	 * @param id
+	 */
+	public AvaliacaoIndividual( Long id )
+	{
+		super( id );
+	}
+
 	/*-------------------------------------------------------------------
 	 *				 		     BEHAVIORS
 	 *-------------------------------------------------------------------*/

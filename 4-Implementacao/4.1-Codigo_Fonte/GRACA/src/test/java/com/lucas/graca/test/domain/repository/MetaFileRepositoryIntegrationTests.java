@@ -1,4 +1,4 @@
-package com.digows.blank.test.domain.repository;
+package com.lucas.graca.test.domain.repository;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.digows.blank.test.domain.AbstractIntegrationTests;
+import com.lucas.graca.test.domain.AbstractIntegrationTests;
 
 import br.com.eits.common.infrastructure.jcr.IMetaFileRepository;
 import br.com.eits.common.infrastructure.jcr.MetaFile;

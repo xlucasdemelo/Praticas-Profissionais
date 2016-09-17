@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.digows.blank.test.domain.service;
+package com.lucas.graca.test.domain.service;
 
 import java.util.List;
 
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.test.context.support.WithUserDetails;
 
-import com.digows.blank.test.domain.AbstractIntegrationTests;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.lucas.graca.domain.entity.questionario.Questao;
@@ -20,6 +19,7 @@ import com.lucas.graca.domain.entity.questionario.StatusVersaoQuestionario;
 import com.lucas.graca.domain.entity.questionario.TipoQuestao;
 import com.lucas.graca.domain.entity.questionario.VersaoQuestionario;
 import com.lucas.graca.domain.service.questionario.QuestionarioService;
+import com.lucas.graca.test.domain.AbstractIntegrationTests;
 
 
 /**

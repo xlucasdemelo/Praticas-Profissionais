@@ -1,4 +1,4 @@
-package com.digows.blank.test.domain.service;
+package com.lucas.graca.test.domain.service;
 
 import javax.validation.ValidationException;
 
@@ -9,13 +9,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.test.context.support.WithUserDetails;
 
-import com.digows.blank.test.domain.AbstractIntegrationTests;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.lucas.graca.domain.entity.account.User;
 import com.lucas.graca.domain.entity.account.UserRole;
 import com.lucas.graca.domain.entity.redeapoio.RedeApoio;
 import com.lucas.graca.domain.service.AccountService;
+import com.lucas.graca.test.domain.AbstractIntegrationTests;
 
 /**
  * 

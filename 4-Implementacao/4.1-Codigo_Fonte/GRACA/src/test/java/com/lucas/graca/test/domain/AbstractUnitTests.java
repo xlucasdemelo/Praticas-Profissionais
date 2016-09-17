@@ -1,4 +1,4 @@
-package com.digows.blank.test.domain;
+package com.lucas.graca.test.domain;
 
 /**
  * 

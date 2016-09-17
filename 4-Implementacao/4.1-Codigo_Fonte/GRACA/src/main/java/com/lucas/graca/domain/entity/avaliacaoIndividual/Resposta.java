@@ -39,7 +39,7 @@ public class Resposta extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
-	private String Resposta;
+	private String resposta;
 	
 	/**
 	 * 
@@ -67,7 +67,7 @@ public class Resposta extends AbstractEntity implements Serializable
 	public Resposta( Long id, String resposta, Questao questao, AvaliacaoIndividual avaliacao )
 	{
 		super( id );
-		Resposta = resposta;
+		this.resposta = resposta;
 		this.questao = questao;
 		this.avaliacao = avaliacao;
 	}
@@ -87,7 +87,12 @@ public class Resposta extends AbstractEntity implements Serializable
 	{
 		super( id );
 	}
-
+	
+	public void mergeToUpdate( Resposta resposta )
+	{
+		this.resposta = resposta.getResposta();
+	}
+	
 	/*-------------------------------------------------------------------
 	 *				 		     BEHAVIORS
 	 *-------------------------------------------------------------------*/
@@ -100,7 +105,7 @@ public class Resposta extends AbstractEntity implements Serializable
 	{
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ( ( Resposta == null ) ? 0 : Resposta.hashCode() );
+		result = prime * result + ( ( resposta == null ) ? 0 : resposta.hashCode() );
 		result = prime * result + ( ( avaliacao == null ) ? 0 : avaliacao.hashCode() );
 		result = prime * result + ( ( questao == null ) ? 0 : questao.hashCode() );
 		return result;
@@ -116,11 +121,11 @@ public class Resposta extends AbstractEntity implements Serializable
 		if ( !super.equals( obj ) ) return false;
 		if ( getClass() != obj.getClass() ) return false;
 		Resposta other = ( Resposta ) obj;
-		if ( Resposta == null )
+		if ( resposta == null )
 		{
-			if ( other.Resposta != null ) return false;
+			if ( other.resposta != null ) return false;
 		}
-		else if ( !Resposta.equals( other.Resposta ) ) return false;
+		else if ( !resposta.equals( other.resposta ) ) return false;
 		if ( avaliacao == null )
 		{
 			if ( other.avaliacao != null ) return false;
@@ -143,7 +148,7 @@ public class Resposta extends AbstractEntity implements Serializable
 	 */
 	public String getResposta()
 	{
-		return Resposta;
+		return resposta;
 	}
 
 	/**
@@ -151,7 +156,7 @@ public class Resposta extends AbstractEntity implements Serializable
 	 */
 	public void setResposta( String resposta )
 	{
-		Resposta = resposta;
+		this.resposta = resposta;
 	}
 
 	/**

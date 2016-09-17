@@ -20,6 +20,7 @@ import com.lucas.graca.domain.entity.account.UserRole;
 import com.lucas.graca.domain.entity.avaliacaoIndividual.AvaliacaoIndividual;
 import com.lucas.graca.domain.entity.avaliacaoIndividual.ConfiguracaoAvaliacaoIndividual;
 import com.lucas.graca.domain.entity.avaliacaoIndividual.Resposta;
+import com.lucas.graca.domain.entity.avaliacaoIndividual.StatusAvaliacaoIndividual;
 import com.lucas.graca.domain.entity.questionario.Questao;
 import com.lucas.graca.domain.entity.questionario.VersaoQuestionario;
 import com.lucas.graca.domain.repository.avaliacao.IAvaliacaoRepository;
@@ -88,7 +89,7 @@ public class AvaliacaoService
 		Assert.isNull( avaliacaoIndividual.getId(), "Id precisa ser nulo" );
 		Assert.notNull( avaliacaoIndividual.getCrianca(), "Criança é obrigatória" );
 		
-		ConfiguracaoAvaliacaoIndividual configuracaoAvaliacaoIndividual = this.configuracaoAvaliacaorepository.findOne(1L );
+		ConfiguracaoAvaliacaoIndividual configuracaoAvaliacaoIndividual = this.configuracaoAvaliacaorepository.findOne( 1L );
 		
 		avaliacaoIndividual.setQuestionario( configuracaoAvaliacaoIndividual.getQuestionario() );
 		avaliacaoIndividual.setAvaliador( (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal() );
@@ -145,7 +146,7 @@ public class AvaliacaoService
 	 * @return
 	 */
 	@PreAuthorize("hasAuthority('"+UserRole.ADMINISTRATOR_VALUE+"')")
-	public AvaliacaoIndividual publicAceitarAvaliacao( long id )
+	public AvaliacaoIndividual aceitarAvaliacao( long id )
 	{
 		AvaliacaoIndividual avaliacaoIndividual = this.avaliacaoRepository.findOne( id );
 		
@@ -161,7 +162,7 @@ public class AvaliacaoService
 	 * @return
 	 */
 	@PreAuthorize("hasAuthority('"+UserRole.ADMINISTRATOR_VALUE+"')")
-	public AvaliacaoIndividual publicRejeitarAvaliacao( long id )
+	public AvaliacaoIndividual rejeitarAvaliacao( long id )
 	{
 		AvaliacaoIndividual avaliacaoIndividual = this.avaliacaoRepository.findOne( id );
 		
@@ -199,8 +200,12 @@ public class AvaliacaoService
 	 * @param configuracaoAvaliacaoIndividual
 	 * @return
 	 */
-	public ConfiguracaoAvaliacaoIndividual insertConfiguração( ConfiguracaoAvaliacaoIndividual configuracaoAvaliacaoIndividual)
+	public ConfiguracaoAvaliacaoIndividual insertConfiguracao( ConfiguracaoAvaliacaoIndividual configuracaoAvaliacaoIndividual)
 	{
+		Assert.notNull( configuracaoAvaliacaoIndividual, "Não pode ser nulo" );
+		Assert.notNull( configuracaoAvaliacaoIndividual.getQuestionario(), "Questionário não pode ser nulo" );
+		
+		configuracaoAvaliacaoIndividual.setId( 1L );
 		return this.configuracaoAvaliacaorepository.save( configuracaoAvaliacaoIndividual );
 	}
 	
@@ -228,11 +233,16 @@ public class AvaliacaoService
 	public Resposta updateResposta(Resposta resposta)
 	{
 		Assert.notNull( resposta );
-		Assert.notNull( resposta.getId() );
-		Assert.notNull( resposta.getQuestao() );
-		Assert.notNull( resposta.getResposta() );
+		Assert.notNull( resposta.getId(), "Id não pode ser nulo" );
+		Assert.notNull( resposta.getResposta(), "Resposta não pode ser nula" );
 		
-		return this.respostaRepository.save( resposta );
+		Resposta respostaBd = this.respostaRepository.findOne( resposta.getId() );
+		
+		Assert.isTrue( respostaBd.getAvaliacao().getStatus() == StatusAvaliacaoIndividual.RASCUNHO, "A questão só pode ser respondida em avaliações que estejam em rascunho" );
+		
+		respostaBd.mergeToUpdate( resposta );
+		
+		return this.respostaRepository.save( respostaBd );
 	}
 	
 	/**
@@ -240,8 +250,19 @@ public class AvaliacaoService
 	 * @param avaliacaoId
 	 * @return
 	 */
+	@Transactional(readOnly=true)
 	public Page<Resposta> listRespostasByAvaliacao( long avaliacaoId, PageRequest pageable )
 	{
 		return this.respostaRepository.findByAvaliacaoId( avaliacaoId, pageable );
+	}
+	
+	/**
+	 * @param id
+	 * @return
+	 */
+	@Transactional(readOnly=true)
+	public Resposta findRespostaById( long id )
+	{
+		return this.respostaRepository.findOne( id );
 	}
 }

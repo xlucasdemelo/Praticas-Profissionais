@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.digows.blank.test.domain.service;
+package com.lucas.graca.test.domain.service;
 
 import java.util.List;
 
@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.util.Assert;
 
-import com.digows.blank.test.domain.AbstractIntegrationTests;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.lucas.graca.domain.entity.casalar.CasaLar;
 import com.lucas.graca.domain.entity.planoatendimento.Responsavel;
 import com.lucas.graca.domain.service.casalar.CasaLarService;
+import com.lucas.graca.test.domain.AbstractIntegrationTests;
 
 /**
  * @author lucas
