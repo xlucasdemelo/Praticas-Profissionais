@@ -263,7 +263,7 @@ angular.module('home')
 		 * 
 		 */
 		$scope.listQuestoesByVersao = function(){
-			questionarioService.listQuestoesByVersao(  $scope.model.questionario.entity.id, $scope.model.questionario.page.pageable, {
+			questionarioService.listQuestoesByVersao( $scope.model.versao.entity.id, $scope.model.questionario.page.pageable, {
 				callback : function(result) {
 					$scope.totalPagesQuestionario = result.totalPages;
 					$scope.model.questao.page = {//PageImpl

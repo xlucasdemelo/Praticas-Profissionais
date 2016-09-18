@@ -53,17 +53,15 @@
 				  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
 				    <thead md-head md-order="query.order">
 				      <tr md-row>
-				        <th md-column md-order-by="">Nome</th>
-				        <th md-column md-numeric md-order-by="">Descrição</th>
+				        <th md-column md-order-by="">Crianca</th>
 				        <th md-column md-numeric>Status</th>
 				      </tr>
 				    </thead>
 				    
 				    <tbody md-body>
-				      <tr md-row style="cursor:pointer" ng-click="$state.go( AVALIACAO_INDIVIDUAL_EDIT_STATE, {id:questionario.id} )" ng-repeat="questionario in model.avaliacaoIndividual.page.content">
-				        <td md-cell>{{::questionario.nome}}</td>
-				        <td md-cell>{{::questionario.descricao}}</td>
-				        <td md-cell>{{::questionario.status}}</td>
+				      <tr md-row style="cursor:pointer" ng-click="$state.go( AVALIACAO_INDIVIDUAL_EDIT_STATE, {id:avaliacao.id} )" ng-repeat="avaliacao in model.avaliacaoIndividual.page.content">
+				        <td md-cell>{{::avaliacao.crianca.nome}}</td>
+				        <td md-cell>{{::avaliacao.status}}</td>
 				      </tr>
 				    </tbody>
 				  </table>
@@ -76,11 +74,11 @@
 				<md-divider></md-divider>
 				
 				<div class="default-paginator" layout layout-align="end center" ng-if="model.avaliacaoIndividual.page.content.length > 0">
-					{{ model.avaliacaoIndividual.page.pageable.page + 1 }} de {{ totalPagesQuestionario }}
-					<md-button class="md-icon-button" ng-disabled="(model.avaliacaoIndividual.page.pageable.page + 1) < 2" ng-click="onQuestionarioPaginationChange(false)">
+					{{ model.avaliacaoIndividual.page.pageable.page + 1 }} de {{ totalPagesAvaliacao }}
+					<md-button class="md-icon-button" ng-disabled="(model.avaliacaoIndividual.page.pageable.page + 1) < 2" ng-click="onAvaliacaoPaginationChange(false)">
 						<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.avaliacaoIndividual.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
 					</md-button>
-					<md-button class="md-icon-button" ng-disabled="(model.avaliacaoIndividual.page.pageable.page + 1) >= totalPagesQuestionario" ng-click="onQuestionarioPaginationChange(true)">
+					<md-button class="md-icon-button" ng-disabled="(model.avaliacaoIndividual.page.pageable.page + 1) >= totalPagesAvaliacao" ng-click="onAvaliacaoPaginationChange(true)">
 						<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.avaliacaoIndividual.page.pageable.page + 1) >= Math.ceil(model.avaliacaoIndividual.page.total/model.avaliacaoIndividual.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
 					</md-button>
 		  		</div>

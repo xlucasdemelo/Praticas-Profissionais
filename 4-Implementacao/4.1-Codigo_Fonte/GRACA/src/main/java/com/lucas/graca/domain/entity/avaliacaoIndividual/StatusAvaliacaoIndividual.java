@@ -9,7 +9,7 @@ import org.directwebremoting.annotations.DataTransferObject;
  * @author lucas
  *
  */
-@DataTransferObject(javascript = "enum")
+@DataTransferObject(type = "enum")
 public enum StatusAvaliacaoIndividual
 {
 	RASCUNHO,

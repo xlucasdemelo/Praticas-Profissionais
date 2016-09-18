@@ -3,6 +3,7 @@
  */
 package com.lucas.graca.domain.service.avaliacao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.directwebremoting.annotations.RemoteProxy;
@@ -237,12 +238,30 @@ public class AvaliacaoService
 		Assert.notNull( resposta.getResposta(), "Resposta não pode ser nula" );
 		
 		Resposta respostaBd = this.respostaRepository.findOne( resposta.getId() );
+		Assert.notNull( respostaBd, "Resposta não existe" );
 		
 		Assert.isTrue( respostaBd.getAvaliacao().getStatus() == StatusAvaliacaoIndividual.RASCUNHO, "A questão só pode ser respondida em avaliações que estejam em rascunho" );
 		
 		respostaBd.mergeToUpdate( resposta );
 		
 		return this.respostaRepository.save( respostaBd );
+	}
+	
+	/**
+	 * 
+	 * @param respostas
+	 * @return
+	 */
+	public List<Resposta> salvarRespostas( List<Resposta> respostas )
+	{
+		List<Resposta> novasRespostas = new ArrayList<Resposta>();
+		
+		for ( Resposta resposta : respostas )
+		{
+			novasRespostas.add( this.updateResposta( resposta ) );
+		}
+		
+		return novasRespostas;
 	}
 	
 	/**

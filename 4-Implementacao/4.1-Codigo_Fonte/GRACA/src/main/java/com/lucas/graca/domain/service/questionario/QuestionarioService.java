@@ -3,6 +3,7 @@
  */
 package com.lucas.graca.domain.service.questionario;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.directwebremoting.annotations.RemoteProxy;
@@ -135,6 +136,33 @@ public class QuestionarioService
 	
 	/**
 	 * 
+	 * @param filter
+	 * @param pageable
+	 * @return
+	 */
+	@Transactional(readOnly=true)
+	@PreAuthorize("hasAuthority('"+UserRole.ATENDENTE_VALUE+"')")
+	public List<Questionario> listQuestionariosAprovados()
+	{
+		List<Questionario> questionarios = this.questionarioRepository.listQuestionariosByFilters( null, null ).getContent();
+		
+		List<Questionario> questionariosAprovados = new ArrayList<Questionario>();
+		
+		for ( Questionario questionario : questionarios )
+		{
+			VersaoQuestionario maiorVersao = this.versaoQuestionarioRepository.findTopByQuestionarioIdOrderByNumeroVersaoDesc( questionario.getId() );
+			
+			if (maiorVersao.getStatus() == StatusVersaoQuestionario.APROVADO)
+			{
+				questionariosAprovados.add( questionario );
+			}
+		}
+		
+		return questionariosAprovados;
+	}
+	
+	/**
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -165,10 +193,9 @@ public class QuestionarioService
 		VersaoQuestionario maiorVersao = this.versaoQuestionarioRepository.findTopByQuestionarioIdOrderByNumeroVersaoDesc( questionarioId );
 		maiorVersao.isRascunho();
 		
-		VersaoQuestionario versao = this.versaoQuestionarioRepository.findOne( maiorVersao.getQuestionario().getId() );
-		versao.changeToAguardandoAprovacao();
+		maiorVersao.changeToAguardandoAprovacao();
 		
-		return this.versaoQuestionarioRepository.save( versao );
+		return this.versaoQuestionarioRepository.save( maiorVersao );
 	}
 	
 	/**

@@ -42,6 +42,8 @@ angular.module('home')
 		
 		//----FORM MODEL
 		
+		$scope.toAprovacao = false;
+		
 		/**
 		 * Contém o estados dos filtros da tela
 		 * Contém estado da paginação inicial contendo sorting
@@ -76,6 +78,27 @@ angular.module('home')
 				
 			},
 			
+			resposta: {
+				entity: new Resposta(),
+				filters: {
+				    terms: "",
+				},
+				
+			    page: {//PageImpl 
+			    		content:[],
+			    		pageable : {size: 9,
+						    		page: 0,
+						        	sort:null
+			        	}
+			    },
+			    sort: [{//Sort
+	        		direction: 'ASC', properties: 'id', nullHandlingHint:null
+	        	}],
+			},
+			
+			/**
+			 * 
+			 */
 			questao: {
 				filters: {
 				    terms: "",
@@ -182,8 +205,7 @@ angular.module('home')
 	     */
 		$scope.changeToAdd = function() {
 			console.debug("changeToAdd");
-			$scope.model.avaliacaoIndividual.entity = new Questionario();//Limpa o formulário
-			$scope.model.versao.entity = new VersaoQuestionario();
+			$scope.model.avaliacaoIndividual.entity = new AvaliacaoIndividual();//Limpa o formulário
 		};
 		
 		/**
@@ -198,10 +220,10 @@ angular.module('home')
 	    $scope.changeToEdit = function( id ) {
 	        console.debug("changeToEdit", id);
 	        
-	        questionarioService.findQuestionarioById( id, {
+	        avaliacaoService.findAvaliacaoById( id, {
 	            callback : function(result) {	   
 	            	$scope.model.avaliacaoIndividual.entity = result;
-	            	$scope.findLastVersaoByQuestionario(id);
+	            	$scope.listRespostasByAvaliacao();
 	            	$scope.$apply();
 	            },
 	            errorHandler : function(message, exception) {
@@ -256,7 +278,7 @@ angular.module('home')
 			
 			avaliacaoService.listAvaliacoesByFilters(  $scope.model.avaliacaoIndividual.filters.terms.toString(), $scope.model.avaliacaoIndividual.page.pageable, {
                 callback : function(result) {
-                	$scope.totalPagesQuestionario = result.totalPages;
+                	$scope.totalPagesAvaliacao = result.totalPages;
                 	$scope.model.avaliacaoIndividual.page = {//PageImpl
     						content : result.content,
 							pageable : {//PageRequest
@@ -282,8 +304,33 @@ angular.module('home')
 		$scope.listQuestoesByVersao = function(){
 			questionarioService.listQuestoesByVersao(  $scope.model.avaliacaoIndividual.entity.id, $scope.model.avaliacaoIndividual.page.pageable, {
 				callback : function(result) {
-					$scope.totalPagesQuestionario = result.totalPages;
+					$scope.totalPagesAvaliacao = result.totalPages;
 					$scope.model.questao.page = {//PageImpl
+							content : result.content,
+							pageable : {//PageRequest
+								page : result.number,
+								size : result.size,
+								sort:result.sort,
+								total   : result.totalElements
+							},
+					};
+					
+					$scope.$apply();
+				},
+				errorHandler : function(message, exception) {
+					$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+					$scope.$apply();
+				}
+			});
+		};
+		
+		/**
+		 * 
+		 */
+		$scope.listRespostasByAvaliacao = function(){
+			avaliacaoService.listRespostasByAvaliacao( $scope.model.avaliacaoIndividual.entity.id, null, {
+				callback : function(result) {
+					$scope.model.resposta.page = {//PageImpl
 							content : result.content,
 							pageable : {//PageRequest
 								page : result.number,
@@ -309,10 +356,23 @@ angular.module('home')
 			$scope.model.avaliacaoIndividual.entity.id ? $scope.updateQuestionario() : $scope.insertQuestionario();
 		};
         
+		$scope.salvarResposta = function()
+		{
+			$scope.toAprovacao = false;
+			avaliacaoService.salvarRespostas( $scope.model.resposta.page.content, {
+				callback : function(result) {
+				},
+				errorHandler : function(message, exception) {
+					$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+					$scope.$apply();
+				}
+			});
+		}
+		
 		/**
 		 * 
 		 */
-		$scope.insertQuestionario = function() {
+		$scope.insertAvaliacaoIndividual = function() {
 			$scope.model.avaliacaoIndividual.form.$submitted = true;
 			
 			if ($scope.model.avaliacaoIndividual.form.$invalid ){
@@ -320,7 +380,7 @@ angular.module('home')
 				return;
 			}
 			
-			questionarioService.insertQuestionario(  $scope.model.avaliacaoIndividual.entity, {
+			avaliacaoService.insertAvaliacaoIndividual(  $scope.model.avaliacaoIndividual.entity, {
                 callback : function(result) {
                 	$state.go( $scope.AVALIACAO_INDIVIDUAL_EDIT_STATE, {id: result.id}, {reload: true } )
                 	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi cadastrado com sucesso!" );
@@ -332,6 +392,9 @@ angular.module('home')
             });
 		};
 		
+		/**
+		 * 
+		 */
 		$scope.updateQuestionario = function() {
 			$scope.model.avaliacaoIndividual.form.$submitted = true;
 			
@@ -359,19 +422,39 @@ angular.module('home')
 		 */
 		$scope.enviarParaAprovacao = function (entity) {
 			
+			$scope.toAprovacao = true;
+			
+			var errado = false;
+			
+			angular.forEach($scope.model.resposta.page.content, function(resposta, key) {
+				if (!resposta.resposta)
+				{
+					$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
+					errado = true;
+				}
+			});
+			
+			if (errado)
+				return;
+			
+//			if ($scope.model.avaliacaoIndividual.form.$invalid ){
+//				$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
+//				return;
+//			}
+			
 	        var confirm = $mdDialog.confirm()
-	            .title('Tem certeza que deseja enviar este questionário para aprovação ?')
-	            .content('Não será possível mais altera-lo')
+	            .title('Tem certeza que deseja enviar esta avaliação para aprovação ?')
+	            .content('Não será possível mais altera-la')
 	            .ok('Sim')
 	            .cancel('Cancelar');
-	
+	        
 	        $mdDialog.show(confirm).then(function (result) {
 	            console.log(result);
 	
-	            questionarioService.enviarVersaoParaAprovacao( $scope.model.avaliacaoIndividual.entity.id, {
+	            avaliacaoService.enviarParaAvaliacao( $scope.model.avaliacaoIndividual.entity.id, {
 		            callback : function(result) {	   
-		            	$scope.model.versao.entity = result;
-		            	$scope.showMessage( $scope.ERROR_MESSAGE,  "Registro foi enviado para aprovação com sucesso" );
+		            	$scope.model.avaliacaoIndividual.entity = result;
+		            	$scope.showMessage( $scope.ERROR_MESSAGE,  "Registro foi enviado para avaliação com sucesso" );
 		            	$scope.$apply();
 		            },
 		            errorHandler : function(message, exception) {
@@ -386,20 +469,19 @@ angular.module('home')
 	    /**
 	     * 
 	     */
-	    $scope.aprovarQuestionario = function() {
+	    $scope.aprovarAvaliacao = function() {
 			
 	        var confirm = $mdDialog.confirm()
-	            .title('Tem certeza que deseja aprovar este questionário ?')
-	            .content(' Este questionário ficará disponível para ser utilizado ')
+	            .title('Tem certeza que deseja aprovar esta avaliação ?')
 	            .ok('Sim')
 	            .cancel('Cancelar');
 	
 	        $mdDialog.show(confirm).then(function (result) {
 	            console.log(result);
 	
-	            questionarioService.aprovarVersao( $scope.model.avaliacaoIndividual.entity.id, {
+	            avaliacaoService.aceitarAvaliacao( $scope.model.avaliacaoIndividual.entity.id, {
 		            callback : function(result) {	   
-		            	$scope.model.versao.entity = result;
+		            	$scope.model.avaliacaoIndividual.entity = result;
 		            	$scope.showMessage( $scope.ERROR_MESSAGE,  "Registro foi aprovado com sucesso" );
 		            	$scope.$apply();
 		            },
@@ -563,7 +645,7 @@ angular.module('home')
 	  	    	avaliacaoService.insertConfiguracao(  $scope.model.configuracao.entity, {
 	                callback : function(result) {
 	                	
-	                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "A senha foi alterada com sucesso!" );
+	                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "Configurado com sucesso" );
 	                	$scope.hide();
 	                	$scope.$apply();
 	                	
@@ -578,11 +660,11 @@ angular.module('home')
 	  	    
 	  	    $scope.listQuestionariosByFilters = function()
 	  	    {
-	  	    	questionarioService.listQuestionariosByFilters(  null, null, {
+	  	    	questionarioService.listQuestionariosAprovados(  {
 	                callback : function(result) {
-	                	$scope.totalPagesQuestionario = result.totalPages;
+	                	$scope.totalPagesAvaliacao = result.totalPages;
 	                	$scope.model.questionario.page = {//PageImpl
-	    						content : result.content,
+	    						content : result,
 								pageable : {//PageRequest
 									page : result.number,
 									size : result.size,
@@ -603,6 +685,23 @@ angular.module('home')
 	  	    $scope.listQuestionariosByFilters();
 	  	    
 	      }
+		
+  	    /**
+  	     * 
+  	     */
+  	    $scope.openSelectCrianca = function()
+		{
+			
+			$mdDialog.show({
+			      controller: "SelecionarCriancaPopup",
+			      templateUrl: './modules/home/views/avaliacaoindividual/popup/selecionar-crianca-popup.html',			      
+			      scope: $scope.$new(),
+				})
+			    .then(function(result) {
+			    	$scope.model.avaliacaoIndividual.entity.crianca = result;
+			 });
+			
+		}
 		
 		/**
 		 * 

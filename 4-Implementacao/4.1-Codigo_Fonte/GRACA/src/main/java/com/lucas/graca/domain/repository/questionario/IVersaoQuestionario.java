@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.lucas.graca.domain.entity.questionario.StatusVersaoQuestionario;
 import com.lucas.graca.domain.entity.questionario.VersaoQuestionario;
 
 /**
@@ -31,5 +30,5 @@ public interface IVersaoQuestionario extends JpaRepository<VersaoQuestionario, L
 	 * @return
 	 */
 	public VersaoQuestionario findTopByQuestionarioIdOrderByNumeroVersaoDesc ( Long questionarioId );
-	
+	 
 }
