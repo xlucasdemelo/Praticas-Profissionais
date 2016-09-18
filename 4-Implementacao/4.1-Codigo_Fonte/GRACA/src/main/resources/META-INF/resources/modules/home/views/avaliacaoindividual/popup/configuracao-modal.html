@@ -1,0 +1,46 @@
+<md-dialog style="width:500px">
+
+  	<md-toolbar style="height: 60px; min-height: 60px !important;">
+  		<div flex layout="row" class="default-header">
+  			<div >
+	  			<h1 class="md-toolbar-tools" >Selecionar Questionário</h1>
+  			</div>
+    	</div> 
+  	</md-toolbar> 
+  	
+	<form name="form" style="height: 100%"  flex flayout="column" novalidate>
+	  	<md-dialog-content layout="column" flex>
+	  		
+  			<div class="default-form" flex>
+
+            <div class="default-info" layout="row">Questionário</div>
+				                     
+            <div layout="row">
+	     		<md-select flex name="role" ng-model="model.configuracao.entity.questionario">
+		     		<md-option ng-repeat="questionario in model.questionario.page.content" value="{{questionario}}">{{questionario.nome}}</md-option>
+		   		</md-select>
+            </div>
+       	
+			</div>
+	  	</md-dialog-content>
+	  	
+	  	<md-divider style="order: 2"></md-divider>
+  	
+	  	<md-dialog-actions layout="row" layout-align="end center">
+		    <div layout="row" >
+			    
+			    <div>
+				    <md-button class="md-raised md-primary md-hue-3" type="button" ng-click="cancel()">
+				    	Fechar
+				    </md-button>
+			    </div>
+			    
+		    	<div >
+		        	<md-button class="md-raised md-accent default-save-button" type="submit" ng-click="insertConfiguracao()">
+				    	SALVAR
+				    </md-button>
+				</div>
+		    </div>
+	    </md-dialog-actions>
+  	</form> 
+</md-dialog>

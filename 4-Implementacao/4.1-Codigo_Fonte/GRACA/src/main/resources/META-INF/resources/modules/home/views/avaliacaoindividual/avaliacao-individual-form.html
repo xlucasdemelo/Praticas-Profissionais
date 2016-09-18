@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" 
+	xmlns:th="http://www.thymeleaf.org" lang="pt">
+	
+	<div class="main-div" layout="column" flex>
+		<md-toolbar layout="row">
+	    	<div layout="row" flex>
+		        <h1 class="md-toolbar-tools">Avaliação individual</h1>
+	    	</div>
+	    	
+	    	<div layout="row" style="margin-right: 30px;" layout-align="end center">
+		        <md-button class="md-raised" ng-click="$state.go( AVALIACAO_INDIVIDUAL_LIST_STATE )">Voltar</md-button>
+		        <md-button class="md-raised " ng-click="enviarParaAprovacao()" ng-if="model.questionario.entity.id && ( model.versao.entity.status == 'RASCUNHO' || model.versao.entity.status == 'REJEITADO' )">Enviar para aprovação</md-button>
+		        <md-button class="md-raised " ng-click="aprovarQuestionario()" ng-if="model.questionario.entity.id && ( model.versao.entity.status == 'AGUARDANDO_APROVACAO' || model.versao.entity.status == 'REJEITADO' )">Aprovar questionário</md-button>
+		        <md-button class="md-raised " ng-click="aumentarVersaoQuestionario()" ng-if="model.questionario.entity.id && ( model.versao.entity.status == 'APROVADO' )">Aumentar versão</md-button>
+		        <md-button class="md-raised md-accent" ng-click="save()">Salvar</md-button>
+	    	</div>
+	    </md-toolbar>
+			
+		<md-content layout="column" flex style="height:100%">
+			<md-tabs style="height:100%" md-border-bottom md-selected="model.questionario.selectedTab" flex>
+				<md-tab style="height:100%" label="Questionário">
+					<div style="height:100%" class="default-frame" layout="column">
+						<md-toolbar layout style="height:100%" class="md-hue-1">
+							<form novalidate name="model.questionario.form" style="height:100%" class="default-form" flex>
+								<div class="default-info" flex> 
+									<span>INFORMAÇÕES DO QUESTIONÁRIO</span>
+									<i ng-if="model.versao.entity.id">v.{{model.versao.entity.numeroVersao}}</i>
+								</div>
+								
+								
+								<div style="margin-bottom: 20px;" flex>Status: {{model.versao.entity.status | translate}}</div>
+								
+				    			<div layout="column">
+					    			<md-input-container layout="column" flex="30" style="margin-right:30px">
+							    		<label>Nome</label>
+						                <input md-maxlength="255" ng-disabled="model.questionario.entity.id && ( model.versao.entity.status == 'AGUARDANDO_APROVACAO' || model.versao.entity.status == 'APROVADO' )" name="nome" required ng-model="model.questionario.entity.nome">
+						
+						                <div ng-messages="model.questionario.form.nome.$error">
+						                	<div ng-message="required" ng-if="model.questionario.form.$submitted">Campo Obrigatório</div>
+						                	<div ng-message="md-maxlength" ng-if="model.questionario.form.$submitted">Limite de caracteres excedido</div>
+						                </div>
+						            </md-input-container>
+				    			</div>
+					            
+					            <div layout="column">
+						            <md-input-container layout="column" flex>
+							    		<label>Descrição</label>
+							    		<textarea maxlength="255" name="descricao" ng-disabled="model.questionario.entity.id && ( model.versao.entity.status == 'AGUARDANDO_APROVACAO' || model.versao.entity.status == 'APROVADO' )" ng-model="model.questionario.entity.descricao" rows="5" required></textarea>
+						                
+						                <div ng-messages="model.questionario.form.descricao.$error">
+						               		<div ng-message="required" ng-if="model.questionario.form.$submitted">Campo obrigatório</div>
+						                </div>
+						            </md-input-container>
+								</div>
+							</form>
+						</md-toolbar>
+					</div>
+				</md-tab>
+				
+				<md-tab label="Questões" ng-click="listQuestoesByVersao()" ng-if="model.questionario.entity.id">
+					<div class="default-frame" layout="column">
+						<div layout="row" flex>
+							<div class="default-info" flex>QUESTÕES</div>
+						 	<md-button class="md-raised" ng-if="model.questionario.entity.id && ( model.versao.entity.status == 'RASCUNHO')" ng-click="openInsertUpdateQuestaoHandler()">Nova Questão</md-button>
+						</div>
+						
+						<md-toolbar class="md-hue-1" layout flex>
+							<md-table-container flex>
+								<table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+									<thead md-head md-order="" md-on-reorder="">
+										<tr md-row>
+											<th md-column>Nome</th>
+											<th md-column md-order-by="">Tipo</th>
+										</tr>
+									</thead>
+									<tbody md-body>
+										<tr md-row md-select="dessert" style="cursor:pointer" ng-click="openInsertUpdateQuestaoHandler( questao )" md-auto-select ng-repeat="questao in model.questao.page.content track by questao.id">
+											<td md-cell>{{ questao.descricao }}</td>
+											<td md-cell>{{ questao.tipoQuestao | translate }}</td>
+										</tr>
+									</tbody>
+								</table>
+							</md-table-container>
+						</md-toolbar>
+					</div>
+				</md-tab>
+				
+				<md-tab label="Versão" ng-click="listQuestoesByVersao()" ng-if="model.questionario.entity.id && model.versao.page.pageable.length > 0">
+					<div class="default-frame" layout="column">
+						<div layout="row" flex>
+							<div class="default-info" flex>QUESTÕES</div>
+						 	<md-button class="md-raised" ng-if="model.questionario.entity.id && ( model.versao.entity.status == 'RASCUNHO')" ng-click="openInsertUpdateQuestaoHandler()">Nova Questão</md-button>
+						</div>
+						
+						<md-toolbar class="md-hue-1" layout flex>
+							<md-table-container flex>
+								<table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+									<thead md-head md-order="" md-on-reorder="">
+										<tr md-row>
+											<th md-column>Nome</th>
+											<th md-column md-order-by="">Tipo</th>
+										</tr>
+									</thead>
+									<tbody md-body>
+										<tr md-row md-select="dessert" style="cursor:pointer" ng-click="openInsertUpdateQuestaoHandler( questao )" md-auto-select ng-repeat="questao in model.questao.page.content track by questao.id">
+											<td md-cell>{{ questao.descricao }}</td>
+											<td md-cell>{{ questao.tipoQuestao | translate }}</td>
+										</tr>
+									</tbody>
+								</table>
+							</md-table-container>
+						</md-toolbar>
+					</div>
+				</md-tab>
+				
+			</md-tabs>
+		</md-content>
+	</div>
+
+</html>

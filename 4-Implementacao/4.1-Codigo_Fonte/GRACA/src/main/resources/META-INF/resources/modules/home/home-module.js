@@ -109,6 +109,26 @@
 	    	 templateUrl: './modules/home/views/questionario/questionario-form.html'
 	     })
 	     
+	     //AVALIAÇÃO INDIVIDUAL
+	     $stateProvider.state('avaliacao-individual',{
+	    	 abstract: true,
+	    	 url : "/avaliacao-individual",
+	    	 template: '<div layout="column" flex ui-view=""/>',
+	    	 controller : 'AvaliacaoIndividualController as avaliacaoIndividualController'
+	     })
+	     .state('avaliacao-individual.list',{
+	    	 url:'/listar',
+	    	 templateUrl: './modules/home/views/avaliacaoindividual/avaliacao-individual-list.html'
+	     })
+	     .state('avaliacao-individual.add',{
+	    	 url:'/inserir',
+	    	 templateUrl: './modules/home/views/avaliacaoindividual/avaliacao-individual-form.html'
+	     })
+	     .state('avaliacao-individual.edit',{
+	    	 url:'/editar/{id:[0-9]{1,10}}',
+	    	 templateUrl: './modules/home/views/avaliacaoindividual/avaliacao-individual-form.html'
+	     })
+	     
 	     //Plano de atendimento familiar
 	     $stateProvider.state('plano-atendimento-familiar',{
         	abstract: true,
