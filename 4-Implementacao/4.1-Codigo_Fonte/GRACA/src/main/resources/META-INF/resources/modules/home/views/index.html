@@ -14,6 +14,12 @@
 		<!-- Scripts -->
 		<script th:replace="modules/default-scripts"></script>
 		
+		<script th:inline="javascript">
+		/*<![CDATA[*/
+		   user = /*[[${session.SPRING_SECURITY_CONTEXT.authentication}]]*/;
+		/*]]>*/
+		</script>
+		
 		<!-- Module --> 
 		<script type="text/javascript" th:src="@{/modules/home/home-module.js}"></script>
 		

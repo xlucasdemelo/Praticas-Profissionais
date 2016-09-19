@@ -219,9 +219,11 @@ public class User extends AbstractEntity implements Serializable, UserDetails
 	 */
 	public void validateChangePassword()
 	{
-		Assert.isTrue( (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal() == this
+		User user = (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Assert.isTrue( user.getId() == this.getId()
 				|| SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains( UserRole.ADMINISTRATOR),
 				"Operação não permitida");
+		
 	}
 	
 	/**
