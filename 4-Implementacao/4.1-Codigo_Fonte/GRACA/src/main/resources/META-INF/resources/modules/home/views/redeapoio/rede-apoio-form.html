@@ -2,7 +2,7 @@
 <html xmlns:ng="http://angularjs.org" 
 	xmlns:th="http://www.thymeleaf.org" lang="pt">
 	
-<div class="main-div" >
+<div class="main-div" layout="column" flex>
 	
 		<md-toolbar layout="row" style="z-index: 3;">
 	    	<div flex layout="row" class="default-header">
@@ -27,16 +27,12 @@
 	        
 	    </md-toolbar>
 		
-		<div layout="column" md-theme="{{}}" style="height: 100%; position:absolute; width:100%;">
-			<md-content layout="column" style="height: 93%;">
+			<md-content layout="column" flex style="height:100%">
 				<md-tabs md-border-bottom style="position: static; overflow:auto" md-selected="model.ordemServico.selectedTab">
 					<md-tab label="Rede de apoio">
-						
-						<div layout-fill style="height:50%">
-				    		<md-toolbar layout-fill style="min-height: 100% !important;position:absolute;" class="md-hue-3" md-theme="{{osmTheme}}">
-								<div class="default-frame" style="overflow:auto">
-									<md-toolbar layout="row" class="default-form toolbar-temp" style="padding-bottom: 0; ">
-										<form novalidate name="model.redeApoio.form" class="default-form">
+						<div style="height:100%" class="default-frame" layout="column">
+									<md-toolbar layout style="height:100%" class="md-hue-1">
+										<form novalidate name="model.questionario.form" style="height:100%" class="default-form" flex>
 											
 											<div layout="row">
 												
@@ -220,15 +216,12 @@
 								            
 										</form>
 									</md-toolbar>
-								</div>
-							</md-toolbar>
 						</div>
 						
 					</md-tab>
 					
 				</md-tabs>
 			</md-content>
-		</div>
 		
 </div>
 

@@ -2,7 +2,7 @@
 <html xmlns:ng="http://angularjs.org" 
 	xmlns:th="http://www.thymeleaf.org" lang="pt">
 	
-<div class="main-div" >
+<div class="main-div" layout="column" flex>
 	
 		<md-toolbar layout="row" style="z-index: 3;">
 	    	<div flex layout="row" class="default-header">
@@ -27,18 +27,15 @@
 	        
 	    </md-toolbar>
 		
-		<div layout="column" md-theme="{{}}" style="height: 100%; position:absolute; width:100%;">
-			<md-content layout="column" style="height: 93%;">
+			<md-content layout="column" flex style="height:100%">
 				<md-tabs md-border-bottom style="position: static; overflow:auto" md-selected="model.ordemServico.selectedTab">
 					<md-tab label="Criança">
 						
-						<div layout-fill style="height:50%">
-				    		<md-toolbar layout-fill style="min-height: 100% !important;position:absolute;" class="md-hue-3" md-theme="{{osmTheme}}">
 								<div class="default-frame" style="overflow:auto">
 								
-									<md-toolbar layout="row" class="default-form toolbar-temp" style="padding-bottom: 0; ">
+									<md-toolbar layout style="height:100%" class="md-hue-1">
 									
-										<form novalidate name="model.crianca.form" class="default-form">
+										<form novalidate name="model.crianca.form" class="default-form" flex>
 											
 										        <div class="default-info" layout="row">Informações da criança</div>
 									        
@@ -55,7 +52,7 @@
 											            
 											            <div layout="column"  >
 											            	<label style="color:black">Data de nascimento</label>
-											            	<md-datepicker required name="dataNascimento" ng-model="model.crianca.entity.dataNascimento" style="margin-top:25px; background:white" ></md-datepicker>
+											            	<md-datepicker required name="dataNascimento" ng-model="model.crianca.entity.dataNascimento" style="margin-top:25px;"></md-datepicker>
 											            	
 											            	<div ng-messages="model.crianca.form.dataNascimento.$error">
 											               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
@@ -101,7 +98,7 @@
 							                     	
 							                     	<div layout="column"  >
 										            	<label style="color:black">Data de acolhimento</label>
-										            	<md-datepicker required name="dataAcolhimento" ng-model="model.crianca.entity.dataAcolhimento" style="margin-top:25px; background:white" ></md-datepicker>
+										            	<md-datepicker required name="dataAcolhimento" ng-model="model.crianca.entity.dataAcolhimento" style="margin-top:25px;" ></md-datepicker>
 										            	
 										            	<div ng-messages="model.crianca.form.dataAcolhimento.$error">
 										               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
@@ -115,7 +112,6 @@
 										</form>
 									</md-toolbar>
 								</div>
-						</div>
 						
 					</md-tab>
 					
@@ -124,10 +120,8 @@
 					
 					<md-tab label="Acolhimento" ng-if="model.crianca.entity.id">
 						
-						<div layout-fill style="height:50%">
-				    		<md-toolbar layout-fill style="min-height: 100% !important;position:absolute;" class="md-hue-3" md-theme="{{osmTheme}}">
-								<div class="default-frame" style="overflow:auto">
-									<md-toolbar layout="row" class="default-form toolbar-temp" style="padding-bottom: 0; ">
+								<div style="height:100%" class="default-frame" layout="column">
+									<md-toolbar layout style="height:100%" class="md-hue-1 default-form" >
 									
 											<div>
 										        <div class="default-info" layout="row">Informações do acolhimento</div>
@@ -382,20 +376,14 @@
 													</md-table-container>
 								                     
 							                     </div>
-							            	</div>
-											
-									</md-toolbar>
 								</div>
 							</md-toolbar>
 						
 						</md-tab>
 						
 					<md-tab label="Família" ng-if="model.crianca.entity.id" >
-						<div layout-fill style="height:50%">
-				    		<md-toolbar layout-fill style="min-height: 100% !important;position:absolute;" class="md-hue-3" md-theme="{{osmTheme}}">
-								<div class="default-frame" style="overflow:auto">
-									<md-toolbar layout="row" class="default-form toolbar-temp" style="padding-bottom: 0; ">
-									
+								<div style="height:100%" class="default-frame" layout="column">
+									<md-toolbar layout style="height:100%" class="md-hue-1 default-form" >									
 										<form novalidate name="model.familia.form" class="default-form">
 
 											<div layout="row">
@@ -443,8 +431,6 @@
 										</form>
 									</md-toolbar>
 								</div>
-							</md-toolbar>
-						</div>
 						
 					</md-tab>
 						
@@ -454,7 +440,6 @@
 					
 				</md-tabs>
 			</md-content>
-		</div>
 		
 </div>
 
