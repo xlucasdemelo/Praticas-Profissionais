@@ -15,37 +15,37 @@
 		
 			<label class="md-body-2">MENU</label>
 			
-			<md-button style="text-align: left;"
+			<md-button ng-if="hasPermission('ADMINISTRATOR')" style="text-align: left;"
 				ng-click="toggleMenuSideNavHandler('user.list');">
 				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
 				Usuários
 			</md-button>
 			
-			<md-button style="text-align: left;"
+			<md-button ng-if="hasPermission('OPERADOR_ATENDIMENTOS')" style="text-align: left;"
 				ng-click="toggleMenuSideNavHandler('familia.list');">
 				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
 				Família
 			</md-button>
 			
-			<md-button style="text-align: left;"
+			<md-button ng-if="hasPermission('OPERADOR_ATENDIMENTOS')" style="text-align: left;"
 				ng-click="toggleMenuSideNavHandler('casa-lar.list');">
 				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
 				Casa Lar
 			</md-button>
 			
-			<md-button style="text-align: left;"
+			<md-button ng-if="hasPermission('OPERADOR_ATENDIMENTOS')" style="text-align: left;"
 				ng-click="toggleMenuSideNavHandler('rede-apoio.list');">
 				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
 				Rede de apoio
 			</md-button>
 			
-			<md-button style="text-align: left;"
+			<md-button ng-if="hasPermission('OPERADOR_ATENDIMENTOS')" style="text-align: left;"
 				ng-click="toggleMenuSideNavHandler('questionario.list');">
 				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
 				Questionário
 			</md-button>
 			
-			<md-button style="text-align: left;"
+			<md-button ng-if="hasPermission('ATENDENTE')" style="text-align: left;"
 				ng-click="toggleMenuSideNavHandler('avaliacao-individual.list');">
 				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
 				Avaliação indivídual
@@ -53,13 +53,13 @@
 			
 			<md-divider></md-divider>
 			
-			<md-button style="text-align: left;"
+			<md-button ng-if="hasPermission('OPERADOR_ATENDIMENTOS')" style="text-align: left;"
 				ng-click="toggleMenuSideNavHandler('crianca.list');">
 				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
 				Crianças
 			</md-button>
 			
-			<md-button style="text-align: left;"
+			<md-button ng-if="hasPermission('ATENDENTE')" style="text-align: left;"
 				ng-click="toggleMenuSideNavHandler('plano-atendimento-familiar.list');">
 				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
 				Plano de atendimento Familiar
