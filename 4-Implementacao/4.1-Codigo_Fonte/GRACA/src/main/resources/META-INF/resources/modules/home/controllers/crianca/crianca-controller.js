@@ -15,6 +15,7 @@ angular.module('home')
 		$importService("criancaService");
 		$importService("integranteFamiliarService");
 		$importService("enderecoService");
+		$importService("casaLarService");
 		
 		/**
 		 * 
@@ -161,6 +162,27 @@ angular.module('home')
 			endereco: {
 				form: null,
 				entity: new Endereco(),
+				
+				filters: {
+				    terms: "",
+				   
+				},
+				
+				page: {//PageImpl 
+			    	content: [],
+			    	pageable: {//PageRequest
+			    		size: 9,
+			    		page: 0,
+			        	sort: {//Sort
+			        		direction: 'ASC', properties: ['id']
+			        	},
+			    	}
+			    },
+			},
+			
+			casaLar: {
+				form: null,
+				entity: new CasaLar(),
 				
 				filters: {
 				    terms: "",
@@ -498,6 +520,10 @@ angular.module('home')
 //			$scope.model.crianca.entity.endereco.cidade = !$scope.model.cidade.selectedItem  ? null : $scope.model.cidade.selectedItem ;
 //			$scope.model.crianca.entity.endereco.cidade.estado = !$scope.model.estado.selectedItem ? null : $scope.model.crianca.entity.endereco.cidade.estado ;
 //			$scope.model.crianca.entity.endereco.cidade.estado.pais = !$scope.model.pais.selectedItem ? null : $scope.model.crianca.entity.endereco.cidade.estado.pais;
+			
+			var a = JSON.parse($scope.model.crianca.entity.casaLar);
+  	    	$scope.model.crianca.entity.casaLar = new CasaLar();
+  	    	$scope.model.crianca.entity.casaLar.id = a.id;
 			
 			criancaService.insertCrianca(  $scope.model.crianca.entity, {
                 callback : function(result) {
@@ -931,6 +957,32 @@ angular.module('home')
             });
 		}
 		
+		$scope.listAllCasaLar = function()
+		{
+			
+			casaLarService.listByFilters(  null, null, {
+                callback : function(result) {
+                	$scope.model.casaLar.page = {//PageImpl
+    						content : result.content,
+							pageable : {//PageRequest
+								page : result.number,
+								size : result.size,
+								sort:result.sort,
+								total   : result.totalElements
+							},
+    				};
+                	
+                	$scope.$apply();
+                	
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+			
+		}
+		
 		/*-------------------------------------------------------------------
 	     * 		 				 	POST CONSTRUCT
 	     *-------------------------------------------------------------------*/
@@ -939,6 +991,7 @@ angular.module('home')
 		$scope.listAllGrausParentesco();
 		$scope.listAllEtnias();
 		$scope.listAllTiposDocumento();
+		$scope.listAllCasaLar();
 		
 });
 }(window.angular));

@@ -127,8 +127,19 @@
 										        <div class="default-info" layout="row">Informações do acolhimento</div>
 									        
 									            <div >
-									            	
-									            												<md-input-container layout="column" gap="20px">
+											
+											<md-input-container layout="column" style="width:300px; margin-bottom:5s0px" gap="20px">
+							            		<label>Casa lar</label>
+							            		<md-select style="margin-top:24px"  name="casaLar" ng-model="model.crianca.entity.casaLar">
+										        	<md-option  ng-repeat="casaLar in model.casaLar.page.content" value="{{casaLar}}">{{casaLar.numero}}</md-option>
+										        </md-select>
+										        
+										        <div ng-messages="model.crianca.form.grauEscolaridade.$error">
+								               		<div ng-message="" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
+								                </div>
+							            	</md-input-container>
+												
+									       <md-input-container layout="column" style="width:300px" gap="20px">
 							            		<label>Grau de escolaridade</label>
 							            		<md-select style="margin-top:24px"  name="grauEscolaridade" ng-model="model.crianca.entity.grauEscolaridade">
 										        	<md-option  ng-repeat="grau in allGrausEscolaridade" value="{{grau}}">{{::grau | translate}}</md-option>
@@ -139,7 +150,7 @@
 								                </div>
 							            	</md-input-container>
 							            	
-							            	<md-input-container layout="column" gap="20px">
+							            	<md-input-container layout="column" style="width:300px" gap="20px">
 							            		<label>Etnia</label>
 							            		<md-select style="margin-top:24px"  name="etnia" ng-model="model.crianca.entity.etnia">
 										        	<md-option  ng-repeat="etnia in allEtnias track by $index" value="{{etnia}}">{{::etnia | translate}}</md-option>
