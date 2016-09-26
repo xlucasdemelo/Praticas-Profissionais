@@ -523,19 +523,11 @@ angular.module('home')
 //			$scope.model.crianca.entity.endereco.cidade.estado = !$scope.model.estado.selectedItem ? null : $scope.model.crianca.entity.endereco.cidade.estado ;
 //			$scope.model.crianca.entity.endereco.cidade.estado.pais = !$scope.model.pais.selectedItem ? null : $scope.model.crianca.entity.endereco.cidade.estado.pais;
 			
-			if ($scope.model.crianca.entity.casaLar )
+			if ( $scope.model.crianca.entity.casaLar )
 			{
-				try{
-					var a = JSON.parse($scope.model.crianca.entity.casaLar);
-				}
-				catch(e){
-					
-				}
-				
-				if (a){
-					$scope.model.crianca.entity.casaLar = new CasaLar();
-		  	    	$scope.model.crianca.entity.casaLar.id = a.id;
-				}
+				var a = new CasaLar();
+				a.id = $scope.model.crianca.entity.casaLar.id;
+				$scope.model.crianca.entity.casaLar = a;
 			}
 			
 			criancaService.insertCrianca(  $scope.model.crianca.entity, {
@@ -568,7 +560,12 @@ angular.module('home')
 				});
 			}
 			
+			//TODO Arrumar isso aqui
 			if( e.type == "blur" || ( e.type == "keypress" && e.keyCode == 13 ) ) {
+				if ($scope.model.acolhimento.form.$invalid ){
+					$scope.showMessage( $scope.ERROR_MESSAGE,  "" );
+					return;
+				}
 				saveDocumento(item);
 			}
 		};
@@ -578,7 +575,7 @@ angular.module('home')
 		 */
 		$scope.insertDocumentoCrianca = function() {
 	    	
-			$scope.model.crianca.form.$submitted = true;
+			$scope.model.acolhimento.form.$submitted = true;
 			
 			if ($scope.model.acolhimento.form)
 				$scope.model.acolhimento.form.$submitted = true;
@@ -604,6 +601,13 @@ angular.module('home')
 			}
 			
 			$scope.model.documentoCrianca.entity.crianca = $scope.model.crianca.entity;
+			
+			if ( $scope.model.crianca.entity.casaLar )
+			{
+				var a = new CasaLar();
+				a.id = $scope.model.crianca.entity.casaLar.id;
+				$scope.model.crianca.entity.casaLar = a;
+			}
 			
 			criancaService.updateDocumentoCrianca( $scope.model.documentoCrianca.entity, {
                 callback : function(result) {

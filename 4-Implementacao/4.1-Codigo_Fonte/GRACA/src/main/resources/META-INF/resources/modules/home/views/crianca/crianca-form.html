@@ -122,7 +122,7 @@
 						
 								<div style="height:100%" class="default-frame" layout="column">
 									<md-toolbar layout style="height:100%" class="md-hue-1 default-form" >
-										<form name="model.acolhimento.form">
+										<div ng-form="model.acolhimento.form">
 											<div>
 										        <div class="default-info" layout="row">Informações do acolhimento</div>
 									        
@@ -131,7 +131,7 @@
 											<md-input-container layout="column" style="width:300px; margin-bottom:5s0px" gap="20px">
 							            		<label>Casa lar</label>
 							            		<md-select style="margin-top:24px"  name="casaLar" ng-model="model.crianca.entity.casaLar"  ng-model-options="{trackBy: '$value.id'}">
-										        	<md-option  ng-repeat="casaLar in model.casaLar.page.content" value="{{casaLar}}">{{casaLar.numero}}</md-option>
+										        	<md-option  ng-repeat="casaLar in model.casaLar.page.content" ng-value="{{casaLar}}">{{casaLar.numero}}</md-option>
 										        </md-select>
 										        
 										        <div ng-messages="model.crianca.form.grauEscolaridade.$error">
@@ -350,9 +350,9 @@
 												    		<label>Número</label>
 											                <input type="text" maxlength="14" required name="numeroCpf" mask="999.999.999-99" required ng-model="model.documentoCrianca.entity.numeroDocumento" ng-cpf>
 											            	
-											            	<div ng-messages="model.crianca.form.numeroCpf.$error">
+											            	<div ng-messages="model.acolhimento.form.numeroCpf.$error">
 											               		<div ng-message="required" >Campo obrigatório</div>
-											               		<div ng-message="cpf">CPF inválido</div>
+											               		<div ng-message="cpf" ng-if="model.acolhimento.form.numeroCpf.$error" >CPF inválido</div>
 											                </div>
 											            	
 											            </md-input-container>
@@ -375,7 +375,13 @@
 													      <tr md-row md-select="dessert" style="cursor:pointer" ng-repeat="documento in model.crianca.entity.documentosCrianca">
 													        <td md-cell>{{::documento.tipoDocumento}}</td>
 													        <td md-cell>
-													        	<input maxlength="14" ng-if="documento.tipoDocumento == 'CPF'" name="numero" ng-blur="updateDocumento($event, documento)" mask="999.999.999-99" required ng-model="documento.numeroDocumento">
+													        	<input maxlength="14" ng-if="documento.tipoDocumento == 'CPF'" name="numeroCpfGrid" ng-blur="updateDocumento($event, documento)" mask="999.999.999-99" required ng-model="documento.numeroDocumento" ng-cpf>
+													        	
+													        	<div ng-messages="model.acolhimento.form.numeroCpfGrid.$error">
+												               		<div ng-message="required" >Campo obrigatório</div>
+												               		<div ng-message="cpf" ng-if="model.acolhimento.form.numeroCpfGrid.$error" >CPF inválido</div>
+												                </div>
+													        	
 													        	<input maxlength="8" ng-if="documento.tipoDocumento == 'RG'" name="numero" ng-blur="updateDocumento($event, documento)"  required ng-model="documento.numeroDocumento">
 													        </td>
 													        <td md-cell> 
@@ -387,7 +393,7 @@
 													</md-table-container>
 								                     
 							                     </div>
-									</form>
+									</div>
 								</div>
 							</md-toolbar>
 						
