@@ -17,6 +17,8 @@ angular.module('home')
 		$importService("enderecoService");
 		$importService("casaLarService");
 		
+		$scope.maxDate = new Date();
+		
 		/**
 		 * 
 		 */
@@ -521,9 +523,20 @@ angular.module('home')
 //			$scope.model.crianca.entity.endereco.cidade.estado = !$scope.model.estado.selectedItem ? null : $scope.model.crianca.entity.endereco.cidade.estado ;
 //			$scope.model.crianca.entity.endereco.cidade.estado.pais = !$scope.model.pais.selectedItem ? null : $scope.model.crianca.entity.endereco.cidade.estado.pais;
 			
-			var a = JSON.parse($scope.model.crianca.entity.casaLar);
-  	    	$scope.model.crianca.entity.casaLar = new CasaLar();
-  	    	$scope.model.crianca.entity.casaLar.id = a.id;
+			if ($scope.model.crianca.entity.casaLar )
+			{
+				try{
+					var a = JSON.parse($scope.model.crianca.entity.casaLar);
+				}
+				catch(e){
+					
+				}
+				
+				if (a){
+					$scope.model.crianca.entity.casaLar = new CasaLar();
+		  	    	$scope.model.crianca.entity.casaLar.id = a.id;
+				}
+			}
 			
 			criancaService.insertCrianca(  $scope.model.crianca.entity, {
                 callback : function(result) {
@@ -565,19 +578,27 @@ angular.module('home')
 		 */
 		$scope.insertDocumentoCrianca = function() {
 	    	
-			$scope.model.acolhimento.form.$submitted = true;
+			$scope.model.crianca.form.$submitted = true;
+			
+			if ($scope.model.acolhimento.form)
+				$scope.model.acolhimento.form.$submitted = true;
+			
+			if ($scope.model.acolhimento.form.$invalid ){
+				$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
+				return;
+			}
 			
 			if ( !$scope.model.documentoCrianca.entity.tipoDocumento ){
 				$scope.showMessage( $scope.ERROR_MESSAGE,  "Selecione um tipo de documento" );
 				return;
 			}
 			
-			if ( $scope.model.acolhimento.form.numeroCpf && $scope.model.acolhimento.form.numeroCpf.$invalid ){
+			if ( $scope.model.crianca.form.numeroCpf && $scope.model.acolhimento.form.numeroCpf.$invalid ){
 				$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
 				return;
 			}
 			
-			if ( $scope.model.acolhimento.form.numeroRg && $scope.model.acolhimento.form.numeroRg.$invalid ){
+			if ( $scope.model.crianca.form.numeroRg && $scope.model.acolhimento.form.numeroRg.$invalid ){
 				$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
 				return;
 			}

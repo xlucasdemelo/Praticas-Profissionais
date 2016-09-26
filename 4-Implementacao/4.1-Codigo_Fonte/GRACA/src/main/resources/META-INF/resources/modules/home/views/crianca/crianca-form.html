@@ -52,7 +52,7 @@
 											            
 											            <div layout="column"  >
 											            	<label style="color:black">Data de nascimento</label>
-											            	<md-datepicker required name="dataNascimento" ng-model="model.crianca.entity.dataNascimento" style="margin-top:25px;"></md-datepicker>
+											            	<md-datepicker required  md-max-date="maxDate" name="dataNascimento" ng-model="model.crianca.entity.dataNascimento" style="margin-top:25px;"></md-datepicker>
 											            	
 											            	<div ng-messages="model.crianca.form.dataNascimento.$error">
 											               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
@@ -122,7 +122,7 @@
 						
 								<div style="height:100%" class="default-frame" layout="column">
 									<md-toolbar layout style="height:100%" class="md-hue-1 default-form" >
-									
+										<form name="model.acolhimento.form">
 											<div>
 										        <div class="default-info" layout="row">Informações do acolhimento</div>
 									        
@@ -130,7 +130,7 @@
 											
 											<md-input-container layout="column" style="width:300px; margin-bottom:5s0px" gap="20px">
 							            		<label>Casa lar</label>
-							            		<md-select style="margin-top:24px"  name="casaLar" ng-model="model.crianca.entity.casaLar">
+							            		<md-select style="margin-top:24px"  name="casaLar" ng-model="model.crianca.entity.casaLar"  ng-model-options="{trackBy: '$value.id'}">
 										        	<md-option  ng-repeat="casaLar in model.casaLar.page.content" value="{{casaLar}}">{{casaLar.numero}}</md-option>
 										        </md-select>
 										        
@@ -342,7 +342,7 @@
 											                <input type="text" maxlength="11" name="numeroRg" mask="9.999.999-9" required ng-model="model.documentoCrianca.entity.numeroDocumento">
 											            
 											            	<div ng-messages="model.acolhimento.form.numeroRg.$error">
-											               		<div ng-message="required"  ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+											               		<div ng-message="required" >Campo obrigatório</div>
 											                </div>
 											            </md-input-container>
 											            
@@ -350,9 +350,9 @@
 												    		<label>Número</label>
 											                <input type="text" maxlength="14" required name="numeroCpf" mask="999.999.999-99" required ng-model="model.documentoCrianca.entity.numeroDocumento" ng-cpf>
 											            	
-											            	<div ng-messages="model.acolhimento.form.numeroCpf.$error">
-											               		<div ng-message="required"  ng-if="model.acolhimento.form.$submitted">Campo obrigatório</div>
-											               		<div ng-message="cpf"  >CPF inválido</div>
+											            	<div ng-messages="model.crianca.form.numeroCpf.$error">
+											               		<div ng-message="required" >Campo obrigatório</div>
+											               		<div ng-message="cpf">CPF inválido</div>
 											                </div>
 											            	
 											            </md-input-container>
@@ -387,6 +387,7 @@
 													</md-table-container>
 								                     
 							                     </div>
+									</form>
 								</div>
 							</md-toolbar>
 						
