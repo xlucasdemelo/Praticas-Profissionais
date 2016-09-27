@@ -398,6 +398,35 @@ angular.module('home')
 	    /**
 	     * 
 	     */
+	    $scope.recusarQuestionario = function() {
+			
+	        var confirm = $mdDialog.confirm()
+	            .title('Tem certeza que deseja recusar este questionário ?')
+	            .content(' Este questionário ficará disponível para que seja reenviado para avaliação ')
+	            .ok('Sim')
+	            .cancel('Cancelar');
+	
+	        $mdDialog.show(confirm).then(function (result) {
+	            console.log(result);
+	
+	            questionarioService.rejeitarVersao( $scope.model.questionario.entity.id, {
+		            callback : function(result) {	   
+		            	$scope.model.versao.entity = result;
+		            	$scope.showMessage( $scope.ERROR_MESSAGE,  "Registro foi recusado com sucesso" );
+		            	$scope.$apply();
+		            },
+		            errorHandler : function(message, exception) {
+		            	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+		                $scope.$apply();
+		            }
+		        });
+	            
+	        });
+	    };
+	    
+	    /**
+	     * 
+	     */
 	    $scope.aumentarVersaoQuestionario = function() {
 			
 	        var confirm = $mdDialog.confirm()

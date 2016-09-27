@@ -638,9 +638,9 @@ angular.module('home')
 	  	    
 	  	    $scope.insertConfiguracao = function()
 	  	    {
-	  	    	var a = JSON.parse($scope.model.configuracao.entity.questionario);
+	  	    	var a = $scope.model.configuracao.entity.questionario.id;
 	  	    	$scope.model.configuracao.entity.questionario = new Questionario();
-	  	    	$scope.model.configuracao.entity.questionario.id = a.id;
+	  	    	$scope.model.configuracao.entity.questionario.id = a;
 	  	    	
 	  	    	avaliacaoService.insertConfiguracao(  $scope.model.configuracao.entity, {
 	                callback : function(result) {

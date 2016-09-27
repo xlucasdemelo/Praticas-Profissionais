@@ -223,6 +223,14 @@ angular.module('home')
 				
 				$scope.model.redeApoio.entity = new RedeApoio();//Limpa o formulário
 				
+				$scope.model.pais.selectedItem = null;
+				$scope.model.pais.searchText = null;
+	        	
+				$scope.model.estado.selectedItem = null;
+				$scope.model.estado.searchText = null;
+				
+	        	$scope.model.cidade.selectedItem = null;
+	        	$scope.model.cidade.searchText = null;
 				
 			};
 			
@@ -310,7 +318,7 @@ angular.module('home')
 		        $mdDialog.show(confirm).then(function (result) {
 		            console.log(result);
 		
-		            redeApoioService.removeCasaLar( $scope.model.redeApoio.entity.id, {
+		            redeApoioService.disableRedeApoio( $scope.model.redeApoio.entity.id, {
 			            callback : function(result) {	   
 			            	
 			            	$state.go($scope.REDE_APOIO_LIST_STATE);
@@ -417,7 +425,7 @@ angular.module('home')
 	                	
 	                	$scope.model.redeApoio.entity = result;
 	                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi cadastrado com sucesso!" );
-	                	$state.go(REDE_APOIO_EDIT_STATE)
+	                	$state.go($scope.REDE_APOIO_EDIT_STATE, {id: result.id}, {reload: true });
 	                	$scope.$apply();
 	                	
 	                },

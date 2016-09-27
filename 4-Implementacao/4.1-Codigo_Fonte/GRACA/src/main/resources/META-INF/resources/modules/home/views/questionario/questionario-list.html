@@ -54,6 +54,7 @@
 				      <tr md-row>
 				        <th md-column md-order-by="">Nome</th>
 				        <th md-column md-numeric md-order-by="">Descrição</th>
+				        <th md-column md-numeric md-order-by="">Criador</th>
 				        <th md-column md-numeric>Status</th>
 				      </tr>
 				    </thead>
@@ -62,6 +63,7 @@
 				      <tr md-row style="cursor:pointer" ng-click="$state.go( QUESTIONARIO_EDIT_STATE, {id:questionario.id} )" ng-repeat="questionario in model.questionario.page.content">
 				        <td md-cell>{{::questionario.nome}}</td>
 				        <td md-cell>{{::questionario.descricao}}</td>
+				        <td md-cell>{{::questionario.usuarioCriador.name}}</td>
 				        <td md-cell>{{::questionario.status}}</td>
 				      </tr>
 				    </tbody>

@@ -16,6 +16,7 @@ import com.lucas.graca.domain.entity.account.User;
 import com.lucas.graca.domain.entity.account.UserRole;
 import com.lucas.graca.domain.entity.redeapoio.RedeApoio;
 import com.lucas.graca.domain.repository.account.IUserRepository;
+import com.lucas.graca.domain.repository.endereco.IEnderecoRepository;
 import com.lucas.graca.domain.repository.planoatendimento.IResponsavelRepository;
 import com.lucas.graca.domain.repository.redeApoio.IRedeApoioRepository;
 
@@ -53,6 +54,12 @@ public class RedeApoioService
 	 */
 	@Autowired
 	private IUserRepository userRepository;
+	
+	/**
+	 * 
+	 */
+	@Autowired
+	private IEnderecoRepository enderecoRepository;
 	/*-------------------------------------------------------------------
 	 *				 	SERVICES REDE DE APOIO
 	 *-------------------------------------------------------------------*/
@@ -71,6 +78,11 @@ public class RedeApoioService
 		if (redeApoio.getResponsavel() != null)
 		{
 			this.responsavelRepository.save( redeApoio.getResponsavel() );
+		}
+		
+		if (redeApoio.getEndereco() != null)
+		{
+			this.enderecoRepository.saveAndFlush( redeApoio.getEndereco() );
 		}
 		
 		return this.redeApoioRepository.save( redeApoio );

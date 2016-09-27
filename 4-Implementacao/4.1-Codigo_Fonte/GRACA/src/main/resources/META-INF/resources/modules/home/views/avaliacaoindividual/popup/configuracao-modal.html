@@ -16,8 +16,8 @@
             <div class="default-info" layout="row">Questionário</div>
 				                     
             <div layout="row">
-	     		<md-select flex name="role" ng-model="model.configuracao.entity.questionario">
-		     		<md-option ng-repeat="questionario in model.questionario.page.content" value="{{questionario}}">{{questionario.nome}}</md-option>
+	     		<md-select flex name="role" ng-model="model.configuracao.entity.questionario" ng-model-options="{trackBy: '$value.id'}">
+		     		<md-option ng-repeat="questionario in model.questionario.page.content" ng-value="{{questionario}}">{{questionario.nome}}</md-option>
 		   		</md-select>
             </div>
        	

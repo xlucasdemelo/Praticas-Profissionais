@@ -219,13 +219,13 @@ public class QuestionarioService
 	 * @return
 	 */
 	@PreAuthorize("hasAuthority('"+UserRole.ATENDENTE_VALUE+"')")
-	public VersaoQuestionario rejeitarVersao( long versaoId )
+	public VersaoQuestionario rejeitarVersao( long questionarioId )
 	{
-		VersaoQuestionario versao = this.versaoQuestionarioRepository.findOne( versaoId );
+		VersaoQuestionario maiorVersao = this.versaoQuestionarioRepository.findTopByQuestionarioIdOrderByNumeroVersaoDesc( questionarioId );
 		
-		versao.changeToRejeitado();
+		maiorVersao.changeToRejeitado();
 		
-		return this.versaoQuestionarioRepository.save( versao );
+		return this.versaoQuestionarioRepository.save( maiorVersao );
 	}
 	
 	/**
