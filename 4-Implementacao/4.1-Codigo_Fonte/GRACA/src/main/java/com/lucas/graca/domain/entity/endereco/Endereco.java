@@ -106,10 +106,10 @@ public class Endereco extends AbstractEntity implements Serializable
 	 */
 	public void mergeObject( Endereco endereco )
 	{
-		this.bairro = endereco.getBairro();
-		this.rua = endereco.getRua();
+		this.bairro = endereco.getBairro() == null ? null : endereco.getBairro();
+		this.rua = endereco.getRua() == null ? null : endereco.getRua();
 		
-		this.cidade = endereco.getCidade();
+		this.cidade = endereco.getCidade() == null ? null : endereco.getCidade();
 	}
 	
 	/*-------------------------------------------------------------------

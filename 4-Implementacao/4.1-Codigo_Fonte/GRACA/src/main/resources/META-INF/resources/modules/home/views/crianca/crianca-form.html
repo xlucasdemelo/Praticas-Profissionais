@@ -9,12 +9,8 @@
 		        <h1 class="md-toolbar-tools">Criança</h1>
 	    	</div>
 	    	
-	        <div md-theme="default" layout="row" layout-align="end center" class="default-header md-primary md-hue-3">
-		        <md-button class="md-raised md-accent default-save-button" ng-if="model.crianca.entity.ativo || !model.crianca.entity.id" ng-click="insertCrianca()">Salvar</md-button>
-	        </div>
-	        
-	         <div md-theme="default" layout="row" layout-align="end center" class="default-header">
-		        <md-button class="md-raised md-accent default-save-button" ng-click="$state.go(CRIANCA_LIST_STATE)">Voltar</md-button>
+	    	<div md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised " ng-click="$state.go(CRIANCA_LIST_STATE)">Voltar</md-button>
 	        </div>
 	        
 	        <div ng-if="model.crianca.entity.ativo == true" md-theme="default" layout="row" layout-align="end center" class="default-header">
@@ -24,6 +20,11 @@
 	        <div ng-if="model.crianca.entity.ativo == false" md-theme="default" layout="row" layout-align="end center" class="default-header">
 		        <md-button class="md-raised md-accent default-save-button" ng-click="enableCrianca()">Ativar registro</md-button>
 	        </div>
+	    	
+	        <div md-theme="default" layout="row" layout-align="end center" class="default-header md-primary md-hue-3">
+		        <md-button class="md-raised md-accent default-save-button" ng-if="model.crianca.entity.ativo || !model.crianca.entity.id" ng-click="insertCrianca()">Salvar</md-button>
+	        </div>
+	        
 	        
 	    </md-toolbar>
 		
@@ -98,7 +99,7 @@
 							                     	
 							                     	<div layout="column"  >
 										            	<label style="color:black">Data de acolhimento</label>
-										            	<md-datepicker required name="dataAcolhimento" ng-model="model.crianca.entity.dataAcolhimento" style="margin-top:25px;" ></md-datepicker>
+										            	<md-datepicker required md-max-date="maxDate" name="dataAcolhimento" ng-model="model.crianca.entity.dataAcolhimento" style="margin-top:25px;" ></md-datepicker>
 										            	
 										            	<div ng-messages="model.crianca.form.dataAcolhimento.$error">
 										               		<div ng-message="required" ng-if="model.crianca.form.$submitted">Campo obrigatório</div>
@@ -306,14 +307,14 @@
 										            
 										            <div layout="row" >
 										            	
-										            	<div layout="column">
-											           		<label style="color:black">Data de elaboração PIA</label>
-											            	<md-datepicker  name="dataElaboracaoPIA" ng-model="model.crianca.entity.dataElaboracaoPIA" style="margin-top:25px;" ></md-datepicker>
+<!-- 										            	<div layout="column"> -->
+<!-- 											           		<label style="color:black">Data de elaboração PIA</label> -->
+<!-- 											            	<md-datepicker  name="dataElaboracaoPIA" ng-model="model.crianca.entity.dataElaboracaoPIA" style="margin-top:25px;" ></md-datepicker> -->
 											            	
-											            	<div ng-messages="model.acolhimento.form.dataElaboracaoPIA.$error">
-											               		<div ng-message="" ng-if="model.acolhimento.form.$submitted">Campo obrigatório</div>
-											                </div>
-										                </div>
+<!-- 											            	<div ng-messages="model.acolhimento.form.dataElaboracaoPIA.$error"> -->
+<!-- 											               		<div ng-message="" ng-if="model.acolhimento.form.$submitted">Campo obrigatório</div> -->
+<!-- 											                </div> -->
+<!-- 										                </div> -->
 										                
 										                <div layout="column">
 											           		<label style="color:black">Data limite</label>
@@ -328,7 +329,7 @@
 								                     <div layout="row" flex>
 									  					<md-input-container layout="column" gap="20px">
 										            		<label>Documento</label>
-										            		<md-select style="margin-top:24px" required name="documento" ng-model="model.documentoCrianca.entity.tipoDocumento">
+										            		<md-select style="margin-top:24px" name="documento" ng-model="model.documentoCrianca.entity.tipoDocumento">
 													        	<md-option required ng-repeat="documento in allTiposDocumentos" value="{{documento}}">{{documento}}</md-option>
 													        </md-select>
 													        
@@ -339,10 +340,11 @@
 										            	
 										            	<md-input-container ng-if="model.documentoCrianca.entity.tipoDocumento == 'RG'" layout="column" flex="30">
 												    		<label>Número</label>
-											                <input type="text" maxlength="11" name="numeroRg" mask="9.999.999-9" required ng-model="model.documentoCrianca.entity.numeroDocumento">
+											                <input type="text" maxlength="11"  name="numeroRg" mask="9.999.999-9" required ng-model="model.documentoCrianca.entity.numeroDocumento">
 											            
 											            	<div ng-messages="model.acolhimento.form.numeroRg.$error">
 											               		<div ng-message="required" >Campo obrigatório</div>
+											               		<div ng-message="minlength" >Preencha corretamente</div>
 											                </div>
 											            </md-input-container>
 											            
@@ -382,7 +384,7 @@
 												               		<div ng-message="cpf" ng-if="model.acolhimento.form.numeroCpfGrid.$error" >CPF inválido</div>
 												                </div>
 													        	
-													        	<input maxlength="8" ng-if="documento.tipoDocumento == 'RG'" name="numero" ng-blur="updateDocumento($event, documento)"  required ng-model="documento.numeroDocumento">
+													        	<input maxlength="11" ng-if="documento.tipoDocumento == 'RG'" name="numero" ng-blur="updateDocumento($event, documento)" mask="9.999.999-9" required ng-model="documento.numeroDocumento">
 													        </td>
 													        <td md-cell> 
 														        <i class="zmdi zmdi-delete" ng-click="removeDocumentoCrianca(documento)" style="font-size: 25px; margin-left: 5px;"></i>

@@ -64,9 +64,18 @@ public interface ICriancaRepository extends JpaRepository<Crianca, Long>
 	
 	/**
 	 * 
+	 * @param familiaId
+	 * @param pageable
+	 * @return
+	 */
+	public Page<Crianca> findByFamiliaId(Long familiaId, Pageable pageable);
+	
+	/**
+	 * 
 	 * @param casaLarId
 	 * @param pageable
 	 * @return
 	 */
 	public Page<Crianca> findByCasaLarId(long casaLarId, Pageable pageable);
+	
 }

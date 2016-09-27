@@ -27,4 +27,11 @@ public interface IParenteRepository extends JpaRepository<Parente, Long>
 			)
 	public Page<Parente> listParentesByCrianca( @Param("criancaId") Long criancaId, Pageable pageable );
 	
+	/**
+	 * 
+	 * @param id
+	 * @param pageable
+	 * @return
+	 */
+	public Page<Parente> findByIntegranteFamiliarId( Long id, Pageable pageable );
 }

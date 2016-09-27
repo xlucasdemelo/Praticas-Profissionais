@@ -560,10 +560,22 @@ angular.module('home')
 				});
 			}
 			
-			//TODO Arrumar isso aqui
 			if( e.type == "blur" || ( e.type == "keypress" && e.keyCode == 13 ) ) {
 				if ($scope.model.acolhimento.form.$invalid ){
-					$scope.showMessage( $scope.ERROR_MESSAGE,  "" );
+					
+					var message = "Preencha os campos obrigatórios";
+					
+					if ($scope.model.acolhimento.form.$error.cpf)
+					{
+						message = "CPF inválido";
+					}
+					
+					if ($scope.model.acolhimento.form.$error.mask)
+					{
+						message = "Valor inválido";
+					}
+					
+					$scope.showMessage( $scope.ERROR_MESSAGE,  message );
 					return;
 				}
 				saveDocumento(item);
@@ -858,6 +870,13 @@ angular.module('home')
 		 */
 		$scope.associateFamiliaToCrianca = function(  ){
 			
+			if ( $scope.model.crianca.entity.casaLar )
+			{
+				var a = new CasaLar();
+				a.id = $scope.model.crianca.entity.casaLar.id;
+				$scope.model.crianca.entity.casaLar = a;
+			}
+			
 			criancaService.associateFamiliaToCrianca( $scope.model.crianca.entity, $scope.model.parente.page.pageable, {
                 callback : function(result) {
                 	
@@ -922,7 +941,9 @@ angular.module('home')
 			      scope: $scope.$new(),
 				})
 			    .then(function(result) {
-			    	$scope.model.crianca.entity.familia = result;
+			    	$scope.model.crianca.entity.familia = new Familia();
+			    	$scope.model.crianca.entity.familia.id = result.id
+			    	$scope.model.crianca.entity.familia.nome = result.nome
 			    	$scope.associateFamiliaToCrianca();
 			 });
 		};

@@ -3,6 +3,8 @@
  */
 package com.lucas.graca.domain.service.integranteFamiliar;
 
+import java.util.List;
+
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,12 +13,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.lucas.graca.domain.entity.crianca.Crianca;
+import com.lucas.graca.domain.entity.crianca.GrauParentesco;
+import com.lucas.graca.domain.entity.crianca.Parente;
 import com.lucas.graca.domain.entity.endereco.Endereco;
 import com.lucas.graca.domain.entity.familia.Sexo;
 import com.lucas.graca.domain.entity.integrantefamiliar.DocumentoIntegranteFamiliar;
 import com.lucas.graca.domain.entity.integrantefamiliar.GrauEscolaridade;
 import com.lucas.graca.domain.entity.integrantefamiliar.IntegranteFamiliar;
 import com.lucas.graca.domain.entity.integrantefamiliar.TipoDocumento;
+import com.lucas.graca.domain.repository.crianca.ICriancaRepository;
+import com.lucas.graca.domain.repository.crianca.IParenteRepository;
 import com.lucas.graca.domain.repository.endereco.IEnderecoRepository;
 import com.lucas.graca.domain.repository.integranteFamiliar.IDocumentoIntegranteFamiliarRepository;
 import com.lucas.graca.domain.repository.integranteFamiliar.IIntegranteFamiliarRepository;
@@ -51,6 +58,19 @@ public class IntegranteFamiliarService
 	 */
 	@Autowired
 	private IDocumentoIntegranteFamiliarRepository documentoIntegranteFamiliarRepository;
+	
+	/**
+	 * 
+	 */
+	@Autowired
+	private ICriancaRepository criancaRepository;
+	
+	/**
+	 * 
+	 */
+	@Autowired
+	private IParenteRepository parenteRepository;
+	
 	/*-------------------------------------------------------------------
 	 *				 		     SERVICES
 	 *-------------------------------------------------------------------*/
@@ -70,7 +90,21 @@ public class IntegranteFamiliarService
 			this.enderecoRepository.save( integranteFamiliar.getEndereco() );
 		}
 		
-		return this.integranteFamiliarRepository.save( integranteFamiliar );
+		integranteFamiliar = this.integranteFamiliarRepository.saveAndFlush( integranteFamiliar );
+		
+		List<Crianca> criancasByFamilia = this.criancaRepository.findByFamiliaId( integranteFamiliar.getFamilia().getId(), null ).getContent();
+		
+		for ( Crianca crianca : criancasByFamilia )
+		{
+			Parente parente = new Parente();
+			parente.setCrianca( crianca );
+			parente.setIntegranteFamiliar( integranteFamiliar );
+			parente.setGrauParentesco( GrauParentesco.OUTRO );
+			
+			this.parenteRepository.save( parente );
+		}
+		
+		return integranteFamiliar;
 	}
 	
 	/**
@@ -84,9 +118,18 @@ public class IntegranteFamiliarService
 		
 		IntegranteFamiliar integranteFamiliarDB = this.integranteFamiliarRepository.findOne( integranteFamiliar.getId() );
 		
-		integranteFamiliarDB.getEndereco().mergeObject( integranteFamiliar.getEndereco() );
-		Endereco endereco = integranteFamiliarDB.getEndereco();
+		if (integranteFamiliarDB.getEndereco() != null)
+		{
+			integranteFamiliarDB.getEndereco().mergeObject( integranteFamiliar.getEndereco() );
+		} else if ( integranteFamiliar.getEndereco() != null )
+		{
+			integranteFamiliarDB.setEndereco( new Endereco() );
+			integranteFamiliarDB.getEndereco().mergeObject( integranteFamiliar.getEndereco() );
+			
+			this.enderecoRepository.saveAndFlush( integranteFamiliarDB.getEndereco() );
+		}
 		
+		Endereco endereco = integranteFamiliarDB.getEndereco();
 		integranteFamiliar.setEndereco( endereco );
 		
 		return this.integranteFamiliarRepository.save( integranteFamiliar );
@@ -128,7 +171,16 @@ public class IntegranteFamiliarService
 		Assert.notNull( integranteFamiliar );
 		
 		integranteFamiliar.disableIntegranteFamiliar();
-		return this.integranteFamiliarRepository.save( integranteFamiliar );
+		integranteFamiliar = this.integranteFamiliarRepository.saveAndFlush( integranteFamiliar );
+		
+		List<Parente> parentes = this.parenteRepository.findByIntegranteFamiliarId( integranteFamiliar.getId(), null ).getContent();
+		
+		for ( Parente parente : parentes )
+		{
+			this.parenteRepository.delete( parente );
+		}
+		
+		return integranteFamiliar ;
 	}
 	
 	/**

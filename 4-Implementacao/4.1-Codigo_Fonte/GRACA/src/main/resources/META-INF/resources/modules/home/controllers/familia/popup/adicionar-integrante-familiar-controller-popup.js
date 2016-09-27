@@ -22,6 +22,7 @@ angular.module('home')
 		
 		$scope.integranteFamiliar = integrante;
 		
+		$scope.maxDate = new Date();
 		$scope.allSexos = [];
 		$scope.allTiposDocumentos = [];
 		
@@ -120,9 +121,13 @@ angular.module('home')
 			$scope.model.integranteFamiliar.entity = $scope.integranteFamiliar;
 			$scope.listDocumentosByIntegrantefamiliar();
 			
-			$scope.model.pais.selectedItem = $scope.model.integranteFamiliar.entity.endereco.cidade.estado.pais;
-        	$scope.model.estado.selectedItem = $scope.model.integranteFamiliar.entity.endereco.cidade.estado;
-        	$scope.model.cidade.selectedItem = $scope.model.integranteFamiliar.entity.endereco.cidade
+//			if ($scope.model.integranteFamiliar.entity.endereco)
+//			{
+//				$scope.model.cidade.selectedItem = $scope.model.integranteFamiliar.entity.endereco.cidade ? $scope.model.integranteFamiliar.entity.endereco.cidade : null;
+//	        	$scope.model.estado.selectedItem = $scope.model.integranteFamiliar.entity.endereco.cidade.estado ? $scope.model.integranteFamiliar.entity.endereco.cidade.estado : null;
+//	        	$scope.model.pais.selectedItem = $scope.model.integranteFamiliar.entity.endereco.cidade.estado.pais != null ? $scope.model.integranteFamiliar.entity.endereco.cidade.estado.pais : null;
+//			}
+			
 		}
 		
 		/**
@@ -213,6 +218,14 @@ angular.module('home')
 				return;
 			}
 	    	
+			if ( $scope.model.integranteFamiliar.entity.endereco )
+			{
+				var end = new Endereco();
+				end.rua = $scope.model.integranteFamiliar.entity.endereco.rua;
+				end.bairro = $scope.model.integranteFamiliar.entity.bairro;
+				$scope.model.integranteFamiliar.entity.endereco = end;
+			}
+			
 	    	integranteFamiliarService.updateIntegranteFamiliar( $scope.model.integranteFamiliar.entity, {
                 callback : function(result) {
                 	
@@ -296,6 +309,23 @@ angular.module('home')
 			}
 			
 			if( e.type == "blur" || ( e.type == "keypress" && e.keyCode == 13 ) ) {
+				if ($scope.model.integranteFamiliar.form.$invalid ){
+					
+					var message = "Preencha os campos obrigatórios";
+					
+					if ($scope.model.integranteFamiliar.form.$error.cpf)
+					{
+						message = "CPF inválido";
+					}
+					
+					if ($scope.model.integranteFamiliar.form.$error.mask)
+					{
+						message = "Valor inválido";
+					}
+					
+					$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+					return;
+				}
 				saveDocumento(item);
 			}
 		};

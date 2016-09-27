@@ -51,6 +51,8 @@ public class FamiliaService
 	 */
 	@Autowired
 	private IPlanoAtendimentoFamiliarRepository planoAtendimentoFamiliarRepository ;
+	
+	
 	/*-------------------------------------------------------------------
 	 *				 		 SERVICES FAMILIA
 	 *-------------------------------------------------------------------*/
