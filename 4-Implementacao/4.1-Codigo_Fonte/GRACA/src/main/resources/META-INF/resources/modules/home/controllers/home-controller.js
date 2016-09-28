@@ -101,8 +101,8 @@ angular.module('home')
    	 $mdToast.show(
    		 $mdToast.simple()
    		 	.content( message )
-   		 	.position('top left right')
-   		 	.hideDelay(6000)
+   		 	.position('center')
+   		 	.hideDelay(3000)
    		 	.theme( messageType )
    	 );
     };

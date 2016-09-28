@@ -71,7 +71,7 @@ angular.module('home')
 			familia: {
 				form: null,
 				entity: new Familia(),
-				
+				selectedTab : 0,
 				filters: {
 				    terms: "",
 				    ativo: true,
@@ -207,7 +207,7 @@ angular.module('home')
 		$scope.changeToAdd = function() {
 			console.debug("changeToAdd");
 			
-			model.ordemServico.selectedTab = 0;
+			$scope.model.familia.selectedTab = 0;
 			$scope.model.familia.entity = new Familia();//Limpa o formulário
 			
 			$scope.model.pais.selectedItem = null;
