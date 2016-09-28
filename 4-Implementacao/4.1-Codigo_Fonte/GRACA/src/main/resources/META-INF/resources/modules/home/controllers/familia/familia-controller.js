@@ -207,6 +207,7 @@ angular.module('home')
 		$scope.changeToAdd = function() {
 			console.debug("changeToAdd");
 			
+			model.ordemServico.selectedTab = 0;
 			$scope.model.familia.entity = new Familia();//Limpa o formulário
 			
 			$scope.model.pais.selectedItem = null;
@@ -426,6 +427,7 @@ angular.module('home')
                 callback : function(result) {
                 	
                 	$scope.model.familia.entity = result;
+                	$state.go( $scope.FAMILIA_EDIT_STATE, {id: result.id}, {reload:true} )
                 	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi cadastrado com sucesso!" );
                 	$scope.$apply();
                 	

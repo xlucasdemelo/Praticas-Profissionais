@@ -201,6 +201,7 @@ public class AvaliacaoService
 	 * @param configuracaoAvaliacaoIndividual
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('"+UserRole.ADMINISTRATOR_VALUE+"')")
 	public ConfiguracaoAvaliacaoIndividual insertConfiguracao( ConfiguracaoAvaliacaoIndividual configuracaoAvaliacaoIndividual)
 	{
 		Assert.notNull( configuracaoAvaliacaoIndividual, "Não pode ser nulo" );
@@ -208,6 +209,12 @@ public class AvaliacaoService
 		
 		configuracaoAvaliacaoIndividual.setId( 1L );
 		return this.configuracaoAvaliacaorepository.save( configuracaoAvaliacaoIndividual );
+	}
+	
+	
+	public ConfiguracaoAvaliacaoIndividual findConfiguracao()
+	{
+		return this.configuracaoAvaliacaorepository.findOne( 1L );
 	}
 	
 	/*-------------------------------------------------------------------

@@ -134,6 +134,24 @@ angular.module('home')
 	        	}],
 			},
 			
+			configuracao: {
+				entity: new ConfiguracaoAvaliacaoIndividual(),
+				filters: {
+				    terms: "",
+				},
+				
+			    page: {//PageImpl 
+			    		content:[],
+			    		pageable : {size: 9,
+						    		page: 0,
+						        	sort:null
+			        	}
+			    },
+			    sort: [{//Sort
+	        		direction: 'ASC', properties: 'id', nullHandlingHint:null
+	        	}],
+			},
+			
 			versao: {
 				entity: new VersaoQuestionario(),
 				filters: {
@@ -263,6 +281,8 @@ angular.module('home')
 	        console.debug("changeToList");
 	        
 	        if ( paginate ) $scope.model.avaliacaoIndividual.page.pageable.page++;
+	        
+	        $scope.findConfiguracao();
 	        
 	        $scope.listAvaliacoesByFilters();
 	    };
@@ -767,6 +787,24 @@ angular.module('home')
                 }
             });
 		};
+		
+		/**
+		 * 
+		 */
+		$scope.findConfiguracao = function(){
+			
+			avaliacaoService.findConfiguracao(   {
+                callback : function(result) {
+                	$scope.model.configuracao.entity = result;
+                	$scope.$apply();
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            })
+			
+		}
 		
 		/*-------------------------------------------------------------------
 	     * 		 				 	POST CONSTRUCT

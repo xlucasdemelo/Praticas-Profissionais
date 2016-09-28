@@ -18,7 +18,7 @@
 				<div class="default-filter" layout="column" flex>
 					<div layout="row">
 						<md-input-container md-no-float layout="column" style="margin-top: 0" flex>
-							<input autofocus placeholder="Digite sua pesquisa" type="text" name="filtro" ng-disabled="moreFilters" ng-model="model.crianca.filters.terms" maxlength="255">
+							<input autofocus placeholder="Digite sua pesquisa" type="text" name="filtro" ng-disabled="moreFilters" ng-model="model.questionario.filters.terms" maxlength="255">
 						</md-input-container>
 				            
 			            <div layout="row" layout-align="end center" ng-init="currentOption = true">
@@ -64,7 +64,7 @@
 				        <td md-cell>{{::questionario.nome}}</td>
 				        <td md-cell>{{::questionario.descricao}}</td>
 				        <td md-cell>{{::questionario.usuarioCriador.name}}</td>
-				        <td md-cell>{{::questionario.status}}</td>
+				        <td md-cell>{{::questionario.statusVersao | translate}}</td>
 				      </tr>
 				    </tbody>
 				  </table>

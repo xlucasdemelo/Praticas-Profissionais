@@ -20,7 +20,7 @@
 			                <input maxlength="144" name="familia" ng-model="model.redeApoio.filters.terms">
 			            </md-input-container>
 			            
-			            <md-button style="height:20px; margin-top:32px" class="md-raised md-primary md-hue-3" type="button" ng-click="listFamiliasByFilters()">
+			            <md-button style="height:20px; margin-top:32px" class="md-raised md-primary md-hue-3" type="button" ng-click="listRedeApoioByFilters()">
 					    	Filtrar
 					    </md-button>
 	  				</div>
@@ -70,12 +70,7 @@
 	  	<md-divider style="order: 2"></md-divider>
   	
 	  	<md-dialog-actions layout="row" layout-align="end center">
-		    <div layout="row" ng-if="model.integranteFamiliar.entity">
-			    <div>
-				    <md-button ng-if="model.integranteFamiliar.entity.id" class="md-raised md-primary md-hue-3" type="button" ng-click="removeIntegranteFamiliar()">
-				    	Excluir integrante
-				    </md-button>
-			    </div>
+		    <div layout="row" >
 			    
 			    <div>
 				    <md-button class="md-raised md-primary md-hue-3" type="button" ng-click="cancel()">
@@ -83,11 +78,11 @@
 				    </md-button>
 			    </div>
 			    
-		    	<div >
-		        	<md-button class="md-raised md-accent default-save-button" type="submit" ng-click="model.integranteFamiliar.entity.id ? updateIntegranteFamiliar() : insertIntegranteFamiliar()">
-				    	SALVAR
-				    </md-button>
-				</div>
+<!-- 		    	<div > -->
+<!-- 		        	<md-button class="md-raised md-accent default-save-button" type="submit" ng-click="model.integranteFamiliar.entity.id ? updateIntegranteFamiliar() : insertIntegranteFamiliar()"> -->
+<!-- 				    	SALVAR -->
+<!-- 				    </md-button> -->
+<!-- 				</div> -->
 		    </div>
 	    </md-dialog-actions>
   	</form> 

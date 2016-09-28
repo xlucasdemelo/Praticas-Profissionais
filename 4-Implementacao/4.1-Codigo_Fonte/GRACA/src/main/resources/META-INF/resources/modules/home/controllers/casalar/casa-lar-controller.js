@@ -429,6 +429,30 @@ angular.module('home')
 	            });
 			}
 			
+			$scope.updateCasaLar = function()
+			{
+				$scope.model.casaLar.form.$submitted = true;
+				if ($scope.model.casaLar.form.$invalid ){
+					$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
+					return;
+				}
+				
+				casaLarService.updateCasaLar(  $scope.model.casaLar.entity, {
+	                callback : function(result) {
+	                	
+	                	$scope.model.casaLar.entity = result;
+	                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi alterado com sucesso!" );
+	                	$state.go(CASA_LAR_EDIT_STATE)
+	                	$scope.$apply();
+	                	
+	                },
+	                errorHandler : function(message, exception) {
+	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+	                    $scope.$apply();
+	                }
+	            });
+			}
+			
 			/**
 			 * 
 			 */

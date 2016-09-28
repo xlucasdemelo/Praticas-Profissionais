@@ -22,7 +22,7 @@
 	        </div>
 	        
 	        <div md-theme="default" layout="row" layout-align="end center" ng-if="model.casaLar.entity.enabled || !model.casaLar.entity.id" class="default-header md-primary md-hue-3">
-		        <md-button class="md-raised md-accent default-save-button" ng-click="insertCasaLar()">Salvar</md-button>
+		        <md-button class="md-raised md-accent default-save-button" ng-click=" model.casaLar.entity.id ? updateCasaLar() : insertCasaLar()">Salvar</md-button>
 	        </div>
 	        
 	    </md-toolbar>

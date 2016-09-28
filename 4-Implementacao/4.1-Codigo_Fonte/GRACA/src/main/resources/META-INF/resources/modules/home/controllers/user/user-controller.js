@@ -440,7 +440,7 @@ angular.module('home')
 	                	
 	                	$scope.model.user.entity = result;
 	                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi cadastrado com sucesso!" );
-	                	$state.go(USER_EDIT_STATE)
+	                	$state.go($scope.USER_EDIT_STATE, {id: result.id}, {reload: true });
 	                	$scope.$apply();
 	                	
 	                },

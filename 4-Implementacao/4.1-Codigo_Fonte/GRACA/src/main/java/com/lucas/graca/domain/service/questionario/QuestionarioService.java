@@ -131,7 +131,15 @@ public class QuestionarioService
 	@PreAuthorize("hasAuthority('"+UserRole.ATENDENTE_VALUE+"')")
 	public Page<Questionario> listQuestionariosByFilters(String filter, PageRequest pageable)
 	{
-		return this.questionarioRepository.listQuestionariosByFilters( filter, pageable );
+		Page<Questionario> questionarios = this.questionarioRepository.listQuestionariosByFilters( filter, pageable );
+		
+		for ( Questionario questionario : questionarios )
+		{
+			VersaoQuestionario maiorVersao = this.versaoQuestionarioRepository.findTopByQuestionarioIdOrderByNumeroVersaoDesc( questionario.getId() );
+			questionario.setStatusVersao( maiorVersao.getStatus() );
+		}
+		
+		return questionarios;
 	}
 	
 	/**

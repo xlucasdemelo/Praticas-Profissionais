@@ -9,7 +9,7 @@
 	    	</div>
 	    	
 	    	<div layout="row" style="margin-right: 30px;" layout-align="end center">
-	    		<md-button class="md-raised" ng-click="openConfiguracaoHandler()">Configuração</md-button>
+	    		<md-button class="md-raised" ng-if="hasPermission('ADMINISTRATOR')" ng-click="openConfiguracaoHandler()">Configuração</md-button>
 		        <md-button class="md-raised md-accent" ng-click="$state.go( AVALIACAO_INDIVIDUAL_ADD_STATE )">NOVO</md-button>
 	    	</div>
 	    </md-toolbar>
@@ -61,7 +61,7 @@
 				    <tbody md-body>
 				      <tr md-row style="cursor:pointer" ng-click="$state.go( AVALIACAO_INDIVIDUAL_EDIT_STATE, {id:avaliacao.id} )" ng-repeat="avaliacao in model.avaliacaoIndividual.page.content">
 				        <td md-cell>{{::avaliacao.crianca.nome}}</td>
-				        <td md-cell>{{::avaliacao.status}}</td>
+				        <td md-cell>{{::avaliacao.status | translate}}</td>
 				      </tr>
 				    </tbody>
 				  </table>

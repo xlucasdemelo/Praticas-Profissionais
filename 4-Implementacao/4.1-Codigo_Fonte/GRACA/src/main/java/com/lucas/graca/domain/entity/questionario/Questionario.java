@@ -10,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
@@ -61,6 +62,12 @@ public class Questionario extends AbstractEntity implements Serializable
 	 */
 	@NotNull
 	private Boolean enabled;
+	
+	/**
+	 * 
+	 */
+	@Transient
+	private StatusVersaoQuestionario statusVersao;
 	
 	/*-------------------------------------------------------------------
 	 *				 		     CONSTRUCTORS
@@ -231,6 +238,22 @@ public class Questionario extends AbstractEntity implements Serializable
 	public void setEnabled( Boolean enabled )
 	{
 		this.enabled = enabled;
+	}
+
+	/**
+	 * @return the statusVersao
+	 */
+	public StatusVersaoQuestionario getStatusVersao()
+	{
+		return statusVersao;
+	}
+
+	/**
+	 * @param statusVersao the statusVersao to set
+	 */
+	public void setStatusVersao( StatusVersaoQuestionario statusVersao )
+	{
+		this.statusVersao = statusVersao;
 	}
 	
 }
