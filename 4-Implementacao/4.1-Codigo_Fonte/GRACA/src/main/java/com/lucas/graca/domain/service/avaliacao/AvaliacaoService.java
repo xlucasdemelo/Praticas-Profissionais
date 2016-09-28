@@ -99,7 +99,7 @@ public class AvaliacaoService
 		
 		VersaoQuestionario versao = this.versaoQuestionarioRepository.findTopByQuestionarioIdOrderByNumeroVersaoDesc( configuracaoAvaliacaoIndividual.getQuestionario().getId() );
 		
-		List<Questao> questoes = this.questaoRepository.findByVersaoQuestionarioId( versao.getId(), null ).getContent();
+		List<Questao> questoes = this.questaoRepository.listQuestoesByQuestionario( versao.getQuestionario().getId(), null ).getContent();
 		
 		for ( Questao questao : questoes )
 		{
@@ -240,7 +240,8 @@ public class AvaliacaoService
 		Resposta respostaBd = this.respostaRepository.findOne( resposta.getId() );
 		Assert.notNull( respostaBd, "Resposta não existe" );
 		
-		Assert.isTrue( respostaBd.getAvaliacao().getStatus() == StatusAvaliacaoIndividual.RASCUNHO, "A questão só pode ser respondida em avaliações que estejam em rascunho" );
+		Assert.isTrue( ( respostaBd.getAvaliacao().getStatus() == StatusAvaliacaoIndividual.RASCUNHO || respostaBd.getAvaliacao().getStatus() == StatusAvaliacaoIndividual.REJEITADO ),
+				"A questão só pode ser respondida em avaliações que estejam em rascunho" );
 		
 		respostaBd.mergeToUpdate( resposta );
 		

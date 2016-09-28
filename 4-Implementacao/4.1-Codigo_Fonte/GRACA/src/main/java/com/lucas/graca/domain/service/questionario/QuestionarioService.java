@@ -240,7 +240,7 @@ public class QuestionarioService
 		
 		Integer numeroVersao = maiorVersao.getNumeroVersao() + 1;
 		
-		List<Questao> questoes = this.questaoRepository.findByVersaoQuestionarioId( maiorVersao.getId(), null ).getContent();
+		List<Questao> questoes = this.questaoRepository.listQuestoesByQuestionario( maiorVersao.getQuestionario().getId(), null ).getContent();
 		
 		VersaoQuestionario novaVersao = new VersaoQuestionario();
 		novaVersao.setNumeroVersao( numeroVersao );
@@ -348,6 +348,18 @@ public class QuestionarioService
 	public Page<Questao> listQuestoesByVersao(long versaoId, PageRequest pageable)
 	{
 		return this.questaoRepository.findByVersaoQuestionarioId( versaoId, pageable );
+	}
+	
+	/**
+	 * 
+	 * @param versaoId
+	 * @param pageable
+	 * @return
+	 */
+	@Transactional(readOnly=true)
+	public Page<Questao> listQuestoesByQuestionario(long questionarioId, PageRequest pageable)
+	{
+		return this.questaoRepository.listQuestoesByQuestionario( questionarioId, pageable );
 	}
 	
 	/**

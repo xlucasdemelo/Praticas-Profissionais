@@ -301,7 +301,9 @@ angular.module('home')
 				      scope: $scope.$new(),
 					})
 				    .then(function(result) {
-				    	$scope.model.user.entity.redeApoio = result;
+				    	$scope.model.user.entity.redeApoio = new RedeApoio();
+				    	$scope.model.user.entity.redeApoio.id = result.id;
+				    	$scope.model.user.entity.redeApoio.nome = result.nome;
 				 });
 			};
 		    
@@ -425,8 +427,9 @@ angular.module('home')
 				
 				if ($scope.model.user.entity.role == 'COLABORADOR_EXTERNO')
 				{
-					$scope.model.user.entity.redeApoio = new RedeApoio();
-					$scope.model.user.entity.redeApoio.id = 1;
+//					var a = new RedeApoio();
+//					a.id = $scope.model.user.entity.redeApoio.id;
+//					$scope.model.user.entity.redeApoio.id = a;
 				} else
 				{
 					$scope.model.user.entity.redeApoio = null;

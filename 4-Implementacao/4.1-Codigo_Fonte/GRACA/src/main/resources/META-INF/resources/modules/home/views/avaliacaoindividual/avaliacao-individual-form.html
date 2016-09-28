@@ -11,9 +11,10 @@
 	    	<div layout="row" style="margin-right: 30px;" layout-align="end center">
 		        <md-button class="md-raised" ng-click="$state.go( AVALIACAO_INDIVIDUAL_LIST_STATE )">Voltar</md-button>
 		        <md-button class="md-raised " ng-click="enviarParaAprovacao()" ng-if="model.avaliacaoIndividual.entity.id && ( model.avaliacaoIndividual.entity.status == 'RASCUNHO' || model.avaliacaoIndividual.entity.status == 'REJEITADO' )">Enviar para aprovação</md-button>
-		        <md-button class="md-raised " ng-click="aprovarAvaliacao()" ng-if="model.avaliacaoIndividual.entity.id && ( model.avaliacaoIndividual.entity.status == 'ENVIADO_PARA_AVALIACAO' || model.avaliacaoIndividual.entity.status == 'REJEITADO' )">Aprovar avaliação</md-button>
-		        <md-button class="md-raised md-accent" ng-if="!model.avaliacaoIndividual.entity.id" ng-click="insertAvaliacaoIndividual()">Salvar</md-button>
-	    		<md-button class="md-raised md-accent" ng-if="model.avaliacaoIndividual.entity.id && model.avaliacaoIndividual.entity.status == 'RASCUNHO'" ng-click="salvarResposta()">Salvar</md-button>
+		        <md-button class="md-raised " ng-click="aprovarAvaliacao()" ng-if="hasPermission('ADMINISTRATOR') && model.avaliacaoIndividual.entity.id && ( model.avaliacaoIndividual.entity.status == 'ENVIADO_PARA_AVALIACAO' )">Aprovar avaliação</md-button>
+		        <md-button class="md-raised " ng-click="recusarAvaliacao()" ng-if="hasPermission('ADMINISTRATOR') && model.avaliacaoIndividual.entity.id && ( model.avaliacaoIndividual.entity.status == 'ENVIADO_PARA_AVALIACAO' )">Recusar avaliação</md-button>
+		        <md-button class="md-raised md-accent" ng-if="!model.avaliacaoIndividual.entity.id " ng-click="insertAvaliacaoIndividual()">Salvar</md-button>
+	    		<md-button class="md-raised md-accent" ng-if="model.avaliacaoIndividual.entity.id && ( model.avaliacaoIndividual.entity.status == 'RASCUNHO' || model.avaliacaoIndividual.entity.status == 'REJEITADO' )" ng-click="salvarResposta()">Salvar</md-button>
 	    	</div>
 	    </md-toolbar>
 			

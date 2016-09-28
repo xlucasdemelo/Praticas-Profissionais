@@ -193,6 +193,7 @@ public class AccountService
 	 * @return
 	 */
 	@Transactional(readOnly=true)
+	@PreAuthorize("principal.id = #id || hasAnyAuthority('"+UserRole.ADMINISTRATOR_VALUE+"')")
 	public User findUserById( Long id )
 	{
 		final User user = this.userRepository.findOne( id );

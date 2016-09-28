@@ -497,6 +497,34 @@ angular.module('home')
 	    /**
 	     * 
 	     */
+	    $scope.recusarAvaliacao = function() {
+			
+	        var confirm = $mdDialog.confirm()
+	            .title('Tem certeza que deseja recusar esta avaliação ?')
+	            .ok('Sim')
+	            .cancel('Cancelar');
+	
+	        $mdDialog.show(confirm).then(function (result) {
+	            console.log(result);
+	
+	            avaliacaoService.rejeitarAvaliacao( $scope.model.avaliacaoIndividual.entity.id, {
+		            callback : function(result) {	   
+		            	$scope.model.avaliacaoIndividual.entity = result;
+		            	$scope.showMessage( $scope.ERROR_MESSAGE,  "Registro foi recusado com sucesso" );
+		            	$scope.$apply();
+		            },
+		            errorHandler : function(message, exception) {
+		            	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+		                $scope.$apply();
+		            }
+		        });
+	            
+	        });
+	    };
+	    
+	    /**
+	     * 
+	     */
 	    $scope.aumentarVersaoQuestionario = function() {
 			
 	        var confirm = $mdDialog.confirm()
