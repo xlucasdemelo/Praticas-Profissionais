@@ -67,7 +67,7 @@
 				<mvn.test.jdbc.password>postgres</mvn.test.jdbc.password>
 
 				<!-- Hibernate -->
-				<mvn.hibernate.hbm2ddl>validate</mvn.hibernate.hbm2ddl>
+				<mvn.hibernate.hbm2ddl>update</mvn.hibernate.hbm2ddl>
 				<mvn.hibernate.showSql>true</mvn.hibernate.showSql>
 				
 				<!-- JCR -->
@@ -86,7 +86,7 @@
 				
 				<!-- Others -->
 				<mvn.cache.enabled>false</mvn.cache.enabled>
-				<mvn.flyway.enabled>true</mvn.flyway.enabled>
+				<mvn.flyway.enabled>false</mvn.flyway.enabled>
 			</properties>
 		</profile>
 		

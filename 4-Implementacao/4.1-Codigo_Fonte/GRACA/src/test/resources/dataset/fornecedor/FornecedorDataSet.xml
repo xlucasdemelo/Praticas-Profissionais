@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<public.user
+		id="9999"
+		created="2015-03-30 00:00:00"
+		enabled="true"
+		razao_social="fornecedor 1"
+		cnpj="123456"
+		responsavel_id="9999"
+		ativo="true"/>
+</dataset>
+	
