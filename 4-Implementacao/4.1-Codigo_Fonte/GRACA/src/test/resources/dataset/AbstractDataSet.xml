@@ -19,4 +19,5 @@
 	<public.versao_questionario/>
 	<public.avaliacao_individual />
 	<public.configuracao_avaliacao_individual />
+	<public.fornecedor></public.fornecedor>
 </dataset>

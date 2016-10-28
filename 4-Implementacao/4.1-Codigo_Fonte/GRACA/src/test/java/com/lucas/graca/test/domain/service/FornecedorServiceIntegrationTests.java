@@ -5,17 +5,19 @@ package com.lucas.graca.test.domain.service;
 
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.util.Assert;
 
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.lucas.graca.domain.entity.fornecedor.Fornecedor;
 import com.lucas.graca.domain.entity.planoatendimento.Responsavel;
-import com.lucas.graca.domain.service.fornecdor.FornecedorService;
+import com.lucas.graca.domain.service.fornecedor.FornecedorService;
 import com.lucas.graca.test.domain.AbstractIntegrationTests;
+
 
 /**
  * @author lucas
@@ -58,13 +60,14 @@ public class FornecedorServiceIntegrationTests extends AbstractIntegrationTests
 		
 		fornecedor = this.fornecedorService.insertFornecedor( fornecedor );
 		
-		Assert.notNull( fornecedor );
+		Assert.assertNotNull( fornecedor );
 	}
 	
 	/**
 	 * 
 	 */
 	@Test(expected = IllegalArgumentException.class)
+	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
 			"/dataset/casalar/ResponsavelDataSet.xml" ,
 			"/dataset/redeapoio/redeApoioDataSet.xml", 
@@ -78,24 +81,26 @@ public class FornecedorServiceIntegrationTests extends AbstractIntegrationTests
 		
 		fornecedor = this.fornecedorService.insertFornecedor( fornecedor );
 		
+		Assert.fail();
 	}
 	
 	/**
 	 * 
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = DataIntegrityViolationException.class)
+	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
 			"/dataset/casalar/ResponsavelDataSet.xml" ,
 			"/dataset/redeapoio/redeApoioDataSet.xml", 
 			"/dataset/account/UserDataSet.xml",
-			"/dataset/fornecdor/FornecedorDataSet.xml",
+			"/dataset/fornecedor/FornecedorDataSet.xml"
 	})
 	public void insertFornecedorMustFailWithDuplicatedRazaoSocial()
 	{
 		Fornecedor fornecedor = new Fornecedor();
 		
-		fornecedor.setRazaoSocial( "Fornecedor 2" );
-		fornecedor.setCnpj( "123456" );
+		fornecedor.setRazaoSocial( "fornecedor 1" );
+		fornecedor.setCnpj( "8239892338" );
 		fornecedor.setResponsavel( new Responsavel(1000L) );
 		
 		fornecedor = this.fornecedorService.insertFornecedor( fornecedor );
@@ -104,12 +109,13 @@ public class FornecedorServiceIntegrationTests extends AbstractIntegrationTests
 	/**
 	 * 
 	 */
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = DataIntegrityViolationException.class)
+	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
 			"/dataset/casalar/ResponsavelDataSet.xml" ,
 			"/dataset/redeapoio/redeApoioDataSet.xml", 
 			"/dataset/account/UserDataSet.xml",
-			"/dataset/fornecdor/FornecedorDataSet.xml",
+			"/dataset/fornecedor/FornecedorDataSet.xml",
 	})
 	public void insertFornecedorMustFailWithDuplicatedCNPJ()
 	{
@@ -126,20 +132,21 @@ public class FornecedorServiceIntegrationTests extends AbstractIntegrationTests
 	 * 
 	 */
 	@Test
+	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
 			"/dataset/casalar/ResponsavelDataSet.xml" ,
 			"/dataset/redeapoio/redeApoioDataSet.xml", 
 			"/dataset/account/UserDataSet.xml",
-			"/dataset/fornecdor/FornecedorDataSet.xml",
+			"/dataset/fornecedor/FornecedorDataSet.xml",
 	})
 	public void listFornecedoresMustPass()
 	{
 		List<Fornecedor> fornecedores = this.fornecedorService.listFornecedoresByFilters( null, true, null).getContent();
 		
-		Assert.notNull( fornecedores );
-		Assert.isTrue( !fornecedores.isEmpty() );
+		Assert.assertNotNull( fornecedores );
+		Assert.assertTrue( !fornecedores.isEmpty() );
 		
-		Assert.isTrue( fornecedores.size() > 0 );
+		Assert.assertTrue( fornecedores.size() > 0 );
 	}
 	
 }

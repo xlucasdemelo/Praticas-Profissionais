@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.lucas.graca.domain.service.fornecdor;
+package com.lucas.graca.domain.service.fornecedor;
 
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
