@@ -19,14 +19,14 @@ public enum UserRole implements GrantedAuthority
 	COLABORADOR_EXTERNO,				// 2
 	OPERADOR_ATENDIMENTOS,				// 3
 	CHEFE_ADMINISTRACAO,				// 4
-	OPERADOR_ADMINISNTRATIVO;			// 5
+	OPERADOR_ADMINISTRATIVO;			// 5
 
 	public static final String ADMINISTRATOR_VALUE 	= "ADMINISTRATOR";
 	public static final String ATENDENTE_VALUE 		= "ATENDENTE";
 	public static final String COLABORADOR_EXTERNO_VALUE 			= "COLABORADOR_EXTERNO";
 	public static final String OPERADOR_ATENDIMENTOS_VALUE 			= "OPERADOR_ATENDIMENTOS";
 	public static final String CHEFE_ADMINISTRACAO_VALUE 			= "CHEFE_ADMINISTRACAO";
-	public static final String OPERADOR_ADMINISNTRATIVO_VALUE			= "OPERADOR_ADMINISNTRATIVO"; 
+	public static final String OPERADOR_ADMINISTRATIVO_VALUE			= "OPERADOR_ADMINISTRATIVO"; 
 	
 	/*
 	 * (non-Javadoc)

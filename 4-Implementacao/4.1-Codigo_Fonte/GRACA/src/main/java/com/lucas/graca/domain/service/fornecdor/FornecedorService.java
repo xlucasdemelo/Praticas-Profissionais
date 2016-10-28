@@ -23,7 +23,7 @@ import com.lucas.graca.domain.repository.fornecedor.IFornecedorRepository;
 @Service
 @RemoteProxy
 @Transactional
-@PreAuthorize( "hasAuthority(" + UserRole.OPERADOR_ADMINISNTRATIVO_VALUE + ")" )
+@PreAuthorize( "hasAuthority('" + UserRole.OPERADOR_ADMINISTRATIVO_VALUE + "')" )
 public class FornecedorService  
 {
 	

@@ -54,7 +54,7 @@ public class FornecedorServiceIntegrationTests extends AbstractIntegrationTests
 		
 		fornecedor.setRazaoSocial( "Fornecedor 1" );
 		fornecedor.setCnpj( "123123123" );
-		fornecedor.setResponsavel( new Responsavel(1000L) );
+		fornecedor.setResponsavel( new Responsavel(9999L) );
 		
 		fornecedor = this.fornecedorService.insertFornecedor( fornecedor );
 		

@@ -28,7 +28,7 @@ import com.lucas.graca.domain.repository.planoatendimento.IResponsavelRepository
 @Service
 @RemoteProxy
 @Transactional
-@PreAuthorize("hasAuthority('"+UserRole.ATENDENTE_VALUE+"') || hasAuthority('"+UserRole.OPERADOR_ADMINISNTRATIVO_VALUE+"') "
+@PreAuthorize("hasAuthority('"+UserRole.ATENDENTE_VALUE+"') || hasAuthority('"+UserRole.OPERADOR_ADMINISTRATIVO_VALUE+"') "
 		+ "|| hasAuthority('"+UserRole.COLABORADOR_EXTERNO_VALUE+"') ")
 public class CasaLarService 
 {

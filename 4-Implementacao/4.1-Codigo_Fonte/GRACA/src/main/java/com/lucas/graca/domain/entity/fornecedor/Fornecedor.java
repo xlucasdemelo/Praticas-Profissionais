@@ -26,7 +26,7 @@ import br.com.eits.common.domain.entity.AbstractEntity;
 
 @Entity
 @Audited
-@Table( name = "crianca")
+@Table( name = "fornecedor")
 @DataTransferObject(javascript = "Fornecedor")
 public class Fornecedor extends AbstractEntity 
 {

@@ -55,7 +55,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	})
 	public void insertUserMustPass()
 	{
-		User user = new User( null, "Testing user", "test@user.com", null, UserRole.OPERADOR_ADMINISNTRATIVO, "user" );
+		User user = new User( null, "Testing user", "test@user.com", null, UserRole.OPERADOR_ADMINISTRATIVO, "user" );
 		user = this.accountService.insertUser( user );
 
 		Assert.assertNotNull( user );
@@ -77,7 +77,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	})
 	public void insertUserMustFailWithoutMandatoryFields()
 	{
-		User user = new User( null, null, "test@user.com", true, UserRole.OPERADOR_ADMINISNTRATIVO, "user" );
+		User user = new User( null, null, "test@user.com", true, UserRole.OPERADOR_ADMINISTRATIVO, "user" );
 		user = this.accountService.insertUser( user );
 
 		Assert.fail();
