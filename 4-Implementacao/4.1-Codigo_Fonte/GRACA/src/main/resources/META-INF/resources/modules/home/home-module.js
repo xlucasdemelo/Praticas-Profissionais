@@ -208,6 +208,26 @@
 	        url:'/editar/{id:[0-9]{1,10}}',
 	        templateUrl: './modules/home/views/user/user-form.html'
 	     })
+	     
+	     //FORNECEDOR
+	     $stateProvider.state('fornecedor',{
+	    	 abstract: true,
+	    	 url : "/fornecedor",
+	    	 template: '<div layout="column" flex ui-view=""/>',
+	    	 controller : 'FornecedorController as fornecedorController'
+	     })
+	     .state('fornecedor.list',{
+	    	 url:'/listar',
+	    	 templateUrl: './modules/home/views/fornecedor/fornecedor-list.html'
+	     })
+	     .state('fornecedor.add',{
+	    	 url:'/inserir',
+	    	 templateUrl: './modules/home/views/fornecedor/fornecedor-form.html'
+	     })
+	     .state('fornecedor.edit',{
+	    	 url:'/editar/{id:[0-9]{1,10}}',
+	    	 templateUrl: './modules/home/views/fornecedor/fornecedor-form.html'
+	     })
 	});
 
 	/**
