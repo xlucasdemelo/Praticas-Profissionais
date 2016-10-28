@@ -3,48 +3,45 @@
 	xmlns:th="http://www.thymeleaf.org" lang="pt">
 	
 	<div class="main-div" layout="column" flex>
-	
-		<md-toolbar layout="row" style="z-index: 3;">
-	    	<div flex layout="row" class="default-header">
-		        <h1 class="md-toolbar-tools">Rede de apoio</h1>
+		<md-toolbar layout="row">
+	    	<div layout="row" flex>
+		        <h1 class="md-toolbar-tools" style="margin-left: 30px;">Rede de apoio</h1>
 	    	</div>
 	    	
-	        <div md-theme="default" layout="row" layout-align="end center" class="default-header">
-		        <md-button class="md-raised md-accent default-save-button" ng-click="$state.go( REDE_APOIO_ADD_STATE )">Novo</md-button>
+	        <div layout="row" layout-align="end center" style="margin-right: 30px;">
+		        <md-button class="md-raised md-accent" ng-click="$state.go( REDE_APOIO_ADD_STATE )">Novo</md-button>
 	        </div>
 	    </md-toolbar>
 	
-			<form layout="row" class="default-frame" >
-				<md-toolbar class="md-hue-1" layout="column" flex>
-					<div class="default-filter" layout="column" flex>
+		<form class="default-frame" layout="row">
+			<md-toolbar class="md-hue-1" layout="column" flex>
+				<div class="default-filter" layout="column" flex>
+					<div layout="row">
+						<md-input-container md-no-float layout="column" style="margin-top: 0" flex>
+							<input autofocus placeholder="Digite sua pesquisa" type="text" name="filtro" ng-disabled="moreFilters" ng-model="model.redeApoio.filters.terms" maxlength="255">
+						</md-input-container>
+				            
+			            <div layout="row" layout-align="end center" ng-init="currentOption = 'down'"> 
+				            <md-button class="md-raised" ng-click="listByFilters()">Filtrar</md-button>
+				            <md-button class="md-raised" ng-click="openMaisOpcoes(); currentOption = !currentOption" style="padding-left: 14px;">
+				            	Mais opções
+				            	<i ng-if="!currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-down"></i>
+				            	<i ng-if="currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-up"></i> 
+				            </md-button>
+			            </div>			            			            			            			            
+			    	</div>
+			    	
+			    	<div class="more-filters" layout="column" ng-if="moreFilters">
 						<div layout="row">
-							<md-input-container style="margin-bottom: 20px;" layout="column" flex>
-								<label>Digite sua pesquisa</label>
-								<input type="text" name="filtro" ng-disabled="moreFilters" ng-model="model.redeApoio.filters.terms" maxlength="255">
-							</md-input-container>
-					            
-				            <div layout="row" layout-align="end center" ng-init="currentOption = 'down'"> 
-<!-- 				            	// !moreFilters ? listByFilters() : listByMoreFilters() -->
-					            <md-button class="md-raised" ng-click="listByFilters()">Filtrar</md-button>
-					            <md-button class="md-raised" ng-click="openMaisOpcoes(); currentOption = !currentOption" style="padding-left: 14px;">
-					            	Mais opções
-					            	<i ng-if="!currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-down"></i>
-					            	<i ng-if="currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-up"></i> 
-					            </md-button>
-				            </div>			            			            			            			            
-				    	</div>
-				    	
-				    	<div class="more-filters" layout="column" ng-if="moreFilters">
-							<div layout="row" style="color:black">
-								<md-checkbox ng-model="model.redeApoio.filters.ativo" aria-label="Checkbox 1">
-									Mostrar ativos
-						        </md-checkbox>
-							</div>				    									
-				    	</div>
-				    	
-				    </div>
-				</md-toolbar>
-			</form>	
+							<md-checkbox class="md-warn" ng-model="model.redeApoio.filters.ativo" aria-label="Checkbox 1">
+								Mostrar ativos
+					        </md-checkbox>
+						</div>				    									
+			    	</div>
+			    	
+			    </div>
+			</md-toolbar>
+		</form>	
 			
 <!-- 			TOOLBAR DA TABLE -->
 

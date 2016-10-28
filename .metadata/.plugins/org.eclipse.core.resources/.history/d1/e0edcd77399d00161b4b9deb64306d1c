@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" 
+	xmlns:th="http://www.thymeleaf.org" lang="pt">
+	
+	<div class="main-div" layout="column" flex>
+		<md-toolbar layout="row">
+	    	<div layout="row" flex>
+		        <h1 class="md-toolbar-tools" style="margin-left: 30px;">Rede de apoio</h1>
+	    	</div>
+	    	
+	        <div layout="row" layout-align="end center">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="$state.go( REDE_APOIO_ADD_STATE )">Novo</md-button>
+	        </div>
+	    </md-toolbar>
+	
+			<form layout="row" class="default-frame" >
+				<md-toolbar class="md-hue-1" layout="column" flex>
+					<div class="default-filter" layout="column" flex>
+						<div layout="row">
+							<md-input-container style="margin-bottom: 20px;" layout="column" flex>
+								<label>Digite sua pesquisa</label>
+								<input type="text" name="filtro" ng-disabled="moreFilters" ng-model="model.redeApoio.filters.terms" maxlength="255">
+							</md-input-container>
+					            
+				            <div layout="row" layout-align="end center" ng-init="currentOption = 'down'"> 
+<!-- 				            	// !moreFilters ? listByFilters() : listByMoreFilters() -->
+					            <md-button class="md-raised" ng-click="listByFilters()">Filtrar</md-button>
+					            <md-button class="md-raised" ng-click="openMaisOpcoes(); currentOption = !currentOption" style="padding-left: 14px;">
+					            	Mais opções
+					            	<i ng-if="!currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-down"></i>
+					            	<i ng-if="currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-up"></i> 
+					            </md-button>
+				            </div>			            			            			            			            
+				    	</div>
+				    	
+				    	<div class="more-filters" layout="column" ng-if="moreFilters">
+							<div layout="row" style="color:black">
+								<md-checkbox ng-model="model.redeApoio.filters.ativo" aria-label="Checkbox 1">
+									Mostrar ativos
+						        </md-checkbox>
+							</div>				    									
+				    	</div>
+				    	
+				    </div>
+				</md-toolbar>
+			</form>	
+			
+<!-- 			TOOLBAR DA TABLE -->
+
+			<div class="default-frame" layout flex>
+				<md-toolbar class="md-hue-1" layout="column" flex>
+					<md-table-container>
+					  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+					    <thead md-head md-order="query.order" md-on-reorder="getDesserts">
+					      <tr md-row>
+					        <th md-column md-order-by="nameToLower"><span>Nome</span></th>
+					        <th md-column md-numeric md-order-by="calories.value"><span>Responsável</span></th>
+					        <th md-column md-numeric md-order-by="calories.value"><span>Telefone</span></th>
+					      </tr>
+					    </thead>
+					    <tbody md-body>
+					      <tr md-row md-select="dessert" style="cursor:pointer" ng-click="$state.go( REDE_APOIO_EDIT_STATE, {id:redeApoio.id} )" md-select-id="name" md-auto-select ng-repeat="redeApoio in model.redeApoio.page.content">
+					        <td md-cell >{{::redeApoio.nome}}</td>
+					        <td md-cell >{{::redeApoio.responsavel.nome}}</td>
+					        <td md-cell >{{::redeApoio.telefone}}</td>
+					      </tr>
+					    </tbody>
+					  </table>
+					</md-table-container>
+										
+					<div layout="column" flex class="empty-grid" layout-align="center center" ng-show="model.redeApoio.page.content.length == 0">
+						Nenhum registro de rede de apoio encontrado
+					</div>
+					
+					<md-divider></md-divider>
+					<div class="default-paginator" layout layout-align="end center" ng-if="model.redeApoio.page.content.length > 0">
+						{{ model.redeApoio.page.pageable.page + 1 }} de {{ totalPagesRedeApoio }}
+						<md-button class="md-icon-button" ng-disabled="(model.redeApoio.page.pageable.page + 1) < 2" ng-click="onPaginationChange(false)">
+							<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.redeApoio.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
+						</md-button>
+						<md-button class="md-icon-button" ng-disabled="(model.redeApoio.page.pageable.page + 1) >= totalPagesCasaLar" ng-click="onPaginationChange(true)">
+							<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.redeApoio.page.pageable.page + 1) >= Math.ceil(model.redeApoio.page.total/model.redeApoio.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
+						</md-button>
+			  		</div>
+			  		
+				</md-toolbar>
+			</div>
+			
+	</div>
+</html>

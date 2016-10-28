@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" 
+	xmlns:th="http://www.thymeleaf.org" lang="pt">
+	
+	<div class="main-div" layout="column" flex>
+		<md-toolbar layout="row" style="z-index: 3;">
+	    	<div flex layout="row" class="default-header">
+		        <h1 class="md-toolbar-tools">Usuários</h1>
+	    	</div>
+	    	
+	        <div md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="$state.go( USER_ADD_STATE )">Novo</md-button>
+	        </div>
+	    </md-toolbar>
+	
+		<md-content flex class="md-hue-3">
+			<form layout="row" class="default-frame" >
+				<md-toolbar  class="md-hue-1" layout="column">
+						<div layout="row">
+							<md-input-container style="margin-bottom: 20px;" layout="column" flex>
+								<label>Digite sua pesquisa</label>
+								<input type="text" name="filtro" ng-disabled="moreFilters" ng-model="model.user.filters.terms" maxlength="255">
+							</md-input-container>
+					            
+				            <div layout="row" layout-align="end center" ng-init="currentOption = 'down'"> 
+<!-- 				            	// !moreFilters ? listByFilters() : listByMoreFilters() -->
+					            <md-button class="md-raised md-primary md-hue-2" ng-click="listByFilters()">Filtrar</md-button>
+					            <md-button class="md-raised md-primary md-hue-3" ng-click="openMaisOpcoes(); currentOption = !currentOption" style="padding-left: 14px;">
+					            	Mais opções
+					            	<i ng-if="!currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-down"></i>
+					            	<i ng-if="currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-up"></i> 
+					            </md-button>
+				            </div>			            			            			            			            
+				    	</div>
+				    	
+				    	<div class="more-filters" layout="column" ng-if="moreFilters">
+							<div layout="row" style="color:black">
+								<md-checkbox ng-model="model.user.filters.ativo" aria-label="Checkbox 1">
+									Mostrar ativos
+						        </md-checkbox>
+							</div>				    									
+				    	</div>
+				</md-toolbar>
+			</form>	
+			
+<!-- 			TOOLBAR DA TABLE -->
+
+			<div layout ng-cloak class="default-frame" flex>
+				<md-toolbar class="md-hue-1" layout="column">
+					<md-table-container>
+					  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+					    <thead md-head md-order="query.order" md-on-reorder="getDesserts">
+					      <tr md-row>
+					        <th md-column md-order-by="nameToLower"><span>Usuário</span></th>
+					        <th md-column md-numeric md-order-by="calories.value"><span>Email</span></th>
+					        <th md-column md-numeric>Perfil de acesso</th>
+					      </tr>
+					    </thead>
+					    <tbody md-body>
+					      <tr md-row md-select="dessert" style="cursor:pointer" ng-click="$state.go( USER_EDIT_STATE, {id:user.id} )" md-select-id="name" md-auto-select ng-repeat="user in model.user.page.content">
+					        <td md-cell>{{::user.name}}</td>
+					        <td md-cell>{{::user.email}}</td>
+					        <td md-cell>{{::user.role | translate}}</td>
+					      </tr>
+					    </tbody>
+					  </table>
+					</md-table-container>
+										
+					<div layout="column" flex class="empty-grid" layout-align="center center" ng-show="model.user.page.content.length == 0">
+						Nenhum registro de usuário encontrado
+					</div>
+					
+					<md-divider></md-divider>
+					<div class="default-paginator" layout layout-align="end center" ng-if="model.user.page.content.length > 0">
+						{{ model.user.page.pageable.page + 1 }} de {{ totalPagesPlanoAtendimentoFamiliar }}
+						<md-button class="md-icon-button" ng-disabled="(model.user.page.pageable.page + 1) < 2" ng-click="onUserPaginationChange(false)">
+							<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.user.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
+						</md-button>
+						<md-button class="md-icon-button" ng-disabled="(model.user.page.pageable.page + 1) >= totalPagesUser" ng-click="onUserPaginationChange(true)">
+							<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.user.page.pageable.page + 1) >= Math.ceil(model.user.page.total/model.user.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
+						</md-button>
+			  		</div>
+			  		
+				</md-toolbar>
+			</div>
+			
+		</md-content>
+		
+	</div>
+</html>
