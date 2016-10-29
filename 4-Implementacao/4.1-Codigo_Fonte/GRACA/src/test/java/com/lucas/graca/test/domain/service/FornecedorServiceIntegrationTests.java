@@ -110,7 +110,7 @@ public class FornecedorServiceIntegrationTests extends AbstractIntegrationTests
 	 * 
 	 */
 	@Test(expected = DataIntegrityViolationException.class)
-	@WithUserDetails("admin@email.com")
+	@WithUserDetails("operador_administrativo@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
 			"/dataset/casalar/ResponsavelDataSet.xml" ,
 			"/dataset/redeapoio/redeApoioDataSet.xml", 
@@ -126,6 +126,29 @@ public class FornecedorServiceIntegrationTests extends AbstractIntegrationTests
 		fornecedor.setResponsavel( new Responsavel(1000L) );
 		
 		fornecedor = this.fornecedorService.insertFornecedor( fornecedor );
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	@WithUserDetails("operador_administrativo@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/casalar/ResponsavelDataSet.xml" ,
+			"/dataset/redeapoio/redeApoioDataSet.xml", 
+			"/dataset/account/UserDataSet.xml",
+			"/dataset/fornecedor/FornecedorDataSet.xml",
+	})
+	public void updateFornecedorMustPass()
+	{
+		Fornecedor fornecedor = this.fornecedorService.findById( 9999L );
+		
+		fornecedor.setRazaoSocial( "Novo nome" );
+		
+		fornecedor = this.fornecedorService.updateFornecedor( fornecedor );
+		
+		Assert.assertNotNull( fornecedor );
+		Assert.assertTrue( fornecedor.getRazaoSocial().equals( "Novo nome" ) );
 	}
 	
 	/**
@@ -149,4 +172,100 @@ public class FornecedorServiceIntegrationTests extends AbstractIntegrationTests
 		Assert.assertTrue( fornecedores.size() > 0 );
 	}
 	
+	/**
+	 * 
+	 */
+	@Test
+	@WithUserDetails("admin@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/casalar/ResponsavelDataSet.xml" ,
+			"/dataset/redeapoio/redeApoioDataSet.xml", 
+			"/dataset/account/UserDataSet.xml",
+			"/dataset/fornecedor/FornecedorDataSet.xml",
+	})
+	public void listFornecedoresInativosMustPass()
+	{
+		List<Fornecedor> fornecedores = this.fornecedorService.listFornecedoresByFilters( null, false, null).getContent();
+		
+		Assert.assertNotNull( fornecedores );
+		Assert.assertTrue( !fornecedores.isEmpty() );
+		
+		Assert.assertTrue( fornecedores.size() > 0 );
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	@WithUserDetails("operador_administrativo@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/casalar/ResponsavelDataSet.xml" ,
+			"/dataset/redeapoio/redeApoioDataSet.xml", 
+			"/dataset/account/UserDataSet.xml",
+			"/dataset/fornecedor/FornecedorDataSet.xml",
+	})
+	public void disableFornecedorMustPass()
+	{
+		Fornecedor fornecedor = this.fornecedorService.findById( 9999L );
+		Assert.assertTrue( fornecedor.getAtivo() );
+		
+		this.fornecedorService.disableFornecedor( 9999L );
+		
+		fornecedor = this.fornecedorService.findById( 9999L );
+		Assert.assertTrue( !fornecedor.getAtivo() );
+	}
+	
+	/**
+	 * 
+	 */
+	@Test(expected=IllegalArgumentException.class)
+	@WithUserDetails("operador_administrativo@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/casalar/ResponsavelDataSet.xml" ,
+			"/dataset/redeapoio/redeApoioDataSet.xml", 
+			"/dataset/account/UserDataSet.xml",
+			"/dataset/fornecedor/FornecedorDataSet.xml",
+	})
+	public void disableFornecedorMustFailFornecedorNotFound()
+	{
+		this.fornecedorService.disableFornecedor( 2000L );
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	@WithUserDetails("operador_administrativo@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/casalar/ResponsavelDataSet.xml" ,
+			"/dataset/redeapoio/redeApoioDataSet.xml", 
+			"/dataset/account/UserDataSet.xml",
+			"/dataset/fornecedor/FornecedorDataSet.xml",
+	})
+	public void enableFornecedorMustPass()
+	{
+		Fornecedor fornecedor = this.fornecedorService.findById( 1000L );
+		Assert.assertTrue( !fornecedor.getAtivo() );
+		
+		this.fornecedorService.enableFornecedor( 1000L );
+		
+		fornecedor = this.fornecedorService.findById( 1000L );
+		Assert.assertTrue( fornecedor.getAtivo() );
+	}
+	
+	/**
+	 * 
+	 */
+	@Test(expected=IllegalArgumentException.class)
+	@WithUserDetails("operador_administrativo@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/casalar/ResponsavelDataSet.xml" ,
+			"/dataset/redeapoio/redeApoioDataSet.xml", 
+			"/dataset/account/UserDataSet.xml",
+			"/dataset/fornecedor/FornecedorDataSet.xml",
+	})
+	public void enableFornecedorMustFailFornecedorNotFound()
+	{
+		this.fornecedorService.disableFornecedor( 2000L );
+	}
 }

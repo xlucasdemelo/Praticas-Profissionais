@@ -64,12 +64,16 @@ public class FornecedorService
 	 */
 	public Fornecedor updateFornecedor(Fornecedor fornecedor)
 	{
+		Assert.notNull( fornecedor.getId(), "Id não pode ser nulo" );
+		
+		Fornecedor fornecedorBd = this.fornecedorRepository.findOne( fornecedor.getId() ); 
+		Assert.notNull( fornecedorBd, "Nenhum registro com esse ID" );
+		
 		Assert.notNull( fornecedor, "Fornecedor não pode ser nulo" );
 		Assert.notNull( fornecedor.getRazaoSocial(), "Razão social não pode ser nula" );
 		Assert.notNull( fornecedor.getCnpj(), "CNPJ não pode ser nulo" );
 		Assert.notNull( fornecedor.getResponsavel(), "Responsável não pode ser nulo" );
 		
-		Assert.notNull( fornecedor.getId(), "Id não pode ser nulo" );
 		
 		return this.fornecedorRepository.save( fornecedor );
 	}

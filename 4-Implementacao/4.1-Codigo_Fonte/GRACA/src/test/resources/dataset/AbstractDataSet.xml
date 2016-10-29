@@ -20,4 +20,8 @@
 	<public.avaliacao_individual />
 	<public.configuracao_avaliacao_individual />
 	<public.fornecedor></public.fornecedor>
+	<public.produto></public.produto>
+	<public.marca></public.marca>
+	<public.modelo></public.modelo>
+	<public.categoria></public.categoria>
 </dataset>

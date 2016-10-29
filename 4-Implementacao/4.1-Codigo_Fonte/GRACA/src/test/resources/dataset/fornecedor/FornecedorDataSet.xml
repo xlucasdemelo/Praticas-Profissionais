@@ -7,5 +7,13 @@
 		cnpj="123456"
 		responsavel_id="9999"
 		ativo="true"/>
+		
+	<public.fornecedor
+		id="1000"
+		created="2015-03-30 00:00:00"
+		razao_social="fornecedor 2"
+		cnpj="12321314"
+		responsavel_id="9999"
+		ativo="false"/>
 </dataset>
 	
