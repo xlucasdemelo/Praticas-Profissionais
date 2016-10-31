@@ -1,0 +1,30 @@
+/**
+ * 
+ */
+package com.lucas.graca.domain.repository.caixa;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.lucas.graca.domain.entity.caixa.Banco;
+import com.lucas.graca.domain.entity.fornecedor.Fornecedor;
+
+/**
+ * @author eits
+ *
+ */
+public interface IBancoRepository extends JpaRepository<Banco, Long>
+{ 
+	
+	@Query(value="SELECT new Banco( banco.id, banco.nome, banco.enabled ) " +
+			   "FROM Banco banco " +
+			  "WHERE ( banco.enabled = :ativo AND "
+			  	 	+ "( (FILTER(banco.nome, :filter) = TRUE)  ) "
+			  	 + ")"
+			)
+	public Page<Fornecedor> listByFilters( @Param("filter") String filters, @Param("ativo") Boolean ativo, Pageable pageable );
+	
+}
