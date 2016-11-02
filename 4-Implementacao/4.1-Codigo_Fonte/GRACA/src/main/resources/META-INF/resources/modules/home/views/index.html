@@ -46,6 +46,11 @@
 		
 		<script type="text/javascript" th:src="@{/modules/home/controllers/questionario/questionario-controller.js}"></script>
 		
+		<script type="text/javascript" th:src="@{/modules/home/controllers/produto/produto-controller.js}"></script>
+		<script type="text/javascript" th:src="@{/modules/home/controllers/produto/popup/selecionar-categoria-controller-popup.js}"></script>
+		<script type="text/javascript" th:src="@{/modules/home/controllers/produto/popup/selecionar-marca-controller-popup.js}"></script>
+		<script type="text/javascript" th:src="@{/modules/home/controllers/produto/popup/selecionar-modelo-controller-popup.js}"></script>
+		
 		<script type="text/javascript" th:src="@{/modules/home/controllers/avaliacaoindividual/popup/selecionar-crianca-controller-popup.js}"></script>
 		<script type="text/javascript" th:src="@{/modules/home/controllers/avaliacaoindividual/avaliacao-individual-controller.js}"></script>
 		
@@ -94,7 +99,7 @@
  						<md-menu-item>
 				          	<md-button>
 				            	<md-icon class="zmdi zmdi-settings zmdi-hc-lg"></md-icon>
-				            	Configuraçõese
+				            	Configurações
 				          	</md-button>
 				        </md-menu-item>
 				        
@@ -109,16 +114,9 @@
 					</md-menu-content>
     			</md-menu>
     		</eits-hbox>
-
     		
   		</md-toolbar>
   		
-  		<md-content flex="" ui-view="" layout="column" >
-			
-  		</md-content>
-  		
-<!--   		<md-content style="width: 100%; height: calc(100% - 64px); overflow:hidden" ui-view=""> -->
-			
-<!--   		</md-content> -->
+  		<md-content flex="" ui-view="" layout="column" ></md-content>
 	</body>
 </html>

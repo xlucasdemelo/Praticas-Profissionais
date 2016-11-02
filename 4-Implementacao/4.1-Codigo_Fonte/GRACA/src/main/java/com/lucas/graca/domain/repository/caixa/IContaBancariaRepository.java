@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.lucas.graca.domain.entity.caixa.ContaBancaria;
-import com.lucas.graca.domain.entity.fornecedor.Fornecedor;
 
 /**
  * @author eits
@@ -26,6 +25,6 @@ public interface IContaBancariaRepository extends JpaRepository<ContaBancaria, L
 			  	 	+ " OR (FILTER(contaBancaria.agencia, :filter) = TRUE) " 
 			  	 + ")"
 			)
-	public Page<Fornecedor> listByFilters( @Param("filter") String filters, @Param("ativo") Boolean ativo, Pageable pageable );
+	public Page<ContaBancaria> listByFilters( @Param("filter") String filters, @Param("ativo") Boolean ativo, Pageable pageable );
 	
 }

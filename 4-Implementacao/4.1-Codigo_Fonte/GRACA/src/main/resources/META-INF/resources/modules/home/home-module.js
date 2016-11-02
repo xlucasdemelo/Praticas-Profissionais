@@ -129,6 +129,26 @@
 	    	 templateUrl: './modules/home/views/avaliacaoindividual/avaliacao-individual-form.html'
 	     })
 	     
+	     //PRODUTO
+	     $stateProvider.state('produto',{
+	    	 abstract: true,
+	    	 url : "/produto",
+	    	 template: '<div layout="column" flex ui-view=""/>',
+	    	 controller : 'ProdutoController as produtoController'
+	     })
+	     .state('produto.list',{
+	    	 url:'/listar',
+	    	 templateUrl: './modules/home/views/produto/produto-list.html'
+	     })
+	     .state('produto.add',{
+	    	 url:'/inserir',
+	    	 templateUrl: './modules/home/views/produto/produto-form.html'
+	     })
+	     .state('produto.edit',{
+	    	 url:'/editar/{id:[0-9]{1,10}}',
+	    	 templateUrl: './modules/home/views/produto/produto-form.html'
+	     })
+	     
 	     //Plano de atendimento familiar
 	     $stateProvider.state('plano-atendimento-familiar',{
         	abstract: true,

@@ -154,7 +154,7 @@ public class ContaBancaria extends AbstractEntity
 	/**
 	 * 
 	 */
-	public void disableFornecedor()
+	public void disableContaBancaria()
 	{
 		this.enabled = false;
 	}
@@ -163,7 +163,7 @@ public class ContaBancaria extends AbstractEntity
 	 * 
 	 */
 	@PrePersist
-	public void enableFornecedor()
+	public void enableContaBancaria()
 	{
 		this.enabled = true;
 	}
@@ -218,6 +218,22 @@ public class ContaBancaria extends AbstractEntity
 	public void setBanco( Banco banco )
 	{
 		this.banco = banco;
+	}
+
+	/**
+	 * @return the numero
+	 */
+	public String getNumero()
+	{
+		return numero;
+	}
+
+	/**
+	 * @param numero the numero to set
+	 */
+	public void setNumero( String numero )
+	{
+		this.numero = numero;
 	}
 	
 	

@@ -6,12 +6,10 @@ package com.lucas.graca.domain.entity.caixa;
 import java.util.Calendar;
 
 import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
-import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
@@ -42,22 +40,19 @@ public class Movimentacao extends AbstractEntity
 	/**
 	 * 
 	 */
-	@NotNull
-	@Column(nullable = false, unique = true)
+	@Basic
 	private String numeroDocumento;
 	
 	/**
 	 * 
 	 */
-	@NotNull
-	@Column(nullable = false)
+	@Basic
 	private Calendar dataEmissao;
 	
 	/**
 	 * 
 	 */
-	@NotNull
-	@Column(nullable = false)
+	@Basic
 	private Calendar dataPagamento;
 	
 	/**
@@ -69,29 +64,25 @@ public class Movimentacao extends AbstractEntity
 	/**
 	 * 
 	 */
-	@NotNull
-	@Column(nullable = false)
+	@Basic
 	private StatusMovimentacao status;
 	
 	/**
 	 * 
 	 */
-	@NotNull
-	@Column(nullable = false)
+	@Basic
 	private FormaPagamento formaPagamento;
 	
 	/**
 	 * 
 	 */
-	@NotNull
-	@Column(nullable = false)
+	@Basic
 	private TipoDocumento tipoDocumento;
 	
 	/**
 	 * 
 	 */
-	@NotNull
-	@Column(nullable = false)
+	@Basic
 	private TipoMovimentacao tipoMovimentacao;
 	
 	/**
@@ -213,6 +204,17 @@ public class Movimentacao extends AbstractEntity
 		if ( tipoDocumento != other.tipoDocumento ) return false;
 		if ( tipoMovimentacao != other.tipoMovimentacao ) return false;
 		return true;
+	}
+	
+	/**
+	 * 
+	 */
+	public void validateFormaPagamento()
+	{
+		if (this.formaPagamento == FormaPagamento.CHEQUE)
+		{
+			Assert.notNull( this.numeroCheque, "Número do cheque deve ser informado" );
+		}
 	}
 	
 	/**
