@@ -14,7 +14,9 @@ import org.springframework.util.Assert;
 import com.lucas.graca.domain.entity.account.UserRole;
 import com.lucas.graca.domain.entity.caixa.ContaBancaria;
 import com.lucas.graca.domain.entity.caixa.Movimentacao;
+import com.lucas.graca.domain.entity.caixa.MovimentacaoCaixa;
 import com.lucas.graca.domain.repository.caixa.IContaBancariaRepository;
+import com.lucas.graca.domain.repository.caixa.IMovimentacaoContaRepository;
 import com.lucas.graca.domain.repository.caixa.IMovimentacaoRepository;
 
 /**
@@ -36,6 +38,11 @@ public class CaixaService
 	 * 
 	 */
 	private IMovimentacaoRepository movimentcacaoRepository ;
+	
+	/**
+	 * 
+	 */
+	private IMovimentacaoContaRepository movimentcacaoContaRepository ;
 	
 	/*-------------------------------------------------------------------
 	 *				 		SERVICES CONTA BANCARIA
@@ -151,5 +158,57 @@ public class CaixaService
 	public void removeMovimentacao( long id )
 	{
 		this.movimentcacaoRepository.delete( id );
+	}
+	
+	/*-------------------------------------------------------------------
+	 *				    SERVICES MOVIMENTAÇÃO CONTA
+	 *-------------------------------------------------------------------*/
+	
+	/**
+	 * 
+	 * @param movimentacaoCaixa
+	 * @return
+	 */
+	public MovimentacaoCaixa insertMovimentacaoConta( MovimentacaoCaixa movimentacaoCaixa )
+	{
+		Assert.notNull( movimentacaoCaixa );
+		Assert.notNull( movimentacaoCaixa.getValor(), "Valor não pode ser nulo" );
+		Assert.notNull( movimentacaoCaixa.getContaBancaria() );
+		Assert.notNull( movimentacaoCaixa.getMovimentacao() );
+		
+		return this.movimentcacaoContaRepository.save( movimentacaoCaixa );
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public void removeMovimentacaoConta( long id )
+	{
+		MovimentacaoCaixa movimentacaoConta = this.movimentcacaoContaRepository.findOne( id );
+		Assert.notNull( movimentacaoConta, "Registro não encontrado" );
+		
+		this.movimentcacaoContaRepository.delete( movimentacaoConta );
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public MovimentacaoCaixa findMovimentacaoContaById( long id )
+	{
+		MovimentacaoCaixa movimentacaoConta = this.movimentcacaoContaRepository.findOne( id );
+		Assert.notNull( movimentacaoConta, "Registro não encontrado" );
+		
+		return movimentacaoConta;
+	}
+	
+	/**
+	 * 
+	 * @param movimentacaoId
+	 */
+	public Page<MovimentacaoCaixa> listMovimentacoesContaByMovimentacao( long movimentacaoId, PageRequest pageable )
+	{
+		return this.movimentcacaoContaRepository.listByMovimentacao( movimentacaoId, pageable );
 	}
 }
