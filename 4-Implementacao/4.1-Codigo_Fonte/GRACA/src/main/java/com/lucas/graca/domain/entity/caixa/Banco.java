@@ -121,7 +121,7 @@ public class Banco extends AbstractEntity
 	/**
 	 * 
 	 */
-	public void disableFornecedor()
+	public void disableBanco()
 	{
 		this.enabled = false;
 	}
@@ -130,7 +130,7 @@ public class Banco extends AbstractEntity
 	 * 
 	 */
 	@PrePersist
-	public void enableFornecedor()
+	public void enableBanco()
 	{
 		this.enabled = true;
 	}

@@ -24,4 +24,5 @@
 	<public.marca></public.marca>
 	<public.modelo></public.modelo>
 	<public.categoria></public.categoria>
+	<public.banco></public.banco>
 </dataset>

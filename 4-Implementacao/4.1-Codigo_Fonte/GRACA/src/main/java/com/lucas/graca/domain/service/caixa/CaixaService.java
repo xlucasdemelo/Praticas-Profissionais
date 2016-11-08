@@ -4,6 +4,7 @@
 package com.lucas.graca.domain.service.caixa;
 
 import org.directwebremoting.annotations.RemoteProxy;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,9 +13,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.lucas.graca.domain.entity.account.UserRole;
+import com.lucas.graca.domain.entity.caixa.Banco;
 import com.lucas.graca.domain.entity.caixa.ContaBancaria;
 import com.lucas.graca.domain.entity.caixa.Movimentacao;
 import com.lucas.graca.domain.entity.caixa.MovimentacaoCaixa;
+import com.lucas.graca.domain.repository.caixa.IBancoRepository;
 import com.lucas.graca.domain.repository.caixa.IContaBancariaRepository;
 import com.lucas.graca.domain.repository.caixa.IMovimentacaoContaRepository;
 import com.lucas.graca.domain.repository.caixa.IMovimentacaoRepository;
@@ -32,17 +35,26 @@ public class CaixaService
 	/**
 	 * 
 	 */
+	@Autowired
 	private IContaBancariaRepository contaBancariaRepository;
 	
 	/**
 	 * 
 	 */
+	@Autowired
 	private IMovimentacaoRepository movimentcacaoRepository ;
 	
 	/**
 	 * 
 	 */
+	@Autowired
 	private IMovimentacaoContaRepository movimentcacaoContaRepository ;
+	
+	/**
+	 * 
+	 */
+	@Autowired
+	private IBancoRepository bancoRepository;
 	
 	/*-------------------------------------------------------------------
 	 *				 		SERVICES CONTA BANCARIA
@@ -124,6 +136,62 @@ public class CaixaService
 	public Page<ContaBancaria> listContaBancariaByFilters( String filter, Boolean ativo, PageRequest pageable )
 	{
 		return this.contaBancariaRepository.listByFilters( filter, ativo, pageable );
+	}
+	
+	/*-------------------------------------------------------------------
+	 *				 		SERVICES BANCO
+	 *-------------------------------------------------------------------*/
+	
+	/**
+	 * 
+	 * @param banco
+	 * @return
+	 */
+	public Banco insertBancoMustPass( Banco banco )
+	{
+		Assert.notNull( banco );
+		Assert.isNull( banco.getId(), "Id não pode ser nulo" );
+		Assert.notNull( banco.getNome(), "Nome não pode ser nulo" );
+		
+		return this.bancoRepository.save( banco );
+	}
+	
+	/**
+	 * 
+	 * @param filter
+	 * @param pageable
+	 * @return
+	 */
+	public Page<Banco> listBancosByFilters( String filter, Boolean ativo, PageRequest pageable )
+	{
+		return this.bancoRepository.listByFilters( filter, ativo, pageable );
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public void disableBanco( long id )
+	{
+		Banco banco = this.bancoRepository.findOne( id );
+		Assert.notNull( banco, "Registro nao existe" );
+		
+		banco.disableBanco();
+		this.bancoRepository.save( banco );
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Banco enableBanco( long id )
+	{
+		Banco banco = this.bancoRepository.findOne( id );
+		Assert.notNull( banco, "Registro nao existe" );
+		
+		banco.enableBanco();
+		return this.bancoRepository.save( banco );
 	}
 	
 	/*-------------------------------------------------------------------
