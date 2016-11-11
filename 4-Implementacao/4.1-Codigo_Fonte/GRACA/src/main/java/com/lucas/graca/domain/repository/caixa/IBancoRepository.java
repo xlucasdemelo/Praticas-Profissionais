@@ -26,4 +26,11 @@ public interface IBancoRepository extends JpaRepository<Banco, Long>
 			)
 	public Page<Banco> listByFilters( @Param("filter") String filters, @Param("ativo") Boolean ativo, Pageable pageable );
 	
+	/**
+	 * 
+	 * @param nome
+	 * @return
+	 */
+	public Banco findByNomeAndEnabled(String nome, Boolean enabled);
+	
 }

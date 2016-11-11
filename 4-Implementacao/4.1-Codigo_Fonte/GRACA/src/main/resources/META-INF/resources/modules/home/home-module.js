@@ -248,6 +248,26 @@
 	    	 url:'/editar/{id:[0-9]{1,10}}',
 	    	 templateUrl: './modules/home/views/fornecedor/fornecedor-form.html'
 	     })
+	     
+	     
+	     $stateProvider.state('conta-bancaria',{
+	    	 abstract: true,
+	    	 url : "/conta-bancaria",
+	    	 template: '<div layout="column" flex ui-view=""/>',
+	    	 controller : 'ContaBancariaController as contaBancariaController'
+	     })
+	     .state('conta-bancaria.list',{
+	    	 url:'/listar',
+	    	 templateUrl: './modules/home/views/conta-bancaria/conta-bancaria-list.html'
+	     })
+	     .state('conta-bancaria.add',{
+	    	 url:'/inserir',
+	    	 templateUrl: './modules/home/views/conta-bancaria/conta-bancaria-form.html'
+	     })
+	     .state('conta-bancaria.edit',{
+	    	 url:'/editar/{id:[0-9]{1,10}}',
+	    	 templateUrl: './modules/home/views/conta-bancaria/conta-bancaria-form.html'
+	     })
 	});
 
 	/**

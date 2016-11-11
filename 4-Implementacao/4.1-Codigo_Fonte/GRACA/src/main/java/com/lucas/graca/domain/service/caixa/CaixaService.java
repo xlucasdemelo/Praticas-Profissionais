@@ -74,6 +74,9 @@ public class CaixaService
 		Assert.notNull( contaBancaria.getNumero(), "Número não pode ser nulo" );
 		Assert.notNull( contaBancaria.getBanco() );
 		
+		Assert.isNull( this.contaBancariaRepository.findByNumeroAndAgenciaAndEnabled( contaBancaria.getNumero(), contaBancaria.getAgencia(), true ),
+				"Já existe uma conta com este número e agência" );
+		
 		return this.contaBancariaRepository.save( contaBancaria );
 	}
 	
@@ -107,7 +110,7 @@ public class CaixaService
 	public void disableContaBancaria( long id )
 	{
 		ContaBancaria contaBancaria = this.contaBancariaRepository.findOne( id );
-		Assert.notNull( contaBancaria, "Não existe nenhum registro com esse id" );
+		Assert.notNull( contaBancaria, "Não existe nenhum registro insecom esse id" );
 		
 		contaBancaria.disableContaBancaria();
 		
@@ -133,9 +136,19 @@ public class CaixaService
 	 * 
 	 * @return
 	 */
+	@Transactional(readOnly=true)
 	public Page<ContaBancaria> listContaBancariaByFilters( String filter, Boolean ativo, PageRequest pageable )
 	{
 		return this.contaBancariaRepository.listByFilters( filter, ativo, pageable );
+	}
+	
+	@Transactional(readOnly=true)
+	public ContaBancaria findContaBancariaById( long id )
+	{
+		ContaBancaria contaBancaria = this.contaBancariaRepository.findOne( id );
+		Assert.notNull( contaBancaria, "Registro não encontrado" );
+		
+		return contaBancaria;
 	}
 	
 	/*-------------------------------------------------------------------
@@ -147,11 +160,13 @@ public class CaixaService
 	 * @param banco
 	 * @return
 	 */
-	public Banco insertBancoMustPass( Banco banco )
+	public Banco insertBanco( Banco banco )
 	{
 		Assert.notNull( banco );
 		Assert.isNull( banco.getId(), "Id não pode ser nulo" );
 		Assert.notNull( banco.getNome(), "Nome não pode ser nulo" );
+		
+		Assert.isNull( this.bancoRepository.findByNomeAndEnabled( banco.getNome(), true ), "Já existe um registro com esse nome");
 		
 		return this.bancoRepository.save( banco );
 	}

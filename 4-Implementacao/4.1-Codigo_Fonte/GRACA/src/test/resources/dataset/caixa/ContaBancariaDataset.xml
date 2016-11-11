@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
 
-	<public.banco
+	<public.conta_bancaria
 		id="9999"
 		created="2015-03-30 00:00:00"
-		nome="Bradesco"
+		numero="23331"
+		agencia="01238"
+		banco_id="9999"
 		enabled="true"
 	/>
 	
-	<public.banco
+	<public.conta_bancaria
 		id="1000"
 		created="2015-03-30 00:00:00"
-		nome="Itau"
+		numero="44423"
+		agencia="01231238"
+		banco_id="9999"
 		enabled="false"
 	/>
 	

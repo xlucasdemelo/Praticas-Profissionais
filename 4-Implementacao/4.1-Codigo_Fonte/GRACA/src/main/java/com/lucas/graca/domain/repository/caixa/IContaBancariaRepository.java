@@ -27,4 +27,9 @@ public interface IContaBancariaRepository extends JpaRepository<ContaBancaria, L
 			)
 	public Page<ContaBancaria> listByFilters( @Param("filter") String filters, @Param("ativo") Boolean ativo, Pageable pageable );
 	
+	/**
+	 * 
+	 * @return
+	 */
+	public ContaBancaria findByNumeroAndAgenciaAndEnabled( String numero, String agencia, Boolean enabled );
 }

@@ -25,4 +25,5 @@
 	<public.modelo></public.modelo>
 	<public.categoria></public.categoria>
 	<public.banco></public.banco>
+	<public.conta_bancaria></public.conta_bancaria>
 </dataset>
