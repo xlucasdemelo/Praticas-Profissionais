@@ -142,6 +142,11 @@ public class CaixaService
 		return this.contaBancariaRepository.listByFilters( filter, ativo, pageable );
 	}
 	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
 	@Transactional(readOnly=true)
 	public ContaBancaria findContaBancariaById( long id )
 	{

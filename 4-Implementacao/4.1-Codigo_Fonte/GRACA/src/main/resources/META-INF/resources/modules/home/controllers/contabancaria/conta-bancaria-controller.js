@@ -11,7 +11,7 @@ angular.module('home')
 		   /**
 		     * Serviços importados do DWR
 		     */
-			$importService("fornecedorService");
+			$importService("caixaService");
 			/**
 			 * 
 			 */
@@ -77,6 +77,11 @@ angular.module('home')
 				}
 			};
 			
+			/**
+			 * 
+			 */
+			$scope.totalPagesContaBancaria = null;
+			
 			/*-------------------------------------------------------------------
 		     * 		 				  POST CONSTRUCT
 		     *-------------------------------------------------------------------*/
@@ -127,9 +132,7 @@ angular.module('home')
 			$scope.changeToAdd = function() {
 				console.debug("changeToAdd");
 				
-				$scope.model.fornecedor.entity = new Fornecedor();//Limpa o formulário
-				
-				
+				$scope.model.contaBancaria.entity = new contaBancaria();//Limpa o formulário
 			};
 			
 			/**
@@ -144,9 +147,9 @@ angular.module('home')
 		    $scope.changeToEdit = function( id ) {
 		        console.debug("changeToEdit", id);
 		        
-		        fornecedorService.findById( id, {
+		        caixaService.findContaBancariaById( id, {
 		            callback : function(result) {	   
-		            	$scope.model.fornecedor.entity = result;
+		            	$scope.model.contaBancaria.entity = result;
 		            	
 		            	$scope.$apply();
 		            },
@@ -170,7 +173,7 @@ angular.module('home')
 		    $scope.changeToList = function( paginate ) {
 		        console.debug("changeToList");
 		        
-		        if ( paginate ) $scope.model.fornecedor.page.pageable.page++;
+		        if ( paginate ) $scope.model.contaBancaria.page.pageable.page++;
 		        
 		        $scope.listByFilters();
 		    };
@@ -187,10 +190,10 @@ angular.module('home')
 		    $scope.changeToDetail = function( id ) {
 		        console.debug("changeToDetail", id);
 		
-		        fornecedorService.findById( id, {
+		        caixaService.findContaBancariaById( id, {
 		            callback : function(result) {
-		            	$scope.model.fornecedor.entity = result;
-		            	$state.current.breadCrumbs.push({name: $scope.model.fornecedor.entity.razaoSocial});
+		            	$scope.model.contaBancaria.entity = result;
+		            	$state.current.breadCrumbs.push({name: $scope.model.contaBancaria.entity.razaoSocial});
 		                $scope.$apply();
 		            },
 		            errorHandler : function(message, exception) {
@@ -216,7 +219,7 @@ angular.module('home')
 		        $mdDialog.show(confirm).then(function (result) {
 		            console.log(result);
 		
-		            fornecedorService.disableFornecedor( $scope.model.fornecedor.entity.id, {
+		            caixaService.disableContaBancaria( $scope.model.contaBancaria.entity.id, {
 			            callback : function(result) {	   
 			            	
 			            	$state.go($scope.CONTA_BANCARIA_LIST_STATE);
@@ -238,10 +241,10 @@ angular.module('home')
 			
 			$scope.listByFilters = function(){
 				
-				fornecedorService.listFornecedoresByFilters(  $scope.model.fornecedor.filters.terms.toString(), true, $scope.model.fornecedor.page.pageable, {
+				caixaService.listContaBancariaByFilters(  $scope.model.contaBancaria.filters.terms.toString(), true, $scope.model.contaBancaria.page.pageable, {
 	                callback : function(result) {
-	                	$scope.totalPagesFornecedor = result.totalPages;
-	                	$scope.model.fornecedor.page = {//PageImpl
+	                	$scope.totalPagesContaBancaria = result.totalPages;
+	                	$scope.model.contaBancaria.page = {//PageImpl
 	    						content : result.content,
 								pageable : {//PageRequest
 									page : result.number,
@@ -264,9 +267,9 @@ angular.module('home')
 			/**
 			 * 
 			 */
-			$scope.disableFornecedor = function(){
+			$scope.disableContaBancaria = function(){
 				
-				fornecedorService.disableFornecedor( id, {
+				caixaService.disableContaBancaria( id, {
 		            callback : function(result) {
 		            	$state.go($scope.CONTA_BANCARIA_LIST_STATE);
 		            	$scope.$apply();
@@ -282,7 +285,7 @@ angular.module('home')
 			/**
 			 * 
 			 */
-			$scope.enableFornecedor = function(){
+			$scope.enableContaBancaria = function(){
 				
 				var confirm = $mdDialog.confirm()
 	            .title('Tem certeza que deseja ativar este registro?')
@@ -293,7 +296,7 @@ angular.module('home')
 		        $mdDialog.show(confirm).then(function (result) {
 		            console.log(result);
 		
-		            fornecedorService.enableFornecedor( $scope.model.fornecedor.entity.id  , {
+		            caixaService.enableContaBancaria( $scope.model.contaBancaria.entity.id  , {
 		                callback : function(result) {
 		                    $scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi ativado com sucesso!" );
 		                    $state.go($scope.CONTA_BANCARIA_LIST_STATE);
@@ -316,22 +319,22 @@ angular.module('home')
 			/**
 			 * 
 			 */
-			$scope.insertFornecedor = function()
+			$scope.insertContaBancaria = function()
 			{
-				$scope.model.fornecedor.form.$submitted = true;
-				if ($scope.model.fornecedor.form.$invalid ){
+				$scope.model.contaBancaria.form.$submitted = true;
+				if ($scope.model.contaBancaria.form.$invalid ){
 					$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
 					return;
 				}
 				
 				
-				$scope.model.fornecedor.entity.responsavel = new Responsavel();
-				$scope.model.fornecedor.entity.responsavel.id = 1;
+				$scope.model.contaBancaria.entity.responsavel = new Responsavel();
+				$scope.model.contaBancaria.entity.responsavel.id = 1;
 				
-				fornecedorService.insertFornecedor( $scope.model.fornecedor.entity, {
+				caixaService.insertContaBancaria( $scope.model.contaBancaria.entity, {
 	                callback : function(result) {
 	                	
-	                	$scope.model.fornecedor.entity = result;
+	                	$scope.model.contaBancaria.entity = result;
 	                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi cadastrado com sucesso!" );
 	                	$state.go($scope.CONTA_BANCARIA_LIST_STATE)
 	                	$scope.$apply();
@@ -344,18 +347,21 @@ angular.module('home')
 	            });
 			}
 			
-			$scope.updateFornecedor = function()
+			/**
+			 * 
+			 */
+			$scope.updateContaBancaria= function()
 			{
-				$scope.model.fornecedor.form.$submitted = true;
-				if ($scope.model.fornecedor.form.$invalid ){
+				$scope.model.contaBancaria.form.$submitted = true;
+				if ($scope.model.contaBancaria.form.$invalid ){
 					$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
 					return;
 				}
 				
-				fornecedorService.updateFornecedor(  $scope.model.fornecedor.entity, {
+				caixaService.updateContaBancaria(  $scope.model.contaBancaria.entity, {
 	                callback : function(result) {
 	                	
-	                	$scope.model.fornecedor.entity = result;
+	                	$scope.model.contaBancaria.entity = result;
 	                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi alterado com sucesso!" );
 	                	$state.go(CONTA_BANCARIA_EDIT_STATE)
 	                	$scope.$apply();
@@ -371,11 +377,30 @@ angular.module('home')
 			/**
 			 * 
 			 */
-			$scope.onFornecedorPaginationChange = function(paginate) {
+			$scope.openSelecionarBancoPopup = function() {
+		    	$mdDialog.show({
+					controller: "SelecionarBancoControllerPopup",
+					templateUrl: './modules/home/views/conta-bancaria/popup/selecionar-banco-popup.html',
+					parent: angular.element(document.body),
+					clickOutsideToClose:true,
+					fullscreen: true,
+					scope: $scope.$new()
+			    })
+			    .then(function(banco) {
+			    	$scope.model.contaBancaria.entity.banco = banco;
+			    }, function() {
+			    	
+			    });
+		    };
+			
+			/**
+			 * 
+			 */
+			$scope.onContaBancariaPaginationChange = function(paginate) {
 	        	if (paginate) {
-	        		$scope.model.fornecedor.page.pageable.page++;
+	        		$scope.model.contaBancaria.page.pageable.page++;
 	        	} else {
-	        		$scope.model.fornecedor.page.pageable.page--;
+	        		$scope.model.contaBancaria.page.pageable.page--;
 	        	}
 	        		
 	        	$scope.listByFilters();
@@ -422,7 +447,7 @@ angular.module('home')
 		    	}
 		    	
 		    	$scope.model.dialog = dialog;
-		    	$scope.openDefaultConfirmDialog( $scope, $scope.excluirFornecedorHandler, null );
+		    	$scope.openDefaultConfirmDialog( $scope, $scope.excluirContaBancariaHandler, null );
 			};
 			
 			

@@ -6,64 +6,70 @@
 	
 		<md-toolbar layout="row" style="z-index: 3;">
 	    	<div flex layout="row" class="default-header">
-		        <h1 class="md-toolbar-tools">Fornecedor</h1>
+		        <h1 class="md-toolbar-tools">Conta Bancária</h1>
 	    	</div>
 	    	
 	    	<div md-theme="default" layout="row" layout-align="end center" class="default-header">
-		        <md-button class="md-raised" ng-click="$state.go(FORNECEDOR_LIST_STATE)">Voltar</md-button>
+		        <md-button class="md-raised" ng-click="$state.go(CONTA_BANCARIA_LIST_STATE)">Voltar</md-button>
 	        </div>
 	        
-	        <div ng-if="model.fornecedor.entity.ativo == true" md-theme="default" layout="row" layout-align="end center" class="default-header">
+	        <div ng-if="model.contaBancaria.entity.enabled == true" md-theme="default" layout="row" layout-align="end center" class="default-header">
 		        <md-button class="md-raised md-accent default-save-button" ng-click="changeToRemove()">Excluir</md-button>
 	        </div>
 	        
-	        <div ng-if="model.fornecedor.entity.ativo == false" md-theme="default" layout="row" layout-align="end center" class="default-header">
+	        <div ng-if="model.contaBancaria.entity.enabled == false" md-theme="default" layout="row" layout-align="end center" class="default-header">
 		        <md-button class="md-raised md-accent default-save-button" ng-click="enableFornecedor()">Ativar registro</md-button>
 	        </div>
 	        
-	        <div md-theme="default" layout="row" layout-align="end center" ng-if="model.fornecedor.entity.ativo || !model.fornecedor.entity.id" class="default-header md-primary md-hue-3">
-		        <md-button class="md-raised md-accent default-save-button" ng-click=" model.fornecedor.entity.id ? updateFornecedor() : insertFornecedor()">Salvar</md-button>
+	        <div md-theme="default" layout="row" layout-align="end center" ng-if="model.contaBancaria.entity.enabled || !model.contaBancaria.entity.id" class="default-header md-primary md-hue-3">
+		        <md-button class="md-raised md-accent default-save-button" ng-click=" model.contaBancaria.entity.id ? updateContaBancaria() : insertContaBancaria()">Salvar</md-button>
 	        </div>
 	        
 	    </md-toolbar>
 		
 			<md-content layout="column" flex >
 				<md-tabs  md-border-bottom flex >
-					<md-tab label="Fornecedor" >
+					<md-tab label="Conta bancaria" >
 						
 								<div style="height:100%" class="default-frame" layout="column">
 									<md-toolbar layout style="height:100%" class="md-hue-1">
-										<form novalidate name="model.fornecedor.form" class="default-form" flex>
+										<form novalidate name="model.contaBancaria.form" class="default-form" flex>
 											
 											<md-input-container layout="column" flex="30" ">
-									    		<label>Razão social</label>
-								                <input type="text" name="razaoSocial" required ng-model="model.fornecedor.entity.razaoSocial">
+									    		<label>Número</label>
+								                <input type="text" name="numero" required ng-model="model.contaBancaria.entity.numero">
 								
-								                <div ng-messages="model.fornecedor.form.razaoSocial.$error">
-								                	<div ng-message="required" ng-if="model.fornecedor.form.$submitted">Campo obrigatório</div>
-								                	<div ng-message="md-maxlength" ng-if="model.fornecedor.form.$submitted">Limite de caracteres excedido</div>
+								                <div ng-messages="model.contaBancaria.form.numero.$error">
+								                	<div ng-message="required" ng-if="model.contaBancaria.form.$submitted">Campo obrigatório</div>
+								                	<div ng-message="md-maxlength" ng-if="model.contaBancaria.form.$submitted">Limite de caracteres excedido</div>
 								                </div>
 								            </md-input-container>
 											
 											<md-input-container layout="column" flex="30" ">
-									    		<label>CNPJ</label>
-								                <input type="text" name="cnpj" required ng-model="model.fornecedor.entity.cnpj">
+									    		<label>Agência</label>
+								                <input type="text" name="agencia" required ng-model="model.contaBancaria.entity.agencia">
 								
-								                <div ng-messages="model.fornecedor.form.numero.$error">
-								                	<div ng-message="required" ng-if="model.fornecedor.form.$submitted">Campo obrigatório</div>
-								                	<div ng-message="md-maxlength" ng-if="model.fornecedor.form.$submitted">Limite de caracteres excedido</div>
+								                <div ng-messages="model.contaBancaria.form.agencia.$error">
+								                	<div ng-message="required" ng-if="model.contaBancaria.form.$submitted">Campo obrigatório</div>
+								                	<div ng-message="md-maxlength" ng-if="model.contaBancaria.form.$submitted">Limite de caracteres excedido</div>
 								                </div>
 								            </md-input-container>
 								            
-								            <md-input-container layout="column" flex="30" ">
-									    		<label>Telefone</label>
-								                <input type="text" mask="(999) 9999-9999" name="telefone" required ng-model="model.fornecedor.entity.telefone">
-								
-								                <div ng-messages="model.fornecedor.form.telefone.$error">
-								                	<div ng-message="required" ng-if="model.fornecedor.form.$submitted">Campo obrigatório</div>
-								                	<div ng-message="md-maxlength" ng-if="model.fornecedor.form.$submitted">Limite de caracteres excedido</div>
-								                </div>
-								            </md-input-container>
+								            <div layout="row">
+									            <md-input-container layout="column" flex="30" >
+										    		<label>Banco</label>
+									                <input type="text" disabled name="banco" required ng-model="model.contaBancaria.entity.banco.nome">
+									
+									                <div ng-messages="model.contaBancaria.form.telefone.$error">
+									                	<div ng-message="required" ng-if="model.contaBancaria.form.$submitted">Campo obrigatório</div>
+									                	<div ng-message="md-maxlength" ng-if="model.contaBancaria.form.$submitted">Limite de caracteres excedido</div>
+									                </div>
+									            </md-input-container>
+									            
+									            <div md-theme="default" layout="row" layout-align="end center">
+											    	<md-button class="md-raised md-accent default-save-button" ng-click="openSelecionarBancoPopup()">Selecionar</md-button>
+										        </div>
+								            </div>
 								            
 										</form>
 									</md-toolbar>

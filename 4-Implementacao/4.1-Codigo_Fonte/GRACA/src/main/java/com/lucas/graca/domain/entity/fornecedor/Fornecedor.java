@@ -17,8 +17,6 @@ import org.hibernate.envers.Audited;
 
 import com.lucas.graca.domain.entity.planoatendimento.Responsavel;
 
-import br.com.eits.common.domain.entity.AbstractEntity;
-
 /**
  * @author lucas
  *
@@ -28,7 +26,7 @@ import br.com.eits.common.domain.entity.AbstractEntity;
 @Audited
 @Table( name = "fornecedor")
 @DataTransferObject(javascript = "Fornecedor")
-public class Fornecedor extends AbstractEntity 
+public class Fornecedor extends Pessoa 
 {
 
 	/**

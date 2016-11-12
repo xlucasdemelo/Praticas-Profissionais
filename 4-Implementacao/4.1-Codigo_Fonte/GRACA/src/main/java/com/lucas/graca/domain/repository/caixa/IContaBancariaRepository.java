@@ -21,8 +21,8 @@ public interface IContaBancariaRepository extends JpaRepository<ContaBancaria, L
 	@Query(value="SELECT new ContaBancaria( contaBancaria.id, contaBancaria.numero, contaBancaria.agencia, contaBancaria.enabled, contaBancaria.banco ) " +
 			   "FROM ContaBancaria contaBancaria " +
 			  "WHERE ( contaBancaria.enabled = :ativo AND "
-			  	 	+ "( (FILTER(contaBancaria.numero, :filter) = TRUE)  ) "
-			  	 	+ " OR (FILTER(contaBancaria.agencia, :filter) = TRUE) " 
+			  	 	+ "( (FILTER(contaBancaria.numero, :filter) = TRUE)   "
+			  	 	+ " OR (FILTER(contaBancaria.agencia, :filter) = TRUE) ) " 
 			  	 + ")"
 			)
 	public Page<ContaBancaria> listByFilters( @Param("filter") String filters, @Param("ativo") Boolean ativo, Pageable pageable );
