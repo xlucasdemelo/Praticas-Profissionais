@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+	<public.orcamento_familiar
+		id="9999"
+		created="2015-03-30 00:00:00"
+		periodo="decode('013d7d16d7ad4fefb61bd95b765c8ceb', 'hex')"
+		renda_per_capita_alimentacao="100"
+		renda_per_capita_higiene="200"
+		status="0"
+		casa_lar_id="9999"
+	/>
+	
+	<public.orcamento_familiar
+		id="1000"
+		created="2015-03-30 00:00:00"
+		periodo="decode('013d7d16d7ad4fefb61bd95b765c8ceb', 'hex')"
+		renda_per_capita_alimentacao="100"
+		renda_per_capita_higiene="200"
+		status="2"
+		casa_lar_id="9999"
+	/>
+	
+	<public.orcamento_familiar
+		id="1001"
+		created="2015-03-30 00:00:00"
+		periodo="decode('013d7d16d7ad4fefb61bd95b765c8ceb', 'hex')"
+		renda_per_capita_alimentacao="100"
+		renda_per_capita_higiene="200"
+		status="2"
+		casa_lar_id="1000"
+	/>
+	
+</dataset>

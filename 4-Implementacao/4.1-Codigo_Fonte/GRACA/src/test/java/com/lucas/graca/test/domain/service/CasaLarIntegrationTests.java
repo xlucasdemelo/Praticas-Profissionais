@@ -3,16 +3,20 @@
  */
 package com.lucas.graca.test.domain.service;
 
+import java.math.BigDecimal;
+import java.time.YearMonth;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.util.Assert;
 
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.lucas.graca.domain.entity.casalar.CasaLar;
+import com.lucas.graca.domain.entity.casalar.OrcamentoFamiliar;
+import com.lucas.graca.domain.entity.casalar.StatusOrcamentoFamiliar;
 import com.lucas.graca.domain.entity.planoatendimento.Responsavel;
 import com.lucas.graca.domain.service.casalar.CasaLarService;
 import com.lucas.graca.test.domain.AbstractIntegrationTests;
@@ -31,7 +35,7 @@ public class CasaLarIntegrationTests extends AbstractIntegrationTests
 	private CasaLarService casaLarService;
 	
 	/*-------------------------------------------------------------------
-	 *				 		     SERVICE TESTS
+	 *				 		  TESTS CASA LAR
 	 *-------------------------------------------------------------------*/
 	
 	/**
@@ -55,7 +59,7 @@ public class CasaLarIntegrationTests extends AbstractIntegrationTests
 		
 		casaLar = this.casaLarService.insertCasaLar( casaLar );
 		
-		Assert.notNull( casaLar );
+		Assert.assertNotNull( casaLar );
 	}
 	
 	/**
@@ -79,7 +83,7 @@ public class CasaLarIntegrationTests extends AbstractIntegrationTests
 		
 		casaLar = this.casaLarService.insertCasaLar( casaLar );
 		
-		Assert.notNull( casaLar );
+		Assert.assertNotNull( casaLar );
 	}
 	
 	/**
@@ -100,7 +104,7 @@ public class CasaLarIntegrationTests extends AbstractIntegrationTests
 		casaLar.setNumero( 5 );
 		casaLar = this.casaLarService.updateCasaLar( casaLar );
 		
-		Assert.notNull( casaLar );
+		Assert.assertNotNull( casaLar );
 	}
 	
 	/**
@@ -117,7 +121,7 @@ public class CasaLarIntegrationTests extends AbstractIntegrationTests
 	{
 		CasaLar casaLar = this.casaLarService.findCasaLarById( 233L );
 		
-		Assert.isNull( casaLar );
+		Assert.assertNull( casaLar );
 	}
 	
 	/**
@@ -134,12 +138,12 @@ public class CasaLarIntegrationTests extends AbstractIntegrationTests
 	public void removeCasaLarMustPass()
 	{
 		CasaLar casaLar = this.casaLarService.findCasaLarById( 9999L );
-		Assert.notNull( casaLar );
+		Assert.assertNotNull( casaLar );
 		
 		this.casaLarService.removeCasaLar( 9999L );
 		
 		casaLar = this.casaLarService.findCasaLarById( 9999L );
-		Assert.isNull( casaLar );
+		Assert.assertNull( casaLar );
 	}
 	
 	/**
@@ -157,8 +161,8 @@ public class CasaLarIntegrationTests extends AbstractIntegrationTests
 	{
 		List<CasaLar> casas = this.casaLarService.listByFilters( null, null ).getContent();
 		
-		Assert.notNull( casas );
-		Assert.isTrue( !casas.isEmpty() );
+		Assert.assertNotNull( casas );
+		Assert.assertTrue( !casas.isEmpty() );
 	}
 	
 	/**
@@ -176,9 +180,222 @@ public class CasaLarIntegrationTests extends AbstractIntegrationTests
 	{
 		List<CasaLar> casas = this.casaLarService.listByFilters( "1", null ).getContent();
 		
-		Assert.notNull( casas );
-		Assert.isTrue( !casas.isEmpty() );
-		Assert.isTrue( casas.size() == 1 );
-		Assert.isTrue( casas.get( 0 ).getNumero() == 1 );
+		Assert.assertNotNull( casas );
+		Assert.assertTrue( !casas.isEmpty() );
+		Assert.assertTrue( casas.size() == 1 );
+		Assert.assertTrue( casas.get( 0 ).getNumero() == 1 );
+	}
+	
+	/*-------------------------------------------------------------------
+	 *				 	TESTS ORÇAMENTO FAMILIAR
+	 *-------------------------------------------------------------------*/
+	
+	/**
+	 * 
+	 */
+	@Test
+	@WithUserDetails("admin@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/casalar/ResponsavelDataSet.xml",
+			"/dataset/redeapoio/redeApoioDataSet.xml",
+			"/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/CasaLarDataSet.xml"
+	})
+	public void insertOrcamentoFamiliarMustPass()
+	{
+		OrcamentoFamiliar orcamentoFamiliar = new OrcamentoFamiliar();
+		
+		orcamentoFamiliar.setPeriodo( YearMonth.now() );
+		orcamentoFamiliar.setRendaPerCapitaAlimentacao( new BigDecimal( "100" ) );
+		orcamentoFamiliar.setRendaPerCapitaHigiene( new BigDecimal( "200" ) );
+		orcamentoFamiliar.setCasaLar( new CasaLar(9999L) );
+		
+		orcamentoFamiliar = this.casaLarService.insertOrcamentoFamiliar( orcamentoFamiliar );
+		
+		Assert.assertNotNull( orcamentoFamiliar );
+		Assert.assertNotNull( orcamentoFamiliar.getId() );
+	}
+	
+	/**
+	 * 
+	 */
+	@Test(expected= IllegalArgumentException.class)
+	@WithUserDetails("admin@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/casalar/ResponsavelDataSet.xml",
+			"/dataset/redeapoio/redeApoioDataSet.xml",
+			"/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/CasaLarDataSet.xml"
+	})
+	public void insertOrcamentoFamiliarMustFail()
+	{
+		OrcamentoFamiliar orcamentoFamiliar = new OrcamentoFamiliar();
+		
+		orcamentoFamiliar.setPeriodo( YearMonth.now() );
+		orcamentoFamiliar.setRendaPerCapitaAlimentacao( new BigDecimal( "100" ) );
+		orcamentoFamiliar.setRendaPerCapitaHigiene( new BigDecimal( "200" ) );
+		orcamentoFamiliar.setCasaLar( null );
+		
+		orcamentoFamiliar = this.casaLarService.insertOrcamentoFamiliar( orcamentoFamiliar );
+		
+		Assert.fail();
+	}
+	
+	/**
+	 * 
+	 */
+	@Test(expected=IllegalArgumentException.class)
+	@WithUserDetails("admin@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/casalar/ResponsavelDataSet.xml",
+			"/dataset/redeapoio/redeApoioDataSet.xml",
+			"/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/CasaLarDataSet.xml",
+			"/dataset/casalar/OrcamentoFamiliarDataSet.xml"
+	})
+	public void removeOrcamentoFamiliarMustPass()
+	{
+		this.casaLarService.removeOrcamentoFamiliar( 9999L );
+		
+		Assert.assertNull( this.casaLarService.findOrcamentoFamiliarById( 9999L ));
+	}
+	
+	/**
+	 * 
+	 */
+	@Test(expected=IllegalArgumentException.class)
+	@WithUserDetails("admin@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/casalar/ResponsavelDataSet.xml",
+			"/dataset/redeapoio/redeApoioDataSet.xml",
+			"/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/CasaLarDataSet.xml",
+			"/dataset/casalar/OrcamentoFamiliarDataSet.xml"
+	})
+	public void removeOrcamentoFamiliarMustFailStatusNotRascunho()
+	{
+		this.casaLarService.removeOrcamentoFamiliar( 1000L );
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	@WithUserDetails("admin@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/casalar/ResponsavelDataSet.xml",
+			"/dataset/redeapoio/redeApoioDataSet.xml",
+			"/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/CasaLarDataSet.xml",
+			"/dataset/casalar/OrcamentoFamiliarDataSet.xml"
+	})
+	public void listOrcamentosFamiliaresByCasaLarFiltersMustPass()
+	{
+		final List<OrcamentoFamiliar> orcamentos = this.casaLarService.listOrcamentosFamiliaresByCasaLarAndFilters( 9999L, null )
+				.getContent();
+		
+		Assert.assertNotNull( orcamentos );
+		Assert.assertFalse( orcamentos.isEmpty() );
+		
+		for ( OrcamentoFamiliar orcamentoFamiliar : orcamentos )
+		{
+			Assert.assertTrue( orcamentoFamiliar.getCasaLar().getId() == 9999L );
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	@WithUserDetails("admin@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/casalar/ResponsavelDataSet.xml",
+			"/dataset/redeapoio/redeApoioDataSet.xml",
+			"/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/CasaLarDataSet.xml",
+			"/dataset/casalar/OrcamentoFamiliarDataSet.xml"
+	})
+	public void changeOrcamentoFamiliarToVigenteMustPass()
+	{
+		OrcamentoFamiliar orcamentoFamiliar = new OrcamentoFamiliar();
+		
+		orcamentoFamiliar.setPeriodo( YearMonth.now() );
+		orcamentoFamiliar.setRendaPerCapitaAlimentacao( new BigDecimal( "100" ) );
+		orcamentoFamiliar.setRendaPerCapitaHigiene( new BigDecimal( "200" ) );
+		orcamentoFamiliar.setCasaLar( new CasaLar(9999L) );
+		
+		orcamentoFamiliar = this.casaLarService.insertOrcamentoFamiliar( orcamentoFamiliar );
+		
+		orcamentoFamiliar = this.casaLarService.changeOrcamentoFamiliarToVigente( orcamentoFamiliar.getId() );
+		
+		Assert.assertNotNull( orcamentoFamiliar );
+		Assert.assertTrue( orcamentoFamiliar.getStatus() == StatusOrcamentoFamiliar.VIGENTE );
+	}
+	
+	/**
+	 * 
+	 */
+	@Test(expected=IllegalArgumentException.class)
+	@WithUserDetails("admin@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/casalar/ResponsavelDataSet.xml",
+			"/dataset/redeapoio/redeApoioDataSet.xml",
+			"/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/CasaLarDataSet.xml",
+			"/dataset/casalar/OrcamentoFamiliarDataSet.xml"
+	})
+	public void changeOrcamentoFamiliarToVigenteMustFailOrcamentoFromAnotherPeriod()
+	{
+		OrcamentoFamiliar orcamentoFamiliar = new OrcamentoFamiliar();
+		
+		orcamentoFamiliar.setPeriodo( YearMonth.of(2016,12) );
+		orcamentoFamiliar.setRendaPerCapitaAlimentacao( new BigDecimal( "100" ) );
+		orcamentoFamiliar.setRendaPerCapitaHigiene( new BigDecimal( "200" ) );
+		orcamentoFamiliar.setCasaLar( new CasaLar(9999L) );
+		
+		orcamentoFamiliar = this.casaLarService.insertOrcamentoFamiliar( orcamentoFamiliar );
+		
+		orcamentoFamiliar = this.casaLarService.changeOrcamentoFamiliarToVigente( orcamentoFamiliar.getId() );
+		
+		Assert.fail();
+	}
+	
+	/**
+	 * 
+	 */
+	@Test(expected=IllegalArgumentException.class)
+	@WithUserDetails("admin@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/casalar/ResponsavelDataSet.xml",
+			"/dataset/redeapoio/redeApoioDataSet.xml",
+			"/dataset/account/UserDataSet.xml",
+			"/dataset/casalar/CasaLarDataSet.xml",
+			"/dataset/casalar/OrcamentoFamiliarDataSet.xml"
+	})
+	public void changeOrcamentoFamiliarToVigenteMustFailAlreadyHasOneVigente()
+	{
+		OrcamentoFamiliar orcamentoFamiliar = new OrcamentoFamiliar();
+		
+		orcamentoFamiliar.setPeriodo( YearMonth.now() );
+		orcamentoFamiliar.setRendaPerCapitaAlimentacao( new BigDecimal( "100" ) );
+		orcamentoFamiliar.setRendaPerCapitaHigiene( new BigDecimal( "200" ) );
+		orcamentoFamiliar.setCasaLar( new CasaLar(9999L) );
+		
+		orcamentoFamiliar = this.casaLarService.insertOrcamentoFamiliar( orcamentoFamiliar );
+		
+		orcamentoFamiliar = this.casaLarService.changeOrcamentoFamiliarToVigente( orcamentoFamiliar.getId() );
+		
+		OrcamentoFamiliar orcamentoFamiliar2 = new OrcamentoFamiliar();
+		
+		orcamentoFamiliar2.setPeriodo( YearMonth.now() );
+		orcamentoFamiliar2.setRendaPerCapitaAlimentacao( new BigDecimal( "100" ) );
+		orcamentoFamiliar2.setRendaPerCapitaHigiene( new BigDecimal( "200" ) );
+		orcamentoFamiliar2.setCasaLar( new CasaLar(9999L) );
+		
+		orcamentoFamiliar2 = this.casaLarService.insertOrcamentoFamiliar( orcamentoFamiliar2 );
+		
+		orcamentoFamiliar2 = this.casaLarService.changeOrcamentoFamiliarToVigente( orcamentoFamiliar2.getId() );
+		
+		Assert.fail();
 	}
 }

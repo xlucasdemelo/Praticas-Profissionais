@@ -16,8 +16,10 @@ import org.springframework.util.Assert;
 
 import com.lucas.graca.domain.entity.account.UserRole;
 import com.lucas.graca.domain.entity.casalar.CasaLar;
+import com.lucas.graca.domain.entity.casalar.OrcamentoFamiliar;
 import com.lucas.graca.domain.entity.crianca.Crianca;
 import com.lucas.graca.domain.repository.casalar.ICasaLarRepository;
+import com.lucas.graca.domain.repository.casalar.IOrcamentoFamiliarRepository;
 import com.lucas.graca.domain.repository.crianca.ICriancaRepository;
 import com.lucas.graca.domain.repository.planoatendimento.IResponsavelRepository;
 
@@ -50,6 +52,12 @@ public class CasaLarService
 	 */
 	@Autowired
 	private ICriancaRepository criancaRepository;
+	
+	/**
+	 * 
+	 */
+	@Autowired
+	private IOrcamentoFamiliarRepository orcamentoFamiliarRepository;
 	
 	/*-------------------------------------------------------------------
 	 *				 		     ATTRIBUTES
@@ -146,4 +154,118 @@ public class CasaLarService
 	{
 		return this.casaLarRepository.listByFilters( filter, pageable );
 	}
+	
+	/*-------------------------------------------------------------------
+	 *				 		  ORÇAMENTO FAMILIAR
+	 *-------------------------------------------------------------------*/
+	
+	/**
+	 * 
+	 * @param orcamentoFamiliar
+	 * @return
+	 */
+	public OrcamentoFamiliar insertOrcamentoFamiliar(OrcamentoFamiliar orcamentoFamiliar)
+	{
+		Assert.notNull( orcamentoFamiliar );
+		Assert.isNull( orcamentoFamiliar.getId(), "Id deve ser nulo" );
+		Assert.notNull( orcamentoFamiliar.getPeriodo(), "Período não pode ser nulo" );
+		Assert.notNull( orcamentoFamiliar.getRendaPerCapitaAlimentacao(), "Renda per capita alimentação" );
+		Assert.notNull( orcamentoFamiliar.getRendaPerCapitaHigiene(), "Renda per capita higiene" );
+		Assert.notNull( orcamentoFamiliar.getCasaLar(), "Informe a casa lar" );
+		
+		return this.orcamentoFamiliarRepository.save( orcamentoFamiliar );
+	}
+	
+	/**
+	 * 
+	 * @param orcamentoFamiliar
+	 * @return
+	 */
+	public OrcamentoFamiliar updateOrcamentoFamiliar(OrcamentoFamiliar orcamentoFamiliar)
+	{
+		Assert.notNull( orcamentoFamiliar );
+		Assert.notNull( orcamentoFamiliar.getId(), "Id não deve ser nulo" );
+		Assert.notNull( orcamentoFamiliar.getPeriodo(), "Período não pode ser nulo" );
+		Assert.notNull( orcamentoFamiliar.getRendaPerCapitaAlimentacao(), "Renda per capita alimentação" );
+		Assert.notNull( orcamentoFamiliar.getRendaPerCapitaHigiene(), "Renda per capita higiene" );
+		
+		return this.orcamentoFamiliarRepository.save( orcamentoFamiliar );
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public void removeOrcamentoFamiliar( long id )
+	{
+		final OrcamentoFamiliar orcamentoFamiliar = this.orcamentoFamiliarRepository.findOne( id );
+		Assert.notNull( orcamentoFamiliar, "Orçamento familiar não existe" );
+		Assert.isTrue( orcamentoFamiliar.isRascunho(), "Somente orçamentos em rascunho poderão ser excluídos" );
+		
+		this.orcamentoFamiliarRepository.delete( orcamentoFamiliar );
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public OrcamentoFamiliar findOrcamentoFamiliarById( long id )
+	{
+		final OrcamentoFamiliar orcamentoFamiliar = this.orcamentoFamiliarRepository.findOne( id );
+		Assert.notNull( orcamentoFamiliar, "Orçamento familiar não existe" );
+		
+		return orcamentoFamiliar;
+	}
+	
+	/**
+	 * 
+	 * @param casaLarId
+	 * @param pageable
+	 * @return
+	 */
+	public Page<OrcamentoFamiliar> listOrcamentosFamiliaresByCasaLarAndFilters( Long casaLarId, PageRequest pageable )
+	{
+		return this.orcamentoFamiliarRepository.listOrcamentosFamiliaresByCasaLar( casaLarId, pageable );
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public OrcamentoFamiliar changeOrcamentoFamiliarToVigente( long id )
+	{
+		final OrcamentoFamiliar orcamentoFamiliar = this.orcamentoFamiliarRepository.findOne( id );
+		Assert.notNull( orcamentoFamiliar, "Orçamento familiar não existe" );
+		
+		Assert.isNull( this.orcamentoFamiliarRepository.
+				findByCasaLarAndPeriodoAndStatusVigente( orcamentoFamiliar.getCasaLar().getId(), orcamentoFamiliar.getPeriodo() ),
+				" Já existem um orçamento familiar vigente para este período");
+		
+		orcamentoFamiliar.changeToVigente();
+		
+		return this.orcamentoFamiliarRepository.save( orcamentoFamiliar );
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public OrcamentoFamiliar changeOrcamentoFamiliarToExpirado( long id )
+	{
+		final OrcamentoFamiliar orcamentoFamiliar = this.orcamentoFamiliarRepository.findOne( id );
+		Assert.notNull( orcamentoFamiliar, "Orçamento familiar não existe" );
+		
+		orcamentoFamiliar.changeToExpirado();
+		
+		return orcamentoFamiliar;
+	}
 }
+
+
+
+
+
+

@@ -119,6 +119,7 @@ public class Crianca extends IntegranteFamiliar
 	 *-------------------------------------------------------------------*/
 	
 	/**
+	 * 
 	 * @param id
 	 * @param nome
 	 * @param dataNascimento
@@ -129,6 +130,7 @@ public class Crianca extends IntegranteFamiliar
 	 * @param sexo
 	 * @param endereco
 	 * @param ativo
+	 * @param familia
 	 * @param grauEscolaridade
 	 * @param peso
 	 * @param motivoAcolhimento
@@ -137,8 +139,9 @@ public class Crianca extends IntegranteFamiliar
 	 * @param dataElaboracaoPIA
 	 * @param dataLimite
 	 * @param dataAcolhimento
-	 * @param familia2
 	 * @param etnia
+	 * @param entidadeAcolhimento
+	 * @param casaLar
 	 */
 	public Crianca( Long id, String nome, Calendar dataNascimento, String ocupacao, BigDecimal rendaMensal, String filiacao, String telefone, 
 			Sexo sexo, Endereco endereco, Boolean ativo, Familia familia, GrauEscolaridade grauEscolaridade, String peso, 

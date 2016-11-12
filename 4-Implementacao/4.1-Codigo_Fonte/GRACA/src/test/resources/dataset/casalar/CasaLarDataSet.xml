@@ -10,4 +10,21 @@
 		enabled="true"
 	/>
 		
+	<public.casa_lar
+		id="1000"
+		created="2015-03-30 00:00:00"
+		numero="2"
+		cuidadora_residente_id="9999"
+		cuidadora_apoiadora_id="1000"
+		enabled="true"
+	/>
+	
+	<public.casa_lar
+		id="1001"
+		created="2015-03-30 00:00:00"
+		numero="3"
+		cuidadora_residente_id="9999"
+		cuidadora_apoiadora_id="1000"
+		enabled="true"
+	/>
 </dataset>
