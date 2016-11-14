@@ -19,6 +19,12 @@ import com.lucas.graca.domain.entity.casalar.CasaLar;
 public interface ICasaLarRepository extends JpaRepository<CasaLar, Long>
 {
 	
+	/**
+	 * 
+	 * @param filters
+	 * @param pageable
+	 * @return
+	 */
 	@Query(value="SELECT new CasaLar( casaLar.id, casaLar.enabled, casaLar.numero, casaLar.cuidadoraResidente, casaLar.cuidadoraApoiadora ) " +
 		   "FROM CasaLar casaLar " +
 		  "WHERE (  "

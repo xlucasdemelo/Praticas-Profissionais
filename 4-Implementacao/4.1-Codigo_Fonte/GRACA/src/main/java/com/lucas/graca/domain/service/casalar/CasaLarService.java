@@ -15,11 +15,16 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.lucas.graca.domain.entity.account.UserRole;
+import com.lucas.graca.domain.entity.casalar.Beneficiado;
 import com.lucas.graca.domain.entity.casalar.CasaLar;
 import com.lucas.graca.domain.entity.casalar.OrcamentoFamiliar;
+import com.lucas.graca.domain.entity.casalar.RequisicaoCompra;
+import com.lucas.graca.domain.entity.casalar.StatusRequisicaoCompra;
 import com.lucas.graca.domain.entity.crianca.Crianca;
+import com.lucas.graca.domain.repository.casalar.IBeneficiadoRepository;
 import com.lucas.graca.domain.repository.casalar.ICasaLarRepository;
 import com.lucas.graca.domain.repository.casalar.IOrcamentoFamiliarRepository;
+import com.lucas.graca.domain.repository.casalar.IRequisicaoCompraRepository;
 import com.lucas.graca.domain.repository.crianca.ICriancaRepository;
 import com.lucas.graca.domain.repository.planoatendimento.IResponsavelRepository;
 
@@ -58,6 +63,18 @@ public class CasaLarService
 	 */
 	@Autowired
 	private IOrcamentoFamiliarRepository orcamentoFamiliarRepository;
+	
+	/**
+	 * 
+	 */
+	@Autowired
+	private IRequisicaoCompraRepository requisicaoCompraRepository;
+	
+	/**
+	 * 
+	 */
+	@Autowired
+	private IBeneficiadoRepository beneficiadoRepository;
 	
 	/*-------------------------------------------------------------------
 	 *				 		     ATTRIBUTES
@@ -262,6 +279,167 @@ public class CasaLarService
 		
 		return orcamentoFamiliar;
 	}
+	
+	/*-------------------------------------------------------------------
+	 *				 	   REQUISIÇÃO DE COMPRA
+	 *-------------------------------------------------------------------*/
+
+	/**
+	 * 
+	 * @param requisicaoCompra
+	 * @return
+	 */
+	public RequisicaoCompra insertRequisicaoCompra( RequisicaoCompra requisicaoCompra )
+	{
+		Assert.notNull( requisicaoCompra, "Requisição é obrigatória" );
+		Assert.notNull( requisicaoCompra.getDescricao(), "Descrição é obrigatória" );
+		Assert.notNull( requisicaoCompra.getCasaLar(), "Casa lar é obrigatória" );
+		
+		return this.requisicaoCompraRepository.save( requisicaoCompra );
+	}
+	
+	/**
+	 * 
+	 * @param requisicaoCompra
+	 * @return
+	 */
+	public RequisicaoCompra updateRequisicaoCompra( RequisicaoCompra requisicaoCompra )
+	{
+		Assert.notNull( requisicaoCompra, "Requisição é obrigatória" );
+		Assert.notNull( requisicaoCompra.getDescricao(), "Descrição é obrigatória" );
+		Assert.notNull( requisicaoCompra.getCasaLar(), "Casa lar é obrigatória" );
+		
+		return this.requisicaoCompraRepository.save( requisicaoCompra );
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public void removeRequisicaoCompra(long id)
+	{
+		RequisicaoCompra requisicao = this.requisicaoCompraRepository.findOne( id );
+		Assert.notNull( requisicao, "Requisição não encontrada" );
+		
+		this.requisicaoCompraRepository.delete( requisicao );
+	}
+	
+	/**
+	 * 
+	 * @param casaLarId
+	 * @param pageable
+	 * @return
+	 */
+	public Page<RequisicaoCompra> listByCasaLarAndFilters( Long casaLarId, String filter, PageRequest pageable )
+	{
+		return this.requisicaoCompraRepository.listByCasaLarAndFilters( casaLarId, filter, pageable );
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public RequisicaoCompra findById(long id)
+	{
+		RequisicaoCompra requisicao = this.requisicaoCompraRepository.findOne( id );
+		Assert.notNull( requisicao, "Requisição não encontrada" );
+		
+		return requisicao;
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public void changeToEmAberto(long id)
+	{
+		RequisicaoCompra requisicao = this.requisicaoCompraRepository.findOne( id );
+		Assert.notNull( requisicao, "Requisição não encontrada" );
+		
+		requisicao.changeToEmAberto();
+		
+		this.requisicaoCompraRepository.save( requisicao );
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public void changeToConcluido(long id)
+	{
+		RequisicaoCompra requisicao = this.requisicaoCompraRepository.findOne( id );
+		Assert.notNull( requisicao, "Requisição não encontrada" );
+		
+		requisicao.changeToConcluido();
+		
+		this.requisicaoCompraRepository.save( requisicao );
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public void changeToRecusado(long id)
+	{
+		RequisicaoCompra requisicao = this.requisicaoCompraRepository.findOne( id );
+		Assert.notNull( requisicao, "Requisição não encontrada" );
+		
+		requisicao.changeToRecusado();
+		
+		this.requisicaoCompraRepository.save( requisicao );
+	}
+	
+	/**
+	 * 
+	 * @param beneficiado
+	 * @return
+	 */
+	public Beneficiado insertBeneficiado(Beneficiado beneficiado)
+	{
+		Assert.notNull( beneficiado, "Beneficiado é obrigatório" );
+		
+		return this.beneficiadoRepository.save( beneficiado );
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Page<Beneficiado> listBeneficiadosByCasaLar(long requisicaoCompraId, PageRequest pageable)
+	{
+		return this.beneficiadoRepository.findByRequisicaoCompraId( requisicaoCompraId, pageable );
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Beneficiado findBeneficiadoById( long id )
+	{
+		Beneficiado beneficiado = this.beneficiadoRepository.findOne( id );
+		Assert.notNull( beneficiado, "beneficiado não existe" );
+		
+		return beneficiado; 
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public void removeBeneficiado(long id)
+	{
+		Beneficiado beneficiado = this.beneficiadoRepository.findOne( id );
+		Assert.notNull( beneficiado, "beneficiado não existe" );
+		
+		Assert.isTrue( beneficiado.getRequisicaoCompra().getStatus() == StatusRequisicaoCompra.RASCUNHO, 
+				"Para remover o beneficiado, o status deve ser rascunho" );
+		
+		this.beneficiadoRepository.delete( beneficiado );
+	}
+	
+//	public FornecedorRequ
 }
 
 
