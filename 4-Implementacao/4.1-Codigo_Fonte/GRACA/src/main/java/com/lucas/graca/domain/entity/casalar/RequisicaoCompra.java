@@ -163,7 +163,7 @@ public class RequisicaoCompra extends AbstractEntity
 	{
 		Assert.isTrue( this.status == StatusRequisicaoCompra.RASCUNHO, "Status precisa ser rascunho" );
 		
-		this.status = StatusRequisicaoCompra.RASCUNHO;
+		this.status = StatusRequisicaoCompra.EM_ABERTO;
 	}
 	
 	/**

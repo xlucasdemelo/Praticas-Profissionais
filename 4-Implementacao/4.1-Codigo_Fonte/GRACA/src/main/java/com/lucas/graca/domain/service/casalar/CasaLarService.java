@@ -17,12 +17,14 @@ import org.springframework.util.Assert;
 import com.lucas.graca.domain.entity.account.UserRole;
 import com.lucas.graca.domain.entity.casalar.Beneficiado;
 import com.lucas.graca.domain.entity.casalar.CasaLar;
+import com.lucas.graca.domain.entity.casalar.FornecedorRequisicao;
 import com.lucas.graca.domain.entity.casalar.OrcamentoFamiliar;
 import com.lucas.graca.domain.entity.casalar.RequisicaoCompra;
 import com.lucas.graca.domain.entity.casalar.StatusRequisicaoCompra;
 import com.lucas.graca.domain.entity.crianca.Crianca;
 import com.lucas.graca.domain.repository.casalar.IBeneficiadoRepository;
 import com.lucas.graca.domain.repository.casalar.ICasaLarRepository;
+import com.lucas.graca.domain.repository.casalar.IFornecedorRequisicaoRepository;
 import com.lucas.graca.domain.repository.casalar.IOrcamentoFamiliarRepository;
 import com.lucas.graca.domain.repository.casalar.IRequisicaoCompraRepository;
 import com.lucas.graca.domain.repository.crianca.ICriancaRepository;
@@ -76,6 +78,11 @@ public class CasaLarService
 	@Autowired
 	private IBeneficiadoRepository beneficiadoRepository;
 	
+	/**
+	 * 
+	 */
+	@Autowired
+	private IFornecedorRequisicaoRepository fornecedorRequisicaoRepository;
 	/*-------------------------------------------------------------------
 	 *				 		     ATTRIBUTES
 	 *-------------------------------------------------------------------*/
@@ -227,6 +234,7 @@ public class CasaLarService
 	 * @param id
 	 * @return
 	 */
+	@Transactional(readOnly=true)
 	public OrcamentoFamiliar findOrcamentoFamiliarById( long id )
 	{
 		final OrcamentoFamiliar orcamentoFamiliar = this.orcamentoFamiliarRepository.findOne( id );
@@ -241,6 +249,7 @@ public class CasaLarService
 	 * @param pageable
 	 * @return
 	 */
+	@Transactional(readOnly=true)
 	public Page<OrcamentoFamiliar> listOrcamentosFamiliaresByCasaLarAndFilters( Long casaLarId, PageRequest pageable )
 	{
 		return this.orcamentoFamiliarRepository.listOrcamentosFamiliaresByCasaLar( casaLarId, pageable );
@@ -321,6 +330,9 @@ public class CasaLarService
 		RequisicaoCompra requisicao = this.requisicaoCompraRepository.findOne( id );
 		Assert.notNull( requisicao, "Requisição não encontrada" );
 		
+		Assert.isTrue( requisicao.getStatus() == StatusRequisicaoCompra.RASCUNHO,
+				"Para excluir o status deve ser rascunho");
+		
 		this.requisicaoCompraRepository.delete( requisicao );
 	}
 	
@@ -330,7 +342,8 @@ public class CasaLarService
 	 * @param pageable
 	 * @return
 	 */
-	public Page<RequisicaoCompra> listByCasaLarAndFilters( Long casaLarId, String filter, PageRequest pageable )
+	@Transactional(readOnly=true)
+	public Page<RequisicaoCompra> listRequisicoesByCasaLarAndFilters( Long casaLarId, String filter, PageRequest pageable )
 	{
 		return this.requisicaoCompraRepository.listByCasaLarAndFilters( casaLarId, filter, pageable );
 	}
@@ -340,7 +353,8 @@ public class CasaLarService
 	 * @param id
 	 * @return
 	 */
-	public RequisicaoCompra findById(long id)
+	@Transactional(readOnly=true)
+	public RequisicaoCompra findRequisicaoCompraById(long id)
 	{
 		RequisicaoCompra requisicao = this.requisicaoCompraRepository.findOne( id );
 		Assert.notNull( requisicao, "Requisição não encontrada" );
@@ -390,6 +404,10 @@ public class CasaLarService
 		this.requisicaoCompraRepository.save( requisicao );
 	}
 	
+	/*-------------------------------------------------------------------
+	 *				 	   SERVICES BENEFICIADO
+	 *-------------------------------------------------------------------*/
+	
 	/**
 	 * 
 	 * @param beneficiado
@@ -398,6 +416,8 @@ public class CasaLarService
 	public Beneficiado insertBeneficiado(Beneficiado beneficiado)
 	{
 		Assert.notNull( beneficiado, "Beneficiado é obrigatório" );
+		Assert.notNull( beneficiado.getCrianca() );
+		Assert.notNull( beneficiado.getRequisicaoCompra() );
 		
 		return this.beneficiadoRepository.save( beneficiado );
 	}
@@ -406,6 +426,7 @@ public class CasaLarService
 	 * 
 	 * @return
 	 */
+	@Transactional(readOnly=true)
 	public Page<Beneficiado> listBeneficiadosByCasaLar(long requisicaoCompraId, PageRequest pageable)
 	{
 		return this.beneficiadoRepository.findByRequisicaoCompraId( requisicaoCompraId, pageable );
@@ -416,6 +437,7 @@ public class CasaLarService
 	 * @param id
 	 * @return
 	 */
+	@Transactional(readOnly=true)
 	public Beneficiado findBeneficiadoById( long id )
 	{
 		Beneficiado beneficiado = this.beneficiadoRepository.findOne( id );
@@ -439,11 +461,63 @@ public class CasaLarService
 		this.beneficiadoRepository.delete( beneficiado );
 	}
 	
-//	public FornecedorRequ
+	/*-------------------------------------------------------------------
+	 *				 	  SERVICES FORNECEDOR REQUISIÇÃO
+	 *-------------------------------------------------------------------*/
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public FornecedorRequisicao insertFornecedorRequisicao(FornecedorRequisicao fornecedorRequisicao)
+	{
+		Assert.notNull( fornecedorRequisicao, "Fornecedore é obrigatório" );
+		Assert.notNull( fornecedorRequisicao.getRequisicaoCompra() );
+		Assert.notNull( fornecedorRequisicao.getFornecedor() );
+		
+		return this.fornecedorRequisicaoRepository.save( fornecedorRequisicao );
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public void removeFornecedorRequisicao(long id)
+	{
+		FornecedorRequisicao fornecedorRequisicao = this.fornecedorRequisicaoRepository.findOne( id );
+		Assert.notNull( fornecedorRequisicao, "Registro não existe" );
+		
+		Assert.isTrue( fornecedorRequisicao.getRequisicaoCompra().getStatus() == StatusRequisicaoCompra.RASCUNHO, 
+				"Para remover um fornecedor o status deve ser rascunho");
+		
+		this.fornecedorRequisicaoRepository.delete( fornecedorRequisicao );
+	}
+	
+	/**
+	 * 
+	 * @param requisicaoCompraId
+	 * @param pageable
+	 * @return
+	 */
+	@Transactional(readOnly=true)
+	public Page<FornecedorRequisicao> listFornecedoresByRequisicao( long requisicaoCompraId, PageRequest pageable )
+	{
+		return this.fornecedorRequisicaoRepository.findByRequisicaoCompraId( requisicaoCompraId, pageable );
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@Transactional(readOnly=true)
+	public FornecedorRequisicao findFornecedorRequisicaoById(long id)
+	{
+		FornecedorRequisicao fornecedorRequisicao = this.fornecedorRequisicaoRepository.findOne( id );
+		Assert.notNull( fornecedorRequisicao, "Registro não existe" );
+		
+		return fornecedorRequisicao;
+	}
 }
-
-
-
-
 
 

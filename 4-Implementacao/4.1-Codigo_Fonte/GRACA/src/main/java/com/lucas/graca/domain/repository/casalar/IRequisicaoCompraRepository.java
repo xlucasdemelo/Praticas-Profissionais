@@ -28,7 +28,7 @@ public interface IRequisicaoCompraRepository extends JpaRepository<RequisicaoCom
 	@Query(value="SELECT new RequisicaoCompra( requisicaoCompra.id, requisicaoCompra.descricao, requisicaoCompra.valorDisponibilizado,"
 			+ " requisicaoCompra.status, requisicaoCompra.casaLar ) " +
 			   "FROM RequisicaoCompra requisicaoCompra " +
-			  "WHERE ( requisicaoCompra.casaLar.id = :casaLarId AND (FILTER(casaLar.requisicaoCompra.descricao, :filter) = TRUE) ) "
+			  "WHERE ( requisicaoCompra.casaLar.id = :casaLarId AND (FILTER(requisicaoCompra.descricao, :filter) = TRUE) ) "
 			)
 	public Page<RequisicaoCompra> listByCasaLarAndFilters( @Param("casaLarId")Long casaLarId, @Param("filter")String filters, Pageable pageable );
 	
