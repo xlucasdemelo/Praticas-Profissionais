@@ -818,6 +818,7 @@ public class CasaLarIntegrationTests extends AbstractIntegrationTests
 		FornecedorRequisicao fornecedorRequisicao = new FornecedorRequisicao();
 		fornecedorRequisicao.setFornecedor( new Fornecedor(9999L) );
 		fornecedorRequisicao.setRequisicaoCompra( new RequisicaoCompra(9999L) );
+		fornecedorRequisicao.setValorDisponibilizado( new BigDecimal("12923"));
 		
 		fornecedorRequisicao = this.casaLarService.insertFornecedorRequisicao( fornecedorRequisicao );
 		

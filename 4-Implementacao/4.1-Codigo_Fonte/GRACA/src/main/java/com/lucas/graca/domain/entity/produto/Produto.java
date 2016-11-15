@@ -49,6 +49,13 @@ public class Produto extends AbstractEntity
 	 */
 	@NotNull
 	@Column(nullable = false)
+	private Integer quantidade;
+	
+	/**
+	 * 
+	 */
+	@NotNull
+	@Column(nullable = false)
 	private Boolean ativo;
 	
 	/**
@@ -79,7 +86,7 @@ public class Produto extends AbstractEntity
 	 * @param categoria
 	 * @param marca
 	 */
-	public Produto( Long id, String nome, Boolean ativo, Categoria categoria, Marca marca, Modelo modelo )
+	public Produto( Long id, String nome,Integer quantidade,  Boolean ativo, Categoria categoria, Marca marca, Modelo modelo )
 	{
 		super(id);
 		this.nome = nome;
@@ -87,6 +94,7 @@ public class Produto extends AbstractEntity
 		this.categoria = categoria;
 		this.marca = marca;
 		this.modelo = modelo;
+		this.quantidade = quantidade;
 	}
 
 	/**
@@ -122,6 +130,7 @@ public class Produto extends AbstractEntity
 		result = prime * result + ( ( marca == null ) ? 0 : marca.hashCode() );
 		result = prime * result + ( ( modelo == null ) ? 0 : modelo.hashCode() );
 		result = prime * result + ( ( nome == null ) ? 0 : nome.hashCode() );
+		result = prime * result + ( ( quantidade == null ) ? 0 : quantidade.hashCode() );
 		return result;
 	}
 
@@ -160,6 +169,11 @@ public class Produto extends AbstractEntity
 			if ( other.nome != null ) return false;
 		}
 		else if ( !nome.equals( other.nome ) ) return false;
+		if ( quantidade == null )
+		{
+			if ( other.quantidade != null ) return false;
+		}
+		else if ( !quantidade.equals( other.quantidade ) ) return false;
 		return true;
 	}
 	
@@ -178,6 +192,7 @@ public class Produto extends AbstractEntity
 	public void enableProduto()
 	{
 		this.ativo = true;
+		this.quantidade = 0;
 	}
 	
 	/*------------------------------------------------------------------
@@ -262,5 +277,21 @@ public class Produto extends AbstractEntity
 	public void setModelo( Modelo modelo )
 	{
 		this.modelo = modelo;
+	}
+
+	/**
+	 * @return the quantidade
+	 */
+	public Integer getQuantidade()
+	{
+		return quantidade;
+	}
+
+	/**
+	 * @param quantidade the quantidade to set
+	 */
+	public void setQuantidade( Integer quantidade )
+	{
+		this.quantidade = quantidade;
 	}
 }

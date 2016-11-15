@@ -15,6 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.lucas.graca.domain.entity.account.UserRole;
+import com.lucas.graca.domain.entity.aquisicaoCompra.AquisicaoProduto;
+import com.lucas.graca.domain.entity.aquisicaoCompra.FornecedorAquisicao;
+import com.lucas.graca.domain.entity.aquisicaoCompra.StatusAquisicao;
+import com.lucas.graca.domain.entity.aquisicaoCompra.TipoAquisicao;
+import com.lucas.graca.domain.entity.aquisicaoCompra.TipoPagamento;
 import com.lucas.graca.domain.entity.casalar.Beneficiado;
 import com.lucas.graca.domain.entity.casalar.CasaLar;
 import com.lucas.graca.domain.entity.casalar.FornecedorRequisicao;
@@ -22,6 +27,7 @@ import com.lucas.graca.domain.entity.casalar.OrcamentoFamiliar;
 import com.lucas.graca.domain.entity.casalar.RequisicaoCompra;
 import com.lucas.graca.domain.entity.casalar.StatusRequisicaoCompra;
 import com.lucas.graca.domain.entity.crianca.Crianca;
+import com.lucas.graca.domain.repository.aquisicaoCompra.IAquisicaoProdutoRepository;
 import com.lucas.graca.domain.repository.casalar.IBeneficiadoRepository;
 import com.lucas.graca.domain.repository.casalar.ICasaLarRepository;
 import com.lucas.graca.domain.repository.casalar.IFornecedorRequisicaoRepository;
@@ -83,6 +89,12 @@ public class CasaLarService
 	 */
 	@Autowired
 	private IFornecedorRequisicaoRepository fornecedorRequisicaoRepository;
+	
+	/**
+	 * 
+	 */
+	@Autowired
+	private IAquisicaoProdutoRepository aquisicaoProdutoRepository;
 	/*-------------------------------------------------------------------
 	 *				 		     ATTRIBUTES
 	 *-------------------------------------------------------------------*/
@@ -366,14 +378,16 @@ public class CasaLarService
 	 * 
 	 * @param id
 	 */
-	public void changeToEmAberto(long id)
+	public AquisicaoProduto changeToEmAberto(long id)
 	{
 		RequisicaoCompra requisicao = this.requisicaoCompraRepository.findOne( id );
 		Assert.notNull( requisicao, "Requisição não encontrada" );
 		
 		requisicao.changeToEmAberto();
 		
-		this.requisicaoCompraRepository.save( requisicao );
+		this.requisicaoCompraRepository.saveAndFlush( requisicao );
+		
+		return this.insertAquisicaoProdutoTipoCompraRequisitada( requisicao );
 	}
 	
 	/**
@@ -518,6 +532,41 @@ public class CasaLarService
 		
 		return fornecedorRequisicao;
 	}
+	
+	/*-------------------------------------------------------------------
+	 *				 SERVICES AQUISICAO DE PRODUTOS
+	 *-------------------------------------------------------------------*/
+	
+	/**
+	 * Método para inserir uma aquisicao de produto automaticamente para aquela requisição
+	 * @param requisicaoCompra
+	 * @return
+	 */
+	private AquisicaoProduto insertAquisicaoProdutoTipoCompraRequisitada(RequisicaoCompra requisicaoCompra)
+	{
+		AquisicaoProduto aquisicaoProduto = new AquisicaoProduto();
+		
+		aquisicaoProduto.setTipoAquisicao( TipoAquisicao.COMPRA_REQUISITADA );
+		aquisicaoProduto.setTipoPagamento( TipoPagamento.A_PRAZO );
+		
+		aquisicaoProduto = this.aquisicaoProdutoRepository.saveAndFlush( aquisicaoProduto );
+		
+		//Busca todos os fornecedores indicados naquela requisição
+		List<FornecedorRequisicao> fornecedoresRequisicao = this.fornecedorRequisicaoRepository
+				.findByRequisicaoCompraId( requisicaoCompra.getId(), null ).getContent();
+		
+		//Transforma os fornecedores da requisição em fornecedores da Aquisição
+		for ( FornecedorRequisicao fornecedorRequisicao : fornecedoresRequisicao )
+		{
+			FornecedorAquisicao fornecedorAquisicao = new FornecedorAquisicao();
+			fornecedorAquisicao.setAquisicaoProduto( aquisicaoProduto );
+			fornecedorAquisicao.setFornecedor( fornecedorRequisicao.getFornecedor() );
+		}
+		
+		aquisicaoProduto.setStatus( StatusAquisicao.ABERTO );
+		return this.aquisicaoProdutoRepository.save( aquisicaoProduto );
+	}
+	
 }
 
 

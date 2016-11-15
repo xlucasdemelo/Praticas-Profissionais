@@ -3,13 +3,20 @@
  */
 package com.lucas.graca.domain.entity.casalar;
 
+import java.io.Serializable;
+import java.math.BigDecimal;
+
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 
+import com.lucas.graca.domain.entity.aquisicaoCompra.AquisicaoProduto;
 import com.lucas.graca.domain.entity.fornecedor.Fornecedor;
 
 import br.com.eits.common.domain.entity.AbstractEntity;
@@ -22,7 +29,7 @@ import br.com.eits.common.domain.entity.AbstractEntity;
 @Entity
 @Audited
 @DataTransferObject(javascript = "FornecedorRequisicao")
-public class FornecedorRequisicao extends AbstractEntity
+public class FornecedorRequisicao extends AbstractEntity implements Serializable
 {
 
 	/**
@@ -46,6 +53,19 @@ public class FornecedorRequisicao extends AbstractEntity
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Fornecedor fornecedor;
 
+	/**
+	 * 
+	 */
+	@NotNull
+	@Column
+	private BigDecimal valorDisponibilizado;
+	
+	/**
+	 * 
+	 */
+	@Basic
+	private AquisicaoProduto aquisicaoProduto;
+	
 	/*-------------------------------------------------------------------
 	 *				 		     CONSTRUCTORS
 	 *-------------------------------------------------------------------*/
@@ -54,11 +74,14 @@ public class FornecedorRequisicao extends AbstractEntity
 	 * @param casaLar
 	 * @param fornecedor
 	 */
-	public FornecedorRequisicao( Long id, RequisicaoCompra requisicaoCompra, Fornecedor fornecedor )
+	public FornecedorRequisicao( Long id, RequisicaoCompra requisicaoCompra, Fornecedor fornecedor, BigDecimal valorDisponibilizado,
+			AquisicaoProduto aquisicaoProduto)
 	{
 		super(id);
 		this.requisicaoCompra = requisicaoCompra;
 		this.fornecedor = fornecedor;
+		this.valorDisponibilizado = valorDisponibilizado;
+		this.aquisicaoProduto = aquisicaoProduto;
 	}
 
 	/**
@@ -79,7 +102,6 @@ public class FornecedorRequisicao extends AbstractEntity
 
 	/*-------------------------------------------------------------------
 	 *				 		 GETTERS AND SETTERS
-	 *-------------------------------------------------------------------*/
 	
 	/**
 	 * @return the requisicaoCompra
@@ -111,5 +133,37 @@ public class FornecedorRequisicao extends AbstractEntity
 	public void setFornecedor( Fornecedor fornecedor )
 	{
 		this.fornecedor = fornecedor;
+	}
+
+	/**
+	 * @return the valorDisponibilizado
+	 */
+	public BigDecimal getValorDisponibilizado()
+	{
+		return valorDisponibilizado;
+	}
+
+	/**
+	 * @param valorDisponibilizado the valorDisponibilizado to set
+	 */
+	public void setValorDisponibilizado( BigDecimal valorDisponibilizado )
+	{
+		this.valorDisponibilizado = valorDisponibilizado;
+	}
+
+	/**
+	 * @return the aquisicaoProduto
+	 */
+	public AquisicaoProduto getAquisicaoProduto()
+	{
+		return aquisicaoProduto;
+	}
+
+	/**
+	 * @param aquisicaoProduto the aquisicaoProduto to set
+	 */
+	public void setAquisicaoProduto( AquisicaoProduto aquisicaoProduto )
+	{
+		this.aquisicaoProduto = aquisicaoProduto;
 	}
 }

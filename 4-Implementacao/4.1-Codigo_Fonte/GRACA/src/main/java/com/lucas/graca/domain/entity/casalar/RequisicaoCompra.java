@@ -3,9 +3,6 @@
  */
 package com.lucas.graca.domain.entity.casalar;
 
-import java.math.BigDecimal;
-
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -49,12 +46,6 @@ public class RequisicaoCompra extends AbstractEntity
 	/**
 	 * 
 	 */
-	@Basic
-	private BigDecimal valorDisponibilizado;
-	
-	/**
-	 * 
-	 */
 	@NotNull
 	@Column(nullable=false)
 	private StatusRequisicaoCompra status;
@@ -74,11 +65,10 @@ public class RequisicaoCompra extends AbstractEntity
 	 * @param valorDisponibilizado
 	 * @param status
 	 */
-	public RequisicaoCompra( Long id, String descricao, BigDecimal valorDisponibilizado, StatusRequisicaoCompra status, CasaLar casaLar )
+	public RequisicaoCompra( Long id, String descricao, StatusRequisicaoCompra status, CasaLar casaLar )
 	{
 		super(id);
 		this.descricao = descricao;
-		this.valorDisponibilizado = valorDisponibilizado;
 		this.status = status;
 		this.casaLar = casaLar;
 	}
@@ -114,7 +104,6 @@ public class RequisicaoCompra extends AbstractEntity
 		result = prime * result + ( ( casaLar == null ) ? 0 : casaLar.hashCode() );
 		result = prime * result + ( ( descricao == null ) ? 0 : descricao.hashCode() );
 		result = prime * result + ( ( status == null ) ? 0 : status.hashCode() );
-		result = prime * result + ( ( valorDisponibilizado == null ) ? 0 : valorDisponibilizado.hashCode() );
 		return result;
 	}
 
@@ -139,11 +128,6 @@ public class RequisicaoCompra extends AbstractEntity
 		}
 		else if ( !descricao.equals( other.descricao ) ) return false;
 		if ( status != other.status ) return false;
-		if ( valorDisponibilizado == null )
-		{
-			if ( other.valorDisponibilizado != null ) return false;
-		}
-		else if ( !valorDisponibilizado.equals( other.valorDisponibilizado ) ) return false;
 		return true;
 	}
 	
@@ -203,22 +187,6 @@ public class RequisicaoCompra extends AbstractEntity
 	public void setDescricao( String descricao )
 	{
 		this.descricao = descricao;
-	}
-
-	/**
-	 * @return the valorDisponibilizado
-	 */
-	public BigDecimal getValorDisponibilizado()
-	{
-		return valorDisponibilizado;
-	}
-
-	/**
-	 * @param valorDisponibilizado the valorDisponibilizado to set
-	 */
-	public void setValorDisponibilizado( BigDecimal valorDisponibilizado )
-	{
-		this.valorDisponibilizado = valorDisponibilizado;
 	}
 
 	/**

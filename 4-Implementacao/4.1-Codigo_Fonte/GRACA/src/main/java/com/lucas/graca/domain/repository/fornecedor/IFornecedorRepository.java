@@ -23,7 +23,8 @@ public interface IFornecedorRepository extends JpaRepository<Fornecedor, Long>
 	 * @param pageable
 	 * @return
 	 */
-	@Query(value="SELECT new Fornecedor( fornecedor.id, fornecedor.razaoSocial, fornecedor.cnpj, fornecedor.telefone, fornecedor.ativo, fornecedor.responsavel ) " +
+	@Query(value="SELECT new Fornecedor( fornecedor.id, fornecedor.razaoSocial, fornecedor.cnpj, fornecedor.telefone, "
+			+ "fornecedor.ativo, fornecedor.responsavel ) " +
 			   "FROM Fornecedor fornecedor " +
 			  "WHERE ( fornecedor.ativo = :ativo AND "
 			  	 + "( (FILTER(fornecedor.razaoSocial, :filter) = TRUE)  ) )"

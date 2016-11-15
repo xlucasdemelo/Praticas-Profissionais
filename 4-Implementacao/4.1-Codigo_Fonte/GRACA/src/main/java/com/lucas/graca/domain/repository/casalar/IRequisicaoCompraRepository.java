@@ -25,7 +25,7 @@ public interface IRequisicaoCompraRepository extends JpaRepository<RequisicaoCom
 	 * @param pageable
 	 * @return
 	 */
-	@Query(value="SELECT new RequisicaoCompra( requisicaoCompra.id, requisicaoCompra.descricao, requisicaoCompra.valorDisponibilizado,"
+	@Query(value="SELECT new RequisicaoCompra( requisicaoCompra.id, requisicaoCompra.descricao, "
 			+ " requisicaoCompra.status, requisicaoCompra.casaLar ) " +
 			   "FROM RequisicaoCompra requisicaoCompra " +
 			  "WHERE ( requisicaoCompra.casaLar.id = :casaLarId AND (FILTER(requisicaoCompra.descricao, :filter) = TRUE) ) "
