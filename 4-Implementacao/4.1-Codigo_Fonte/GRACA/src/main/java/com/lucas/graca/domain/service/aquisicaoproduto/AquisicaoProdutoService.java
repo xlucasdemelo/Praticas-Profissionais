@@ -62,7 +62,7 @@ public class AquisicaoProdutoService
 	 */
 	@Autowired
 	private IProdutoRepository produtoRepository;
-	
+	contas partidas
 	/**
 	 * 
 	 */
