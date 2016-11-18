@@ -15,6 +15,8 @@ import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 import org.springframework.util.Assert;
 
+import com.lucas.graca.domain.entity.aquisicaoCompra.FormaPagamento;
+
 import br.com.eits.common.domain.entity.AbstractEntity;
 
 /**

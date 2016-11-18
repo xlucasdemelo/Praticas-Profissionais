@@ -25,7 +25,6 @@
 	<public.modelo></public.modelo>
 	<public.categoria></public.categoria>
 	<public.banco></public.banco>
-	<public.conta_bancaria></public.conta_bancaria>
+	<public.conta></public.conta>
 	<public.orcamento_familiar></public.orcamento_familiar>
-	<public.requisicao_compra></public.requisicao_compra>
 </dataset>

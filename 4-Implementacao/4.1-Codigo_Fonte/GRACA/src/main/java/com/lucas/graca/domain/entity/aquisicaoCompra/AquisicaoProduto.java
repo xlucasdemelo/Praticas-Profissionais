@@ -8,6 +8,7 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
@@ -16,7 +17,7 @@ import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 import org.springframework.util.Assert;
 
-import com.lucas.graca.domain.entity.casalar.RequisicaoCompra;
+import com.lucas.graca.domain.entity.fornecedor.Fornecedor;
 
 import br.com.eits.common.domain.entity.AbstractEntity;
 
@@ -51,12 +52,14 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 	 */
 	@NotNull
 	@Column(nullable=false)
-	private TipoAquisicao tipoAquisicao;
+	private CondicaoPagamento condicaoPagamento;
 	
 	/**
 	 * 
 	 */
-	private TipoPagamento tipoPagamento;
+	@NotNull
+	@Column(nullable=false)
+	private FormaPagamento formaPagamento;
 	
 	/**
 	 * 
@@ -67,8 +70,8 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
-	@ManyToOne(optional=true)
-	private RequisicaoCompra requisicaoCompra;
+	@ManyToOne(fetch=FetchType.EAGER)
+	private Fornecedor fornecedor;
 	
 	/*-------------------------------------------------------------------
 	 *				 		     CONSTRUCTORS
@@ -76,21 +79,19 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 	
 	/**
 	 * @param status
-	 * @param tipoAquisicao
-	 * @param tipoPagamento
+	 * @param condicaoPagamento
+	 * @param formaPagamento
 	 * @param vezesPagamento
-	 * @param requisicaoCompra
-	 * @param casaLar
 	 */
-	public AquisicaoProduto( Long id, StatusAquisicao status, TipoAquisicao tipoAquisicao, TipoPagamento tipoPagamento, Integer vezesPagamento, 
-			RequisicaoCompra requisicaoCompra )
+	public AquisicaoProduto( Long id, StatusAquisicao status, CondicaoPagamento condicaoPagamento, FormaPagamento formaPagamento, 
+			Integer vezesPagamento, Fornecedor fornecedor )
 	{
 		super(id);
 		this.status = status;
-		this.tipoAquisicao = tipoAquisicao;
-		this.tipoPagamento = tipoPagamento;
+		this.condicaoPagamento = condicaoPagamento;
+		this.formaPagamento = formaPagamento;
 		this.vezesPagamento = vezesPagamento;
-		this.requisicaoCompra = requisicaoCompra;
+		this.fornecedor = fornecedor;
 	}
 
 	/**
@@ -122,10 +123,10 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 	{
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ( ( requisicaoCompra == null ) ? 0 : requisicaoCompra.hashCode() );
+		result = prime * result + ( ( condicaoPagamento == null ) ? 0 : condicaoPagamento.hashCode() );
+		result = prime * result + ( ( formaPagamento == null ) ? 0 : formaPagamento.hashCode() );
+		result = prime * result + ( ( fornecedor == null ) ? 0 : fornecedor.hashCode() );
 		result = prime * result + ( ( status == null ) ? 0 : status.hashCode() );
-		result = prime * result + ( ( tipoAquisicao == null ) ? 0 : tipoAquisicao.hashCode() );
-		result = prime * result + ( ( tipoPagamento == null ) ? 0 : tipoPagamento.hashCode() );
 		result = prime * result + ( ( vezesPagamento == null ) ? 0 : vezesPagamento.hashCode() );
 		return result;
 	}
@@ -140,14 +141,14 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 		if ( !super.equals( obj ) ) return false;
 		if ( getClass() != obj.getClass() ) return false;
 		AquisicaoProduto other = ( AquisicaoProduto ) obj;
-		if ( requisicaoCompra == null )
+		if ( condicaoPagamento != other.condicaoPagamento ) return false;
+		if ( formaPagamento != other.formaPagamento ) return false;
+		if ( fornecedor == null )
 		{
-			if ( other.requisicaoCompra != null ) return false;
+			if ( other.fornecedor != null ) return false;
 		}
-		else if ( !requisicaoCompra.equals( other.requisicaoCompra ) ) return false;
+		else if ( !fornecedor.equals( other.fornecedor ) ) return false;
 		if ( status != other.status ) return false;
-		if ( tipoAquisicao != other.tipoAquisicao ) return false;
-		if ( tipoPagamento != other.tipoPagamento ) return false;
 		if ( vezesPagamento == null )
 		{
 			if ( other.vezesPagamento != null ) return false;
@@ -210,35 +211,19 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 	}
 
 	/**
-	 * @return the tipoAquisicao
+	 * @return the condicaoPagamento
 	 */
-	public TipoAquisicao getTipoAquisicao()
+	public CondicaoPagamento getTipoPagamento()
 	{
-		return tipoAquisicao;
+		return condicaoPagamento;
 	}
 
 	/**
-	 * @param tipoAquisicao the tipoAquisicao to set
+	 * @param condicaoPagamento the condicaoPagamento to set
 	 */
-	public void setTipoAquisicao( TipoAquisicao tipoAquisicao )
+	public void setTipoPagamento( CondicaoPagamento condicaoPagamento )
 	{
-		this.tipoAquisicao = tipoAquisicao;
-	}
-
-	/**
-	 * @return the tipoPagamento
-	 */
-	public TipoPagamento getTipoPagamento()
-	{
-		return tipoPagamento;
-	}
-
-	/**
-	 * @param tipoPagamento the tipoPagamento to set
-	 */
-	public void setTipoPagamento( TipoPagamento tipoPagamento )
-	{
-		this.tipoPagamento = tipoPagamento;
+		this.condicaoPagamento = condicaoPagamento;
 	}
 
 	/**
@@ -258,19 +243,59 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 	}
 
 	/**
-	 * @return the requisicaoCompra
+	 * @return the condicaoPagamento
 	 */
-	public RequisicaoCompra getRequisicaoCompra()
+	public CondicaoPagamento getCondicaoPagamento()
 	{
-		return requisicaoCompra;
+		return condicaoPagamento;
 	}
 
 	/**
-	 * @param requisicaoCompra the requisicaoCompra to set
+	 * @param condicaoPagamento the condicaoPagamento to set
 	 */
-	public void setRequisicaoCompra( RequisicaoCompra requisicaoCompra )
+	public void setCondicaoPagamento( CondicaoPagamento condicaoPagamento )
 	{
-		this.requisicaoCompra = requisicaoCompra;
+		this.condicaoPagamento = condicaoPagamento;
+	}
+
+	/**
+	 * @return the formaPagamento
+	 */
+	public FormaPagamento getFormaPagamento()
+	{
+		return formaPagamento;
+	}
+
+	/**
+	 * @param formaPagamento the formaPagamento to set
+	 */
+	public void setFormaPagamento( FormaPagamento formaPagamento )
+	{
+		this.formaPagamento = formaPagamento;
+	}
+
+	/**
+	 * @return the serialversionuid
+	 */
+	public static long getSerialversionuid()
+	{
+		return serialVersionUID;
+	}
+
+	/**
+	 * @return the fornecedor
+	 */
+	public Fornecedor getFornecedor()
+	{
+		return fornecedor;
+	}
+
+	/**
+	 * @param fornecedor the fornecedor to set
+	 */
+	public void setFornecedor( Fornecedor fornecedor )
+	{
+		this.fornecedor = fornecedor;
 	}
 
 }

@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
@@ -23,9 +22,8 @@ import br.com.eits.common.domain.entity.AbstractEntity;
 
 @Entity
 @Audited
-@Table( name = "conta_bancaria")
-@DataTransferObject(javascript = "ContaBancaria")
-public class ContaBancaria extends AbstractEntity 
+@DataTransferObject(javascript = "Conta")
+public class Conta extends AbstractEntity 
 {
 
 	/**
@@ -74,7 +72,7 @@ public class ContaBancaria extends AbstractEntity
 	 * @param enabled
 	 * @param banco
 	 */
-	public ContaBancaria( Long id, String numero, String agencia, Boolean enabled, Banco banco )
+	public Conta( Long id, String numero, String agencia, Boolean enabled, Banco banco )
 	{
 		super(id);
 		this.numero = numero;
@@ -86,7 +84,7 @@ public class ContaBancaria extends AbstractEntity
 	/**
 	 * 
 	 */
-	public ContaBancaria()
+	public Conta()
 	{
 		super();
 	}
@@ -94,7 +92,7 @@ public class ContaBancaria extends AbstractEntity
 	/**
 	 * @param id
 	 */
-	public ContaBancaria( Long id )
+	public Conta( Long id )
 	{
 		super( id );
 	}
@@ -127,7 +125,7 @@ public class ContaBancaria extends AbstractEntity
 		if ( this == obj ) return true;
 		if ( !super.equals( obj ) ) return false;
 		if ( getClass() != obj.getClass() ) return false;
-		ContaBancaria other = ( ContaBancaria ) obj;
+		Conta other = ( Conta ) obj;
 		if ( agencia == null )
 		{
 			if ( other.agencia != null ) return false;

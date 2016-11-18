@@ -14,7 +14,7 @@ import org.springframework.util.Assert;
 
 import com.lucas.graca.domain.entity.account.UserRole;
 import com.lucas.graca.domain.entity.caixa.Banco;
-import com.lucas.graca.domain.entity.caixa.ContaBancaria;
+import com.lucas.graca.domain.entity.caixa.Conta;
 import com.lucas.graca.domain.entity.caixa.Movimentacao;
 import com.lucas.graca.domain.entity.caixa.MovimentacaoCaixa;
 import com.lucas.graca.domain.repository.caixa.IBancoRepository;
@@ -62,43 +62,40 @@ public class CaixaService
 	
 	/**
 	 * 
-	 * @param contaBancaria
+	 * @param conta
 	 * @return
 	 */
 	@PreAuthorize( "hasAuthority('" + UserRole.CHEFE_ADMINISTRACAO_VALUE + "')" )
-	public ContaBancaria insertContaBancaria(ContaBancaria contaBancaria)
+	public Conta insertContaBancaria(Conta conta)
 	{
-		Assert.isNull( contaBancaria.getId(), "Id deve ser nulo" );
-		Assert.notNull( contaBancaria, "Conta bancária não pode ser nula" );
-		Assert.notNull( contaBancaria.getAgencia(), "Agência não pode ser nula" );
-		Assert.notNull( contaBancaria.getNumero(), "Número não pode ser nulo" );
-		Assert.notNull( contaBancaria.getBanco() );
+		Assert.isNull( conta.getId(), "Id deve ser nulo" );
+		Assert.notNull( conta, "Conta bancária não pode ser nula" );
+		Assert.notNull( conta.getAgencia(), "Agência não pode ser nula" );
+		Assert.notNull( conta.getNumero(), "Número não pode ser nulo" );
+		Assert.notNull( conta.getBanco() );
 		
-		Assert.isNull( this.contaBancariaRepository.findByNumeroAndAgenciaAndEnabled( contaBancaria.getNumero(), contaBancaria.getAgencia(), true ),
-				"Já existe uma conta com este número e agência" );
-		
-		return this.contaBancariaRepository.save( contaBancaria );
+		return this.contaBancariaRepository.save( conta );
 	}
 	
 	/**
 	 * 
-	 * @param contaBancaria
+	 * @param conta
 	 * @return
 	 */
 	@PreAuthorize( "hasAuthority('" + UserRole.CHEFE_ADMINISTRACAO_VALUE + "')" )
-	public ContaBancaria updateContaBancaria(ContaBancaria contaBancaria)
+	public Conta updateContaBancaria(Conta conta)
 	{
-		Assert.notNull( contaBancaria, "Conta bancária não pode ser nula" );
-		Assert.notNull( contaBancaria.getId(), "Id Não pode ser nulo" );
+		Assert.notNull( conta, "Conta bancária não pode ser nula" );
+		Assert.notNull( conta.getId(), "Id Não pode ser nulo" );
 		
-		ContaBancaria contaBancariaBD = this.contaBancariaRepository.findOne( contaBancaria.getId() );
+		Conta contaBancariaBD = this.contaBancariaRepository.findOne( conta.getId() );
 		Assert.notNull( contaBancariaBD, "Não existe nenhum registro com esse id" );
 		
-		Assert.notNull( contaBancaria.getAgencia(), "Agência não pode ser nula" );
-		Assert.notNull( contaBancaria.getNumero(), "Número não pode ser nulo" );
-		Assert.notNull( contaBancaria.getBanco() );
+		Assert.notNull( conta.getAgencia(), "Agência não pode ser nula" );
+		Assert.notNull( conta.getNumero(), "Número não pode ser nulo" );
+		Assert.notNull( conta.getBanco() );
 		
-		return this.contaBancariaRepository.save( contaBancaria );
+		return this.contaBancariaRepository.save( conta );
 	}
 	
 	/**
@@ -109,12 +106,12 @@ public class CaixaService
 	@PreAuthorize( "hasAuthority('" + UserRole.CHEFE_ADMINISTRACAO_VALUE + "')" )
 	public void disableContaBancaria( long id )
 	{
-		ContaBancaria contaBancaria = this.contaBancariaRepository.findOne( id );
-		Assert.notNull( contaBancaria, "Não existe nenhum registro insecom esse id" );
+		Conta conta = this.contaBancariaRepository.findOne( id );
+		Assert.notNull( conta, "Não existe nenhum registro insecom esse id" );
 		
-		contaBancaria.disableContaBancaria();
+		conta.disableContaBancaria();
 		
-		this.contaBancariaRepository.save( contaBancaria );
+		this.contaBancariaRepository.save( conta );
 	}
 	
 	/**
@@ -124,12 +121,12 @@ public class CaixaService
 	@PreAuthorize( "hasAuthority('" + UserRole.CHEFE_ADMINISTRACAO_VALUE + "')" )
 	public void enableContaBancaria( long id )
 	{
-		ContaBancaria contaBancaria = this.contaBancariaRepository.findOne( id );
-		Assert.notNull( contaBancaria, "Não existe nenhum registro com esse id" );
+		Conta conta = this.contaBancariaRepository.findOne( id );
+		Assert.notNull( conta, "Não existe nenhum registro com esse id" );
 		
-		contaBancaria.enableContaBancaria();
+		conta.enableContaBancaria();
 		
-		this.contaBancariaRepository.save( contaBancaria );
+		this.contaBancariaRepository.save( conta );
 	}
 	
 	/**
@@ -137,7 +134,7 @@ public class CaixaService
 	 * @return
 	 */
 	@Transactional(readOnly=true)
-	public Page<ContaBancaria> listContaBancariaByFilters( String filter, Boolean ativo, PageRequest pageable )
+	public Page<Conta> listContaBancariaByFilters( String filter, Boolean ativo, PageRequest pageable )
 	{
 		return this.contaBancariaRepository.listByFilters( filter, ativo, pageable );
 	}
@@ -148,12 +145,12 @@ public class CaixaService
 	 * @return
 	 */
 	@Transactional(readOnly=true)
-	public ContaBancaria findContaBancariaById( long id )
+	public Conta findContaBancariaById( long id )
 	{
-		ContaBancaria contaBancaria = this.contaBancariaRepository.findOne( id );
-		Assert.notNull( contaBancaria, "Registro não encontrado" );
+		Conta conta = this.contaBancariaRepository.findOne( id );
+		Assert.notNull( conta, "Registro não encontrado" );
 		
-		return contaBancaria;
+		return conta;
 	}
 	
 	/*-------------------------------------------------------------------

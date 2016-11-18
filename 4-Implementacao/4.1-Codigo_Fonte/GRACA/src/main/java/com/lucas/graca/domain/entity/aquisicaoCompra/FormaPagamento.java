@@ -6,12 +6,12 @@ package com.lucas.graca.domain.entity.aquisicaoCompra;
 import org.directwebremoting.annotations.DataTransferObject;
 
 /**
- * @author lucas
+ * @author eits
  *
  */
-@DataTransferObject(type = "enum")
-public enum TipoPagamento
+@DataTransferObject(type="enum")
+public enum FormaPagamento
 {
-	A_VISTA,
-	A_PRAZO
+	CHEQUE,
+	PAGAMENTO_ONLINE
 }

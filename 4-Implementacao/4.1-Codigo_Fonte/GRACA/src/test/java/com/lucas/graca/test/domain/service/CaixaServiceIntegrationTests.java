@@ -13,7 +13,7 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.lucas.graca.domain.entity.caixa.Banco;
-import com.lucas.graca.domain.entity.caixa.ContaBancaria;
+import com.lucas.graca.domain.entity.caixa.Conta;
 import com.lucas.graca.domain.service.caixa.CaixaService;
 import com.lucas.graca.test.domain.AbstractIntegrationTests;
 
@@ -51,15 +51,15 @@ public class CaixaServiceIntegrationTests extends AbstractIntegrationTests
 		})
 	public void insertContaBancariaMustPass()
 	{
-		ContaBancaria contaBancaria = new ContaBancaria();
-		contaBancaria.setAgencia( "1234" );
-		contaBancaria.setBanco( new Banco(9999L) );
-		contaBancaria.setNumero( "09876" );
+		Conta conta = new Conta();
+		conta.setAgencia( "1234" );
+		conta.setBanco( new Banco(9999L) );
+		conta.setNumero( "09876" );
 		
-		contaBancaria = this.caixaService.insertContaBancaria( contaBancaria );
+		conta = this.caixaService.insertContaBancaria( conta );
 		
-		Assert.assertNotNull( contaBancaria );
-		Assert.assertNotNull( contaBancaria.getId() );
+		Assert.assertNotNull( conta );
+		Assert.assertNotNull( conta.getId() );
 	}
 	
 	/**
@@ -75,12 +75,12 @@ public class CaixaServiceIntegrationTests extends AbstractIntegrationTests
 		})
 	public void insertContaBancariaMustFail()
 	{
-		ContaBancaria contaBancaria = new ContaBancaria();
-		contaBancaria.setAgencia( "1234" );
-		contaBancaria.setBanco( new Banco(9999L) );
-		contaBancaria.setNumero( null );
+		Conta conta = new Conta();
+		conta.setAgencia( "1234" );
+		conta.setBanco( new Banco(9999L) );
+		conta.setNumero( null );
 		
-		contaBancaria = this.caixaService.insertContaBancaria( contaBancaria );
+		conta = this.caixaService.insertContaBancaria( conta );
 		
 		Assert.fail();
 	}
@@ -99,12 +99,12 @@ public class CaixaServiceIntegrationTests extends AbstractIntegrationTests
 		})
 	public void insertContaBancariaMustFailDuplicatedNumeroAndAgencia()
 	{
-		ContaBancaria contaBancaria = new ContaBancaria();
-		contaBancaria.setAgencia( "01238" );
-		contaBancaria.setBanco( new Banco(9999L) );
-		contaBancaria.setNumero( "23331" );
+		Conta conta = new Conta();
+		conta.setAgencia( "01238" );
+		conta.setBanco( new Banco(9999L) );
+		conta.setNumero( "23331" );
 		
-		contaBancaria = this.caixaService.insertContaBancaria( contaBancaria );
+		conta = this.caixaService.insertContaBancaria( conta );
 		
 		Assert.fail();
 	}
@@ -123,15 +123,15 @@ public class CaixaServiceIntegrationTests extends AbstractIntegrationTests
 		})
 	public void insertContaBancariaMustPassDuplicatedNumeroAndAgenciaOfDisabledRegister()
 	{
-		ContaBancaria contaBancaria = new ContaBancaria();
-		contaBancaria.setAgencia( "01231238" );
-		contaBancaria.setBanco( new Banco(9999L) );
-		contaBancaria.setNumero( "44423" );
+		Conta conta = new Conta();
+		conta.setAgencia( "01231238" );
+		conta.setBanco( new Banco(9999L) );
+		conta.setNumero( "44423" );
 		
-		contaBancaria = this.caixaService.insertContaBancaria( contaBancaria );
+		conta = this.caixaService.insertContaBancaria( conta );
 		
-		Assert.assertNotNull( contaBancaria );
-		Assert.assertNotNull( contaBancaria.getId() );
+		Assert.assertNotNull( conta );
+		Assert.assertNotNull( conta.getId() );
 	}
 	
 	/**
@@ -205,7 +205,7 @@ public class CaixaServiceIntegrationTests extends AbstractIntegrationTests
 		})
 	public void listContasByFilters()
 	{
-		List<ContaBancaria> contas = this.caixaService.listContaBancariaByFilters( null, true, null ).getContent();
+		List<Conta> contas = this.caixaService.listContaBancariaByFilters( null, true, null ).getContent();
 		
 		Assert.assertNotNull( contas );
 		Assert.assertFalse( contas.isEmpty());

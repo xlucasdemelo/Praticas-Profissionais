@@ -45,7 +45,7 @@ public class MovimentacaoCaixa extends AbstractEntity
 	 * 
 	 */
 	@ManyToOne( fetch=FetchType.EAGER, optional=false )
-	private ContaBancaria contaBancaria;
+	private Conta conta;
 	
 	/**
 	 * 
@@ -55,14 +55,14 @@ public class MovimentacaoCaixa extends AbstractEntity
 
 	/**
 	 * @param valor
-	 * @param contaBancaria
+	 * @param conta
 	 * @param movimentacao
 	 */
-	public MovimentacaoCaixa( Long id, BigDecimal valor, ContaBancaria contaBancaria, Movimentacao movimentacao )
+	public MovimentacaoCaixa( Long id, BigDecimal valor, Conta conta, Movimentacao movimentacao )
 	{
 		super(id);
 		this.valor = valor;
-		this.contaBancaria = contaBancaria;
+		this.conta = conta;
 		this.movimentacao = movimentacao;
 	}
 
@@ -94,7 +94,7 @@ public class MovimentacaoCaixa extends AbstractEntity
 	{
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ( ( contaBancaria == null ) ? 0 : contaBancaria.hashCode() );
+		result = prime * result + ( ( conta == null ) ? 0 : conta.hashCode() );
 		result = prime * result + ( ( movimentacao == null ) ? 0 : movimentacao.hashCode() );
 		result = prime * result + ( ( valor == null ) ? 0 : valor.hashCode() );
 		return result;
@@ -110,11 +110,11 @@ public class MovimentacaoCaixa extends AbstractEntity
 		if ( !super.equals( obj ) ) return false;
 		if ( getClass() != obj.getClass() ) return false;
 		MovimentacaoCaixa other = ( MovimentacaoCaixa ) obj;
-		if ( contaBancaria == null )
+		if ( conta == null )
 		{
-			if ( other.contaBancaria != null ) return false;
+			if ( other.conta != null ) return false;
 		}
-		else if ( !contaBancaria.equals( other.contaBancaria ) ) return false;
+		else if ( !conta.equals( other.conta ) ) return false;
 		if ( movimentacao == null )
 		{
 			if ( other.movimentacao != null ) return false;
@@ -149,19 +149,19 @@ public class MovimentacaoCaixa extends AbstractEntity
 	}
 
 	/**
-	 * @return the contaBancaria
+	 * @return the conta
 	 */
-	public ContaBancaria getContaBancaria()
+	public Conta getContaBancaria()
 	{
-		return contaBancaria;
+		return conta;
 	}
 
 	/**
-	 * @param contaBancaria the contaBancaria to set
+	 * @param conta the conta to set
 	 */
-	public void setContaBancaria( ContaBancaria contaBancaria )
+	public void setContaBancaria( Conta conta )
 	{
-		this.contaBancaria = contaBancaria;
+		this.conta = conta;
 	}
 
 	/**

@@ -9,27 +9,21 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.lucas.graca.domain.entity.caixa.ContaBancaria;
+import com.lucas.graca.domain.entity.caixa.Conta;
 
 /**
  * @author eits
  *
  */
-public interface IContaBancariaRepository extends JpaRepository<ContaBancaria, Long>
+public interface IContaBancariaRepository extends JpaRepository<Conta, Long>
 {
 	
-	@Query(value="SELECT new ContaBancaria( contaBancaria.id, contaBancaria.numero, contaBancaria.agencia, contaBancaria.enabled, contaBancaria.banco ) " +
-			   "FROM ContaBancaria contaBancaria " +
-			  "WHERE ( contaBancaria.enabled = :ativo AND "
-			  	 	+ "( (FILTER(contaBancaria.numero, :filter) = TRUE)   "
-			  	 	+ " OR (FILTER(contaBancaria.agencia, :filter) = TRUE) ) " 
+	@Query(value="SELECT new Conta( conta.id, conta.numero, conta.agencia, conta.enabled, conta.banco ) " +
+			   "FROM Conta conta " +
+			  "WHERE ( conta.enabled = :ativo AND "
+			  	 	+ "( (FILTER(conta.descricao, :filter) = TRUE))   "
 			  	 + ")"
 			)
-	public Page<ContaBancaria> listByFilters( @Param("filter") String filters, @Param("ativo") Boolean ativo, Pageable pageable );
+	public Page<Conta> listByFilters( @Param("filter") String filters, @Param("ativo") Boolean ativo, Pageable pageable );
 	
-	/**
-	 * 
-	 * @return
-	 */
-	public ContaBancaria findByNumeroAndAgenciaAndEnabled( String numero, String agencia, Boolean enabled );
 }

@@ -11,7 +11,6 @@ import org.springframework.security.test.context.support.WithUserDetails;
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.lucas.graca.domain.entity.aquisicaoCompra.AquisicaoProduto;
-import com.lucas.graca.domain.entity.aquisicaoCompra.TipoAquisicao;
 import com.lucas.graca.domain.service.aquisicaoproduto.AquisicaoProdutoService;
 import com.lucas.graca.test.domain.AbstractIntegrationTests;
 
@@ -45,7 +44,6 @@ public class AquisicaoProdutoServiceIntegrationTests extends AbstractIntegration
 	public void insertAquisicaoProdutoTipoCompraSedeMustPass()
 	{
 		AquisicaoProduto aquisicaoProduto = new AquisicaoProduto();
-		aquisicaoProduto.setTipoAquisicao( TipoAquisicao.COMPRA_SEDE );
 		
 		aquisicaoProduto = this.aquisicaoProdutoService.insertAquisicaoProduto( aquisicaoProduto );
 		

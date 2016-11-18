@@ -22,6 +22,6 @@ public interface IProdutoAdquiridoRepository extends JpaRepository<ProdutoAdquir
 	 * @param pageable
 	 * @return
 	 */
-	public Page<ProdutoAdquirido> findByFornecedorAquisicaoId(Long fornecedorAquisicaoId, Pageable pageable);
+	public Page<ProdutoAdquirido> findByAquisicaoProdutoId(Long aquisicaoProdutoId, Pageable pageable);
 	
 }

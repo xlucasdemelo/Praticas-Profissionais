@@ -10,10 +10,8 @@ import org.directwebremoting.annotations.DataTransferObject;
  *
  */
 @DataTransferObject(type = "enum")
-public enum TipoAquisicao
+public enum CondicaoPagamento
 {
-	COMPRA_SEDE,
-	DOACAO,
-	COMPRA_REQUISITADA,
-	COMPRA_UNIFICADA
+	A_VISTA,
+	A_PRAZO
 }
