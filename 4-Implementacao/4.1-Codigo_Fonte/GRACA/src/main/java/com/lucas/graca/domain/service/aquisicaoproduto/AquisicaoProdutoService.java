@@ -16,6 +16,7 @@ import org.springframework.util.Assert;
 
 import com.lucas.graca.domain.entity.account.UserRole;
 import com.lucas.graca.domain.entity.aquisicaoCompra.AquisicaoProduto;
+import com.lucas.graca.domain.entity.aquisicaoCompra.CondicaoPagamento;
 import com.lucas.graca.domain.entity.aquisicaoCompra.ProdutoAdquirido;
 import com.lucas.graca.domain.entity.aquisicaoCompra.StatusAquisicao;
 import com.lucas.graca.domain.entity.produto.Produto;
@@ -64,8 +65,15 @@ public class AquisicaoProdutoService
 	public AquisicaoProduto insertAquisicaoProduto(AquisicaoProduto aquisicaoProduto)
 	{
 		Assert.notNull( aquisicaoProduto, "Aquisição é obrigatória" );
+		Assert.notNull( aquisicaoProduto.getCondicaoPagamento(), "Condição de pagamento é obrigatória" );
+		Assert.notNull(aquisicaoProduto.getFormaPagamento(), "Forma de pagamento é obrigatório");
+		Assert.notNull(aquisicaoProduto.getFornecedor(), "Fornecedor é obrigatório");
 		
-		
+		if (aquisicaoProduto.getCondicaoPagamento() == CondicaoPagamento.A_PRAZO)
+		{
+			Assert.notNull(aquisicaoProduto.getVezesPagamento(), "Informe em quantas vezes será a compra");
+			Assert.notNull(aquisicaoProduto.getDiaVencimento(), "Informe em que dia vence a conta");
+		}
 		
 		return this.aquisicaoProdutoRepository.save( aquisicaoProduto );
 	}
@@ -77,6 +85,8 @@ public class AquisicaoProdutoService
 	{
 		AquisicaoProduto aquisicaoProduto = this.aquisicaoProdutoRepository.findOne( id );
 		Assert.notNull( aquisicaoProduto, "Registro não encontrado" );
+		
+		Assert.isTrue(aquisicaoProduto.getStatus() == StatusAquisicao.RASCUNHO, "Somente aquisições em rascunho podem ser excluidas");
 		
 		this.aquisicaoProdutoRepository.delete( aquisicaoProduto );
 	}
@@ -115,6 +125,7 @@ public class AquisicaoProdutoService
 	 * 
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('"+UserRole.CHEFE_ADMINISTRACAO_VALUE+"') ")
 	public AquisicaoProduto changeToConcluido(long id)
 	{
 		AquisicaoProduto aquisicaoProduto = this.aquisicaoProdutoRepository.findOne( id );
@@ -136,6 +147,7 @@ public class AquisicaoProdutoService
 	 * @param id
 	 * @return
 	 */
+	@PreAuthorize("hasAuthority('"+UserRole.CHEFE_ADMINISTRACAO_VALUE+"') ")
 	public AquisicaoProduto changeToRecusado(long id)
 	{
 		AquisicaoProduto aquisicaoProduto = this.aquisicaoProdutoRepository.findOne( id );
@@ -144,6 +156,17 @@ public class AquisicaoProdutoService
 		aquisicaoProduto.changeToRecusado();
 		
 		return this.aquisicaoProdutoRepository.save( aquisicaoProduto );
+	}
+	
+	/**
+	 * 
+	 * @param filter
+	 * @param pageable
+	 */
+	@Transactional(readOnly=true)
+	public void listAquisicoesByFilters(String filter, PageRequest pageable)
+	{
+		this.aquisicaoProdutoRepository.listByFilters(filter, pageable);
 	}
 	
 	/*-------------------------------------------------------------------
@@ -186,6 +209,11 @@ public class AquisicaoProdutoService
 		Assert.notNull( produtoAdquirido.getValor(), "Valor não pode ser nulo" );
 		Assert.notNull( produtoAdquirido.getQuantidade(), "Informe a quantidade" );
 		
+		produtoAdquirido.setAquisicaoProduto(this.aquisicaoProdutoRepository.findOne(produtoAdquirido.getAquisicaoProduto().getId()));
+		
+		Assert.isTrue(produtoAdquirido.getAquisicaoProduto().getStatus() == StatusAquisicao.RASCUNHO, 
+				"O status deve ser rascunho");
+		
 		return this.produtoAdquiridoRepository.save( produtoAdquirido );
 	}
 	
@@ -200,6 +228,8 @@ public class AquisicaoProdutoService
 		
 		Assert.isTrue( produtoAdquirido.getAquisicaoProduto().getStatus() == StatusAquisicao.RASCUNHO, 
 				"Status deve ser em rascunho");
+		
+		this.produtoAdquiridoRepository.delete(produtoAdquirido);
 	}
 	
 	/**
@@ -209,7 +239,7 @@ public class AquisicaoProdutoService
 	 * @return
 	 */
 	@Transactional(readOnly=true)
-	public Page<ProdutoAdquirido> listProdutosByFornecedorAquisicao(long aquisicaoProdutoId, PageRequest pageable)
+	public Page<ProdutoAdquirido> listProdutosByAquisicao(long aquisicaoProdutoId, PageRequest pageable)
 	{
 		return this.produtoAdquiridoRepository.findByAquisicaoProdutoId( aquisicaoProdutoId, pageable );
 	}

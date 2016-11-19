@@ -25,4 +25,6 @@
 	<public.modelo></public.modelo>
 	<public.categoria></public.categoria>
 	<public.conta></public.conta>
+	<public.aquisicao_produto></public.aquisicao_produto>
+	<public.produto_adquirido></public.produto_adquirido>
 </dataset>

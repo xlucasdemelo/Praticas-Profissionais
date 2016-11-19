@@ -70,6 +70,12 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
+	@Basic
+	private Integer diaVencimento;
+	
+	/**
+	 * 
+	 */
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Fornecedor fornecedor;
 	
@@ -84,7 +90,7 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 	 * @param vezesPagamento
 	 */
 	public AquisicaoProduto( Long id, StatusAquisicao status, CondicaoPagamento condicaoPagamento, FormaPagamento formaPagamento, 
-			Integer vezesPagamento, Fornecedor fornecedor )
+			Integer vezesPagamento, Fornecedor fornecedor, Integer diaVencimento )
 	{
 		super(id);
 		this.status = status;
@@ -92,6 +98,7 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 		this.formaPagamento = formaPagamento;
 		this.vezesPagamento = vezesPagamento;
 		this.fornecedor = fornecedor;
+		this.diaVencimento = diaVencimento;
 	}
 
 	/**
@@ -115,45 +122,49 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 	 *				 		     BEHAVIORS
 	 *-------------------------------------------------------------------*/
 	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ( ( condicaoPagamento == null ) ? 0 : condicaoPagamento.hashCode() );
-		result = prime * result + ( ( formaPagamento == null ) ? 0 : formaPagamento.hashCode() );
-		result = prime * result + ( ( fornecedor == null ) ? 0 : fornecedor.hashCode() );
-		result = prime * result + ( ( status == null ) ? 0 : status.hashCode() );
-		result = prime * result + ( ( vezesPagamento == null ) ? 0 : vezesPagamento.hashCode() );
+		result = prime * result + ((condicaoPagamento == null) ? 0 : condicaoPagamento.hashCode());
+		result = prime * result + ((diaVencimento == null) ? 0 : diaVencimento.hashCode());
+		result = prime * result + ((formaPagamento == null) ? 0 : formaPagamento.hashCode());
+		result = prime * result + ((fornecedor == null) ? 0 : fornecedor.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((vezesPagamento == null) ? 0 : vezesPagamento.hashCode());
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
-	public boolean equals( Object obj )
-	{
-		if ( this == obj ) return true;
-		if ( !super.equals( obj ) ) return false;
-		if ( getClass() != obj.getClass() ) return false;
-		AquisicaoProduto other = ( AquisicaoProduto ) obj;
-		if ( condicaoPagamento != other.condicaoPagamento ) return false;
-		if ( formaPagamento != other.formaPagamento ) return false;
-		if ( fornecedor == null )
-		{
-			if ( other.fornecedor != null ) return false;
-		}
-		else if ( !fornecedor.equals( other.fornecedor ) ) return false;
-		if ( status != other.status ) return false;
-		if ( vezesPagamento == null )
-		{
-			if ( other.vezesPagamento != null ) return false;
-		}
-		else if ( !vezesPagamento.equals( other.vezesPagamento ) ) return false;
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AquisicaoProduto other = (AquisicaoProduto) obj;
+		if (condicaoPagamento != other.condicaoPagamento)
+			return false;
+		if (diaVencimento == null) {
+			if (other.diaVencimento != null)
+				return false;
+		} else if (!diaVencimento.equals(other.diaVencimento))
+			return false;
+		if (formaPagamento != other.formaPagamento)
+			return false;
+		if (fornecedor == null) {
+			if (other.fornecedor != null)
+				return false;
+		} else if (!fornecedor.equals(other.fornecedor))
+			return false;
+		if (status != other.status)
+			return false;
+		if (vezesPagamento == null) {
+			if (other.vezesPagamento != null)
+				return false;
+		} else if (!vezesPagamento.equals(other.vezesPagamento))
+			return false;
 		return true;
 	}
 	
@@ -296,6 +307,14 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 	public void setFornecedor( Fornecedor fornecedor )
 	{
 		this.fornecedor = fornecedor;
+	}
+
+	public Integer getDiaVencimento() {
+		return diaVencimento;
+	}
+
+	public void setDiaVencimento(Integer diaVencimento) {
+		this.diaVencimento = diaVencimento;
 	}
 
 }

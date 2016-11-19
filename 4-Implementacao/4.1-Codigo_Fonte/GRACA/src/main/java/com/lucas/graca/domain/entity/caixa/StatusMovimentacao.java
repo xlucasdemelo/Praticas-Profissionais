@@ -13,6 +13,7 @@ import org.directwebremoting.annotations.DataTransferObject;
 public enum StatusMovimentacao
 {
 	RASCUNHO,
-	APROVADO,
+	CONCLUIDO,
+	ABERTO,
 	RECUSADO
 }

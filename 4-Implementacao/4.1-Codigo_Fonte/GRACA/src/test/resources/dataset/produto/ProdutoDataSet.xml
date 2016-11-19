@@ -10,6 +10,7 @@
 		modelo_id="9999"
 		categoria_id="9999"
 		ativo="true"
+		quantidade="10"
 	/>
 	
 </dataset>

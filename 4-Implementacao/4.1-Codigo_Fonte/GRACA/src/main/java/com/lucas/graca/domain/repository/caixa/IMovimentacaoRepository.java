@@ -19,12 +19,11 @@ import com.lucas.graca.domain.entity.fornecedor.Fornecedor;
 public interface IMovimentacaoRepository extends JpaRepository<Movimentacao, Long>
 {
 	
-	@Query(value="SELECT new Movimentacao( movimentacao.id, movimentacao.numeroDocumento, movimentacao.dataEmissao, movimentacao.dataPagamento," +
-			" movimentacao.numeroCheque, movimentacao.status, movimentacao.formaPagamento, movimentacao.tipoDocumento, " +
-			" movimentacao.tipoMovimentacao, movimentacao.naturezaGastos ) " +
+	@Query(value="SELECT new Movimentacao( movimentacao.id, movimentacao.dataEmissao, movimentacao.dataPagamento, movimentacao.dataEfetivada, movimentacao.descricao, "
+			+ " movimentacao.valor, movimentacao.porcentagemDiferenca, movimentacao.status, movimentacao.tipoMovimentacao, "
+			+ " movimentacao.contaDestino, movimentacao.contaOrigem ) " +
 			   "FROM Movimentacao movimentacao " +
-			  "WHERE ( "
-			  	 + "( (FILTER(movimentacao.numeroDocumento, :filter) = TRUE)  ) )"
+			  "WHERE ( (FILTER(movimentacao.descricao, :filter) = TRUE) )"
 			)
 	public Page<Fornecedor> listByFilters( @Param("filter") String filters, Pageable pageable );
 	

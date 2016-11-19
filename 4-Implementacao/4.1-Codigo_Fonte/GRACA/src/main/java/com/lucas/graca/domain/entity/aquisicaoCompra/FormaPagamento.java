@@ -13,5 +13,6 @@ import org.directwebremoting.annotations.DataTransferObject;
 public enum FormaPagamento
 {
 	CHEQUE,
-	PAGAMENTO_ONLINE
+	PAGAMENTO_ONLINE,
+	DINHEIRO
 }

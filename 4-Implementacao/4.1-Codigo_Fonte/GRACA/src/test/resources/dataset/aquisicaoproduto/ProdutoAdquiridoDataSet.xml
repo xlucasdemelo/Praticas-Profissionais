@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+	<public.produto_adquirido
+		id="9999"
+		created="2015-03-30 00:00:00"
+		quantidade="20"
+		valor="200"
+		aquisicao_produto_id="9999"
+		produto_id="9999"
+	/>
+	
+</dataset>
