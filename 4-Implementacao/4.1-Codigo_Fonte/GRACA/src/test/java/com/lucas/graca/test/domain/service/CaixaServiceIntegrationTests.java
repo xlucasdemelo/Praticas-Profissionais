@@ -3,6 +3,7 @@
  */
 package com.lucas.graca.test.domain.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.Assert;
@@ -12,7 +13,6 @@ import org.springframework.security.test.context.support.WithUserDetails;
 
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
-import com.lucas.graca.domain.entity.caixa.Banco;
 import com.lucas.graca.domain.entity.caixa.Conta;
 import com.lucas.graca.domain.service.caixa.CaixaService;
 import com.lucas.graca.test.domain.AbstractIntegrationTests;
@@ -47,19 +47,19 @@ public class CaixaServiceIntegrationTests extends AbstractIntegrationTests
 			"/dataset/casalar/ResponsavelDataSet.xml" ,
 			"/dataset/redeapoio/redeApoioDataSet.xml", 
 			"/dataset/account/UserDataSet.xml",
-			"/dataset/caixa/BancoDataSet.xml",
 		})
-	public void insertContaBancariaMustPass()
+	public void insertContaMustPass()
 	{
 		Conta conta = new Conta();
-		conta.setAgencia( "1234" );
-		conta.setBanco( new Banco(9999L) );
-		conta.setNumero( "09876" );
 		
-		conta = this.caixaService.insertContaBancaria( conta );
+		conta.setNome( "conta 1" );
+		conta.setDescricao("001 323 1233 222");
+		
+		conta = this.caixaService.insertConta( conta );
 		
 		Assert.assertNotNull( conta );
 		Assert.assertNotNull( conta.getId() );
+		Assert.assertTrue(conta.getSaldo().compareTo(new BigDecimal("0")) == 0 );
 	}
 	
 	/**
@@ -71,16 +71,14 @@ public class CaixaServiceIntegrationTests extends AbstractIntegrationTests
 			"/dataset/casalar/ResponsavelDataSet.xml" ,
 			"/dataset/redeapoio/redeApoioDataSet.xml", 
 			"/dataset/account/UserDataSet.xml",
-			"/dataset/caixa/BancoDataSet.xml"
 		})
-	public void insertContaBancariaMustFail()
+	public void insertContaMustFail()
 	{
 		Conta conta = new Conta();
-		conta.setAgencia( "1234" );
-		conta.setBanco( new Banco(9999L) );
-		conta.setNumero( null );
+		conta.setNome( null );
+		conta.setDescricao("001 323 1233 222");
 		
-		conta = this.caixaService.insertContaBancaria( conta );
+		conta = this.caixaService.insertConta( conta );
 		
 		Assert.fail();
 	}
@@ -94,17 +92,15 @@ public class CaixaServiceIntegrationTests extends AbstractIntegrationTests
 			"/dataset/casalar/ResponsavelDataSet.xml" ,
 			"/dataset/redeapoio/redeApoioDataSet.xml", 
 			"/dataset/account/UserDataSet.xml",
-			"/dataset/caixa/BancoDataSet.xml",
-			"/dataset/caixa/ContaBancariaDataset.xml"
+			"/dataset/caixa/ContaDataset.xml"
 		})
-	public void insertContaBancariaMustFailDuplicatedNumeroAndAgencia()
+	public void insertContaMustFailDuplicatedNome()
 	{
 		Conta conta = new Conta();
-		conta.setAgencia( "01238" );
-		conta.setBanco( new Banco(9999L) );
-		conta.setNumero( "23331" );
+		conta.setNome( "conta 1" );
+		conta.setDescricao("001 323 1233 222");
 		
-		conta = this.caixaService.insertContaBancaria( conta );
+		conta = this.caixaService.insertConta( conta );
 		
 		Assert.fail();
 	}
@@ -118,17 +114,15 @@ public class CaixaServiceIntegrationTests extends AbstractIntegrationTests
 			"/dataset/casalar/ResponsavelDataSet.xml" ,
 			"/dataset/redeapoio/redeApoioDataSet.xml", 
 			"/dataset/account/UserDataSet.xml",
-			"/dataset/caixa/BancoDataSet.xml",
-			"/dataset/caixa/ContaBancariaDataset.xml"
+			"/dataset/caixa/ContaDataset.xml"
 		})
-	public void insertContaBancariaMustPassDuplicatedNumeroAndAgenciaOfDisabledRegister()
+	public void insertContaMustPassDuplicatedNomeDisabledRegister()
 	{
 		Conta conta = new Conta();
-		conta.setAgencia( "01231238" );
-		conta.setBanco( new Banco(9999L) );
-		conta.setNumero( "44423" );
+		conta.setNome( "conta 2" );
+		conta.setDescricao("001 323 1233 222");
 		
-		conta = this.caixaService.insertContaBancaria( conta );
+		conta = this.caixaService.insertConta( conta );
 		
 		Assert.assertNotNull( conta );
 		Assert.assertNotNull( conta.getId() );
@@ -143,14 +137,13 @@ public class CaixaServiceIntegrationTests extends AbstractIntegrationTests
 			"/dataset/casalar/ResponsavelDataSet.xml" ,
 			"/dataset/redeapoio/redeApoioDataSet.xml", 
 			"/dataset/account/UserDataSet.xml",
-			"/dataset/caixa/BancoDataSet.xml",
-			"/dataset/caixa/ContaBancariaDataset.xml",
+			"/dataset/caixa/ContaDataset.xml",
 		})
 	public void disableContaBancarMustPass()
 	{
-		this.caixaService.disableContaBancaria( 9999L );
+		this.caixaService.disableConta( 9999L );
 		
-		Assert.assertFalse( this.caixaService.findContaBancariaById( 9999L ).getEnabled() );
+		Assert.assertFalse( this.caixaService.findContaById( 9999L ).getEnabled() );
 	}
 	
 	/**
@@ -162,12 +155,11 @@ public class CaixaServiceIntegrationTests extends AbstractIntegrationTests
 			"/dataset/casalar/ResponsavelDataSet.xml" ,
 			"/dataset/redeapoio/redeApoioDataSet.xml", 
 			"/dataset/account/UserDataSet.xml",
-			"/dataset/caixa/BancoDataSet.xml",
-			"/dataset/caixa/ContaBancariaDataset.xml",
+			"/dataset/caixa/ContaDataset.xml",
 		})
 	public void disableContaBancarMustFail()
 	{
-		this.caixaService.disableContaBancaria( 100L );
+		this.caixaService.disableConta( 100L );
 		
 		Assert.fail();
 	}
@@ -181,14 +173,13 @@ public class CaixaServiceIntegrationTests extends AbstractIntegrationTests
 			"/dataset/casalar/ResponsavelDataSet.xml" ,
 			"/dataset/redeapoio/redeApoioDataSet.xml", 
 			"/dataset/account/UserDataSet.xml",
-			"/dataset/caixa/BancoDataSet.xml",
-			"/dataset/caixa/ContaBancariaDataset.xml",
+			"/dataset/caixa/ContaDataset.xml",
 		})
 	public void enableContaBancarMustPass()
 	{
-		this.caixaService.enableContaBancaria( 1000L );
+		this.caixaService.enableConta( 1000L );
 		
-		Assert.assertTrue( this.caixaService.findContaBancariaById( 1000L ).getEnabled() );
+		Assert.assertTrue( this.caixaService.findContaById( 1000L ).getEnabled() );
 	}
 	
 	/**
@@ -200,102 +191,101 @@ public class CaixaServiceIntegrationTests extends AbstractIntegrationTests
 			"/dataset/casalar/ResponsavelDataSet.xml" ,
 			"/dataset/redeapoio/redeApoioDataSet.xml", 
 			"/dataset/account/UserDataSet.xml",
-			"/dataset/caixa/BancoDataSet.xml",
-			"/dataset/caixa/ContaBancariaDataset.xml",
+			"/dataset/caixa/ContaDataset.xml",
 		})
 	public void listContasByFilters()
 	{
-		List<Conta> contas = this.caixaService.listContaBancariaByFilters( null, true, null ).getContent();
+		List<Conta> contas = this.caixaService.listContaByFilters( null, true, null ).getContent();
 		
 		Assert.assertNotNull( contas );
 		Assert.assertFalse( contas.isEmpty());
 	}
-	
-	/*-------------------------------------------------------------------
-	 *				 		     SERVICES BANCO
-	 *-------------------------------------------------------------------*/
-	
-	/**
-	 * 
-	 */
-	@Test
-	@WithUserDetails("chefe_adm@email.com")
-	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/casalar/ResponsavelDataSet.xml" ,
-			"/dataset/redeapoio/redeApoioDataSet.xml", 
-			"/dataset/account/UserDataSet.xml",
-			"/dataset/caixa/BancoDataSet.xml",
-		})
-	public void insertBancoMustPass()
-	{
-		Banco banco = new Banco();
-		banco.setNome( "Santander" );
-
-		banco = this.caixaService.insertBanco( banco );
-		
-		Assert.assertNotNull( banco );
-	}
-	
-	/**
-	 * 
-	 */
-	@Test(expected=IllegalArgumentException.class)
-	@WithUserDetails("chefe_adm@email.com")
-	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/casalar/ResponsavelDataSet.xml" ,
-			"/dataset/redeapoio/redeApoioDataSet.xml", 
-			"/dataset/account/UserDataSet.xml",
-			"/dataset/caixa/BancoDataSet.xml",
-		})
-	public void insertBancoMustFailDuplicatedName()
-	{
-		Banco banco = new Banco();
-		banco.setNome( "Bradesco" );
-
-		banco = this.caixaService.insertBanco( banco );
-		
-		Assert.fail();
-	}
-	
-	/**
-	 * 
-	 */
-	@Test
-	@WithUserDetails("chefe_adm@email.com")
-	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/casalar/ResponsavelDataSet.xml" ,
-			"/dataset/redeapoio/redeApoioDataSet.xml", 
-			"/dataset/account/UserDataSet.xml",
-			"/dataset/caixa/BancoDataSet.xml",
-		})
-	public void insertBancoMustpassDuplicatedNameAndDisabled()
-	{
-		Banco banco = new Banco();
-		banco.setNome( "Itau" );
-
-		banco = this.caixaService.insertBanco( banco );
-		
-		Assert.assertNotNull( banco );
-	}
-	
-	/**
-	 * 
-	 */
-	@Test
-	@WithUserDetails("chefe_adm@email.com")
-	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-			"/dataset/casalar/ResponsavelDataSet.xml" ,
-			"/dataset/redeapoio/redeApoioDataSet.xml", 
-			"/dataset/account/UserDataSet.xml",
-			"/dataset/caixa/BancoDataSet.xml",
-		})
-	public void listBancosMustPass()
-	{
-		List<Banco> bancos = this.caixaService.listBancosByFilters( "Bradesco", true, null ).getContent();
-		
-		Assert.assertNotNull( bancos );
-		Assert.assertFalse( bancos.isEmpty());
-	}
+//	
+//	/*-------------------------------------------------------------------
+//	 *				 		     SERVICES BANCO
+//	 *-------------------------------------------------------------------*/
+//	
+//	/**
+//	 * 
+//	 */
+//	@Test
+//	@WithUserDetails("chefe_adm@email.com")
+//	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+//			"/dataset/casalar/ResponsavelDataSet.xml" ,
+//			"/dataset/redeapoio/redeApoioDataSet.xml", 
+//			"/dataset/account/UserDataSet.xml",
+//			"/dataset/caixa/BancoDataSet.xml",
+//		})
+//	public void insertBancoMustPass()
+//	{
+//		Banco banco = new Banco();
+//		banco.setNome( "Santander" );
+//
+//		banco = this.caixaService.insertBanco( banco );
+//		
+//		Assert.assertNotNull( banco );
+//	}
+//	
+//	/**
+//	 * 
+//	 */
+//	@Test(expected=IllegalArgumentException.class)
+//	@WithUserDetails("chefe_adm@email.com")
+//	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+//			"/dataset/casalar/ResponsavelDataSet.xml" ,
+//			"/dataset/redeapoio/redeApoioDataSet.xml", 
+//			"/dataset/account/UserDataSet.xml",
+//			"/dataset/caixa/BancoDataSet.xml",
+//		})
+//	public void insertBancoMustFailDuplicatedName()
+//	{
+//		Banco banco = new Banco();
+//		banco.setNome( "Bradesco" );
+//
+//		banco = this.caixaService.insertBanco( banco );
+//		
+//		Assert.fail();
+//	}
+//	
+//	/**
+//	 * 
+//	 */
+//	@Test
+//	@WithUserDetails("chefe_adm@email.com")
+//	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+//			"/dataset/casalar/ResponsavelDataSet.xml" ,
+//			"/dataset/redeapoio/redeApoioDataSet.xml", 
+//			"/dataset/account/UserDataSet.xml",
+//			"/dataset/caixa/BancoDataSet.xml",
+//		})
+//	public void insertBancoMustpassDuplicatedNameAndDisabled()
+//	{
+//		Banco banco = new Banco();
+//		banco.setNome( "Itau" );
+//
+//		banco = this.caixaService.insertBanco( banco );
+//		
+//		Assert.assertNotNull( banco );
+//	}
+//	
+//	/**
+//	 * 
+//	 */
+//	@Test
+//	@WithUserDetails("chefe_adm@email.com")
+//	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+//			"/dataset/casalar/ResponsavelDataSet.xml" ,
+//			"/dataset/redeapoio/redeApoioDataSet.xml", 
+//			"/dataset/account/UserDataSet.xml",
+//			"/dataset/caixa/BancoDataSet.xml",
+//		})
+//	public void listBancosMustPass()
+//	{
+//		List<Banco> bancos = this.caixaService.listBancosByFilters( "Bradesco", true, null ).getContent();
+//		
+//		Assert.assertNotNull( bancos );
+//		Assert.assertFalse( bancos.isEmpty());
+//	}
 	
 	/*-------------------------------------------------------------------
 	 *				 		     SERVICES BANCO

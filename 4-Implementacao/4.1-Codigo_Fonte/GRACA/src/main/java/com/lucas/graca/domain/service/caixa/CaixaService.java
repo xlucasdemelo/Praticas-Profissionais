@@ -3,6 +3,8 @@
  */
 package com.lucas.graca.domain.service.caixa;
 
+import java.math.BigDecimal;
+
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,13 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.lucas.graca.domain.entity.account.UserRole;
-import com.lucas.graca.domain.entity.caixa.Banco;
 import com.lucas.graca.domain.entity.caixa.Conta;
 import com.lucas.graca.domain.entity.caixa.Movimentacao;
-import com.lucas.graca.domain.entity.caixa.MovimentacaoCaixa;
-import com.lucas.graca.domain.repository.caixa.IBancoRepository;
-import com.lucas.graca.domain.repository.caixa.IContaBancariaRepository;
-import com.lucas.graca.domain.repository.caixa.IMovimentacaoContaRepository;
+import com.lucas.graca.domain.repository.caixa.IContaRepository;
 import com.lucas.graca.domain.repository.caixa.IMovimentacaoRepository;
 
 /**
@@ -36,7 +34,7 @@ public class CaixaService
 	 * 
 	 */
 	@Autowired
-	private IContaBancariaRepository contaBancariaRepository;
+	private IContaRepository contaRepository;
 	
 	/**
 	 * 
@@ -44,20 +42,8 @@ public class CaixaService
 	@Autowired
 	private IMovimentacaoRepository movimentcacaoRepository ;
 	
-	/**
-	 * 
-	 */
-	@Autowired
-	private IMovimentacaoContaRepository movimentcacaoContaRepository ;
-	
-	/**
-	 * 
-	 */
-	@Autowired
-	private IBancoRepository bancoRepository;
-	
 	/*-------------------------------------------------------------------
-	 *				 		SERVICES CONTA BANCARIA
+	 *				 		SERVICES CONTA
 	 *-------------------------------------------------------------------*/
 	
 	/**
@@ -65,16 +51,22 @@ public class CaixaService
 	 * @param conta
 	 * @return
 	 */
-	@PreAuthorize( "hasAuthority('" + UserRole.CHEFE_ADMINISTRACAO_VALUE + "')" )
-	public Conta insertContaBancaria(Conta conta)
+	public Conta insertConta(Conta conta)
 	{
 		Assert.isNull( conta.getId(), "Id deve ser nulo" );
 		Assert.notNull( conta, "Conta bancária não pode ser nula" );
-		Assert.notNull( conta.getAgencia(), "Agência não pode ser nula" );
-		Assert.notNull( conta.getNumero(), "Número não pode ser nulo" );
-		Assert.notNull( conta.getBanco() );
+		Assert.notNull( conta.getDescricao(), "Descricao não pode ser nula" );
+		Assert.notNull( conta.getNome(), "Nome não pode ser nulo" );
 		
-		return this.contaBancariaRepository.save( conta );
+		Assert.isNull(this.contaRepository.findByNomeAndEnabled(conta.getNome(), true),
+				"Já existe uma conta com este nome");
+		
+		if (conta.getSaldo() == null)
+		{
+			conta.setSaldo(new BigDecimal("0"));
+		}
+		
+		return this.contaRepository.save( conta );
 	}
 	
 	/**
@@ -83,50 +75,50 @@ public class CaixaService
 	 * @return
 	 */
 	@PreAuthorize( "hasAuthority('" + UserRole.CHEFE_ADMINISTRACAO_VALUE + "')" )
-	public Conta updateContaBancaria(Conta conta)
+	public Conta updateConta(Conta conta)
 	{
 		Assert.notNull( conta, "Conta bancária não pode ser nula" );
 		Assert.notNull( conta.getId(), "Id Não pode ser nulo" );
 		
-		Conta contaBancariaBD = this.contaBancariaRepository.findOne( conta.getId() );
-		Assert.notNull( contaBancariaBD, "Não existe nenhum registro com esse id" );
+		Conta contaBD = this.contaRepository.findOne( conta.getId() );
+		Assert.notNull( contaBD, "Não existe nenhum registro com esse id" );
 		
-		Assert.notNull( conta.getAgencia(), "Agência não pode ser nula" );
-		Assert.notNull( conta.getNumero(), "Número não pode ser nulo" );
-		Assert.notNull( conta.getBanco() );
+		Assert.notNull( conta.getDescricao(), "Descricao não pode ser nula" );
+		Assert.notNull( conta.getNome(), "Nome não pode ser nulo" );
 		
-		return this.contaBancariaRepository.save( conta );
+		contaBD.setNome(conta.getNome());
+		contaBD.setDescricao(conta.getDescricao());
+		
+		return this.contaRepository.save( contaBD );
 	}
 	
 	/**
 	 * 
-	 * @param contaBancaria
+	 * @param conta
 	 * @return
 	 */
-	@PreAuthorize( "hasAuthority('" + UserRole.CHEFE_ADMINISTRACAO_VALUE + "')" )
-	public void disableContaBancaria( long id )
+	public void disableConta( long id )
 	{
-		Conta conta = this.contaBancariaRepository.findOne( id );
+		Conta conta = this.contaRepository.findOne( id );
 		Assert.notNull( conta, "Não existe nenhum registro insecom esse id" );
 		
-		conta.disableContaBancaria();
+		conta.disable();
 		
-		this.contaBancariaRepository.save( conta );
+		this.contaRepository.save( conta );
 	}
 	
 	/**
 	 * 
 	 * @param id
 	 */
-	@PreAuthorize( "hasAuthority('" + UserRole.CHEFE_ADMINISTRACAO_VALUE + "')" )
-	public void enableContaBancaria( long id )
+	public void enableConta( long id )
 	{
-		Conta conta = this.contaBancariaRepository.findOne( id );
+		Conta conta = this.contaRepository.findOne( id );
 		Assert.notNull( conta, "Não existe nenhum registro com esse id" );
 		
-		conta.enableContaBancaria();
+		conta.enable();
 		
-		this.contaBancariaRepository.save( conta );
+		this.contaRepository.save( conta );
 	}
 	
 	/**
@@ -134,9 +126,9 @@ public class CaixaService
 	 * @return
 	 */
 	@Transactional(readOnly=true)
-	public Page<Conta> listContaBancariaByFilters( String filter, Boolean ativo, PageRequest pageable )
+	public Page<Conta> listContaByFilters( String filter, Boolean ativo, PageRequest pageable )
 	{
-		return this.contaBancariaRepository.listByFilters( filter, ativo, pageable );
+		return this.contaRepository.listByFilters( filter, ativo, pageable );
 	}
 	
 	/**
@@ -145,70 +137,12 @@ public class CaixaService
 	 * @return
 	 */
 	@Transactional(readOnly=true)
-	public Conta findContaBancariaById( long id )
+	public Conta findContaById( long id )
 	{
-		Conta conta = this.contaBancariaRepository.findOne( id );
+		Conta conta = this.contaRepository.findOne( id );
 		Assert.notNull( conta, "Registro não encontrado" );
 		
 		return conta;
-	}
-	
-	/*-------------------------------------------------------------------
-	 *				 		SERVICES BANCO
-	 *-------------------------------------------------------------------*/
-	
-	/**
-	 * 
-	 * @param banco
-	 * @return
-	 */
-	public Banco insertBanco( Banco banco )
-	{
-		Assert.notNull( banco );
-		Assert.isNull( banco.getId(), "Id não pode ser nulo" );
-		Assert.notNull( banco.getNome(), "Nome não pode ser nulo" );
-		
-		Assert.isNull( this.bancoRepository.findByNomeAndEnabled( banco.getNome(), true ), "Já existe um registro com esse nome");
-		
-		return this.bancoRepository.save( banco );
-	}
-	
-	/**
-	 * 
-	 * @param filter
-	 * @param pageable
-	 * @return
-	 */
-	public Page<Banco> listBancosByFilters( String filter, Boolean ativo, PageRequest pageable )
-	{
-		return this.bancoRepository.listByFilters( filter, ativo, pageable );
-	}
-	
-	/**
-	 * 
-	 * @param id
-	 */
-	public void disableBanco( long id )
-	{
-		Banco banco = this.bancoRepository.findOne( id );
-		Assert.notNull( banco, "Registro nao existe" );
-		
-		banco.disableBanco();
-		this.bancoRepository.save( banco );
-	}
-	
-	/**
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public Banco enableBanco( long id )
-	{
-		Banco banco = this.bancoRepository.findOne( id );
-		Assert.notNull( banco, "Registro nao existe" );
-		
-		banco.enableBanco();
-		return this.bancoRepository.save( banco );
 	}
 	
 	/*-------------------------------------------------------------------
@@ -245,55 +179,4 @@ public class CaixaService
 		this.movimentcacaoRepository.delete( id );
 	}
 	
-	/*-------------------------------------------------------------------
-	 *				    SERVICES MOVIMENTAÇÃO CONTA
-	 *-------------------------------------------------------------------*/
-	
-	/**
-	 * 
-	 * @param movimentacaoCaixa
-	 * @return
-	 */
-	public MovimentacaoCaixa insertMovimentacaoConta( MovimentacaoCaixa movimentacaoCaixa )
-	{
-		Assert.notNull( movimentacaoCaixa );
-		Assert.notNull( movimentacaoCaixa.getValor(), "Valor não pode ser nulo" );
-		Assert.notNull( movimentacaoCaixa.getContaBancaria() );
-		Assert.notNull( movimentacaoCaixa.getMovimentacao() );
-		
-		return this.movimentcacaoContaRepository.save( movimentacaoCaixa );
-	}
-	
-	/**
-	 * 
-	 * @param id
-	 */
-	public void removeMovimentacaoConta( long id )
-	{
-		MovimentacaoCaixa movimentacaoConta = this.movimentcacaoContaRepository.findOne( id );
-		Assert.notNull( movimentacaoConta, "Registro não encontrado" );
-		
-		this.movimentcacaoContaRepository.delete( movimentacaoConta );
-	}
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public MovimentacaoCaixa findMovimentacaoContaById( long id )
-	{
-		MovimentacaoCaixa movimentacaoConta = this.movimentcacaoContaRepository.findOne( id );
-		Assert.notNull( movimentacaoConta, "Registro não encontrado" );
-		
-		return movimentacaoConta;
-	}
-	
-	/**
-	 * 
-	 * @param movimentacaoId
-	 */
-	public Page<MovimentacaoCaixa> listMovimentacoesContaByMovimentacao( long movimentacaoId, PageRequest pageable )
-	{
-		return this.movimentcacaoContaRepository.listByMovimentacao( movimentacaoId, pageable );
-	}
 }

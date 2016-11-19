@@ -15,15 +15,23 @@ import com.lucas.graca.domain.entity.caixa.Conta;
  * @author eits
  *
  */
-public interface IContaBancariaRepository extends JpaRepository<Conta, Long>
+public interface IContaRepository extends JpaRepository<Conta, Long>
 {
 	
-	@Query(value="SELECT new Conta( conta.id, conta.numero, conta.agencia, conta.enabled, conta.banco ) " +
+	@Query(value="SELECT new Conta( conta.id, conta.descricao, conta.nome, conta.saldo, conta.enabled ) " +
 			   "FROM Conta conta " +
 			  "WHERE ( conta.enabled = :ativo AND "
 			  	 	+ "( (FILTER(conta.descricao, :filter) = TRUE))   "
 			  	 + ")"
 			)
 	public Page<Conta> listByFilters( @Param("filter") String filters, @Param("ativo") Boolean ativo, Pageable pageable );
+	
+	/**
+	 * 
+	 * @param nome
+	 * @param enabled
+	 * @return
+	 */
+	public Conta findByNomeAndEnabled( String nome, Boolean enabled );
 	
 }

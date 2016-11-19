@@ -3,10 +3,10 @@
  */
 package com.lucas.graca.domain.entity.caixa;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 
@@ -40,14 +40,21 @@ public class Conta extends AbstractEntity
 	 */
 	@NotNull
 	@Column(nullable = false)
-	private String numero;
+	private String descricao;
 	
 	/**
 	 * 
 	 */
 	@NotNull
 	@Column(nullable = false)
-	private String agencia;
+	private String nome;
+	
+	/**
+	 * 
+	 */
+	@NotNull
+	@Column(nullable = false)
+	private BigDecimal saldo;
 	
 	/**
 	 * 
@@ -55,32 +62,26 @@ public class Conta extends AbstractEntity
 	@NotNull
 	@Column(nullable = false)
 	private Boolean enabled;
-	
-	/**
-	 * 
-	 */
-	@ManyToOne( optional = false, fetch = FetchType.EAGER)
-	private Banco banco;
 
 	/*-------------------------------------------------------------------
 	 *				 		     CONSTRUCTORS
 	 *-------------------------------------------------------------------*/
 	
 	/**
-	 * @param numero
-	 * @param agencia
+	 * @param descricao
+	 * @param nome
+	 * @param saldo
 	 * @param enabled
-	 * @param banco
 	 */
-	public Conta( Long id, String numero, String agencia, Boolean enabled, Banco banco )
+	public Conta( Long id, String descricao, String nome, BigDecimal saldo, Boolean enabled )
 	{
 		super(id);
-		this.numero = numero;
-		this.agencia = agencia;
+		this.descricao = descricao;
+		this.nome = nome;
+		this.saldo = saldo;
 		this.enabled = enabled;
-		this.banco = banco;
 	}
-
+	
 	/**
 	 * 
 	 */
@@ -99,8 +100,8 @@ public class Conta extends AbstractEntity
 
 	/*-------------------------------------------------------------------
 	 *				 		     BEHAVIORS
-	 *-------------------------------------------------------------------*
-	 *
+	 *-------------------------------------------------------------------*/
+	
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -109,10 +110,10 @@ public class Conta extends AbstractEntity
 	{
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ( ( agencia == null ) ? 0 : agencia.hashCode() );
-		result = prime * result + ( ( banco == null ) ? 0 : banco.hashCode() );
+		result = prime * result + ( ( descricao == null ) ? 0 : descricao.hashCode() );
 		result = prime * result + ( ( enabled == null ) ? 0 : enabled.hashCode() );
-		result = prime * result + ( ( numero == null ) ? 0 : numero.hashCode() );
+		result = prime * result + ( ( nome == null ) ? 0 : nome.hashCode() );
+		result = prime * result + ( ( saldo == null ) ? 0 : saldo.hashCode() );
 		return result;
 	}
 
@@ -126,64 +127,96 @@ public class Conta extends AbstractEntity
 		if ( !super.equals( obj ) ) return false;
 		if ( getClass() != obj.getClass() ) return false;
 		Conta other = ( Conta ) obj;
-		if ( agencia == null )
+		if ( descricao == null )
 		{
-			if ( other.agencia != null ) return false;
+			if ( other.descricao != null ) return false;
 		}
-		else if ( !agencia.equals( other.agencia ) ) return false;
-		if ( banco == null )
-		{
-			if ( other.banco != null ) return false;
-		}
-		else if ( !banco.equals( other.banco ) ) return false;
+		else if ( !descricao.equals( other.descricao ) ) return false;
 		if ( enabled == null )
 		{
 			if ( other.enabled != null ) return false;
 		}
 		else if ( !enabled.equals( other.enabled ) ) return false;
-		if ( numero == null )
+		if ( nome == null )
 		{
-			if ( other.numero != null ) return false;
+			if ( other.nome != null ) return false;
 		}
-		else if ( !numero.equals( other.numero ) ) return false;
+		else if ( !nome.equals( other.nome ) ) return false;
+		if ( saldo == null )
+		{
+			if ( other.saldo != null ) return false;
+		}
+		else if ( !saldo.equals( other.saldo ) ) return false;
 		return true;
 	}
-	
-	/**
-	 * 
-	 */
-	public void disableContaBancaria()
-	{
-		this.enabled = false;
-	}
-	
+
 	/**
 	 * 
 	 */
 	@PrePersist
-	public void enableContaBancaria()
+	public void enable()
 	{
 		this.enabled = true;
 	}
 	
-	/*-------------------------------------------------------------------
-	 *				 		     GETTERS AND SETTERS
-	 *-------------------------------------------------------------------*
-	 *
 	/**
-	 * @return the agencia
+	 * 
 	 */
-	public String getAgencia()
+	public void disable()
 	{
-		return agencia;
+		this.enabled = false;
+	}
+	
+	/*-------------------------------------------------------------------
+	 *				 		  GETTERS AND SETTERS
+	 *-------------------------------------------------------------------*/
+	
+	/**
+	 * @return the descricao
+	 */
+	public String getDescricao()
+	{
+		return descricao;
 	}
 
 	/**
-	 * @param agencia the agencia to set
+	 * @param descricao the descricao to set
 	 */
-	public void setAgencia( String agencia )
+	public void setDescricao( String descricao )
 	{
-		this.agencia = agencia;
+		this.descricao = descricao;
+	}
+
+	/**
+	 * @return the nome
+	 */
+	public String getNome()
+	{
+		return nome;
+	}
+
+	/**
+	 * @param nome the nome to set
+	 */
+	public void setNome( String nome )
+	{
+		this.nome = nome;
+	}
+
+	/**
+	 * @return the saldo
+	 */
+	public BigDecimal getSaldo()
+	{
+		return saldo;
+	}
+
+	/**
+	 * @param saldo the saldo to set
+	 */
+	public void setSaldo( BigDecimal saldo )
+	{
+		this.saldo = saldo;
 	}
 
 	/**
@@ -201,38 +234,7 @@ public class Conta extends AbstractEntity
 	{
 		this.enabled = enabled;
 	}
-
-	/**
-	 * @return the banco
-	 */
-	public Banco getBanco()
-	{
-		return banco;
-	}
-
-	/**
-	 * @param banco the banco to set
-	 */
-	public void setBanco( Banco banco )
-	{
-		this.banco = banco;
-	}
-
-	/**
-	 * @return the numero
-	 */
-	public String getNumero()
-	{
-		return numero;
-	}
-
-	/**
-	 * @param numero the numero to set
-	 */
-	public void setNumero( String numero )
-	{
-		this.numero = numero;
-	}
+	
 	
 	
 }

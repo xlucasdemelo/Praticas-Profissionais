@@ -24,7 +24,5 @@
 	<public.marca></public.marca>
 	<public.modelo></public.modelo>
 	<public.categoria></public.categoria>
-	<public.banco></public.banco>
 	<public.conta></public.conta>
-	<public.orcamento_familiar></public.orcamento_familiar>
 </dataset>
