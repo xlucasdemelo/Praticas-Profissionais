@@ -14,6 +14,5 @@ public enum StatusAquisicao
 {
 	RASCUNHO,
 	CONCLUIDO,
-	RECUSADO,
-	ABERTO
+	RECUSADO
 }

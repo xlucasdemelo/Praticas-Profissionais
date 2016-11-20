@@ -18,6 +18,8 @@ import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
 import org.springframework.util.Assert;
 
+import com.lucas.graca.domain.entity.aquisicaoCompra.AquisicaoProduto;
+
 import br.com.eits.common.domain.entity.AbstractEntity;
 
 /**
@@ -70,7 +72,13 @@ public class Movimentacao extends AbstractEntity
 	 */
 	@NotNull
 	@Column(nullable=false)
-	private BigDecimal valor;
+	private BigDecimal valorEmissao;
+	
+	/**
+	 * 
+	 */
+	@Basic
+	private BigDecimal valorEfetivado;
 	
 	/**
 	 * 
@@ -95,21 +103,34 @@ public class Movimentacao extends AbstractEntity
 	/**
 	 * 
 	 */
-	@ManyToOne(fetch=FetchType.EAGER, optional= false)
+	@ManyToOne(fetch=FetchType.EAGER, optional= true)
 	private Conta contaDestino;
 	
 	/**
 	 * 
 	 */
-	@ManyToOne(fetch=FetchType.EAGER, optional= false)
+	@ManyToOne(fetch=FetchType.EAGER, optional= true)
 	private Conta contaOrigem;
-
+	
+	/**
+	 * 
+	 */
+	@ManyToOne(fetch=FetchType.EAGER, optional= true)
+	private AquisicaoProduto aquisicaoProduto;
+	
+	/**
+	 * 
+	 */
+	@ManyToOne(fetch=FetchType.EAGER, optional= false)
+	private NaturezaGastos naturezaGastos;
+	
 	/*-------------------------------------------------------------------
 	 *				 		  CONSTRUCTORS
 	 *-------------------------------------------------------------------*/
 	
 	/**
 	 * 
+	 * @param id
 	 * @param dataEmissao
 	 * @param dataPagamento
 	 * @param dataEfetivada
@@ -120,22 +141,27 @@ public class Movimentacao extends AbstractEntity
 	 * @param tipoMovimentacao
 	 * @param contaDestino
 	 * @param contaOrigem
+	 * @param aquisicaoProduto
+	 * @param naturezaGastos
 	 */
 	public Movimentacao( Long id, Calendar dataEmissao, Calendar dataPagamento, Calendar dataEfetivada, String descricao,
-			BigDecimal valor, Float porcentagemDiferenca, StatusMovimentacao status, TipoMovimentacao tipoMovimentacao,
-			Conta contaDestino, Conta contaOrigem) 
+			BigDecimal valorEmissao, BigDecimal valorEfetivado, Float porcentagemDiferenca, StatusMovimentacao status, TipoMovimentacao tipoMovimentacao,
+			Conta contaDestino, Conta contaOrigem, AquisicaoProduto aquisicaoProduto, NaturezaGastos naturezaGastos) 
 	{
 		super(id);
 		this.dataEmissao = dataEmissao;
 		this.dataPagamento = dataPagamento;
 		this.dataEfetivada = dataEfetivada;
 		this.descricao = descricao;
-		this.valor = valor;
+		this.valorEmissao = valorEmissao;
+		this.valorEfetivado = valorEfetivado;
 		this.porcentagemDiferenca = porcentagemDiferenca;
 		this.status = status;
 		this.tipoMovimentacao = tipoMovimentacao;
 		this.contaDestino = contaDestino;
 		this.contaOrigem = contaOrigem;
+		this.aquisicaoProduto = aquisicaoProduto;
+		this.naturezaGastos = naturezaGastos;
 	}
 
 	/**
@@ -159,23 +185,32 @@ public class Movimentacao extends AbstractEntity
 	 *				 		     BEHAVIORS
 	 *-------------------------------------------------------------------*/
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
+		result = prime * result + ((aquisicaoProduto == null) ? 0 : aquisicaoProduto.hashCode());
 		result = prime * result + ((contaDestino == null) ? 0 : contaDestino.hashCode());
 		result = prime * result + ((contaOrigem == null) ? 0 : contaOrigem.hashCode());
 		result = prime * result + ((dataEfetivada == null) ? 0 : dataEfetivada.hashCode());
 		result = prime * result + ((dataEmissao == null) ? 0 : dataEmissao.hashCode());
 		result = prime * result + ((dataPagamento == null) ? 0 : dataPagamento.hashCode());
 		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
+		result = prime * result + ((naturezaGastos == null) ? 0 : naturezaGastos.hashCode());
 		result = prime * result + ((porcentagemDiferenca == null) ? 0 : porcentagemDiferenca.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((tipoMovimentacao == null) ? 0 : tipoMovimentacao.hashCode());
-		result = prime * result + ((valor == null) ? 0 : valor.hashCode());
+		result = prime * result + ((valorEfetivado == null) ? 0 : valorEfetivado.hashCode());
+		result = prime * result + ((valorEmissao == null) ? 0 : valorEmissao.hashCode());
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -185,6 +220,11 @@ public class Movimentacao extends AbstractEntity
 		if (getClass() != obj.getClass())
 			return false;
 		Movimentacao other = (Movimentacao) obj;
+		if (aquisicaoProduto == null) {
+			if (other.aquisicaoProduto != null)
+				return false;
+		} else if (!aquisicaoProduto.equals(other.aquisicaoProduto))
+			return false;
 		if (contaDestino == null) {
 			if (other.contaDestino != null)
 				return false;
@@ -215,6 +255,11 @@ public class Movimentacao extends AbstractEntity
 				return false;
 		} else if (!descricao.equals(other.descricao))
 			return false;
+		if (naturezaGastos == null) {
+			if (other.naturezaGastos != null)
+				return false;
+		} else if (!naturezaGastos.equals(other.naturezaGastos))
+			return false;
 		if (porcentagemDiferenca == null) {
 			if (other.porcentagemDiferenca != null)
 				return false;
@@ -224,10 +269,15 @@ public class Movimentacao extends AbstractEntity
 			return false;
 		if (tipoMovimentacao != other.tipoMovimentacao)
 			return false;
-		if (valor == null) {
-			if (other.valor != null)
+		if (valorEfetivado == null) {
+			if (other.valorEfetivado != null)
 				return false;
-		} else if (!valor.equals(other.valor))
+		} else if (!valorEfetivado.equals(other.valorEfetivado))
+			return false;
+		if (valorEmissao == null) {
+			if (other.valorEmissao != null)
+				return false;
+		} else if (!valorEmissao.equals(other.valorEmissao))
 			return false;
 		return true;
 	}
@@ -259,10 +309,6 @@ public class Movimentacao extends AbstractEntity
 		this.status = StatusMovimentacao.RECUSADO;
 	}
 	
-	/*-------------------------------------------------------------------
-	 *				 		 GETTERS AND SETTERS
-	 *-------------------------------------------------------------------*/
-	
 	/**
 	 * 
 	 */
@@ -272,6 +318,10 @@ public class Movimentacao extends AbstractEntity
 		this.status = StatusMovimentacao.CONCLUIDO;
 	}
 
+	/*-------------------------------------------------------------------
+	 *				 		 GETTERS AND SETTERS
+	 *-------------------------------------------------------------------*/
+	
 	/**
 	 * @return the dataEmissao
 	 */
@@ -326,20 +376,6 @@ public class Movimentacao extends AbstractEntity
 	 */
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
-	}
-
-	/**
-	 * @return the valor
-	 */
-	public BigDecimal getValor() {
-		return valor;
-	}
-
-	/**
-	 * @param valor the valor to set
-	 */
-	public void setValor(BigDecimal valor) {
-		this.valor = valor;
 	}
 
 	/**
@@ -410,6 +446,62 @@ public class Movimentacao extends AbstractEntity
 	 */
 	public void setContaOrigem(Conta contaOrigem) {
 		this.contaOrigem = contaOrigem;
+	}
+
+	/**
+	 * @return the aquisicaoProduto
+	 */
+	public AquisicaoProduto getAquisicaoProduto() {
+		return aquisicaoProduto;
+	}
+
+	/**
+	 * @param aquisicaoProduto the aquisicaoProduto to set
+	 */
+	public void setAquisicaoProduto(AquisicaoProduto aquisicaoProduto) {
+		this.aquisicaoProduto = aquisicaoProduto;
+	}
+
+	/**
+	 * @return the naturezaGastos
+	 */
+	public NaturezaGastos getNaturezaGastos() {
+		return naturezaGastos;
+	}
+
+	/**
+	 * @param naturezaGastos the naturezaGastos to set
+	 */
+	public void setNaturezaGastos(NaturezaGastos naturezaGastos) {
+		this.naturezaGastos = naturezaGastos;
+	}
+
+	/**
+	 * @return the valorEmissao
+	 */
+	public BigDecimal getValorEmissao() {
+		return valorEmissao;
+	}
+
+	/**
+	 * @param valorEmissao the valorEmissao to set
+	 */
+	public void setValorEmissao(BigDecimal valorEmissao) {
+		this.valorEmissao = valorEmissao;
+	}
+
+	/**
+	 * @return the valorEfetivado
+	 */
+	public BigDecimal getValorEfetivado() {
+		return valorEfetivado;
+	}
+
+	/**
+	 * @param valorEfetivado the valorEfetivado to set
+	 */
+	public void setValorEfetivado(BigDecimal valorEfetivado) {
+		this.valorEfetivado = valorEfetivado;
 	}
 	 
 	

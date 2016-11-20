@@ -35,7 +35,7 @@ public class CaixaServiceIntegrationTests extends AbstractIntegrationTests
 	private CaixaService caixaService;
 	
 	/*-------------------------------------------------------------------
-	 *				 		     SERVICES CAIXA
+	 *				 		     SERVICES CONTA
 	 *-------------------------------------------------------------------*/
 	
 	/**
@@ -200,94 +200,8 @@ public class CaixaServiceIntegrationTests extends AbstractIntegrationTests
 		Assert.assertNotNull( contas );
 		Assert.assertFalse( contas.isEmpty());
 	}
-//	
-//	/*-------------------------------------------------------------------
-//	 *				 		     SERVICES BANCO
-//	 *-------------------------------------------------------------------*/
-//	
-//	/**
-//	 * 
-//	 */
-//	@Test
-//	@WithUserDetails("chefe_adm@email.com")
-//	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-//			"/dataset/casalar/ResponsavelDataSet.xml" ,
-//			"/dataset/redeapoio/redeApoioDataSet.xml", 
-//			"/dataset/account/UserDataSet.xml",
-//			"/dataset/caixa/BancoDataSet.xml",
-//		})
-//	public void insertBancoMustPass()
-//	{
-//		Banco banco = new Banco();
-//		banco.setNome( "Santander" );
-//
-//		banco = this.caixaService.insertBanco( banco );
-//		
-//		Assert.assertNotNull( banco );
-//	}
-//	
-//	/**
-//	 * 
-//	 */
-//	@Test(expected=IllegalArgumentException.class)
-//	@WithUserDetails("chefe_adm@email.com")
-//	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-//			"/dataset/casalar/ResponsavelDataSet.xml" ,
-//			"/dataset/redeapoio/redeApoioDataSet.xml", 
-//			"/dataset/account/UserDataSet.xml",
-//			"/dataset/caixa/BancoDataSet.xml",
-//		})
-//	public void insertBancoMustFailDuplicatedName()
-//	{
-//		Banco banco = new Banco();
-//		banco.setNome( "Bradesco" );
-//
-//		banco = this.caixaService.insertBanco( banco );
-//		
-//		Assert.fail();
-//	}
-//	
-//	/**
-//	 * 
-//	 */
-//	@Test
-//	@WithUserDetails("chefe_adm@email.com")
-//	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-//			"/dataset/casalar/ResponsavelDataSet.xml" ,
-//			"/dataset/redeapoio/redeApoioDataSet.xml", 
-//			"/dataset/account/UserDataSet.xml",
-//			"/dataset/caixa/BancoDataSet.xml",
-//		})
-//	public void insertBancoMustpassDuplicatedNameAndDisabled()
-//	{
-//		Banco banco = new Banco();
-//		banco.setNome( "Itau" );
-//
-//		banco = this.caixaService.insertBanco( banco );
-//		
-//		Assert.assertNotNull( banco );
-//	}
-//	
-//	/**
-//	 * 
-//	 */
-//	@Test
-//	@WithUserDetails("chefe_adm@email.com")
-//	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-//			"/dataset/casalar/ResponsavelDataSet.xml" ,
-//			"/dataset/redeapoio/redeApoioDataSet.xml", 
-//			"/dataset/account/UserDataSet.xml",
-//			"/dataset/caixa/BancoDataSet.xml",
-//		})
-//	public void listBancosMustPass()
-//	{
-//		List<Banco> bancos = this.caixaService.listBancosByFilters( "Bradesco", true, null ).getContent();
-//		
-//		Assert.assertNotNull( bancos );
-//		Assert.assertFalse( bancos.isEmpty());
-//	}
 	
 	/*-------------------------------------------------------------------
-	 *				 		     SERVICES BANCO
+	 *				 		     SERVICES MOVIMENTAÇÃO
 	 *-------------------------------------------------------------------*/
 }

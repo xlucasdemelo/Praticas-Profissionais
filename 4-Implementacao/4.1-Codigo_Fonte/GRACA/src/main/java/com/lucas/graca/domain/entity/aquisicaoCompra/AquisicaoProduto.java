@@ -76,6 +76,12 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
+	@Basic
+	private Integer porcentagemDiferenca;
+	
+	/**
+	 * 
+	 */
 	@ManyToOne(fetch=FetchType.EAGER)
 	private Fornecedor fornecedor;
 	
@@ -90,7 +96,7 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 	 * @param vezesPagamento
 	 */
 	public AquisicaoProduto( Long id, StatusAquisicao status, CondicaoPagamento condicaoPagamento, FormaPagamento formaPagamento, 
-			Integer vezesPagamento, Fornecedor fornecedor, Integer diaVencimento )
+			Integer vezesPagamento, Fornecedor fornecedor, Integer diaVencimento, Integer porcentagemDiferenca )
 	{
 		super(id);
 		this.status = status;
@@ -99,6 +105,7 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 		this.vezesPagamento = vezesPagamento;
 		this.fornecedor = fornecedor;
 		this.diaVencimento = diaVencimento;
+		this.porcentagemDiferenca = porcentagemDiferenca;
 	}
 
 	/**
@@ -122,6 +129,9 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 	 *				 		     BEHAVIORS
 	 *-------------------------------------------------------------------*/
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -130,11 +140,15 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 		result = prime * result + ((diaVencimento == null) ? 0 : diaVencimento.hashCode());
 		result = prime * result + ((formaPagamento == null) ? 0 : formaPagamento.hashCode());
 		result = prime * result + ((fornecedor == null) ? 0 : fornecedor.hashCode());
+		result = prime * result + ((porcentagemDiferenca == null) ? 0 : porcentagemDiferenca.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((vezesPagamento == null) ? 0 : vezesPagamento.hashCode());
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -157,6 +171,11 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 			if (other.fornecedor != null)
 				return false;
 		} else if (!fornecedor.equals(other.fornecedor))
+			return false;
+		if (porcentagemDiferenca == null) {
+			if (other.porcentagemDiferenca != null)
+				return false;
+		} else if (!porcentagemDiferenca.equals(other.porcentagemDiferenca))
 			return false;
 		if (status != other.status)
 			return false;
@@ -182,8 +201,14 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 	 */
 	public void changeToConcluido()
 	{
-		Assert.isTrue( this.status == StatusAquisicao.ABERTO, "Status precisa ser ABERTO" );
+		Assert.isTrue( this.status == StatusAquisicao.RASCUNHO, "Status precisa ser RASCUNHO" );
 		this.status = StatusAquisicao.CONCLUIDO;
+		
+		if (this.condicaoPagamento == CondicaoPagamento.A_VISTA)
+		{
+			this.vezesPagamento = 1;
+		}
+		
 	}
 	
 	/**
@@ -195,12 +220,6 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 		this.status = StatusAquisicao.RECUSADO;
 	}
 
-	public void changeToEmAberto()
-	{
-		Assert.isTrue( this.status == StatusAquisicao.RASCUNHO, "Status precisa ser rascunho" );
-		this.status = StatusAquisicao.ABERTO;
-	}
-	
 	/*-------------------------------------------------------------------
 	 *				 		  GETTERS AND SETTERS
 	 *-------------------------------------------------------------------*/
@@ -315,6 +334,20 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 
 	public void setDiaVencimento(Integer diaVencimento) {
 		this.diaVencimento = diaVencimento;
+	}
+
+	/**
+	 * @return the porcentagemDiferenca
+	 */
+	public Integer getPorcentagemDiferenca() {
+		return porcentagemDiferenca;
+	}
+
+	/**
+	 * @param porcentagemDiferenca the porcentagemDiferenca to set
+	 */
+	public void setPorcentagemDiferenca(Integer porcentagemDiferenca) {
+		this.porcentagemDiferenca = porcentagemDiferenca;
 	}
 
 }

@@ -25,7 +25,7 @@ public interface IAquisicaoProdutoRepository extends JpaRepository<AquisicaoProd
 	 * @return
 	 */
 	@Query(value="SELECT new AquisicaoProduto( aquisicaoProduto.id, aquisicaoProduto.status, aquisicaoProduto.condicaoPagamento, aquisicaoProduto.formaPagamento, "
-			+ "aquisicaoProduto.vezesPagamento, aquisicaoProduto.fornecedor, aquisicaoProduto.diaVencimento ) " +
+			+ "aquisicaoProduto.vezesPagamento, aquisicaoProduto.fornecedor, aquisicaoProduto.diaVencimento, aquisicaoProduto.porcentagemDiferenca ) " +
 			   "FROM AquisicaoProduto aquisicaoProduto " +
 			  "WHERE (  (FILTER(aquisicaoProduto.fornecedor.razaoSocial, :filter) = TRUE)  "
 			  	 + ")"
