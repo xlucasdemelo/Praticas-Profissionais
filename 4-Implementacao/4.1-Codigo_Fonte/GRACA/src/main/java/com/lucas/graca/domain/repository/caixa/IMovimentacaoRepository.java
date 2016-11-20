@@ -20,9 +20,10 @@ public interface IMovimentacaoRepository extends JpaRepository<Movimentacao, Lon
 	
 	@Query(value="SELECT new Movimentacao( movimentacao.id, movimentacao.dataEmissao, movimentacao.dataPagamento, movimentacao.dataEfetivada, movimentacao.descricao, "
 			+ " movimentacao.valorEmissao, movimentacao.valorEfetivado, movimentacao.porcentagemDiferenca, movimentacao.status, movimentacao.tipoMovimentacao, "
-			+ " movimentacao.contaDestino, movimentacao.contaOrigem, movimentacao.aquisicaoProduto, movimentacao.naturezaGastos ) " +
-			   "FROM Movimentacao movimentacao " +
-			  "WHERE ( (FILTER(movimentacao.descricao, :filter) = TRUE) )"
+			+ " movimentacao.contaDestino, movimentacao.contaOrigem, aquisicaoProduto, movimentacao.naturezaGastos ) " +
+			   "FROM Movimentacao movimentacao "
+			+ " LEFT OUTER JOIN movimentacao.aquisicaoProduto aquisicaoProduto "
+			+  "WHERE ( (FILTER(movimentacao.descricao, :filter) = TRUE) )"
 			)
 	public Page<Movimentacao> listByFilters( @Param("filter") String filters, Pageable pageable );
 	

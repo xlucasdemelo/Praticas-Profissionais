@@ -5,6 +5,8 @@ package com.lucas.graca.domain.entity.caixa;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -314,10 +316,28 @@ public class Movimentacao extends AbstractEntity
 	 */
 	public void changeToConcluido()
 	{
-		Assert.isTrue(this.status == StatusMovimentacao.ABERTO, "Status precisa ser rascunho");
+		Assert.isTrue(this.status == StatusMovimentacao.ABERTO, "Status precisa ser aberto");
 		this.status = StatusMovimentacao.CONCLUIDO;
 	}
-
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public BigDecimal getValorAjustado()
+	{
+		Date dataEfetivada = this.getDataEfetivada().getTime(); 
+		Date dataEmissao= this.getDataPagamento().getTime();
+		
+		long diferencaDias = dataEfetivada.getTime() - dataEmissao.getTime();
+		
+		diferencaDias = TimeUnit.DAYS.convert(diferencaDias, TimeUnit.MILLISECONDS);
+		
+		BigDecimal reajuste = this.getValorEmissao().multiply( new BigDecimal( this.getPorcentagemDiferenca() / 100).setScale(2, BigDecimal.ROUND_HALF_EVEN) ).multiply( new BigDecimal(diferencaDias) );
+		
+		return this.valorEmissao.add(reajuste);
+	}
+	
 	/*-------------------------------------------------------------------
 	 *				 		 GETTERS AND SETTERS
 	 *-------------------------------------------------------------------*/

@@ -5,7 +5,6 @@ package com.lucas.graca.domain.service.caixa;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
-import java.util.Date;
 
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -262,18 +261,21 @@ public class CaixaService
 		movimentacao.changeToConcluido();
 		
 		movimentacao.setDataEfetivada( Calendar.getInstance() );
+		movimentacao.getDataEfetivada().set(Calendar.HOUR_OF_DAY, 0);
+		movimentacao.getDataEfetivada().set(Calendar.MINUTE, 0);
+		movimentacao.getDataEfetivada().set(Calendar.SECOND, 0);
+		movimentacao.getDataEfetivada().set(Calendar.MILLISECOND, 0);
 
-		if ( movimentacao.getDataEfetivada().after(movimentacao.getDataEmissao()) )
+		if ( movimentacao.getDataEfetivada().after(movimentacao.getDataPagamento()) )
 		{
-			Date a = movimentacao.getDataEfetivada().getTime(); 
-			Date b = movimentacao.getDataEmissao().getTime();
-			
-			long ab = a.getTime() - b.getTime();
-			
-			movimentacao.setValorEfetivado(new BigDecimal( movimentacao.getPorcentagemDiferenca() * ab ));
+			movimentacao.setValorEfetivado( movimentacao.getValorAjustado() );
+		}
+		else
+		{
+			movimentacao.setValorEfetivado(movimentacao.getValorEmissao());
 		}
 		
-		Assert.isTrue( (movimentacao.getValorEfetivado().compareTo( movimentacao.getContaOrigem().getSaldo() ) == 1 ) ||
+		Assert.isTrue( (movimentacao.getValorEfetivado().compareTo( movimentacao.getContaOrigem().getSaldo() ) == -1 ) ||
 			(movimentacao.getValorEfetivado().compareTo( movimentacao.getContaOrigem().getSaldo() ) == 0), 
 			"Valor efetivado não pode ultrapassar o saldo da conta de origem"	);
 		
