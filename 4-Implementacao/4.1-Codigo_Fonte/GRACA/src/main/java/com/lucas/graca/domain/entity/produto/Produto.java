@@ -3,12 +3,13 @@
  */
 package com.lucas.graca.domain.entity.produto;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
-import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
@@ -23,9 +24,8 @@ import br.com.eits.common.domain.entity.AbstractEntity;
 
 @Entity
 @Audited
-@Table( name = "produto")
 @DataTransferObject(javascript = "Produto")
-public class Produto extends AbstractEntity 
+public class Produto extends AbstractEntity implements Serializable
 {
 
 	/**

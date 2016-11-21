@@ -381,7 +381,14 @@ public class Movimentacao extends AbstractEntity
 	 * @param dataEfetivada the dataEfetivada to set
 	 */
 	public void setDataEfetivada(Calendar dataEfetivada) {
+		
+		dataEfetivada.set(Calendar.HOUR_OF_DAY, 0);
+		dataEfetivada.set(Calendar.MINUTE, 0);
+		dataEfetivada.set(Calendar.SECOND, 0);
+		dataEfetivada.set(Calendar.MILLISECOND, 0);
+		
 		this.dataEfetivada = dataEfetivada;
+		
 	}
 
 	/**

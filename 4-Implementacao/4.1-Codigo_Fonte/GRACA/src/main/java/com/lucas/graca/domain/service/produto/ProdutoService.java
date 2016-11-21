@@ -17,10 +17,13 @@ import com.lucas.graca.domain.entity.produto.Categoria;
 import com.lucas.graca.domain.entity.produto.Marca;
 import com.lucas.graca.domain.entity.produto.Modelo;
 import com.lucas.graca.domain.entity.produto.Produto;
+import com.lucas.graca.domain.entity.produto.Repasse;
+import com.lucas.graca.domain.entity.produto.StatusRepasse;
 import com.lucas.graca.domain.repository.produto.ICategoriaRepository;
 import com.lucas.graca.domain.repository.produto.IMarcaRepository;
 import com.lucas.graca.domain.repository.produto.IModeloRepository;
 import com.lucas.graca.domain.repository.produto.IProdutoRepository;
+import com.lucas.graca.domain.repository.produto.IRepasseRepository;
 
 /**
  * @author eits
@@ -59,6 +62,12 @@ public class ProdutoService
 	 */
 	@Autowired
 	private ICategoriaRepository categoriaRepository;
+	
+	/**
+	 * 
+	 */
+	@Autowired
+	private IRepasseRepository repasseRepository;
 	
 	/*-------------------------------------------------------------------
 	 *				 		 SERVICES PRODUTO
@@ -292,5 +301,110 @@ public class ProdutoService
 		Assert.notNull( categoria, "categoria não encontrada" );
 		
 		this.categoriaRepository.delete( categoria );
+	}
+	
+	/*-------------------------------------------------------------------
+	 *				 		 SERVICES REPASSE
+	 *-------------------------------------------------------------------*/
+	
+	/**
+	 * 
+	 * @param repasse
+	 * @return
+	 */
+	public Repasse insertRepasse(Repasse repasse)
+	{
+		Assert.notNull(repasse, "Repasse não pode ser nulo");
+		
+		Assert.notNull(repasse.getCasaLar(), "Informa a casa lar");
+		Assert.notNull(repasse.getProduto(), "Informe o produto");
+		Assert.notNull(repasse.getQuantidade(), "Informe a quantidade");
+		
+		return this.repasseRepository.save(repasse);
+	}
+	
+	/**
+	 * 
+	 * @param repasseId
+	 */
+	public void removeRepasse(long repasseId)
+	{
+		Repasse repasse = this.repasseRepository.findOne(repasseId);
+		Assert.notNull(repasse, "Registro não existe");
+		
+		Assert.isTrue( repasse.getStatus() == StatusRepasse.RASCUNHO, "Somente um repasse em rascunho pode ser excluídos" );
+		
+		this.repasseRepository.delete(repasse);
+	}
+	
+	/**
+	 * 
+	 * @param produtoId
+	 * @return
+	 */
+	public Page<Repasse> listRepassesByProduto(long produtoId, PageRequest pageable)
+	{
+		return this.repasseRepository.findByProdutoId(produtoId, pageable);
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public Repasse findRepasseById(long id)
+	{
+		return this.repasseRepository.findOne(id);
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@PreAuthorize( "hasAuthority('" + UserRole.CHEFE_ADMINISTRACAO_VALUE + "')" )
+	public Repasse changeToRecusado( long id )
+	{
+		Repasse repasse = this.repasseRepository.findOne(id);
+		Assert.notNull(repasse, "Registro não existe");
+		
+		repasse.changeToRecusado();
+		
+		return this.repasseRepository.save(repasse);
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@PreAuthorize( "hasAuthority('" + UserRole.CHEFE_ADMINISTRACAO_VALUE + "')" )
+	public Repasse changeToAprovado( long id )
+	{
+		Repasse repasse = this.repasseRepository.findOne(id);
+		Assert.notNull(repasse, "Registro não existe");
+		
+		repasse.changeToAprovado();
+		
+		this.changeQuantidadeProdutoEmEstoque(repasse);
+		return this.repasseRepository.saveAndFlush(repasse);
+	}
+	
+	/**
+	 * 
+	 * @param repasse
+	 */
+	private void changeQuantidadeProdutoEmEstoque(Repasse repasse)
+	{
+		Produto produtoRepasse = repasse.getProduto();
+		
+		produtoRepasse.setQuantidade( produtoRepasse.getQuantidade() - repasse.getQuantidade() );
+		
+		if (produtoRepasse.getQuantidade() < 0)
+		{
+			produtoRepasse.setQuantidade(0);
+		}
+		
+		this.produtoRepository.saveAndFlush(produtoRepasse);
 	}
 }

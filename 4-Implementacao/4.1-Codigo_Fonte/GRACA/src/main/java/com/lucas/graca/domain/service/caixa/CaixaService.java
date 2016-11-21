@@ -223,6 +223,7 @@ public class CaixaService
 	 * @param movimentacaoId
 	 * @return
 	 */
+	@PreAuthorize( "hasAuthority('" + UserRole.CHEFE_ADMINISTRACAO_VALUE + "')" )
 	public Movimentacao changeToAberto( long movimentacaoId )
 	{
 		Movimentacao movimentacao = this.movimentcacaoRepository.findOne(movimentacaoId);
@@ -238,6 +239,7 @@ public class CaixaService
 	 * @param movimentacaoId
 	 * @return
 	 */
+	@PreAuthorize( "hasAuthority('" + UserRole.CHEFE_ADMINISTRACAO_VALUE + "')" )
 	public Movimentacao changeToRecusado(long movimentacaoId)
 	{
 		Movimentacao movimentacao = this.movimentcacaoRepository.findOne(movimentacaoId);
@@ -253,6 +255,7 @@ public class CaixaService
 	 * @param movimentacaoId
 	 * @return
 	 */
+	@PreAuthorize( "hasAuthority('" + UserRole.CHEFE_ADMINISTRACAO_VALUE + "')" )
 	public Movimentacao changeToConcluido( long movimentacaoId )
 	{
 		Movimentacao movimentacao = this.movimentcacaoRepository.findOne(movimentacaoId);
@@ -261,10 +264,6 @@ public class CaixaService
 		movimentacao.changeToConcluido();
 		
 		movimentacao.setDataEfetivada( Calendar.getInstance() );
-		movimentacao.getDataEfetivada().set(Calendar.HOUR_OF_DAY, 0);
-		movimentacao.getDataEfetivada().set(Calendar.MINUTE, 0);
-		movimentacao.getDataEfetivada().set(Calendar.SECOND, 0);
-		movimentacao.getDataEfetivada().set(Calendar.MILLISECOND, 0);
 
 		if ( movimentacao.getDataEfetivada().after(movimentacao.getDataPagamento()) )
 		{

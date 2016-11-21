@@ -12,10 +12,13 @@ import org.springframework.security.test.context.support.WithUserDetails;
 
 import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
+import com.lucas.graca.domain.entity.casalar.CasaLar;
 import com.lucas.graca.domain.entity.produto.Categoria;
 import com.lucas.graca.domain.entity.produto.Marca;
 import com.lucas.graca.domain.entity.produto.Modelo;
 import com.lucas.graca.domain.entity.produto.Produto;
+import com.lucas.graca.domain.entity.produto.Repasse;
+import com.lucas.graca.domain.entity.produto.StatusRepasse;
 import com.lucas.graca.domain.service.produto.ProdutoService;
 import com.lucas.graca.test.domain.AbstractIntegrationTests;
 
@@ -420,7 +423,73 @@ public class ProdutoServiceIntegrationTests extends AbstractIntegrationTests
 		modelo = this.produtoService.findModeloById( 9999L );
 		Assert.assertNull( modelo );
 	}
+	
+	/*-------------------------------------------------------------------
+	 *				 		  TESTS REPASSES
+	 *-------------------------------------------------------------------*/
+	
+	/**
+	 * 
+	 */
+	@Test
+	@WithUserDetails("operador_administrativo@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/casalar/ResponsavelDataSet.xml" ,
+		"/dataset/redeapoio/redeApoioDataSet.xml", 
+		"/dataset/account/UserDataSet.xml",
+		"/dataset/produto/MarcaDataSet.xml",
+		"/dataset/produto/ModeloDataSet.xml",
+		"/dataset/produto/CategoriaDataSet.xml",
+		"/dataset/produto/ProdutoDataSet.xml",
+		"/dataset/casalar/CasaLarDataSet.xml"
+	})
+	public void insertRepasseMustPass()
+	{
+		Repasse repasse = new Repasse();
+		
+		repasse.setProduto(new Produto(9999L));
+		repasse.setCasaLar(new CasaLar(9999L));
+		repasse.setQuantidade(10);
+		
+		repasse = this.produtoService.insertRepasse(repasse);
+		
+		Assert.assertNotNull(repasse);
+		Assert.assertTrue(repasse.getStatus() == StatusRepasse.RASCUNHO);
+	}
+	
+	/**
+	 * 
+	 */
+	@Test(expected=IllegalArgumentException.class)
+	@WithUserDetails("operador_administrativo@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/casalar/ResponsavelDataSet.xml" ,
+		"/dataset/redeapoio/redeApoioDataSet.xml", 
+		"/dataset/account/UserDataSet.xml",
+		"/dataset/produto/MarcaDataSet.xml",
+		"/dataset/produto/ModeloDataSet.xml",
+		"/dataset/produto/CategoriaDataSet.xml",
+		"/dataset/produto/ProdutoDataSet.xml",
+		"/dataset/casalar/CasaLarDataSet.xml"
+	})
+	public void insertRepasseMustFail()
+	{
+		Repasse repasse = new Repasse();
+		
+		repasse.setProduto(null);
+		repasse.setCasaLar(new CasaLar(9999L));
+		repasse.setQuantidade(10);
+		
+		repasse = this.produtoService.insertRepasse(repasse);
+		
+		Assert.fail();
+	}
+	
+	
+	public void removeRepasseMustPass()
+	{
+		
+	}
+	
 }
-
-
 
