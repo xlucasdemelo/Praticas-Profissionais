@@ -189,7 +189,7 @@
 	        templateUrl: './modules/home/views/casalar/casa-lar-form.html'
 	     })
 	     
-	     //Casa lar
+	     //rede apoio
 	     $stateProvider.state('rede-apoio',{
         	abstract: true,
         	url : "/rede-apoio",
@@ -249,24 +249,46 @@
 	    	 templateUrl: './modules/home/views/fornecedor/fornecedor-form.html'
 	     })
 	     
-	     
-	     $stateProvider.state('conta-bancaria',{
+	     //CONTA
+	     $stateProvider.state('conta',{
 	    	 abstract: true,
-	    	 url : "/conta-bancaria",
+	    	 url : "/conta",
 	    	 template: '<div layout="column" flex ui-view=""/>',
-	    	 controller : 'ContaBancariaController as contaBancariaController'
+	    	 controller : 'ContaController as contaController'
 	     })
-	     .state('conta-bancaria.list',{
+	     .state('conta.list',{
 	    	 url:'/listar',
-	    	 templateUrl: './modules/home/views/conta-bancaria/conta-bancaria-list.html'
+	    	 templateUrl: './modules/home/views/conta/conta-list.html'
 	     })
-	     .state('conta-bancaria.add',{
+	     .state('conta.add',{
 	    	 url:'/inserir',
-	    	 templateUrl: './modules/home/views/conta-bancaria/conta-bancaria-form.html'
+	    	 templateUrl: './modules/home/views/conta/conta-form.html'
 	     })
-	     .state('conta-bancaria.edit',{
+	     .state('conta.edit',{
 	    	 url:'/editar/{id:[0-9]{1,10}}',
-	    	 templateUrl: './modules/home/views/conta-bancaria/conta-bancaria-form.html'
+	    	 templateUrl: './modules/home/views/conta/conta-form.html'
+	     })
+	     
+	     /**
+	      * 
+	      */
+	     $stateProvider.state('movimentacao',{
+	    	 abstract: true,
+	    	 url : "/movimentacao",
+	    	 template: '<div layout="column" flex ui-view=""/>',
+	    	 controller : 'MovimentacaoController as movimentacaoController'
+	     })
+	     .state('movimentacao.list',{
+	    	 url:'/listar',
+	    	 templateUrl: './modules/home/views/movimentacao/movimentacao-list.html'
+	     })
+	     .state('movimentacao.add',{
+	    	 url:'/inserir',
+	    	 templateUrl: './modules/home/views/movimentacao/movimentacao-form.html'
+	     })
+	     .state('movimentacao.edit',{
+	    	 url:'/editar/{id:[0-9]{1,10}}',
+	    	 templateUrl: './modules/home/views/movimentacao/movimentacao-form.html'
 	     })
 	});
 

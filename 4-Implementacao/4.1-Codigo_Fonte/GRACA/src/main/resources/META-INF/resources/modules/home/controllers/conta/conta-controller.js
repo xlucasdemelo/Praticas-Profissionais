@@ -6,18 +6,12 @@
  * @param $state
  */
 angular.module('home')
-	   .controller('ContaBancariaController', function( $scope, $state, $importService, $mdToast, $mdDialog, $mdExpansionPanel ) {
+	   .controller('ContaController', function( $scope, $state, $importService, $mdToast, $mdDialog, $mdExpansionPanel ) {
 		
 		   /**
 		     * Serviços importados do DWR
 		     */
 			$importService("caixaService");
-			/**
-			 * 
-			 */
-			$mdExpansionPanel().waitFor('paperEncaminhamento').then(function (instance) {
-				  instance.expand();
-				});			
 			
 		    /*-------------------------------------------------------------------
 		     * 		 				 	ATTRIBUTES
@@ -26,19 +20,19 @@ angular.module('home')
 			/**
 			 * Representa o estado de listagem de registros.
 			 */
-			$scope.CONTA_BANCARIA_LIST_STATE = "conta-bancaria.list";
+			$scope.CONTA_LIST_STATE = "conta.list";
 			/**
 			 * Representa o estado para a criação de registros.
 			 */
-			$scope.CONTA_BANCARIA_ADD_STATE = "conta-bancaria.add";
+			$scope.CONTA_ADD_STATE = "conta.add";
 			/**
 			 * Representa o estado para a edição de registros.
 			 */
-			$scope.CONTA_BANCARIA_EDIT_STATE = "conta-bancaria.edit";
+			$scope.CONTA_EDIT_STATE = "conta.edit";
 			/**
 			 * Representa o estado de detalhe de um registro.
 			 */
-			$scope.CONTA_BANCARIA_DETAIL_STATE = "conta-bancaria.detail";
+			$scope.CONTA_DETAIL_STATE = "conta.detail";
 			
 			//----FORM MODEL
 			
@@ -52,9 +46,9 @@ angular.module('home')
 					order : "",
 				},
 				
-				contaBancaria: {
+				conta: {
 					form: null,
-					entity: new ContaBancaria(),
+					entity: new Conta(),
 					
 					filters: {
 					    terms: "",
@@ -80,7 +74,7 @@ angular.module('home')
 			/**
 			 * 
 			 */
-			$scope.totalPagesContaBancaria = null;
+			$scope.totalPagesConta = null;
 			
 			/*-------------------------------------------------------------------
 		     * 		 				  POST CONSTRUCT
@@ -97,24 +91,24 @@ angular.module('home')
 		    $scope.$on('$stateChangeSuccess', function( event, toState, toParams, fromState, fromParams ) {
 		    	
 		    	switch ( $state.current.name ) {
-					case $scope.CONTA_BANCARIA_LIST_STATE: {
+					case $scope.CONTA_LIST_STATE: {
 						$scope.changeToList( false );
 						break;
 					}
-					case $scope.CONTA_BANCARIA_DETAIL_STATE: {
+					case $scope.CONTA_DETAIL_STATE: {
 						$scope.changeToDetail( $state.params.id );
 						break;
 					}
-			        case $scope.CONTA_BANCARIA_ADD_STATE: {
+			        case $scope.CONTA_ADD_STATE: {
 			        	$scope.changeToAdd();
 			        	break;
 			        }
-			        case $scope.CONTA_BANCARIA_EDIT_STATE: {
+			        case $scope.CONTA_EDIT_STATE: {
 			        	$scope.changeToEdit( $state.params.id );
 			        	break;
 			        }
 			        default : {
-			        		$state.go( $scope.CONTA_BANCARIA_LIST_STATE );
+			        		$state.go( $scope.CONTA_LIST_STATE );
 			        }
 				}
 		    });
@@ -132,7 +126,7 @@ angular.module('home')
 			$scope.changeToAdd = function() {
 				console.debug("changeToAdd");
 				
-				$scope.model.contaBancaria.entity = new contaBancaria();//Limpa o formulário
+				$scope.model.conta.entity = new Conta();//Limpa o formulário
 			};
 			
 			/**
@@ -147,9 +141,9 @@ angular.module('home')
 		    $scope.changeToEdit = function( id ) {
 		        console.debug("changeToEdit", id);
 		        
-		        caixaService.findContaBancariaById( id, {
+		        caixaService.findContaById( id, {
 		            callback : function(result) {	   
-		            	$scope.model.contaBancaria.entity = result;
+		            	$scope.model.conta.entity = result;
 		            	
 		            	$scope.$apply();
 		            },
@@ -173,7 +167,7 @@ angular.module('home')
 		    $scope.changeToList = function( paginate ) {
 		        console.debug("changeToList");
 		        
-		        if ( paginate ) $scope.model.contaBancaria.page.pageable.page++;
+		        if ( paginate ) $scope.model.conta.page.pageable.page++;
 		        
 		        $scope.listByFilters();
 		    };
@@ -190,10 +184,9 @@ angular.module('home')
 		    $scope.changeToDetail = function( id ) {
 		        console.debug("changeToDetail", id);
 		
-		        caixaService.findContaBancariaById( id, {
+		        caixaService.findContaById( id, {
 		            callback : function(result) {
-		            	$scope.model.contaBancaria.entity = result;
-		            	$state.current.breadCrumbs.push({name: $scope.model.contaBancaria.entity.razaoSocial});
+		            	$scope.model.conta.entity = result;
 		                $scope.$apply();
 		            },
 		            errorHandler : function(message, exception) {
@@ -209,7 +202,6 @@ angular.module('home')
 		     * Antes de excluir, o usuário notificado para confirmação e só então o registro é excluido.
 		     */
 		    $scope.changeToRemove = function (entity) {
-		
 		        var confirm = $mdDialog.confirm()
 		            .title('Tem certeza que deseja excluir este registro?')
 		            .content('Não será possível recuperar este registro se for excluído.')
@@ -219,10 +211,10 @@ angular.module('home')
 		        $mdDialog.show(confirm).then(function (result) {
 		            console.log(result);
 		
-		            caixaService.disableContaBancaria( $scope.model.contaBancaria.entity.id, {
+		            caixaService.disableConta( $scope.model.conta.entity.id, {
 			            callback : function(result) {	   
 			            	
-			            	$state.go($scope.CONTA_BANCARIA_LIST_STATE);
+			            	$state.go($scope.CONTA_LIST_STATE);
 			            	$scope.showMessage( $scope.ERROR_MESSAGE,  "Registro excluído com sucesso" );
 			            	$scope.$apply();
 			            },
@@ -231,7 +223,6 @@ angular.module('home')
 			                $scope.$apply();
 			            }
 			        });
-		            
 		        });
 		    };
 			
@@ -239,12 +230,15 @@ angular.module('home')
 		     * 		 				PRIVATE BEHAVIORS
 		     *-------------------------------------------------------------------*/
 			
+		    /**
+		     * 
+		     */
 			$scope.listByFilters = function(){
-				
-				caixaService.listContaBancariaByFilters(  $scope.model.contaBancaria.filters.terms.toString(), true, $scope.model.contaBancaria.page.pageable, {
+				caixaService.listContaByFilters(  $scope.model.conta.filters.terms.toString(), true, $scope.model.conta.page.pageable, {
 	                callback : function(result) {
-	                	$scope.totalPagesContaBancaria = result.totalPages;
-	                	$scope.model.contaBancaria.page = {//PageImpl
+	                	$scope.totalPagesConta = result.totalPages;
+	                	
+	                	$scope.model.conta.page = {//PageImpl
 	    						content : result.content,
 								pageable : {//PageRequest
 									page : result.number,
@@ -262,16 +256,15 @@ angular.module('home')
 	                    $scope.$apply();
 	                }
 	            });
-			}
+			};
 	        
 			/**
 			 * 
 			 */
-			$scope.disableContaBancaria = function(){
-				
-				caixaService.disableContaBancaria( id, {
+			$scope.disableConta = function(){
+				caixaService.disableConta( id, {
 		            callback : function(result) {
-		            	$state.go($scope.CONTA_BANCARIA_LIST_STATE);
+		            	$state.go($scope.CONTA_LIST_STATE);
 		            	$scope.$apply();
 		            },
 		            errorHandler : function(message, exception) {
@@ -279,14 +272,12 @@ angular.module('home')
 		                $scope.$apply();
 		            }
 		        });
-				
-			}
+			};
 			
 			/**
 			 * 
 			 */
-			$scope.enableContaBancaria = function(){
-				
+			$scope.enableConta = function(){
 				var confirm = $mdDialog.confirm()
 	            .title('Tem certeza que deseja ativar este registro?')
 	            .content('')
@@ -296,10 +287,10 @@ angular.module('home')
 		        $mdDialog.show(confirm).then(function (result) {
 		            console.log(result);
 		
-		            caixaService.enableContaBancaria( $scope.model.contaBancaria.entity.id  , {
+		            caixaService.enableConta( $scope.model.conta.entity.id  , {
 		                callback : function(result) {
 		                    $scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi ativado com sucesso!" );
-		                    $state.go($scope.CONTA_BANCARIA_LIST_STATE);
+		                    $state.go($scope.CONTA_LIST_STATE);
 		                    
 		                    $scope.listByFilters();
 		                    $scope.$apply();
@@ -310,60 +301,56 @@ angular.module('home')
 		                }
 		            });
 		        });
-			}
+			};
 			
+			/**
+			 * 
+			 */
 			$scope.listByMoreFilters = function(){
 				
-			}
+			};
 			
 			/**
 			 * 
 			 */
-			$scope.insertContaBancaria = function()
-			{
-				$scope.model.contaBancaria.form.$submitted = true;
-				if ($scope.model.contaBancaria.form.$invalid ){
+			$scope.insertConta = function(){
+				$scope.model.conta.form.$setSubmitted();
+				
+				if ($scope.model.conta.form.$invalid ){
 					$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
 					return;
 				}
 				
-				
-				$scope.model.contaBancaria.entity.responsavel = new Responsavel();
-				$scope.model.contaBancaria.entity.responsavel.id = 1;
-				
-				caixaService.insertContaBancaria( $scope.model.contaBancaria.entity, {
+				caixaService.insertConta( $scope.model.conta.entity, {
 	                callback : function(result) {
-	                	
-	                	$scope.model.contaBancaria.entity = result;
+	                	$scope.model.conta.entity = result;
 	                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi cadastrado com sucesso!" );
-	                	$state.go($scope.CONTA_BANCARIA_LIST_STATE)
+	                	$state.go($scope.CONTA_LIST_STATE);
 	                	$scope.$apply();
-	                	
 	                },
 	                errorHandler : function(message, exception) {
 	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
 	                    $scope.$apply();
 	                }
 	            });
-			}
+			};
 			
 			/**
 			 * 
 			 */
-			$scope.updateContaBancaria= function()
-			{
-				$scope.model.contaBancaria.form.$submitted = true;
-				if ($scope.model.contaBancaria.form.$invalid ){
+			$scope.updateConta= function(){
+				$scope.model.conta.form.$setSubmitted();
+				
+				if ($scope.model.conta.form.$invalid ){
 					$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
 					return;
 				}
 				
-				caixaService.updateContaBancaria(  $scope.model.contaBancaria.entity, {
+				caixaService.updateConta(  $scope.model.conta.entity, {
 	                callback : function(result) {
-	                	
-	                	$scope.model.contaBancaria.entity = result;
+	                	$scope.model.conta.entity = result;
 	                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi alterado com sucesso!" );
-	                	$state.go(CONTA_BANCARIA_EDIT_STATE)
+	                	$state.go(CONTA_EDIT_STATE);
 	                	$scope.$apply();
 	                	
 	                },
@@ -372,35 +359,16 @@ angular.module('home')
 	                    $scope.$apply();
 	                }
 	            });
-			}
+			};
 			
 			/**
 			 * 
 			 */
-			$scope.openSelecionarBancoPopup = function() {
-		    	$mdDialog.show({
-					controller: "SelecionarBancoControllerPopup",
-					templateUrl: './modules/home/views/conta-bancaria/popup/selecionar-banco-popup.html',
-					parent: angular.element(document.body),
-					clickOutsideToClose:true,
-					fullscreen: true,
-					scope: $scope.$new()
-			    })
-			    .then(function(banco) {
-			    	$scope.model.contaBancaria.entity.banco = banco;
-			    }, function() {
-			    	
-			    });
-		    };
-			
-			/**
-			 * 
-			 */
-			$scope.onContaBancariaPaginationChange = function(paginate) {
+			$scope.onContaPaginationChange = function(paginate) {
 	        	if (paginate) {
-	        		$scope.model.contaBancaria.page.pageable.page++;
+	        		$scope.model.conta.page.pageable.page++;
 	        	} else {
-	        		$scope.model.contaBancaria.page.pageable.page--;
+	        		$scope.model.conta.page.pageable.page--;
 	        	}
 	        		
 	        	$scope.listByFilters();
@@ -410,46 +378,9 @@ angular.module('home')
 			/**
 			 * 
 			 */
-			$scope.listAllUserRoles= function(){
-				accountService.listAllUserRoles(   {
-	                callback : function(result) {
-	                	
-	                	$scope.allUserRoles = result;
-	                	
-	                	$scope.$apply();
-	                	
-	                },
-	                errorHandler : function(message, exception) {
-	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
-	                    $scope.$apply();
-	                }
-	            });
-			}
-			
-			
-			/**
-			 * 
-			 */
 			$scope.openMaisOpcoes = function(){
 				$scope.moreFilters = !$scope.moreFilters;
 			};
-			
-			/**
-			 *  Dialog para confirmação de exclusão
-			 */
-			$scope.confirmDelete = function(ev){
-				var dialog = {
-	    				title: 'Tem certeza que deseja desativar este registro?',
-	    				content: 'O registro será desativado e ficará indisponível para associação.',
-	    				ok: 'Sim',
-	    				cancel: 'Não',
-	    				level: $scope.CRITICAL_LEVEL
-		    	}
-		    	
-		    	$scope.model.dialog = dialog;
-		    	$scope.openDefaultConfirmDialog( $scope, $scope.excluirContaBancariaHandler, null );
-			};
-			
 			
 			/*-------------------------------------------------------------------
 		     * 		 				 	POST CONSTRUCT

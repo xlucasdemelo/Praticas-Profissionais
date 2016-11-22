@@ -63,14 +63,6 @@
 				Fornecedor
 			</md-button>
 			
-			<md-button ng-if="hasPermission('OPERADOR_ADMINISTRATIVO')" style="text-align: left;"
-				ng-click="toggleMenuSideNavHandler('conta-bancaria.list');">
-				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
-				Conta bancária
-			</md-button>
-			
-			<md-divider></md-divider>
-			
 			<md-button ng-if="hasPermission('OPERADOR_ATENDIMENTOS')" style="text-align: left;"
 				ng-click="toggleMenuSideNavHandler('crianca.list');">
 				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
@@ -81,6 +73,20 @@
 				ng-click="toggleMenuSideNavHandler('plano-atendimento-familiar.list');">
 				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
 				Plano de atendimento Familiar
+			</md-button>
+			
+			<md-divider></md-divider>
+			
+			<md-button ng-if="hasPermission('OPERADOR_ADMINISTRATIVO')" style="text-align: left;"
+				ng-click="toggleMenuSideNavHandler('conta.list');">
+				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
+				Caixa
+			</md-button>
+			
+			<md-button ng-if="hasPermission('OPERADOR_ADMINISTRATIVO')" style="text-align: left;"
+				ng-click="toggleMenuSideNavHandler('movimentacao.list');">
+				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
+				Movimentacao
 			</md-button>
 			
 			<md-divider></md-divider>
