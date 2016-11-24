@@ -6,62 +6,70 @@
 	
 		<md-toolbar layout="row" style="z-index: 3;">
 	    	<div flex layout="row" class="default-header">
-		        <h1 class="md-toolbar-tools">Fornecedor</h1>
+		        <h1 class="md-toolbar-tools">Movimentação</h1>
 	    	</div>
 	    	
 	    	<div md-theme="default" layout="row" layout-align="end center" class="default-header">
 		        <md-button class="md-raised" ng-click="$state.go(MOVIMENTACAO_LIST_STATE)">Voltar</md-button>
 	        </div>
 	        
-	        <div ng-if="model.fornecedor.entity.ativo == true" md-theme="default" layout="row" layout-align="end center" class="default-header">
+	        <div ng-if="model.movimentacao.entity.ativo == true" md-theme="default" layout="row" layout-align="end center" class="default-header">
 		        <md-button class="md-raised md-accent default-save-button" ng-click="changeToRemove()">Excluir</md-button>
 	        </div>
 	        
-	        <div ng-if="model.fornecedor.entity.ativo == false" md-theme="default" layout="row" layout-align="end center" class="default-header">
-		        <md-button class="md-raised md-accent default-save-button" ng-click="enableFornecedor()">Ativar registro</md-button>
+	        <div ng-if="model.movimentacao.entity.ativo == false" md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="enableMovimentacao()">Ativar registro</md-button>
 	        </div>
 	        
-	        <div md-theme="default" layout="row" layout-align="end center" ng-if="model.fornecedor.entity.ativo || !model.fornecedor.entity.id" class="default-header md-primary md-hue-3">
-		        <md-button class="md-raised md-accent default-save-button" ng-click=" model.fornecedor.entity.id ? updateFornecedor() : insertFornecedor()">Salvar</md-button>
+	        <div md-theme="default" layout="row" layout-align="end center" ng-if="model.movimentacao.entity.ativo || !model.movimentacao.entity.id" class="default-header md-primary md-hue-3">
+		        <md-button class="md-raised md-accent default-save-button" ng-click=" model.movimentacao.entity.id ? updateMovimentacao() : insertMovimentacao()">Salvar</md-button>
 	        </div>
 	        
 	    </md-toolbar>
 		
 			<md-content layout="column" flex >
 				<md-tabs  md-border-bottom flex >
-					<md-tab label="Fornecedor" >
+					<md-tab label="Movimentacao" >
 						
 								<div style="height:100%" class="default-frame" layout="column">
 									<md-toolbar layout style="height:100%" class="md-hue-1">
-										<form novalidate name="model.fornecedor.form" class="default-form" flex>
+										<form novalidate name="model.movimentacao.form" class="default-form" flex>
+											
+											<md-input-container layout="column" flex="30" style="margin-right:30px">
+										        <label>Tipo de movimentação</label>
+										        <md-select name="tipo" ng-disabled="model.movimentacao.entity.id" required ng-model="model.movimentacao.entity.tipoMovimentacao">
+										          <md-option ng-repeat="tipoMovimentacao in allTiposMovimentacao" value="{{tipoMovimentacao}}">{{::tipoMovimentacao | translate}}</md-option>
+										        </md-select>
+										        
+										        <div ng-messages="model.movimentacao.form.tipo.$error">
+								                	<div ng-message="required" ng-if="model.movimentacao.form.$submitted">Campo obrigatório</div>
+								                </div>
+										    </md-input-container>
 											
 											<md-input-container layout="column" flex="30" ">
-									    		<label>Razão social</label>
-								                <input type="text" name="razaoSocial" required ng-model="model.fornecedor.entity.razaoSocial">
+									    		<label>Descrição</label>
+								                <input type="text" name="descricao" required ng-model="model.movimentacao.entity.descricao">
 								
-								                <div ng-messages="model.fornecedor.form.razaoSocial.$error">
-								                	<div ng-message="required" ng-if="model.fornecedor.form.$submitted">Campo obrigatório</div>
-								                	<div ng-message="md-maxlength" ng-if="model.fornecedor.form.$submitted">Limite de caracteres excedido</div>
+								                <div ng-messages="model.movimentacao.form.descricao.$error">
+								                	<div ng-message="required" ng-if="model.movimentacao.form.$submitted">Campo obrigatório</div>
 								                </div>
 								            </md-input-container>
 											
-											<md-input-container layout="column" flex="30" ">
-									    		<label>CNPJ</label>
-								                <input type="text" name="cnpj" required ng-model="model.fornecedor.entity.cnpj">
+											<md-input-container layout="column" flex >
+									    		<label>Data de pagamento</label>
+								                <md-datepicker name="dataPagamento" flex ng-model="model.movimentacao.entity.dataPagamento" md-placeholder="Data de pagamento"></md-datepicker>
 								
-								                <div ng-messages="model.fornecedor.form.numero.$error">
-								                	<div ng-message="required" ng-if="model.fornecedor.form.$submitted">Campo obrigatório</div>
-								                	<div ng-message="md-maxlength" ng-if="model.fornecedor.form.$submitted">Limite de caracteres excedido</div>
+								                <div ng-messages="model.movimentacao.form.dataPagamento.$error">
+								                	<div ng-message="required" ng-if="model.movimentacao.form.$submitted">Campo obrigatório</div>
 								                </div>
 								            </md-input-container>
 								            
 								            <md-input-container layout="column" flex="30" ">
-									    		<label>Telefone</label>
-								                <input type="text" mask="(999) 9999-9999" name="telefone" required ng-model="model.fornecedor.entity.telefone">
+									    		<label>Porcentagem da diferença</label>
+								                <input type="number" name="porcentagemDiferenca" ng-model="model.movimentacao.entity.porcentagemDiferenca">
 								
-								                <div ng-messages="model.fornecedor.form.telefone.$error">
-								                	<div ng-message="required" ng-if="model.fornecedor.form.$submitted">Campo obrigatório</div>
-								                	<div ng-message="md-maxlength" ng-if="model.fornecedor.form.$submitted">Limite de caracteres excedido</div>
+								                <div ng-messages="model.movimentacao.form.telefone.$error">
+								                	<div ng-message="required" ng-if="model.movimentacao.form.$submitted">Campo obrigatório</div>
 								                </div>
 								            </md-input-container>
 								            

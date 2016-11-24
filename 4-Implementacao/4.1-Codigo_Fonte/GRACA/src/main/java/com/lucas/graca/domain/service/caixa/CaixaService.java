@@ -19,6 +19,7 @@ import com.lucas.graca.domain.entity.account.UserRole;
 import com.lucas.graca.domain.entity.caixa.Conta;
 import com.lucas.graca.domain.entity.caixa.Movimentacao;
 import com.lucas.graca.domain.entity.caixa.StatusMovimentacao;
+import com.lucas.graca.domain.entity.caixa.TipoMovimentacao;
 import com.lucas.graca.domain.repository.caixa.IContaRepository;
 import com.lucas.graca.domain.repository.caixa.IMovimentacaoRepository;
 
@@ -287,6 +288,15 @@ public class CaixaService
 		this.contaRepository.saveAndFlush(contaDestino);
 		
 		return this.movimentcacaoRepository.save(movimentacao);
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public TipoMovimentacao[] listAllTiposMovimentacao()
+	{
+		return TipoMovimentacao.values();
 	}
 	
 }

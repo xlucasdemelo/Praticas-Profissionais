@@ -130,7 +130,7 @@ angular.module('home')
 				console.debug("changeToAdd");
 				
 				$scope.model.movimentacao.entity = new Fornecedor();//Limpa o formulário
-				
+				$scope.listAllTiposMovimentacao();
 				
 			};
 			
@@ -387,11 +387,11 @@ angular.module('home')
 			/**
 			 * 
 			 */
-			$scope.listAllUserRoles= function(){
-				accountService.listAllUserRoles(   {
+			$scope.listAllTiposMovimentacao= function() {
+				caixaService.listAllTiposMovimentacao(   {
 	                callback : function(result) {
 	                	
-	                	$scope.allUserRoles = result;
+	                	$scope.allTiposMovimentacao = result;
 	                	
 	                	$scope.$apply();
 	                	
