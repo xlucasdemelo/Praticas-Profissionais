@@ -36,15 +36,16 @@ import br.com.eits.common.domain.entity.AbstractEntity;
 public class Movimentacao extends AbstractEntity implements Serializable
 {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 6373630682825041548L;
 	
 	/*-------------------------------------------------------------------
 	 *				 		     ATTRIBUTES
 	 *-------------------------------------------------------------------*/
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6084063272834720063L;
+
 	/**
 	 * 
 	 */
@@ -338,7 +339,7 @@ public class Movimentacao extends AbstractEntity implements Serializable
 		
 		return this.valorEmissao.add(reajuste);
 	}
-	
+
 	/*-------------------------------------------------------------------
 	 *				 		 GETTERS AND SETTERS
 	 *-------------------------------------------------------------------*/
@@ -382,14 +383,7 @@ public class Movimentacao extends AbstractEntity implements Serializable
 	 * @param dataEfetivada the dataEfetivada to set
 	 */
 	public void setDataEfetivada(Calendar dataEfetivada) {
-		
-		dataEfetivada.set(Calendar.HOUR_OF_DAY, 0);
-		dataEfetivada.set(Calendar.MINUTE, 0);
-		dataEfetivada.set(Calendar.SECOND, 0);
-		dataEfetivada.set(Calendar.MILLISECOND, 0);
-		
 		this.dataEfetivada = dataEfetivada;
-		
 	}
 
 	/**
@@ -404,6 +398,34 @@ public class Movimentacao extends AbstractEntity implements Serializable
 	 */
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	/**
+	 * @return the valorEmissao
+	 */
+	public BigDecimal getValorEmissao() {
+		return valorEmissao;
+	}
+
+	/**
+	 * @param valorEmissao the valorEmissao to set
+	 */
+	public void setValorEmissao(BigDecimal valorEmissao) {
+		this.valorEmissao = valorEmissao;
+	}
+
+	/**
+	 * @return the valorEfetivado
+	 */
+	public BigDecimal getValorEfetivado() {
+		return valorEfetivado;
+	}
+
+	/**
+	 * @param valorEfetivado the valorEfetivado to set
+	 */
+	public void setValorEfetivado(BigDecimal valorEfetivado) {
+		this.valorEfetivado = valorEfetivado;
 	}
 
 	/**
@@ -503,34 +525,5 @@ public class Movimentacao extends AbstractEntity implements Serializable
 	public void setNaturezaGastos(NaturezaGastos naturezaGastos) {
 		this.naturezaGastos = naturezaGastos;
 	}
-
-	/**
-	 * @return the valorEmissao
-	 */
-	public BigDecimal getValorEmissao() {
-		return valorEmissao;
-	}
-
-	/**
-	 * @param valorEmissao the valorEmissao to set
-	 */
-	public void setValorEmissao(BigDecimal valorEmissao) {
-		this.valorEmissao = valorEmissao;
-	}
-
-	/**
-	 * @return the valorEfetivado
-	 */
-	public BigDecimal getValorEfetivado() {
-		return valorEfetivado;
-	}
-
-	/**
-	 * @param valorEfetivado the valorEfetivado to set
-	 */
-	public void setValorEfetivado(BigDecimal valorEfetivado) {
-		this.valorEfetivado = valorEfetivado;
-	}
-	 
-	
+		
 }

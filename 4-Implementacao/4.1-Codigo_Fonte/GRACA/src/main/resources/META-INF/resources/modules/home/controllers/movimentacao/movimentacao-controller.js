@@ -329,7 +329,7 @@ angular.module('home')
 				
 				
 				$scope.model.movimentacao.entity.naturezaGastos = new NaturezaGastos();
-				$scope.model.movimentacao.entity.naturezaGastos.id = 1;
+//				$scope.model.movimentacao.entity.naturezaGastos.id = 1;
 				
 				caixaService.insertMovimentacao( $scope.model.movimentacao.entity, {
 	                callback : function(result) {
