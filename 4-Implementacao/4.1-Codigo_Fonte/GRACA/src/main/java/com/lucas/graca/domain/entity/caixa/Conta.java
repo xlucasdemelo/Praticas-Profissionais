@@ -3,6 +3,7 @@
  */
 package com.lucas.graca.domain.entity.caixa;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Column;
@@ -23,7 +24,7 @@ import br.com.eits.common.domain.entity.AbstractEntity;
 @Entity
 @Audited
 @DataTransferObject(javascript = "Conta")
-public class Conta extends AbstractEntity 
+public class Conta extends AbstractEntity implements Serializable
 {
 
 	/**

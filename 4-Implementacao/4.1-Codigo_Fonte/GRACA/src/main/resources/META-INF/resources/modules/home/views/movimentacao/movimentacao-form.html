@@ -35,18 +35,41 @@
 									<md-toolbar layout style="height:100%" class="md-hue-1">
 										<form novalidate name="model.movimentacao.form" class="default-form" flex>
 											
-											<md-input-container layout="column" flex="30" style="margin-right:30px">
-										        <label>Tipo de movimentação</label>
-										        <md-select name="tipo" ng-disabled="model.movimentacao.entity.id" required ng-model="model.movimentacao.entity.tipoMovimentacao">
-										          <md-option ng-repeat="tipoMovimentacao in allTiposMovimentacao" value="{{tipoMovimentacao}}">{{::tipoMovimentacao | translate}}</md-option>
-										        </md-select>
-										        
-										        <div ng-messages="model.movimentacao.form.tipo.$error">
+											<div layout="row">
+												
+												<md-input-container layout="column" flex="30" style="margin-right:30px">
+											        <label>Tipo de movimentação</label>
+											        <md-select name="tipo" ng-disabled="model.movimentacao.entity.id" required ng-model="model.movimentacao.entity.tipoMovimentacao">
+											          <md-option ng-repeat="tipoMovimentacao in allTiposMovimentacao" value="{{tipoMovimentacao}}">{{::tipoMovimentacao | translate}}</md-option>
+											        </md-select>
+											        
+											        <div ng-messages="model.movimentacao.form.tipo.$error">
+									                	<div ng-message="required" ng-if="model.movimentacao.form.$submitted">Campo obrigatório</div>
+									                </div>
+											    </md-input-container>
+											    
+											    <md-input-container layout="column" flex >
+										    		<label>Data de pagamento</label>
+									                <md-datepicker name="dataPagamento" flex ng-model="model.movimentacao.entity.dataPagamento" 
+									                				style="width:200px" md-placeholder="Data de pagamento"></md-datepicker>
+									
+									                <div ng-messages="model.movimentacao.form.dataPagamento.$error">
+									                	<div ng-message="required" ng-if="model.movimentacao.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+											    
+											</div>
+											
+											<md-input-container layout="column" flex="30">
+									    		<label>Natureza dos gastos</label>
+								                <input type="text" name="naturezaGastos" required ng-model="model.movimentacao.entity.naturezaGastos">
+								
+								                <div ng-messages="model.movimentacao.form.naturezaGastos.$error">
 								                	<div ng-message="required" ng-if="model.movimentacao.form.$submitted">Campo obrigatório</div>
 								                </div>
-										    </md-input-container>
+								            </md-input-container>
 											
-											<md-input-container layout="column" flex="30" ">
+											<md-input-container layout="column" >
 									    		<label>Descrição</label>
 								                <input type="text" name="descricao" required ng-model="model.movimentacao.entity.descricao">
 								
@@ -55,23 +78,56 @@
 								                </div>
 								            </md-input-container>
 											
-											<md-input-container layout="column" flex >
-									    		<label>Data de pagamento</label>
-								                <md-datepicker name="dataPagamento" flex ng-model="model.movimentacao.entity.dataPagamento" md-placeholder="Data de pagamento"></md-datepicker>
-								
-								                <div ng-messages="model.movimentacao.form.dataPagamento.$error">
-								                	<div ng-message="required" ng-if="model.movimentacao.form.$submitted">Campo obrigatório</div>
-								                </div>
-								            </md-input-container>
+											<div layout="row">
+												<md-input-container layout="column" flex="30" >
+										    		<label>Valor</label>
+									                <input type="number" name="valor" required ng-model="model.movimentacao.entity.valor">
+									
+									                <div ng-messages="model.movimentacao.form.valor.$error">
+									                	<div ng-message="required" ng-if="model.movimentacao.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+												
+									            <md-input-container layout="column" flex="30" style="margin-left:30px">
+										    		<label>Porcentagem da diferença</label>
+									                <input type="number" name="porcentagemDiferenca" ng-model="model.movimentacao.entity.porcentagemDiferenca">
+									
+									                <div ng-messages="model.movimentacao.form.porcentagemDiferenca.$error">
+									                	<div ng-message="required" ng-if="model.movimentacao.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+									        </div>
 								            
-								            <md-input-container layout="column" flex="30" ">
-									    		<label>Porcentagem da diferença</label>
-								                <input type="number" name="porcentagemDiferenca" ng-model="model.movimentacao.entity.porcentagemDiferenca">
-								
-								                <div ng-messages="model.movimentacao.form.telefone.$error">
-								                	<div ng-message="required" ng-if="model.movimentacao.form.$submitted">Campo obrigatório</div>
-								                </div>
-								            </md-input-container>
+								            <div layout="row">
+									            <md-input-container layout="column" flex="30" >
+										    		<label>Conta de origem</label>
+									                <input type="text" name="contaOrigem" disabled required ng-model="model.movimentacao.entity.contaOrigem.nome">
+									
+									                <div ng-messages="model.movimentacao.form.contaOrigem.$error">
+									                	<div ng-message="required" ng-if="model.movimentacao.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+									            
+									            <div md-theme="default" layout="column" class="default-header md-primary md-hue-3">
+											        <md-button class="md-raised" ng-click="openSelecionarConta(true)">Selecionar conta</md-button>
+										        </div>
+									            
+								            </div>
+								            
+								            <div layout="row">
+									            <md-input-container layout="column" flex="30" >
+										    		<label>Conta destino</label>
+									                <input type="text" name="contaDestino" disabled required ng-model="model.movimentacao.entity.contaDestino.nome">
+									
+									                <div ng-messages="model.movimentacao.form.contaDestino.$error">
+									                	<div ng-message="required" ng-if="model.movimentacao.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+									            
+									            <div md-theme="default" layout="column" class="default-header md-primary md-hue-3">
+											        <md-button class="md-raised" ng-click="openSelecionarConta(false)">Selecionar conta</md-button>
+										        </div>
+								            </div>
 								            
 										</form>
 									</md-toolbar>

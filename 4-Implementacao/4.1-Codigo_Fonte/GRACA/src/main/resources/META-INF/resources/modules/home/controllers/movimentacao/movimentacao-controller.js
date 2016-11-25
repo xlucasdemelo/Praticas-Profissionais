@@ -129,7 +129,7 @@ angular.module('home')
 			$scope.changeToAdd = function() {
 				console.debug("changeToAdd");
 				
-				$scope.model.movimentacao.entity = new Fornecedor();//Limpa o formulário
+				$scope.model.movimentacao.entity = new Movimentacao();//Limpa o formulário
 				$scope.listAllTiposMovimentacao();
 				
 			};
@@ -318,19 +318,20 @@ angular.module('home')
 			/**
 			 * 
 			 */
-			$scope.insertFornecedor = function()
+			$scope.insertMovimentacao = function()
 			{
 				$scope.model.movimentacao.form.$submitted = true;
+				
 				if ($scope.model.movimentacao.form.$invalid ){
 					$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
 					return;
 				}
 				
 				
-				$scope.model.movimentacao.entity.responsavel = new Responsavel();
-				$scope.model.movimentacao.entity.responsavel.id = 1;
+				$scope.model.movimentacao.entity.naturezaGastos = new NaturezaGastos();
+				$scope.model.movimentacao.entity.naturezaGastos.id = 1;
 				
-				fornecedorService.insertFornecedor( $scope.model.movimentacao.entity, {
+				caixaService.insertMovimentacao( $scope.model.movimentacao.entity, {
 	                callback : function(result) {
 	                	
 	                	$scope.model.movimentacao.entity = result;
@@ -403,6 +404,35 @@ angular.module('home')
 	            });
 			}
 			
+			/**
+			 * Parametro tipoConta é um boolean onde true é conta origem e false conta destino
+			 */
+			$scope.openSelecionarConta = function( tipoConta )
+			{
+		    	$mdDialog.show({
+					controller: "SelecionarContaControllerPopup",
+					templateUrl: './modules/home/views/conta/popup/selecionar-conta-modal.html',
+					parent: angular.element(document.body),
+					clickOutsideToClose:true,
+					fullscreen: true,
+					scope: $scope.$new()
+			    })
+			    .then(function(conta) {
+			    	
+			    	var contaResult = new Conta();
+			    	contaResult.id = conta.id;
+			    	contaResult.nome = conta.nome;
+			    	
+			    	if (tipoConta)
+			    		$scope.model.movimentacao.entity.contaOrigem = contaResult;
+			    	else
+			    		$scope.model.movimentacao.entity.contaDestino = contaResult;
+			    	
+			    }, function() {
+			    	
+			    });
+				
+			};
 			
 			/**
 			 * 

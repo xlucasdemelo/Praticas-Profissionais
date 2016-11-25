@@ -3,6 +3,7 @@
  */
 package com.lucas.graca.domain.entity.caixa;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
@@ -32,7 +33,7 @@ import br.com.eits.common.domain.entity.AbstractEntity;
 @Entity
 @Audited
 @DataTransferObject(javascript = "Movimentacao")
-public class Movimentacao extends AbstractEntity
+public class Movimentacao extends AbstractEntity implements Serializable
 {
 
 	/**

@@ -3,6 +3,8 @@
  */
 package com.lucas.graca.domain.entity.caixa;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrePersist;
@@ -20,7 +22,7 @@ import br.com.eits.common.domain.entity.AbstractEntity;
 @Entity
 @Audited
 @DataTransferObject(javascript = "NaturezaGastos")
-public class NaturezaGastos extends AbstractEntity
+public class NaturezaGastos extends AbstractEntity implements Serializable
 {
 
 	/**

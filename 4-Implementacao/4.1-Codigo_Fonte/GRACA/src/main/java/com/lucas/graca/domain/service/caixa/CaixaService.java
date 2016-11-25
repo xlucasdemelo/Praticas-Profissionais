@@ -169,6 +169,9 @@ public class CaixaService
 		Assert.notNull( movimentacao.getDataPagamento(), "Informe a data de pagamento" );
 		Assert.notNull( movimentacao.getNaturezaGastos(), "Informe a natureza de gastos");
 		
+		Assert.isTrue(movimentacao.getContaDestino().getId() != movimentacao.getContaOrigem().getId(), 
+				"Conta origem e destino não podem ser iguais");
+		
 		movimentacao.setDataEmissao( Calendar.getInstance() );
 		
 		return this.movimentcacaoRepository.save( movimentacao );
