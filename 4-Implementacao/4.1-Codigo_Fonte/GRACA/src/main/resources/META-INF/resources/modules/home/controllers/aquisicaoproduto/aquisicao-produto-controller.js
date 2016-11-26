@@ -74,6 +74,30 @@ angular.module('home')
 		        		direction: 'ASC', properties: 'id', nullHandlingHint:null
 		        	}],
 					
+				},
+				
+				produtoAdquirido: {
+					form: null,
+					entity: new ProdutoAdquirido(),
+					
+					filters: {
+					    terms: "",
+					    ativo: true,
+					    inativo: false
+					},
+					
+				    page: {//PageImpl 
+				    		content: [],
+				    		pageable :{ size: 9,
+							    		page: 0,
+							    		total:0,
+							        	sort:null
+				        	}
+				    },
+				    sort: [{//Sort
+		        		direction: 'ASC', properties: 'id', nullHandlingHint:null
+		        	}],
+					
 				}
 			};
 			
@@ -147,9 +171,10 @@ angular.module('home')
 		    $scope.changeToEdit = function( id ) {
 		        console.debug("changeToEdit", id);
 		        
-		        aquisicaoProdutoService.findById( id, {
+		        aquisicaoProdutoService.findAquisicaoProdutoById( id, {
 		            callback : function(result) {	   
 		            	$scope.model.aquisicaoProduto.entity = result;
+		            	$scope.listProdutosByAquisicao();
 		            	
 		            	$scope.$apply();
 		            },
@@ -264,6 +289,99 @@ angular.module('home')
 	            });
 			}
 	        
+			/**
+			 * 
+			 */
+			$scope.openSelecionarFornecedor = function( tipoConta )
+			{
+		    	$mdDialog.show({
+					controller: "SelecionarFornecedorControllerPopup",
+					templateUrl: './modules/home/views/aquisicaoproduto/popup/selecionar-fornecedor-modal.html',
+					parent: angular.element(document.body),
+					clickOutsideToClose:true,
+					fullscreen: true,
+					scope: $scope.$new()
+			    })
+			    .then(function(fornecedor) {
+			    	
+		    		$scope.model.aquisicaoProduto.entity.fornecedor = fornecedor;
+			    	
+			    }, function() {
+			    	
+			    });
+				
+			};
+			
+			/**
+			 * 
+			 */
+			$scope.insertProdutoAdquirido = function( produtoAdquirido )
+			{
+				aquisicaoProdutoService.insertProdutoAdquirido( produtoAdquirido , {
+					callback : function( result ) {
+						return result;
+					},
+					errorHandler : function(message, exception) {
+						$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+		                $scope.$apply();
+		            }
+				});
+			}
+			
+			/**
+			 * 
+			 */
+			$scope.listProdutosByAquisicao = function()
+			{
+				
+				aquisicaoProdutoService.listProdutosByAquisicao(  $scope.model.aquisicaoProduto.entity.id, $scope.model.produtoAdquirido.page.pageable, {
+	                callback : function(result) {
+	                	$scope.totalPagesProdutoAdquirido = result.totalPages;
+	                	$scope.model.produtoAdquirido.page = {//PageImpl
+	    						content : result.content,
+								pageable : {//PageRequest
+									page : result.number,
+									size : result.size,
+									sort:result.sort,
+									total   : result.totalElements
+								},
+	    				};
+	                	
+	                	$scope.$apply();
+	                	
+	                },
+	                errorHandler : function(message, exception) {
+	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+	                    $scope.$apply();
+	                }
+	            });
+				
+			}
+			
+			/**
+			 * 
+			 */
+			$scope.openSelecionarProduto = function( tipoConta )
+			{
+		    	$mdDialog.show({
+					controller: "SelecionarProdutoControllerPopup",
+					templateUrl: './modules/home/views/produto/popup/selecionar-produto-modal.html',
+					parent: angular.element(document.body),
+					clickOutsideToClose:true,
+					fullscreen: true,
+					scope: $scope.$new()
+			    })
+			    .then(function(produtoAdquirido) {
+			    	
+		    		$scope.model.aquisicaoProduto.entity.fornecedor = fornecedor;
+			    	
+			    }, function() {
+			    	
+			    });
+				
+			};
+			
+			
 			/**
 			 * 
 			 */
@@ -388,11 +506,11 @@ angular.module('home')
 			/**
 			 * 
 			 */
-			$scope.listAllUserRoles= function(){
-				accountService.listAllUserRoles(   {
+			$scope.listAllFormasPagamento= function(){
+				aquisicaoProdutoService.listAllFormasPagamento({
 	                callback : function(result) {
 	                	
-	                	$scope.allUserRoles = result;
+	                	$scope.allFormasPagamento = result;
 	                	
 	                	$scope.$apply();
 	                	
@@ -404,6 +522,24 @@ angular.module('home')
 	            });
 			}
 			
+			/**
+			 * 
+			 */
+			$scope.listAllCondicoesPagamento= function(){
+				aquisicaoProdutoService.listAllCondicoesPagamento(   {
+	                callback : function(result) {
+	                	
+	                	$scope.allCondicoesPagamento = result;
+	                	
+	                	$scope.$apply();
+	                	
+	                },
+	                errorHandler : function(message, exception) {
+	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+	                    $scope.$apply();
+	                }
+	            });
+			}
 			
 			/**
 			 * 
@@ -432,5 +568,8 @@ angular.module('home')
 			/*-------------------------------------------------------------------
 		     * 		 				 	POST CONSTRUCT
 		     *-------------------------------------------------------------------*/
-});
+			
+			$scope.listAllFormasPagamento();
+			$scope.listAllCondicoesPagamento();
+});	
 }(window.angular));

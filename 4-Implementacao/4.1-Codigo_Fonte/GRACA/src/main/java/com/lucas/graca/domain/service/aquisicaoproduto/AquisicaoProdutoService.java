@@ -19,6 +19,7 @@ import org.springframework.util.Assert;
 import com.lucas.graca.domain.entity.account.UserRole;
 import com.lucas.graca.domain.entity.aquisicaoCompra.AquisicaoProduto;
 import com.lucas.graca.domain.entity.aquisicaoCompra.CondicaoPagamento;
+import com.lucas.graca.domain.entity.aquisicaoCompra.FormaPagamento;
 import com.lucas.graca.domain.entity.aquisicaoCompra.ProdutoAdquirido;
 import com.lucas.graca.domain.entity.aquisicaoCompra.StatusAquisicao;
 import com.lucas.graca.domain.entity.caixa.Movimentacao;
@@ -198,6 +199,24 @@ public class AquisicaoProdutoService
 		}
 		
 		return valorTotal;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public FormaPagamento[] listAllFormasPagamento()
+	{
+		return FormaPagamento.values();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public CondicaoPagamento[] listAllCondicoesPagamento()
+	{
+		return CondicaoPagamento.values();
 	}
 	
 	/*-------------------------------------------------------------------
