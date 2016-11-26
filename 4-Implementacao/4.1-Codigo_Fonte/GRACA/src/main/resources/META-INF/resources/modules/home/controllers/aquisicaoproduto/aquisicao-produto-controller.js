@@ -155,7 +155,7 @@ angular.module('home')
 				console.debug("changeToAdd");
 				
 				$scope.model.aquisicaoProduto.entity = new AquisicaoProduto();//Limpa o formulário
-				
+				$scope.model.produtoAdquirido.page.content = [];
 				
 			};
 			
@@ -170,6 +170,8 @@ angular.module('home')
 		     */
 		    $scope.changeToEdit = function( id ) {
 		        console.debug("changeToEdit", id);
+		        
+		        
 		        
 		        aquisicaoProdutoService.findAquisicaoProdutoById( id, {
 		            callback : function(result) {	   
@@ -244,7 +246,7 @@ angular.module('home')
 		        $mdDialog.show(confirm).then(function (result) {
 		            console.log(result);
 		
-		            aquisicaoProdutoService.disableAquisicaoProduto( $scope.model.aquisicaoProduto.entity.id, {
+		            aquisicaoProdutoService.removeAquisicaoProduto( $scope.model.aquisicaoProduto.entity.id, {
 			            callback : function(result) {	   
 			            	
 			            	$state.go($scope.AQUISICAO_PRODUTO_LIST_STATE);
@@ -292,6 +294,31 @@ angular.module('home')
 			/**
 			 * 
 			 */
+			$scope.changeToConcluido = function()
+			{
+				var confirm = $mdDialog.confirm()
+	            .title('Tem certeza que deseja concluir a movimentação?')
+	            .content('')
+	            .ok('Sim')
+	            .cancel('Cancelar');
+	
+		        $mdDialog.show(confirm).then(function (result) {
+		        	aquisicaoProdutoService.changeToConcluido( $scope.model.aquisicaoProduto.entity.id , {
+						callback : function( result ) {
+							$scope.model.aquisicaoProduto.entity = result;
+							$scope.$apply();
+						},
+						errorHandler : function(message, exception) {
+							$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+			                $scope.$apply();
+			            }
+					});
+		        });
+			}
+			
+			/**
+			 * 
+			 */
 			$scope.openSelecionarFornecedor = function( tipoConta )
 			{
 		    	$mdDialog.show({
@@ -319,7 +346,22 @@ angular.module('home')
 			{
 				aquisicaoProdutoService.insertProdutoAdquirido( produtoAdquirido , {
 					callback : function( result ) {
+						$scope.showMessage( $scope.ERROR_MESSAGE,  "O registro foi inserido com sucesso" );
 						return result;
+					},
+					errorHandler : function(message, exception) {
+						$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+		                $scope.$apply();
+		            }
+				});
+			}
+			
+			$scope.removeProdutoAdquirido = function(id)
+			{
+				aquisicaoProdutoService.removeProdutoAdquirido( id , {
+					callback : function( result ) {
+						$scope.showMessage( $scope.ERROR_MESSAGE,  "O registro foi removido com sucesso" );
+						$scope.listProdutosByAquisicao();
 					},
 					errorHandler : function(message, exception) {
 						$scope.showMessage( $scope.ERROR_MESSAGE,  message );
@@ -373,7 +415,7 @@ angular.module('home')
 			    })
 			    .then(function(produtoAdquirido) {
 			    	
-		    		$scope.model.aquisicaoProduto.entity.fornecedor = fornecedor;
+		    		$scope.listProdutosByAquisicao();
 			    	
 			    }, function() {
 			    	
@@ -446,15 +488,11 @@ angular.module('home')
 				}
 				
 				
-				$scope.model.aquisicaoProduto.entity.responsavel = new Responsavel();
-				$scope.model.aquisicaoProduto.entity.responsavel.id = 1;
-				
 				aquisicaoProdutoService.insertAquisicaoProduto( $scope.model.aquisicaoProduto.entity, {
 	                callback : function(result) {
 	                	
 	                	$scope.model.aquisicaoProduto.entity = result;
 	                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi cadastrado com sucesso!" );
-	                	$state.go($scope.AQUISICAO_PRODUTO_LIST_STATE)
 	                	$scope.$apply();
 	                	
 	                },

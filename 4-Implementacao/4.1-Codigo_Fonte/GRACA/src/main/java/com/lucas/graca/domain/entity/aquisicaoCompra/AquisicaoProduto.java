@@ -227,111 +227,69 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 	/**
 	 * @return the status
 	 */
-	public StatusAquisicao getStatus()
-	{
+	public StatusAquisicao getStatus() {
 		return status;
 	}
 
 	/**
 	 * @param status the status to set
 	 */
-	public void setStatus( StatusAquisicao status )
-	{
+	public void setStatus(StatusAquisicao status) {
 		this.status = status;
 	}
 
 	/**
 	 * @return the condicaoPagamento
 	 */
-	public CondicaoPagamento getTipoPagamento()
-	{
+	public CondicaoPagamento getCondicaoPagamento() {
 		return condicaoPagamento;
 	}
 
 	/**
 	 * @param condicaoPagamento the condicaoPagamento to set
 	 */
-	public void setTipoPagamento( CondicaoPagamento condicaoPagamento )
-	{
-		this.condicaoPagamento = condicaoPagamento;
-	}
-
-	/**
-	 * @return the vezesPagamento
-	 */
-	public Integer getVezesPagamento()
-	{
-		return vezesPagamento;
-	}
-
-	/**
-	 * @param vezesPagamento the vezesPagamento to set
-	 */
-	public void setVezesPagamento( Integer vezesPagamento )
-	{
-		this.vezesPagamento = vezesPagamento;
-	}
-
-	/**
-	 * @return the condicaoPagamento
-	 */
-	public CondicaoPagamento getCondicaoPagamento()
-	{
-		return condicaoPagamento;
-	}
-
-	/**
-	 * @param condicaoPagamento the condicaoPagamento to set
-	 */
-	public void setCondicaoPagamento( CondicaoPagamento condicaoPagamento )
-	{
+	public void setCondicaoPagamento(CondicaoPagamento condicaoPagamento) {
 		this.condicaoPagamento = condicaoPagamento;
 	}
 
 	/**
 	 * @return the formaPagamento
 	 */
-	public FormaPagamento getFormaPagamento()
-	{
+	public FormaPagamento getFormaPagamento() {
 		return formaPagamento;
 	}
 
 	/**
 	 * @param formaPagamento the formaPagamento to set
 	 */
-	public void setFormaPagamento( FormaPagamento formaPagamento )
-	{
+	public void setFormaPagamento(FormaPagamento formaPagamento) {
 		this.formaPagamento = formaPagamento;
 	}
 
 	/**
-	 * @return the serialversionuid
+	 * @return the vezesPagamento
 	 */
-	public static long getSerialversionuid()
-	{
-		return serialVersionUID;
+	public Integer getVezesPagamento() {
+		return vezesPagamento;
 	}
 
 	/**
-	 * @return the fornecedor
+	 * @param vezesPagamento the vezesPagamento to set
 	 */
-	public Fornecedor getFornecedor()
-	{
-		return fornecedor;
+	public void setVezesPagamento(Integer vezesPagamento) {
+		this.vezesPagamento = vezesPagamento;
 	}
 
 	/**
-	 * @param fornecedor the fornecedor to set
+	 * @return the diaVencimento
 	 */
-	public void setFornecedor( Fornecedor fornecedor )
-	{
-		this.fornecedor = fornecedor;
-	}
-
 	public Integer getDiaVencimento() {
 		return diaVencimento;
 	}
 
+	/**
+	 * @param diaVencimento the diaVencimento to set
+	 */
 	public void setDiaVencimento(Integer diaVencimento) {
 		this.diaVencimento = diaVencimento;
 	}
@@ -350,4 +308,18 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 		this.porcentagemDiferenca = porcentagemDiferenca;
 	}
 
+	/**
+	 * @return the fornecedor
+	 */
+	public Fornecedor getFornecedor() {
+		return fornecedor;
+	}
+
+	/**
+	 * @param fornecedor the fornecedor to set
+	 */
+	public void setFornecedor(Fornecedor fornecedor) {
+		this.fornecedor = fornecedor;
+	}
+	
 }

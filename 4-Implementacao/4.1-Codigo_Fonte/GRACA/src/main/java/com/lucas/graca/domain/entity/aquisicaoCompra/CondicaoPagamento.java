@@ -9,7 +9,7 @@ import org.directwebremoting.annotations.DataTransferObject;
  * @author lucas
  *
  */
-@DataTransferObject(type = "enum")
+@DataTransferObject(type="enum")
 public enum CondicaoPagamento
 {
 	A_VISTA,

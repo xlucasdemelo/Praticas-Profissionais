@@ -30,6 +30,7 @@ import com.lucas.graca.domain.entity.produto.Produto;
 import com.lucas.graca.domain.repository.aquisicaoCompra.IAquisicaoProdutoRepository;
 import com.lucas.graca.domain.repository.aquisicaoCompra.IProdutoAdquiridoRepository;
 import com.lucas.graca.domain.repository.caixa.IMovimentacaoRepository;
+import com.lucas.graca.domain.repository.caixa.INaturezaGastosRepository;
 import com.lucas.graca.domain.repository.produto.IProdutoRepository;
 
 /**
@@ -66,6 +67,12 @@ public class AquisicaoProdutoService
 	 */
 	@Autowired
 	private IMovimentacaoRepository movimentacaoRepository;
+	
+	/**
+	 * 
+	 */
+	@Autowired
+	private INaturezaGastosRepository naturezaGastosRepository;
 	
 	/*-------------------------------------------------------------------
 	 *				 SERVICES AQUISIÇÃO DE PRODUTO
@@ -106,6 +113,13 @@ public class AquisicaoProdutoService
 		
 		Assert.isTrue(aquisicaoProduto.getStatus() == StatusAquisicao.RASCUNHO, "Somente aquisições em rascunho podem ser excluidas");
 		
+		List<ProdutoAdquirido> produtosAdquiridos = this.listProdutosByAquisicao(id, null).getContent();
+		
+		for (ProdutoAdquirido produtoAdquirido : produtosAdquiridos) 
+		{
+			this.produtoAdquiridoRepository.delete(produtoAdquirido);
+		}
+		
 		this.aquisicaoProdutoRepository.delete( aquisicaoProduto );
 	}
 	
@@ -139,7 +153,7 @@ public class AquisicaoProdutoService
 		
 		this.changeQuantidadeProdutoEmEstoque( id );
 		
-		if (aquisicaoProduto.getTipoPagamento() == CondicaoPagamento.A_PRAZO)
+		if (aquisicaoProduto.getCondicaoPagamento() == CondicaoPagamento.A_PRAZO)
 		{
 			Assert.notNull(aquisicaoProduto.getVezesPagamento(), "Informe a quantidade de parcelas");
 			Assert.notNull(aquisicaoProduto.getDiaVencimento(), "Informe o dia de vencimento");
@@ -283,7 +297,7 @@ public class AquisicaoProdutoService
 	{
 		Movimentacao movimentacao = new Movimentacao();
 		movimentacao.setTipoMovimentacao(TipoMovimentacao.SAIDA);
-		movimentacao.setNaturezaGastos(new NaturezaGastos(1L));
+		movimentacao.setNaturezaGastos( this.naturezaGastosRepository.findOne(1L) );
 		
 		movimentacao.setAquisicaoProduto(aquisicaoProduto);
 		movimentacao.setDescricao("Movimentação referente a aquisição de produto número " + aquisicaoProduto.getId());
