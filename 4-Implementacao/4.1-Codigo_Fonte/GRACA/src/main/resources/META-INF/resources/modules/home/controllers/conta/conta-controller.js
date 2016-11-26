@@ -108,6 +108,7 @@ angular.module('home')
 			        	break;
 			        }
 			        default : {
+			        	if ( $state.current.name == $scope.CONTA_LIST_STATE )
 			        		$state.go( $scope.CONTA_LIST_STATE );
 			        }
 				}

@@ -22,6 +22,7 @@ import com.lucas.graca.domain.entity.caixa.StatusMovimentacao;
 import com.lucas.graca.domain.entity.caixa.TipoMovimentacao;
 import com.lucas.graca.domain.repository.caixa.IContaRepository;
 import com.lucas.graca.domain.repository.caixa.IMovimentacaoRepository;
+import com.lucas.graca.domain.repository.caixa.INaturezaGastosRepository;
 
 /**
  * @author lucas
@@ -44,6 +45,12 @@ public class CaixaService
 	 */
 	@Autowired
 	private IMovimentacaoRepository movimentcacaoRepository ;
+	
+	/**
+	 * 
+	 */
+	@Autowired
+	private INaturezaGastosRepository naturezaGastosRepository;
 	
 	/*-------------------------------------------------------------------
 	 *				 		SERVICES CONTA
@@ -174,6 +181,40 @@ public class CaixaService
 		
 		movimentacao.setDataEmissao( Calendar.getInstance() );
 		
+		if (movimentacao.getNaturezaGastos().getId() == null)
+		{
+			this.naturezaGastosRepository.save(movimentacao.getNaturezaGastos());
+		}
+		
+		return this.movimentcacaoRepository.save( movimentacao );
+	}
+	
+	/**
+	 * 
+	 * @param movimentacao
+	 * @return
+	 */
+	public Movimentacao updateMovimentacao( Movimentacao movimentacao )
+	{
+		Assert.notNull( movimentacao, "Movimentação não pode ser nula" );
+		
+		Assert.notNull( movimentacao.getTipoMovimentacao(), "Tipo precisa ser informado" );
+		Assert.notNull( movimentacao.getValorEmissao(), "Valor precisa ser informado" );
+		Assert.notNull( movimentacao.getContaDestino(), "Informe a conta destino");
+		Assert.notNull( movimentacao.getContaOrigem(), "Informe a conta origem");
+		Assert.notNull( movimentacao.getDataPagamento(), "Informe a data de pagamento" );
+		Assert.notNull( movimentacao.getNaturezaGastos(), "Informe a natureza de gastos");
+		
+		Assert.isTrue(movimentacao.getContaDestino().getId() != movimentacao.getContaOrigem().getId(), 
+				"Conta origem e destino não podem ser iguais");
+		
+		movimentacao.setDataEmissao( Calendar.getInstance() );
+		
+		if (movimentacao.getNaturezaGastos().getId() == null)
+		{
+			this.naturezaGastosRepository.save(movimentacao.getNaturezaGastos());
+		}
+		
 		return this.movimentcacaoRepository.save( movimentacao );
 	}
 	
@@ -271,7 +312,7 @@ public class CaixaService
 
 		if ( movimentacao.getDataEfetivada().after(movimentacao.getDataPagamento()) )
 		{
-			movimentacao.setValorEfetivado( movimentacao.getValorAjustado() );
+			movimentacao.setValorEfetivado( movimentacao.calculateValorAjustado() );
 		}
 		else
 		{

@@ -80,7 +80,7 @@
 			<md-button ng-if="hasPermission('OPERADOR_ADMINISTRATIVO')" style="text-align: left;"
 				ng-click="toggleMenuSideNavHandler('conta.list');">
 				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
-				Caixa
+				Conta
 			</md-button>
 			
 			<md-button ng-if="hasPermission('OPERADOR_ADMINISTRATIVO')" style="text-align: left;"
@@ -89,7 +89,11 @@
 				Movimentacao
 			</md-button>
 			
-			<md-divider></md-divider>
+			<md-button ng-if="hasPermission('OPERADOR_ADMINISTRATIVO')" style="text-align: left;"
+				ng-click="toggleMenuSideNavHandler('aquisicao-produto.list');">
+				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
+				Aquisição de produtos
+			</md-button>
 			
 			<span flex></span>
 			

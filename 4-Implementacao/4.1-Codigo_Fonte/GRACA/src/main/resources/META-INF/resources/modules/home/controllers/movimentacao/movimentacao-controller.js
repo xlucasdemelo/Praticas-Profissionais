@@ -111,6 +111,7 @@ angular.module('home')
 			        	break;
 			        }
 			        default : {
+			        	if ( $state.current.name == $scope.MOVIMENTACAO_LIST_STATE )
 			        		$state.go( $scope.MOVIMENTACAO_LIST_STATE );
 			        }
 				}
@@ -130,7 +131,7 @@ angular.module('home')
 				console.debug("changeToAdd");
 				
 				$scope.model.movimentacao.entity = new Movimentacao();//Limpa o formulário
-				$scope.listAllTiposMovimentacao();
+				$scope.model.movimentacao.entity.naturezaGastos = new NaturezaGastos();
 				
 			};
 			
@@ -146,7 +147,7 @@ angular.module('home')
 		    $scope.changeToEdit = function( id ) {
 		        console.debug("changeToEdit", id);
 		        
-		        fornecedorService.findById( id, {
+		        caixaService.findMovimentacaoById( id, {
 		            callback : function(result) {	   
 		            	$scope.model.movimentacao.entity = result;
 		            	
@@ -234,6 +235,61 @@ angular.module('home')
 		        });
 		    };
 			
+		    /**
+		     * 
+		     */
+		    $scope.changeToEmAberto = function()
+		    {
+		    	
+		    	var confirm = $mdDialog.confirm()
+	            .title('Tem certeza que deseja enviar a movimentação para em aberto?')
+	            .content('Não será possível excluir este registro.')
+	            .ok('Sim')
+	            .cancel('Cancelar');
+	
+		        $mdDialog.show(confirm).then(function (result) {
+		            console.log(result);
+		
+		            caixaService.changeToAberto( $scope.model.movimentacao.entity.id, {
+			            callback : function(result) {
+			            	$scope.model.movimentacao.entity = result;
+			            	$scope.$apply();
+			            },
+			            errorHandler : function(message, exception) {
+			            	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+			                $scope.$apply();
+			            }
+			        });
+		        });
+		    	
+		    }
+		    
+		    $scope.changeToConcluido = function()
+		    {
+		    	
+		    	var confirm = $mdDialog.confirm()
+	            .title('Tem certeza que deseja concluir a movimentação?')
+	            .content('')
+	            .ok('Sim')
+	            .cancel('Cancelar');
+	
+		        $mdDialog.show(confirm).then(function (result) {
+		            console.log(result);
+		
+		            caixaService.changeToConcluido( $scope.model.movimentacao.entity.id, {
+			            callback : function(result) {
+			            	$scope.model.movimentacao.entity = result;
+			            	$scope.$apply();
+			            },
+			            errorHandler : function(message, exception) {
+			            	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+			                $scope.$apply();
+			            }
+			        });
+		        });
+		    	
+		    }
+		    
 		    /*-------------------------------------------------------------------
 		     * 		 				PRIVATE BEHAVIORS
 		     *-------------------------------------------------------------------*/
@@ -328,8 +384,10 @@ angular.module('home')
 				}
 				
 				
-				$scope.model.movimentacao.entity.naturezaGastos = new NaturezaGastos();
-//				$scope.model.movimentacao.entity.naturezaGastos.id = 1;
+//				var naturezaGastos = new NaturezaGastos();
+//				naturezaGastos = $scope.model.movimentacao.entity.naturezaGastos.nome;
+//				
+//				$scope.model.movimentacao.entity.naturezaGastos = naturezaGastos;
 				
 				caixaService.insertMovimentacao( $scope.model.movimentacao.entity, {
 	                callback : function(result) {
@@ -347,7 +405,7 @@ angular.module('home')
 	            });
 			}
 			
-			$scope.updateFornecedor = function()
+			$scope.updateMovimentacao = function()
 			{
 				$scope.model.movimentacao.form.$submitted = true;
 				if ($scope.model.movimentacao.form.$invalid ){
@@ -355,7 +413,7 @@ angular.module('home')
 					return;
 				}
 				
-				fornecedorService.updateFornecedor(  $scope.model.movimentacao.entity, {
+				caixaService.updateMovimentacao(  $scope.model.movimentacao.entity, {
 	                callback : function(result) {
 	                	
 	                	$scope.model.movimentacao.entity = result;
@@ -461,5 +519,6 @@ angular.module('home')
 			/*-------------------------------------------------------------------
 		     * 		 				 	POST CONSTRUCT
 		     *-------------------------------------------------------------------*/
+			$scope.listAllTiposMovimentacao();
 });
 }(window.angular));

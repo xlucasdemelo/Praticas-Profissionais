@@ -290,6 +290,28 @@
 	    	 url:'/editar/{id:[0-9]{1,10}}',
 	    	 templateUrl: './modules/home/views/movimentacao/movimentacao-form.html'
 	     })
+	     
+	     /**
+	      * 
+	      */
+	     $stateProvider.state('aquisicao-produto',{
+	    	 abstract: true,
+	    	 url : "/aquisicao-produto",
+	    	 template: '<div layout="column" flex ui-view=""/>',
+	    	 controller : 'AquisicaoProdutoController as aquisicaoProdutoController'
+	     })
+	     .state('aquisicao-produto.list',{
+	    	 url:'/listar',
+	    	 templateUrl: './modules/home/views/aquisicaoproduto/aquisicao-produto-list.html'
+	     })
+	     .state('aquisicao-produto.add',{
+	    	 url:'/inserir',
+	    	 templateUrl: './modules/home/views/aquisicaoproduto/aquisicao-produto-form.html'
+	     })
+	     .state('aquisicao-produto.edit',{
+	    	 url:'/editar/{id:[0-9]{1,10}}',
+	    	 templateUrl: './modules/home/views/aquisicaoproduto/aquisicao-produto-form.html'
+	     })
 	});
 
 	/**

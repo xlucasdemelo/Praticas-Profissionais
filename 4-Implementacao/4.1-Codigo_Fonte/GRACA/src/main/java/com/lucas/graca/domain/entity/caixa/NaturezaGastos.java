@@ -5,6 +5,7 @@ package com.lucas.graca.domain.entity.caixa;
 
 import java.io.Serializable;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.PrePersist;
@@ -44,8 +45,7 @@ public class NaturezaGastos extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
-	@NotNull
-	@Column(nullable = false)
+	@Basic
 	private String descricao;
 	
 	/**

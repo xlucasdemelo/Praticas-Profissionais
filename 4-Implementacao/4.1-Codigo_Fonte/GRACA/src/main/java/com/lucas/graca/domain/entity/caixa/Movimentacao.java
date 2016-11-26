@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -125,7 +126,7 @@ public class Movimentacao extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
-	@ManyToOne(fetch=FetchType.EAGER, optional= false)
+	@ManyToOne(fetch=FetchType.EAGER, optional= false, cascade=CascadeType.MERGE)
 	private NaturezaGastos naturezaGastos;
 	
 	/*-------------------------------------------------------------------
@@ -326,7 +327,7 @@ public class Movimentacao extends AbstractEntity implements Serializable
 	 * 
 	 * @return
 	 */
-	public BigDecimal getValorAjustado()
+	public BigDecimal calculateValorAjustado()
 	{
 		Date dataEfetivada = this.getDataEfetivada().getTime(); 
 		Date dataEmissao= this.getDataPagamento().getTime();

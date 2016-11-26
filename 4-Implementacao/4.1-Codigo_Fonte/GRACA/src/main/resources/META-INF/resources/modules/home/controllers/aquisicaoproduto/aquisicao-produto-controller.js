@@ -6,12 +6,12 @@
  * @param $state
  */
 angular.module('home')
-	   .controller('FornecedorController', function( $scope, $state, $importService, $mdToast, $mdDialog, $mdExpansionPanel ) {
+	   .controller('AquisicaoProdutoController', function( $scope, $state, $importService, $mdToast, $mdDialog, $mdExpansionPanel ) {
 		
 		   /**
 		     * Serviços importados do DWR
 		     */
-			$importService("fornecedorService");
+			$importService("aquisicaoProdutoService");
 			/**
 			 * 
 			 */
@@ -26,19 +26,19 @@ angular.module('home')
 			/**
 			 * Representa o estado de listagem de registros.
 			 */
-			$scope.FORNECEDOR_LIST_STATE = "fornecedor.list";
+			$scope.AQUISICAO_PRODUTO_LIST_STATE = "aquisicao-produto.list";
 			/**
 			 * Representa o estado para a criação de registros.
 			 */
-			$scope.FORNECEDOR_ADD_STATE = "fornecedor.add";
+			$scope.AQUISICAO_PRODUTO_ADD_STATE = "aquisicao-produto.add";
 			/**
 			 * Representa o estado para a edição de registros.
 			 */
-			$scope.FORNECEDOR_EDIT_STATE = "fornecedor.edit";
+			$scope.AQUISICAO_PRODUTO_EDIT_STATE = "aquisicao-produto.edit";
 			/**
 			 * Representa o estado de detalhe de um registro.
 			 */
-			$scope.FORNECEDOR_DETAIL_STATE = "fornecedor.detail";
+			$scope.AQUISICAO_PRODUTO_DETAIL_STATE = "aquisicao-produto.detail";
 			
 			//----FORM MODEL
 			
@@ -52,9 +52,9 @@ angular.module('home')
 					order : "",
 				},
 				
-				fornecedor: {
+				aquisicaoProduto: {
 					form: null,
-					entity: new Fornecedor(),
+					entity: new AquisicaoProduto(),
 					
 					filters: {
 					    terms: "",
@@ -94,25 +94,25 @@ angular.module('home')
 		    $scope.$on('$stateChangeSuccess', function( event, toState, toParams, fromState, fromParams ) {
 		    	
 		    	switch ( $state.current.name ) {
-					case $scope.FORNECEDOR_LIST_STATE: {
+					case $scope.AQUISICAO_PRODUTO_LIST_STATE: {
 						$scope.changeToList( false );
 						break;
 					}
-					case $scope.FORNECEDOR_DETAIL_STATE: {
+					case $scope.AQUISICAO_PRODUTO_DETAIL_STATE: {
 						$scope.changeToDetail( $state.params.id );
 						break;
 					}
-			        case $scope.FORNECEDOR_ADD_STATE: {
+			        case $scope.AQUISICAO_PRODUTO_ADD_STATE: {
 			        	$scope.changeToAdd();
 			        	break;
 			        }
-			        case $scope.FORNECEDOR_EDIT_STATE: {
+			        case $scope.AQUISICAO_PRODUTO_EDIT_STATE: {
 			        	$scope.changeToEdit( $state.params.id );
 			        	break;
 			        }
 			        default : {
-			        	if ( $state.current.name == $scope.FORNECEDOR_LIST_STATE )
-			        		$state.go( $scope.FORNECEDOR_LIST_STATE );
+			        	if ( $state.current.name == $scope.AQUISICAO_PRODUTO_LIST_STATE )
+			        		$state.go( $scope.AQUISICAO_PRODUTO_LIST_STATE );
 			        }
 				}
 		    });
@@ -130,7 +130,7 @@ angular.module('home')
 			$scope.changeToAdd = function() {
 				console.debug("changeToAdd");
 				
-				$scope.model.fornecedor.entity = new Fornecedor();//Limpa o formulário
+				$scope.model.aquisicaoProduto.entity = new AquisicaoProduto();//Limpa o formulário
 				
 				
 			};
@@ -147,9 +147,9 @@ angular.module('home')
 		    $scope.changeToEdit = function( id ) {
 		        console.debug("changeToEdit", id);
 		        
-		        fornecedorService.findById( id, {
+		        aquisicaoProdutoService.findById( id, {
 		            callback : function(result) {	   
-		            	$scope.model.fornecedor.entity = result;
+		            	$scope.model.aquisicaoProduto.entity = result;
 		            	
 		            	$scope.$apply();
 		            },
@@ -173,7 +173,7 @@ angular.module('home')
 		    $scope.changeToList = function( paginate ) {
 		        console.debug("changeToList");
 		        
-		        if ( paginate ) $scope.model.fornecedor.page.pageable.page++;
+		        if ( paginate ) $scope.model.aquisicaoProduto.page.pageable.page++;
 		        
 		        $scope.listByFilters();
 		    };
@@ -190,10 +190,10 @@ angular.module('home')
 		    $scope.changeToDetail = function( id ) {
 		        console.debug("changeToDetail", id);
 		
-		        fornecedorService.findById( id, {
+		        aquisicaoProdutoService.findById( id, {
 		            callback : function(result) {
-		            	$scope.model.fornecedor.entity = result;
-		            	$state.current.breadCrumbs.push({name: $scope.model.fornecedor.entity.razaoSocial});
+		            	$scope.model.aquisicaoProduto.entity = result;
+		            	$state.current.breadCrumbs.push({name: $scope.model.aquisicaoProduto.entity.razaoSocial});
 		                $scope.$apply();
 		            },
 		            errorHandler : function(message, exception) {
@@ -219,10 +219,10 @@ angular.module('home')
 		        $mdDialog.show(confirm).then(function (result) {
 		            console.log(result);
 		
-		            fornecedorService.disableFornecedor( $scope.model.fornecedor.entity.id, {
+		            aquisicaoProdutoService.disableAquisicaoProduto( $scope.model.aquisicaoProduto.entity.id, {
 			            callback : function(result) {	   
 			            	
-			            	$state.go($scope.FORNECEDOR_LIST_STATE);
+			            	$state.go($scope.AQUISICAO_PRODUTO_LIST_STATE);
 			            	$scope.showMessage( $scope.ERROR_MESSAGE,  "Registro excluído com sucesso" );
 			            	$scope.$apply();
 			            },
@@ -241,10 +241,10 @@ angular.module('home')
 			
 			$scope.listByFilters = function(){
 				
-				fornecedorService.listFornecedoresByFilters(  $scope.model.fornecedor.filters.terms.toString(), true, $scope.model.fornecedor.page.pageable, {
+				aquisicaoProdutoService.listAquisicoesByFilters(  $scope.model.aquisicaoProduto.filters.terms.toString(), $scope.model.aquisicaoProduto.page.pageable, {
 	                callback : function(result) {
-	                	$scope.totalPagesFornecedor = result.totalPages;
-	                	$scope.model.fornecedor.page = {//PageImpl
+	                	$scope.totalPagesAquisicaoProduto = result.totalPages;
+	                	$scope.model.aquisicaoProduto.page = {//PageImpl
 	    						content : result.content,
 								pageable : {//PageRequest
 									page : result.number,
@@ -267,11 +267,11 @@ angular.module('home')
 			/**
 			 * 
 			 */
-			$scope.disableFornecedor = function(){
+			$scope.disableAquisicaoProduto = function(){
 				
-				fornecedorService.disableFornecedor( id, {
+				aquisicaoProdutoService.disableAquisicaoProduto( id, {
 		            callback : function(result) {
-		            	$state.go($scope.FORNECEDOR_LIST_STATE);
+		            	$state.go($scope.AQUISICAO_PRODUTO_LIST_STATE);
 		            	$scope.$apply();
 		            },
 		            errorHandler : function(message, exception) {
@@ -285,7 +285,7 @@ angular.module('home')
 			/**
 			 * 
 			 */
-			$scope.enableFornecedor = function(){
+			$scope.enableAquisicaoProduto = function(){
 				
 				var confirm = $mdDialog.confirm()
 	            .title('Tem certeza que deseja ativar este registro?')
@@ -296,10 +296,10 @@ angular.module('home')
 		        $mdDialog.show(confirm).then(function (result) {
 		            console.log(result);
 		
-		            fornecedorService.enableFornecedor( $scope.model.fornecedor.entity.id  , {
+		            aquisicaoProdutoService.enableAquisicaoProduto( $scope.model.aquisicaoProduto.entity.id  , {
 		                callback : function(result) {
 		                    $scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi ativado com sucesso!" );
-		                    $state.go($scope.FORNECEDOR_LIST_STATE);
+		                    $state.go($scope.AQUISICAO_PRODUTO_LIST_STATE);
 		                    
 		                    $scope.listByFilters();
 		                    $scope.$apply();
@@ -319,24 +319,24 @@ angular.module('home')
 			/**
 			 * 
 			 */
-			$scope.insertFornecedor = function()
+			$scope.insertAquisicaoProduto = function()
 			{
-				$scope.model.fornecedor.form.$submitted = true;
-				if ($scope.model.fornecedor.form.$invalid ){
+				$scope.model.aquisicaoProduto.form.$submitted = true;
+				if ($scope.model.aquisicaoProduto.form.$invalid ){
 					$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
 					return;
 				}
 				
 				
-				$scope.model.fornecedor.entity.responsavel = new Responsavel();
-				$scope.model.fornecedor.entity.responsavel.id = 1;
+				$scope.model.aquisicaoProduto.entity.responsavel = new Responsavel();
+				$scope.model.aquisicaoProduto.entity.responsavel.id = 1;
 				
-				fornecedorService.insertFornecedor( $scope.model.fornecedor.entity, {
+				aquisicaoProdutoService.insertAquisicaoProduto( $scope.model.aquisicaoProduto.entity, {
 	                callback : function(result) {
 	                	
-	                	$scope.model.fornecedor.entity = result;
+	                	$scope.model.aquisicaoProduto.entity = result;
 	                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi cadastrado com sucesso!" );
-	                	$state.go($scope.FORNECEDOR_LIST_STATE)
+	                	$state.go($scope.AQUISICAO_PRODUTO_LIST_STATE)
 	                	$scope.$apply();
 	                	
 	                },
@@ -347,20 +347,20 @@ angular.module('home')
 	            });
 			}
 			
-			$scope.updateFornecedor = function()
+			$scope.updateAquisicaoProduto = function()
 			{
-				$scope.model.fornecedor.form.$submitted = true;
-				if ($scope.model.fornecedor.form.$invalid ){
+				$scope.model.aquisicaoProduto.form.$submitted = true;
+				if ($scope.model.aquisicaoProduto.form.$invalid ){
 					$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
 					return;
 				}
 				
-				fornecedorService.updateFornecedor(  $scope.model.fornecedor.entity, {
+				aquisicaoProdutoService.updateAquisicaoProduto(  $scope.model.aquisicaoProduto.entity, {
 	                callback : function(result) {
 	                	
-	                	$scope.model.fornecedor.entity = result;
+	                	$scope.model.aquisicaoProduto.entity = result;
 	                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi alterado com sucesso!" );
-	                	$state.go(FORNECEDOR_EDIT_STATE)
+	                	$state.go(AQUISICAO_PRODUTO_EDIT_STATE)
 	                	$scope.$apply();
 	                	
 	                },
@@ -374,11 +374,11 @@ angular.module('home')
 			/**
 			 * 
 			 */
-			$scope.onFornecedorPaginationChange = function(paginate) {
+			$scope.onAquisicaoProdutoPaginationChange = function(paginate) {
 	        	if (paginate) {
-	        		$scope.model.fornecedor.page.pageable.page++;
+	        		$scope.model.aquisicaoProduto.page.pageable.page++;
 	        	} else {
-	        		$scope.model.fornecedor.page.pageable.page--;
+	        		$scope.model.aquisicaoProduto.page.pageable.page--;
 	        	}
 	        		
 	        	$scope.listByFilters();
@@ -425,7 +425,7 @@ angular.module('home')
 		    	}
 		    	
 		    	$scope.model.dialog = dialog;
-		    	$scope.openDefaultConfirmDialog( $scope, $scope.excluirFornecedorHandler, null );
+		    	$scope.openDefaultConfirmDialog( $scope, $scope.excluirAquisicaoProdutoHandler, null );
 			};
 			
 			

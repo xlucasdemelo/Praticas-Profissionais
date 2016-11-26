@@ -176,9 +176,9 @@ public class AquisicaoProdutoService
 	 * @param pageable
 	 */
 	@Transactional(readOnly=true)
-	public void listAquisicoesByFilters(String filter, PageRequest pageable)
+	public Page<AquisicaoProduto> listAquisicoesByFilters(String filter, PageRequest pageable)
 	{
-		this.aquisicaoProdutoRepository.listByFilters(filter, pageable);
+		return this.aquisicaoProdutoRepository.listByFilters(filter, pageable);
 	}
 	
 	/**
