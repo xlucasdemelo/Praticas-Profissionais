@@ -23,7 +23,6 @@ import com.lucas.graca.domain.entity.aquisicaoCompra.FormaPagamento;
 import com.lucas.graca.domain.entity.aquisicaoCompra.ProdutoAdquirido;
 import com.lucas.graca.domain.entity.aquisicaoCompra.StatusAquisicao;
 import com.lucas.graca.domain.entity.caixa.Movimentacao;
-import com.lucas.graca.domain.entity.caixa.NaturezaGastos;
 import com.lucas.graca.domain.entity.caixa.StatusMovimentacao;
 import com.lucas.graca.domain.entity.caixa.TipoMovimentacao;
 import com.lucas.graca.domain.entity.produto.Produto;
@@ -157,7 +156,19 @@ public class AquisicaoProdutoService
 		{
 			Assert.notNull(aquisicaoProduto.getVezesPagamento(), "Informe a quantidade de parcelas");
 			Assert.notNull(aquisicaoProduto.getDiaVencimento(), "Informe o dia de vencimento");
-			this.insertMovimentacoesPrazo(aquisicaoProduto);
+			
+			BigDecimal valorEmissao = new BigDecimal("0");
+			
+			List<ProdutoAdquirido> produtosAdquiridos = this.listProdutosByAquisicao(aquisicaoProduto.getId(), null).getContent();
+			
+			for (ProdutoAdquirido produtoAdquirido : produtosAdquiridos) 
+			{
+				valorEmissao = valorEmissao.add( produtoAdquirido.getValor().multiply(new BigDecimal(produtoAdquirido.getQuantidade()) ));
+			}
+			
+			valorEmissao = valorEmissao.divide(new BigDecimal(aquisicaoProduto.getVezesPagamento()), BigDecimal.ROUND_UP);
+			
+			this.insertMovimentacoesPrazo(aquisicaoProduto, valorEmissao);
 		}
 		else
 		{
@@ -262,23 +273,25 @@ public class AquisicaoProdutoService
 	 * Método que gera uma movimentação para cada aquisição de produto
 	 * @param aquisicaoProdutoId
 	 */
-	private void insertMovimentacoesPrazo( AquisicaoProduto aquisicaoProduto)
+	private void insertMovimentacoesPrazo( AquisicaoProduto aquisicaoProduto, BigDecimal valorEmissao)
 	{
 		for (int i = 0; i < aquisicaoProduto.getVezesPagamento(); i++) 
 		{
 			Movimentacao movimentacao = new Movimentacao();
 			movimentacao.setTipoMovimentacao(TipoMovimentacao.SAIDA);
-			movimentacao.setNaturezaGastos(new NaturezaGastos(1L));
+			movimentacao.setNaturezaGastos( this.naturezaGastosRepository.findOne(1L) );
 			
 			movimentacao.setAquisicaoProduto(aquisicaoProduto);
 			movimentacao.setDescricao("Movimentação referente a aquisição de produto número " + aquisicaoProduto.getId());
-			movimentacao.setValorEmissao(new BigDecimal("0"));
+			
+			movimentacao.setValorEmissao(valorEmissao);
+			
 			movimentacao.setDataEmissao(Calendar.getInstance());
-			movimentacao.setPorcentagemDiferenca(movimentacao.getPorcentagemDiferenca());
+			movimentacao.setPorcentagemDiferenca(aquisicaoProduto.getPorcentagemDiferenca());
 			
 			Calendar dataPagamento = Calendar.getInstance();
-			dataPagamento.add(Calendar.MONTH, 1 );
-			dataPagamento.set(Calendar.DAY_OF_WEEK, aquisicaoProduto.getDiaVencimento());
+			dataPagamento.add(Calendar.MONTH, i + 1 );
+			dataPagamento.set(Calendar.DAY_OF_MONTH, aquisicaoProduto.getDiaVencimento());
 			
 			movimentacao.setDataPagamento(dataPagamento);
 			

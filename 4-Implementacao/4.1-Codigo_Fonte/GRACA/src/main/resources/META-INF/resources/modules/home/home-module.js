@@ -312,6 +312,29 @@
 	    	 url:'/editar/{id:[0-9]{1,10}}',
 	    	 templateUrl: './modules/home/views/aquisicaoproduto/aquisicao-produto-form.html'
 	     })
+	     
+	     /**
+	      * 
+	      */
+	     $stateProvider.state('repasse',{
+	    	 abstract: true,
+	    	 url : "/repasse",
+	    	 template: '<div layout="column" flex ui-view=""/>',
+	    	 controller : 'RepasseController as repasseController'
+	     })
+	     .state('repasse.list',{
+	    	 url:'/listar',
+	    	 templateUrl: './modules/home/views/repasse/repasse-list.html'
+	     })
+	     .state('repasse.add',{
+	    	 url:'/inserir',
+	    	 templateUrl: './modules/home/views/repasse/repasse-form.html'
+	     })
+	     .state('repasse.edit',{
+	    	 url:'/editar/{id:[0-9]{1,10}}',
+	    	 templateUrl: './modules/home/views/repasse/repasse-form.html'
+	     })
+	     
 	});
 
 	/**

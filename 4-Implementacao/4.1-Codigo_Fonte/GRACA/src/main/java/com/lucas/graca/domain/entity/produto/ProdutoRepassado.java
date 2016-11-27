@@ -6,21 +6,17 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
-import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
 import org.hibernate.envers.Audited;
-import org.springframework.util.Assert;
-
-import com.lucas.graca.domain.entity.casalar.CasaLar;
 
 import br.com.eits.common.domain.entity.AbstractEntity;
 
 @Entity
 @Audited
-@DataTransferObject(javascript = "Repasse")
-public class Repasse extends AbstractEntity implements Serializable 
+@DataTransferObject(javascript = "ProdutoRepassado")
+public class ProdutoRepassado extends AbstractEntity implements Serializable
 {
 
 	/**
@@ -37,13 +33,21 @@ public class Repasse extends AbstractEntity implements Serializable
 	 */
 	@NotNull
 	@Column(nullable = false)
-	private StatusRepasse status;
+	private Integer quantidade; 
+	
+
 	
 	/**
 	 * 
 	 */
 	@ManyToOne(fetch=FetchType.EAGER)
-	private CasaLar casaLar;
+	private Produto produto;
+	
+	/**
+	 * 
+	 */
+	@ManyToOne(fetch=FetchType.EAGER)
+	private Repasse repasse;
 
 	/*-------------------------------------------------------------------
 	 *				 		     CONSTRUCTORS
@@ -52,28 +56,31 @@ public class Repasse extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 * @param id
-	 * @param status
-	 * @param casaLar
+	 * @param quantidade
+	 * @param produto
+	 * @param repasse
 	 */
-	public Repasse(Long id, StatusRepasse status, CasaLar casaLar) 
+	public ProdutoRepassado(Long id, Integer quantidade, Produto produto, Repasse repasse) 
 	{
 		super(id);
-		this.status = status;
-		this.casaLar = casaLar;
+		this.quantidade = quantidade;
+		this.produto = produto;
+		this.repasse = repasse;
 	}
 
 	/**
 	 * 
 	 */
-	public Repasse() 
+	public ProdutoRepassado() 
 	{
 		super();
 	}
 
 	/**
+	 * 
 	 * @param id
 	 */
-	public Repasse(Long id) 
+	public ProdutoRepassado(Long id) 
 	{
 		super(id);
 	}
@@ -89,8 +96,9 @@ public class Repasse extends AbstractEntity implements Serializable
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((casaLar == null) ? 0 : casaLar.hashCode());
-		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result + ((produto == null) ? 0 : produto.hashCode());
+		result = prime * result + ((quantidade == null) ? 0 : quantidade.hashCode());
+		result = prime * result + ((repasse == null) ? 0 : repasse.hashCode());
 		return result;
 	}
 
@@ -105,74 +113,70 @@ public class Repasse extends AbstractEntity implements Serializable
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Repasse other = (Repasse) obj;
-		if (casaLar == null) {
-			if (other.casaLar != null)
+		ProdutoRepassado other = (ProdutoRepassado) obj;
+		if (produto == null) {
+			if (other.produto != null)
 				return false;
-		} else if (!casaLar.equals(other.casaLar))
+		} else if (!produto.equals(other.produto))
 			return false;
-		if (status != other.status)
+		if (quantidade == null) {
+			if (other.quantidade != null)
+				return false;
+		} else if (!quantidade.equals(other.quantidade))
+			return false;
+		if (repasse == null) {
+			if (other.repasse != null)
+				return false;
+		} else if (!repasse.equals(other.repasse))
 			return false;
 		return true;
 	}
-	
-	/**
-	 * 
-	 */
-	@PrePersist
-	private void changeToRascunho()
-	{
-		this.status = StatusRepasse.RASCUNHO;
-	}
-	
+
 	/*-------------------------------------------------------------------
-	 *				 		  GETTERS AND SETTERS
+	 *				 		 GETTERS AND SETTERS
 	 *-------------------------------------------------------------------*/
 	
 	/**
-	 * 
+	 * @return the quantidade
 	 */
-	public void changeToAprovado()
-	{
-		Assert.isTrue(this.status == StatusRepasse.RASCUNHO, "Status deve ser rascunho");
-		this.status = StatusRepasse.APROVADO;
-	}
-	
-	/**
-	 * 
-	 */
-	public void changeToRecusado()
-	{
-		Assert.isTrue(this.status == StatusRepasse.RASCUNHO, "Status deve ser rascunho");
-		this.status = StatusRepasse.RECUSADO;
+	public Integer getQuantidade() {
+		return quantidade;
 	}
 
 	/**
-	 * @return the status
+	 * @param quantidade the quantidade to set
 	 */
-	public StatusRepasse getStatus() {
-		return status;
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
 	}
 
 	/**
-	 * @param status the status to set
+	 * @return the produto
 	 */
-	public void setStatus(StatusRepasse status) {
-		this.status = status;
+	public Produto getProduto() {
+		return produto;
 	}
 
 	/**
-	 * @return the casaLar
+	 * @param produto the produto to set
 	 */
-	public CasaLar getCasaLar() {
-		return casaLar;
+	public void setProduto(Produto produto) {
+		this.produto = produto;
 	}
 
 	/**
-	 * @param casaLar the casaLar to set
+	 * @return the repasse
 	 */
-	public void setCasaLar(CasaLar casaLar) {
-		this.casaLar = casaLar;
+	public Repasse getRepasse() {
+		return repasse;
 	}
 
+	/**
+	 * @param repasse the repasse to set
+	 */
+	public void setRepasse(Repasse repasse) {
+		this.repasse = repasse;
+	}
+
+		
 }

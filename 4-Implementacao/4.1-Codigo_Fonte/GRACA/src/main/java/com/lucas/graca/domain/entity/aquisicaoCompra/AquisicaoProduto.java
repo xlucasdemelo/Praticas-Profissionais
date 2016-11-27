@@ -77,7 +77,7 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 	 * 
 	 */
 	@Basic
-	private Integer porcentagemDiferenca;
+	private Float porcentagemDiferenca;
 	
 	/**
 	 * 
@@ -96,7 +96,7 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 	 * @param vezesPagamento
 	 */
 	public AquisicaoProduto( Long id, StatusAquisicao status, CondicaoPagamento condicaoPagamento, FormaPagamento formaPagamento, 
-			Integer vezesPagamento, Fornecedor fornecedor, Integer diaVencimento, Integer porcentagemDiferenca )
+			Integer vezesPagamento, Fornecedor fornecedor, Integer diaVencimento, Float porcentagemDiferenca )
 	{
 		super(id);
 		this.status = status;
@@ -297,14 +297,14 @@ public class AquisicaoProduto extends AbstractEntity implements Serializable
 	/**
 	 * @return the porcentagemDiferenca
 	 */
-	public Integer getPorcentagemDiferenca() {
+	public Float getPorcentagemDiferenca() {
 		return porcentagemDiferenca;
 	}
 
 	/**
 	 * @param porcentagemDiferenca the porcentagemDiferenca to set
 	 */
-	public void setPorcentagemDiferenca(Integer porcentagemDiferenca) {
+	public void setPorcentagemDiferenca(Float porcentagemDiferenca) {
 		this.porcentagemDiferenca = porcentagemDiferenca;
 	}
 

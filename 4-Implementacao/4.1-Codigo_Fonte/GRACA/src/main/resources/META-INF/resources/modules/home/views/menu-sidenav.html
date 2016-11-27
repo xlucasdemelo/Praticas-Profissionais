@@ -95,6 +95,12 @@
 				Aquisição de produtos
 			</md-button>
 			
+			<md-button ng-if="hasPermission('OPERADOR_ADMINISTRATIVO')" style="text-align: left;"
+				ng-click="toggleMenuSideNavHandler('repasse.list');">
+				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
+				Repasse de produtos
+			</md-button>
+			
 			<span flex></span>
 			
 			<md-divider></md-divider>

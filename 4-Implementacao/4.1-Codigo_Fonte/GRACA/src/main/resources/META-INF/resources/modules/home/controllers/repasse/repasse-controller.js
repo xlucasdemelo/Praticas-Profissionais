@@ -6,12 +6,12 @@
  * @param $state
  */
 angular.module('home')
-	   .controller('MovimentacaoController', function( $scope, $state, $importService, $mdToast, $mdDialog, $mdExpansionPanel ) {
+	   .controller('RepasseController', function( $scope, $state, $importService, $mdToast, $mdDialog, $mdExpansionPanel ) {
 		
 		   /**
 		     * Serviços importados do DWR
 		     */
-			$importService("caixaService");
+			$importService("produtoService");
 			/**
 			 * 
 			 */
@@ -26,19 +26,19 @@ angular.module('home')
 			/**
 			 * Representa o estado de listagem de registros.
 			 */
-			$scope.MOVIMENTACAO_LIST_STATE = "movimentacao.list";
+			$scope.REPASSE_LIST_STATE = "repasse.list";
 			/**
 			 * Representa o estado para a criação de registros.
 			 */
-			$scope.MOVIMENTACAO_ADD_STATE = "movimentacao.add";
+			$scope.REPASSE_ADD_STATE = "repasse.add";
 			/**
 			 * Representa o estado para a edição de registros.
 			 */
-			$scope.MOVIMENTACAO_EDIT_STATE = "movimentacao.edit";
+			$scope.REPASSE_EDIT_STATE = "repasse.edit";
 			/**
 			 * Representa o estado de detalhe de um registro.
 			 */
-			$scope.MOVIMENTACAO_DETAIL_STATE = "movimentacao.detail";
+			$scope.REPASSE_DETAIL_STATE = "repasse.detail";
 			
 			//----FORM MODEL
 			
@@ -52,9 +52,9 @@ angular.module('home')
 					order : "",
 				},
 				
-				movimentacao: {
+				repasse: {
 					form: null,
-					entity: new Movimentacao(),
+					entity: new Repasse(),
 					
 					filters: {
 					    terms: "",
@@ -74,7 +74,31 @@ angular.module('home')
 		        		direction: 'ASC', properties: 'id', nullHandlingHint:null
 		        	}],
 					
-				}
+				},
+				
+				produtoRepassado: {
+					form: null,
+					entity: new ProdutoRepassado(),
+					
+					filters: {
+					    terms: "",
+					    ativo: true,
+					    inativo: false
+					},
+					
+				    page: {//PageImpl 
+				    		content: [],
+				    		pageable :{ size: 9,
+							    		page: 0,
+							    		total:0,
+							        	sort:null
+				        	}
+				    },
+				    sort: [{//Sort
+		        		direction: 'ASC', properties: 'id', nullHandlingHint:null
+		        	}],
+					
+				},
 			};
 			
 			
@@ -94,25 +118,25 @@ angular.module('home')
 		    $scope.$on('$stateChangeSuccess', function( event, toState, toParams, fromState, fromParams ) {
 		    	
 		    	switch ( $state.current.name ) {
-					case $scope.MOVIMENTACAO_LIST_STATE: {
+					case $scope.REPASSE_LIST_STATE: {
 						$scope.changeToList( false );
 						break;
 					}
-					case $scope.MOVIMENTACAO_DETAIL_STATE: {
+					case $scope.REPASSE_DETAIL_STATE: {
 						$scope.changeToDetail( $state.params.id );
 						break;
 					}
-			        case $scope.MOVIMENTACAO_ADD_STATE: {
+			        case $scope.REPASSE_ADD_STATE: {
 			        	$scope.changeToAdd();
 			        	break;
 			        }
-			        case $scope.MOVIMENTACAO_EDIT_STATE: {
+			        case $scope.REPASSE_EDIT_STATE: {
 			        	$scope.changeToEdit( $state.params.id );
 			        	break;
 			        }
 			        default : {
-			        	if ( $state.current.name == $scope.MOVIMENTACAO_LIST_STATE )
-			        		$state.go( $scope.MOVIMENTACAO_LIST_STATE );
+			        	if ( $state.current.name == $scope.REPASSE_LIST_STATE )
+			        		$state.go( $scope.REPASSE_LIST_STATE );
 			        }
 				}
 		    });
@@ -130,8 +154,8 @@ angular.module('home')
 			$scope.changeToAdd = function() {
 				console.debug("changeToAdd");
 				
-				$scope.model.movimentacao.entity = new Movimentacao();//Limpa o formulário
-				$scope.model.movimentacao.entity.naturezaGastos = new NaturezaGastos();
+				$scope.model.repasse.entity = new Repasse();//Limpa o formulário
+				
 				
 			};
 			
@@ -147,10 +171,10 @@ angular.module('home')
 		    $scope.changeToEdit = function( id ) {
 		        console.debug("changeToEdit", id);
 		        
-		        caixaService.findMovimentacaoById( id, {
+		        produtoService.findRepasseById( id, {
 		            callback : function(result) {	   
-		            	$scope.model.movimentacao.entity = result;
-		            	
+		            	$scope.model.repasse.entity = result;
+		            	$scope.listProdutosRepassadosByRepasse(id);
 		            	$scope.$apply();
 		            },
 		            errorHandler : function(message, exception) {
@@ -173,7 +197,7 @@ angular.module('home')
 		    $scope.changeToList = function( paginate ) {
 		        console.debug("changeToList");
 		        
-		        if ( paginate ) $scope.model.movimentacao.page.pageable.page++;
+		        if ( paginate ) $scope.model.repasse.page.pageable.page++;
 		        
 		        $scope.listByFilters();
 		    };
@@ -190,10 +214,10 @@ angular.module('home')
 		    $scope.changeToDetail = function( id ) {
 		        console.debug("changeToDetail", id);
 		
-		        fornecedorService.findById( id, {
+		        produtoService.findById( id, {
 		            callback : function(result) {
-		            	$scope.model.movimentacao.entity = result;
-		            	$state.current.breadCrumbs.push({name: $scope.model.movimentacao.entity.razaoSocial});
+		            	$scope.model.repasse.entity = result;
+		            	$state.current.breadCrumbs.push({name: $scope.model.repasse.entity.razaoSocial});
 		                $scope.$apply();
 		            },
 		            errorHandler : function(message, exception) {
@@ -219,10 +243,10 @@ angular.module('home')
 		        $mdDialog.show(confirm).then(function (result) {
 		            console.log(result);
 		
-		            fornecedorService.disableFornecedor( $scope.model.movimentacao.entity.id, {
+		            produtoService.removeRepasse( $scope.model.repasse.entity.id, {
 			            callback : function(result) {	   
 			            	
-			            	$state.go($scope.MOVIMENTACAO_LIST_STATE);
+			            	$state.go($scope.REPASSE_LIST_STATE);
 			            	$scope.showMessage( $scope.ERROR_MESSAGE,  "Registro excluído com sucesso" );
 			            	$scope.$apply();
 			            },
@@ -235,71 +259,16 @@ angular.module('home')
 		        });
 		    };
 			
-		    /**
-		     * 
-		     */
-		    $scope.changeToEmAberto = function()
-		    {
-		    	
-		    	var confirm = $mdDialog.confirm()
-	            .title('Tem certeza que deseja enviar a movimentação para em aberto?')
-	            .content('Não será possível excluir este registro.')
-	            .ok('Sim')
-	            .cancel('Cancelar');
-	
-		        $mdDialog.show(confirm).then(function (result) {
-		            console.log(result);
-		
-		            caixaService.changeToAberto( $scope.model.movimentacao.entity.id, {
-			            callback : function(result) {
-			            	$scope.model.movimentacao.entity = result;
-			            	$scope.$apply();
-			            },
-			            errorHandler : function(message, exception) {
-			            	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
-			                $scope.$apply();
-			            }
-			        });
-		        });
-		    	
-		    }
-		    
-		    $scope.changeToConcluido = function()
-		    {
-		    	
-		    	var confirm = $mdDialog.confirm()
-	            .title('Tem certeza que deseja concluir a movimentação?')
-	            .content('')
-	            .ok('Sim')
-	            .cancel('Cancelar');
-	
-		        $mdDialog.show(confirm).then(function (result) {
-		            console.log(result);
-		
-		            caixaService.changeToConcluido( $scope.model.movimentacao.entity.id, {
-			            callback : function(result) {
-			            	$scope.model.movimentacao.entity = result;
-			            	$scope.$apply();
-			            },
-			            errorHandler : function(message, exception) {
-			            	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
-			                $scope.$apply();
-			            }
-			        });
-		        });
-		    	
-		    }
-		    
 		    /*-------------------------------------------------------------------
 		     * 		 				PRIVATE BEHAVIORS
 		     *-------------------------------------------------------------------*/
 			
 			$scope.listByFilters = function(){
 				
-				caixaService.listMovimentacoesByFilters(  $scope.model.movimentacao.filters.terms.toString(), $scope.model.movimentacao.page.pageable, {
+				produtoService.listRepassesByFilters(  $scope.model.repasse.filters.terms.toString(), $scope.model.repasse.page.pageable, {
 	                callback : function(result) {
-	                	$scope.totalPagesMovimentacao = result.totalPages;
-	                	$scope.model.movimentacao.page = {//PageImpl
+	                	$scope.totalPagesRepasse = result.totalPages;
+	                	$scope.model.repasse.page = {//PageImpl
 	    						content : result.content,
 								pageable : {//PageRequest
 									page : result.number,
@@ -324,9 +293,9 @@ angular.module('home')
 			 */
 			$scope.disableFornecedor = function(){
 				
-				fornecedorService.disableFornecedor( id, {
+				produtoService.disableFornecedor( id, {
 		            callback : function(result) {
-		            	$state.go($scope.MOVIMENTACAO_LIST_STATE);
+		            	$state.go($scope.REPASSE_LIST_STATE);
 		            	$scope.$apply();
 		            },
 		            errorHandler : function(message, exception) {
@@ -351,10 +320,10 @@ angular.module('home')
 		        $mdDialog.show(confirm).then(function (result) {
 		            console.log(result);
 		
-		            fornecedorService.enableFornecedor( $scope.model.movimentacao.entity.id  , {
+		            produtoService.enableFornecedor( $scope.model.repasse.entity.id  , {
 		                callback : function(result) {
 		                    $scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi ativado com sucesso!" );
-		                    $state.go($scope.MOVIMENTACAO_LIST_STATE);
+		                    $state.go($scope.REPASSE_LIST_STATE);
 		                    
 		                    $scope.listByFilters();
 		                    $scope.$apply();
@@ -367,58 +336,69 @@ angular.module('home')
 		        });
 			}
 			
-			$scope.listByMoreFilters = function(){
+			/**
+			 * 
+			 */
+			$scope.openSelecionarCasaLar = function( algo )
+			{
+		    	$mdDialog.show({
+					controller: "SelecionarCasaLarControllerPopup",
+					templateUrl: './modules/home/views/casalar/popup/selecionar-casa-lar-modal.html',
+					parent: angular.element(document.body),
+					clickOutsideToClose:true,
+					fullscreen: true,
+					scope: $scope.$new()
+			    })
+			    .then(function(casaLar) {
+			    	
+		    		$scope.model.repasse.entity.casaLar = casaLar;
+			    	
+			    }, function() {
+			    	
+			    });
 				
-			}
+			};
 			
 			/**
 			 * 
 			 */
-			$scope.insertMovimentacao = function()
+			$scope.openSelecionarProduto = function( tipoConta )
 			{
-				$scope.model.movimentacao.form.$submitted = true;
+		    	$mdDialog.show({
+					controller: "SelecionarProdutoRepassadoControllerPopup",
+					templateUrl: './modules/home/views/repasse/popup/selecionar-produto-repassado-modal.html',
+					parent: angular.element(document.body),
+					clickOutsideToClose:true,
+					fullscreen: true,
+					scope: $scope.$new()
+			    })
+			    .then(function(produtoAdquirido) {
+			    	
+			    	$scope.listProdutosRepassadosByRepasse( $scope.model.repasse.entity.id );
+			    	
+			    }, function() {
+			    	
+			    });
 				
-				if ($scope.model.movimentacao.form.$invalid ){
+			};
+			
+			/**
+			 * 
+			 */
+			$scope.insertRepasse= function()
+			{
+				$scope.model.repasse.form.$submitted = true;
+				if ($scope.model.repasse.form.$invalid ){
 					$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
 					return;
 				}
 				
-				
-//				var naturezaGastos = new NaturezaGastos();
-//				naturezaGastos = $scope.model.movimentacao.entity.naturezaGastos.nome;
-//				
-//				$scope.model.movimentacao.entity.naturezaGastos = naturezaGastos;
-				
-				caixaService.insertMovimentacao( $scope.model.movimentacao.entity, {
+				produtoService.insertRepasse( $scope.model.repasse.entity, {
 	                callback : function(result) {
 	                	
-	                	$scope.model.movimentacao.entity = result;
+	                	$scope.model.repasse.entity = result;
 	                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi cadastrado com sucesso!" );
-	                	$state.go($scope.MOVIMENTACAO_LIST_STATE)
-	                	$scope.$apply();
-	                	
-	                },
-	                errorHandler : function(message, exception) {
-	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
-	                    $scope.$apply();
-	                }
-	            });
-			}
-			
-			$scope.updateMovimentacao = function()
-			{
-				$scope.model.movimentacao.form.$submitted = true;
-				if ($scope.model.movimentacao.form.$invalid ){
-					$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
-					return;
-				}
-				
-				caixaService.updateMovimentacao(  $scope.model.movimentacao.entity, {
-	                callback : function(result) {
-	                	
-	                	$scope.model.movimentacao.entity = result;
-	                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi alterado com sucesso!" );
-	                	$state.go(MOVIMENTACAO_EDIT_STATE)
+	                	$state.go( $scope.REPASSE_EDIT_STATE, {id: result.id}, {reload: true } )
 	                	$scope.$apply();
 	                	
 	                },
@@ -432,11 +412,130 @@ angular.module('home')
 			/**
 			 * 
 			 */
-			$scope.onMovimentacaoPaginationChange = function(paginate) {
+			$scope.insertProdutoRepassado = function(produtoRepassado)
+			{
+				
+				produtoService.insertProdutoRepassado( produtoRepassado, {
+	                callback : function(result) {
+	                	return result;
+	                },
+	                errorHandler : function(message, exception) {
+	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+	                    $scope.$apply();
+	                }
+	            });
+				
+			}
+			
+			/**
+			 * 
+			 */
+			$scope.removeProdutorepassado = function (id) {
+				
+	            produtoService.removeProdutoRepassado( id, {
+		            callback : function(result) {	   
+		            	
+		            	$scope.showMessage( $scope.ERROR_MESSAGE,  "Registro excluído com sucesso" );
+		            	$scope.listProdutosRepassadosByRepasse($scope.model.repasse.entity.id);
+		            	$scope.$apply();
+		            },
+		            errorHandler : function(message, exception) {
+		            	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+		                $scope.$apply();
+		            }
+		        });
+		    }
+			
+			$scope.changeToAprovado = function()
+			{
+				var confirm = $mdDialog.confirm()
+	            .title('Tem certeza que deseja aprovar este registro?')
+	            .content('Não será mais possível a edição deste registro .')
+	            .ok('Sim')
+	            .cancel('Cancelar');
+				
+				$mdDialog.show(confirm).then(function (result) {
+					
+				produtoService.changeToAprovado( $scope.model.repasse.entity.id, {
+		            callback : function(result) {	   
+		            	$scope.model.repasse.entity = result;
+		            	$scope.showMessage( $scope.ERROR_MESSAGE,  "Registro a com sucesso" );
+		            	$scope.$apply();
+		            },
+		            errorHandler : function(message, exception) {
+		            	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+		                $scope.$apply();
+		            }
+		        });
+				
+				});
+			}
+			
+			/**
+			 * 
+			 */
+			$scope.listProdutosRepassadosByRepasse = function( repasseId )
+			{
+				
+				produtoService.listProdutosRepassadosByRepasse( repasseId,  {
+	                callback : function(result) {
+	                	
+	                	$scope.totalPagesProdutoRepassado = result.totalPages;
+	                	$scope.model.produtoRepassado.page = {//PageImpl
+	    						content : result.content,
+								pageable : {//PageRequest
+									page : result.number,
+									size : result.size,
+									sort:result.sort,
+									total   : result.totalElements
+								},
+	    				};
+	                	
+	                	$scope.$apply();
+	                },
+	                errorHandler : function(message, exception) {
+	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+	                    $scope.$apply();
+	                }
+	            });
+				
+			}
+			
+			/**
+			 * 
+			 */
+			$scope.updateFornecedor = function()
+			{
+				$scope.model.repasse.form.$submitted = true;
+				if ($scope.model.repasse.form.$invalid ){
+					$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
+					return;
+				}
+				
+				produtoService.updateFornecedor(  $scope.model.repasse.entity, {
+	                callback : function(result) {
+	                	
+	                	$scope.model.repasse.entity = result;
+	                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi alterado com sucesso!" );
+	                	$state.go(REPASSE_EDIT_STATE)
+	                	$scope.$apply();
+	                	
+	                },
+	                errorHandler : function(message, exception) {
+	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+	                    $scope.$apply();
+	                }
+	            });
+			}
+			
+			/**
+			 * 
+			 */
+			$scope.onFornecedorPaginationChange = function(paginate) {
 	        	if (paginate) {
-	        		$scope.model.movimentacao.page.pageable.page++;
+	        		$scope.model.repasse.page.pageable.page++;
 	        	} else {
-	        		$scope.model.movimentacao.page.pageable.page--;
+	        		$scope.model.repasse.page.pageable.page--;
 	        	}
 	        		
 	        	$scope.listByFilters();
@@ -446,11 +545,11 @@ angular.module('home')
 			/**
 			 * 
 			 */
-			$scope.listAllTiposMovimentacao= function() {
-				caixaService.listAllTiposMovimentacao(   {
+			$scope.listAllUserRoles= function(){
+				accountService.listAllUserRoles(   {
 	                callback : function(result) {
 	                	
-	                	$scope.allTiposMovimentacao = result;
+	                	$scope.allUserRoles = result;
 	                	
 	                	$scope.$apply();
 	                	
@@ -462,35 +561,6 @@ angular.module('home')
 	            });
 			}
 			
-			/**
-			 * Parametro tipoConta é um boolean onde true é conta origem e false conta destino
-			 */
-			$scope.openSelecionarConta = function( tipoConta )
-			{
-		    	$mdDialog.show({
-					controller: "SelecionarContaControllerPopup",
-					templateUrl: './modules/home/views/conta/popup/selecionar-conta-modal.html',
-					parent: angular.element(document.body),
-					clickOutsideToClose:true,
-					fullscreen: true,
-					scope: $scope.$new()
-			    })
-			    .then(function(conta) {
-			    	
-			    	var contaResult = new Conta();
-			    	contaResult.id = conta.id;
-			    	contaResult.nome = conta.nome;
-			    	
-			    	if (tipoConta)
-			    		$scope.model.movimentacao.entity.contaOrigem = contaResult;
-			    	else
-			    		$scope.model.movimentacao.entity.contaDestino = contaResult;
-			    	
-			    }, function() {
-			    	
-			    });
-				
-			};
 			
 			/**
 			 * 
@@ -519,6 +589,5 @@ angular.module('home')
 			/*-------------------------------------------------------------------
 		     * 		 				 	POST CONSTRUCT
 		     *-------------------------------------------------------------------*/
-			$scope.listAllTiposMovimentacao();
 });
 }(window.angular));

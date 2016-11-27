@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" 
+	xmlns:th="http://www.thymeleaf.org" lang="pt">
+	
+	<div class="main-div" layout="column" flex>
+	
+		<md-toolbar layout="row" style="z-index: 3;">
+	    	<div flex layout="row" class="default-header">
+		        <h1 class="md-toolbar-tools">Repasse de produtos</h1>
+	    	</div>
+	    	
+	        <div md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="$state.go( REPASSE_ADD_STATE )">Novo</md-button>
+	        </div>
+	    </md-toolbar>
+	
+			<form layout="row" class="default-frame" >
+				<md-toolbar class="md-hue-1" layout="column" flex>
+					<div flex layout="column">
+						<div layout="row">
+							<md-input-container style="margin-bottom: 20px;" layout="column" flex>
+								<label>Digite sua pesquisa</label>
+								<input type="text" name="filtro" ng-disabled="moreFilters" ng-model="model.repasse.filters.terms" maxlength="255">
+							</md-input-container>
+					            
+				            <div layout="row" layout-align="end center" ng-init="currentOption = 'down'">
+					            <md-button class="md-raised" ng-click="!moreFilters ? listByFilters() : listRepasseByMoreFilters()">Filtrar</md-button>
+					            <md-button class="md-raised" ng-click="openMaisOpcoes(); currentOption = !currentOption" style="padding-left: 14px;">
+					            	Mais opções
+					            	<i ng-if="!currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-down"></i>
+					            	<i ng-if="currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-up"></i> 
+					            </md-button>
+				            </div>			            			            			            			            
+				    	</div>
+				    	
+				    	<div class="more-filters" layout="column" ng-if="moreFilters">
+							<div layout="row" style="color:black">
+								<md-checkbox ng-model="model.repasse.filters.ativo" aria-label="Checkbox 1">
+									Mostrar ativos
+						        </md-checkbox>
+					    		
+					    		<md-checkbox ng-model="model.repasse.filters.inativo" aria-label="Checkbox 1">
+									Mostrar inativos
+						        </md-checkbox>
+							</div>				    									
+				    	</div>
+				    	
+				    </div>
+				</md-toolbar>
+			</form>	
+			
+<!-- 			TOOLBAR DA TABLE -->
+
+			<div layout="column" ng-cloak class="default-frame" style="margin-bottom:80px">
+				<md-toolbar class="md-hue-1" layout="column" flex>
+					<md-table-container>
+					  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+					    <thead md-head md-order="query.order" md-on-reorder="getDesserts">
+					      <tr md-row>
+					      	<th md-column md-order-by="nameToLower"><span>Número</span></th>
+					        <th md-column md-order-by="nameToLower"><span>Casa Lar</span></th>
+					        <th md-column md-order-by="nameToLower"><span>Data de realização</span></th>
+					        <th md-column md-order-by="nameToLower"><span>Quantidade total de produtos</span></th>
+					        <th md-column md-order-by="nameToLower"><span>Status</span></th>
+					      </tr>
+					    </thead>
+					    <tbody md-body>
+					      <tr md-row md-select="dessert" style="cursor:pointer" ng-click="$state.go( REPASSE_EDIT_STATE, {id:repasse.id} )" md-select-id="name" md-auto-select ng-repeat="repasse in model.repasse.page.content">
+					        <td md-cell >{{::repasse.id}}</td>
+					        <td md-cell >{{::repasse.casaLar.numero}}</td>
+					        <td md-cell >{{::repasse.created}}</td>
+					        <td md-cell >{{::repasse.telefone}}29</td>
+					        <td md-cell >{{::repasse.status | translate}}</td>
+					      </tr>
+					    </tbody>
+					  </table>
+					</md-table-container>
+										
+					<div layout="column" flex class="empty-grid" layout-align="center center" ng-show="model.repasse.page.content.length == 0">
+						Nenhum registro de repasse encontrado
+					</div>
+					
+					<md-divider></md-divider>
+					<div class="default-paginator" layout layout-align="end center" ng-if="model.repasse.page.content.length > 0">
+						{{ model.repasse.page.pageable.page + 1 }} de {{ totalPagesRepasse }}
+						<md-button class="md-icon-button" ng-disabled="(model.repasse.page.pageable.page + 1) < 2" ng-click="onRepassePaginationChange(false)">
+							<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.repasse.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
+						</md-button>
+						<md-button class="md-icon-button" ng-disabled="(model.repasse.page.pageable.page + 1) >= totalPagesRepasse" ng-click="onRepassePaginationChange(true)">
+							<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.repasse.page.pageable.page + 1) >= Math.ceil(model.repasse.page.total/model.repasse.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
+						</md-button>
+			  		</div>
+			  		
+				</md-toolbar>
+			</div>
+			
+	</div>
+</html>

@@ -18,6 +18,13 @@ import com.lucas.graca.domain.entity.caixa.Conta;
 public interface IContaRepository extends JpaRepository<Conta, Long>
 {
 	
+	/**
+	 * 
+	 * @param filters
+	 * @param ativo
+	 * @param pageable
+	 * @return
+	 */
 	@Query(value="SELECT new Conta( conta.id, conta.descricao, conta.nome, conta.saldo, conta.enabled ) " +
 			   "FROM Conta conta " +
 			  "WHERE ( conta.enabled = :ativo AND "

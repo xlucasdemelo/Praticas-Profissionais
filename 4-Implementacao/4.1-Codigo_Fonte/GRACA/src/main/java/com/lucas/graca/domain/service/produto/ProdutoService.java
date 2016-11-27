@@ -3,6 +3,8 @@
  */
 package com.lucas.graca.domain.service.produto;
 
+import java.util.List;
+
 import org.directwebremoting.annotations.RemoteProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -17,11 +19,13 @@ import com.lucas.graca.domain.entity.produto.Categoria;
 import com.lucas.graca.domain.entity.produto.Marca;
 import com.lucas.graca.domain.entity.produto.Modelo;
 import com.lucas.graca.domain.entity.produto.Produto;
+import com.lucas.graca.domain.entity.produto.ProdutoRepassado;
 import com.lucas.graca.domain.entity.produto.Repasse;
 import com.lucas.graca.domain.entity.produto.StatusRepasse;
 import com.lucas.graca.domain.repository.produto.ICategoriaRepository;
 import com.lucas.graca.domain.repository.produto.IMarcaRepository;
 import com.lucas.graca.domain.repository.produto.IModeloRepository;
+import com.lucas.graca.domain.repository.produto.IProdutoRepassadoRepository;
 import com.lucas.graca.domain.repository.produto.IProdutoRepository;
 import com.lucas.graca.domain.repository.produto.IRepasseRepository;
 
@@ -68,6 +72,12 @@ public class ProdutoService
 	 */
 	@Autowired
 	private IRepasseRepository repasseRepository;
+	
+	/**
+	 * 
+	 */
+	@Autowired
+	private IProdutoRepassadoRepository produtoRepassadoRepository;
 	
 	/*-------------------------------------------------------------------
 	 *				 		 SERVICES PRODUTO
@@ -314,11 +324,8 @@ public class ProdutoService
 	 */
 	public Repasse insertRepasse(Repasse repasse)
 	{
-		Assert.notNull(repasse, "Repasse não pode ser nulo");
-		
-		Assert.notNull(repasse.getCasaLar(), "Informa a casa lar");
-		Assert.notNull(repasse.getProduto(), "Informe o produto");
-		Assert.notNull(repasse.getQuantidade(), "Informe a quantidade");
+		Assert.notNull(repasse);
+		Assert.notNull(repasse.getCasaLar(), "Informe qual é a casa lar");
 		
 		return this.repasseRepository.save(repasse);
 	}
@@ -334,17 +341,25 @@ public class ProdutoService
 		
 		Assert.isTrue( repasse.getStatus() == StatusRepasse.RASCUNHO, "Somente um repasse em rascunho pode ser excluídos" );
 		
+		List<ProdutoRepassado> produtosRepassados = this.produtoRepassadoRepository.findByRepasseId(repasseId, null).getContent();
+		
+		for (ProdutoRepassado produtoRepassado : produtosRepassados) 
+		{
+			this.produtoRepassadoRepository.delete(produtoRepassado);
+		}
+		
 		this.repasseRepository.delete(repasse);
 	}
 	
 	/**
 	 * 
-	 * @param produtoId
+	 * @param filter
+	 * @param pageable
 	 * @return
 	 */
-	public Page<Repasse> listRepassesByProduto(long produtoId, PageRequest pageable)
+	public Page<Repasse> listRepassesByFilters( String filter, PageRequest pageable )
 	{
-		return this.repasseRepository.findByProdutoId(produtoId, pageable);
+		return this.repasseRepository.listByFilters(filter, pageable);
 	}
 	
 	/**
@@ -386,7 +401,7 @@ public class ProdutoService
 		
 		repasse.changeToAprovado();
 		
-		this.changeQuantidadeProdutoEmEstoque(repasse);
+		this.changeQuantidadeProdutoEmEstoque(repasse.getId());
 		return this.repasseRepository.saveAndFlush(repasse);
 	}
 	
@@ -394,17 +409,89 @@ public class ProdutoService
 	 * 
 	 * @param repasse
 	 */
-	private void changeQuantidadeProdutoEmEstoque(Repasse repasse)
+	private void changeQuantidadeProdutoEmEstoque(Long repasseId)
 	{
-		Produto produtoRepasse = repasse.getProduto();
 		
-		produtoRepasse.setQuantidade( produtoRepasse.getQuantidade() - repasse.getQuantidade() );
+		List<ProdutoRepassado> produtosRepassados = this.produtoRepassadoRepository.findByRepasseId(repasseId, null).getContent();
 		
-		if (produtoRepasse.getQuantidade() < 0)
+		for (ProdutoRepassado produtoRepassado : produtosRepassados) 
 		{
-			produtoRepasse.setQuantidade(0);
+			if (produtoRepassado.getProduto().getQuantidade() < 0)
+			{
+				break;
+			}
+			
+			Produto produto = produtoRepassado.getProduto();
+			produto.setQuantidade( produto.getQuantidade() - produtoRepassado.getQuantidade() );
+			
+			if (produto.getQuantidade() < 0)
+			{
+				produto.setQuantidade(0);
+			}
+			
+			this.produtoRepository.saveAndFlush(produto);
 		}
-		
-		this.produtoRepository.saveAndFlush(produtoRepasse);
 	}
+	
+	/*-------------------------------------------------------------------
+	 *				     SERVICES PRODUTO REPASSADO
+	 *-------------------------------------------------------------------*/
+	
+	/**
+	 * 
+	 * @param repasse
+	 * @return
+	 */
+	public ProdutoRepassado insertProdutoRepassado(ProdutoRepassado produtoRepassado)
+	{
+		Assert.notNull(produtoRepassado, "produto Repassado não pode ser nulo");
+		
+		Assert.notNull(produtoRepassado.getRepasse(), "Informe o repasse");
+		Assert.notNull(produtoRepassado.getProduto(), "Informe o produto");
+		Assert.notNull(produtoRepassado.getQuantidade(), "Informe a quantidade");
+		
+		return this.produtoRepassadoRepository.save(produtoRepassado);
+	}
+	
+	public ProdutoRepassado updateProdutoRepassado(ProdutoRepassado produtoRepassado)
+	{
+		Assert.notNull(produtoRepassado, "produto Repassado não pode ser nulo");
+		
+		ProdutoRepassado produtoRepassadoBd = this.produtoRepassadoRepository.findOne(produtoRepassado.getId());
+		Assert.notNull(produtoRepassadoBd, "Registro não existe");
+		
+		Assert.notNull(produtoRepassado.getRepasse(), "Informe o repasse");
+		Assert.notNull(produtoRepassado.getProduto(), "Informe o produto");
+		Assert.notNull(produtoRepassado.getQuantidade(), "Informe a quantidade");
+		
+		produtoRepassadoBd.setQuantidade(produtoRepassado.getQuantidade());
+		
+		return this.produtoRepassadoRepository.save(produtoRepassadoBd);
+	}
+	
+	/**
+	 * 
+	 * @param produtoRepassadoId
+	 */
+	public void removeProdutoRepassado(long produtoRepassadoId)
+	{
+		ProdutoRepassado produtoRepassado = this.produtoRepassadoRepository.findOne(produtoRepassadoId);
+		Assert.notNull(produtoRepassado, "Registro não existe");
+		
+		Assert.isTrue( produtoRepassado.getRepasse().getStatus() == StatusRepasse.RASCUNHO, "Somente produtos de um repasse em rascunho pode ser excluídos" );
+		
+		this.produtoRepassadoRepository.delete(produtoRepassado);
+	}
+	
+	/**
+	 * 
+	 * @param repasseId
+	 * @param pageable
+	 * @return
+	 */
+	public Page<ProdutoRepassado> listProdutosRepassadosByRepasse(long repasseId, PageRequest pageable)
+	{
+		return this.produtoRepassadoRepository.findByRepasseId(repasseId, pageable);
+	}
+	
 }
