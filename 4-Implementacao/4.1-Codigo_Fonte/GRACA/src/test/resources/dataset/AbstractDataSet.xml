@@ -29,4 +29,5 @@
 	<public.produto_adquirido></public.produto_adquirido>
 	<public.natureza_gastos></public.natureza_gastos>
 	<public.movimentacao></public.movimentacao>
+	<public.questionario_resposta></public.questionario_resposta>
 </dataset>

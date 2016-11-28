@@ -15,6 +15,7 @@ import com.github.springtestdbunit.annotation.DatabaseOperation;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.lucas.graca.domain.entity.questionario.Questao;
 import com.lucas.graca.domain.entity.questionario.Questionario;
+import com.lucas.graca.domain.entity.questionario.QuestionarioResposta;
 import com.lucas.graca.domain.entity.questionario.StatusVersaoQuestionario;
 import com.lucas.graca.domain.entity.questionario.TipoQuestao;
 import com.lucas.graca.domain.entity.questionario.VersaoQuestionario;
@@ -577,4 +578,76 @@ public class QuestionarioServiceIntegrationTests extends AbstractIntegrationTest
 		
 		Assert.assertTrue( questoes.isEmpty() );
 	}
+	
+	/*-------------------------------------------------------------------
+	 *				 	TESTS QUESTÕES RESPONDIDAS 
+	 *-------------------------------------------------------------------*/
+	
+	/**
+	 * 
+	 */
+	@Test
+	@WithUserDetails("admin@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/casalar/ResponsavelDataSet.xml",
+		"/dataset/redeapoio/redeApoioDataSet.xml",
+		"/dataset/account/UserDataSet.xml",
+		"/dataset/questionario/QuestionarioDataSet.xml",
+		"/dataset/questionario/VersaoDataSet.xml",
+		"/dataset/questionario/QuestaoDataSet.xml",
+	})
+	public void insertQuestionarioRespostaMustPass()
+	{
+		QuestionarioResposta questionarioResposta = new QuestionarioResposta();
+		
+		questionarioResposta.setVersao( new VersaoQuestionario(1000L) );
+		
+		questionarioResposta = this.questionarioService.insertQuestionarioResposta(questionarioResposta);
+		
+		Assert.assertNotNull(questionarioResposta);
+		Assert.assertNotNull(questionarioResposta.getId());
+	}
+	
+	/**
+	 * 
+	 */
+	@Test(expected=IllegalArgumentException.class)
+	@WithUserDetails("admin@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/casalar/ResponsavelDataSet.xml",
+		"/dataset/redeapoio/redeApoioDataSet.xml",
+		"/dataset/account/UserDataSet.xml",
+		"/dataset/questionario/QuestionarioDataSet.xml",
+		"/dataset/questionario/VersaoDataSet.xml",
+		"/dataset/questionario/QuestaoDataSet.xml",
+	})
+	public void insertQuestionarioRespostaMustFail()
+	{
+		QuestionarioResposta questionarioResposta = new QuestionarioResposta();
+		
+		questionarioResposta.setVersao( null );
+		
+		questionarioResposta = this.questionarioService.insertQuestionarioResposta(questionarioResposta);
+		
+		Assert.fail();
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	@WithUserDetails("admin@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/casalar/ResponsavelDataSet.xml",
+		"/dataset/redeapoio/redeApoioDataSet.xml",
+		"/dataset/account/UserDataSet.xml",
+		"/dataset/questionario/QuestionarioDataSet.xml",
+		"/dataset/questionario/VersaoDataSet.xml",
+		"/dataset/questionario/QuestaoDataSet.xml",
+	})
+	public void listQuestionariosRespostaByUsuarioMustPass()
+	{
+		List<QuestionarioResposta> questionariosResposta = this.questionarioService.listQuestionariosRespostaByUserAndFilters(null, null).getContent();
+		
+		Assert.assertNotNull(questionariosResposta);
+		Assert.assertFalse(questionariosResposta.isEmpty());
+	}
+	
 }

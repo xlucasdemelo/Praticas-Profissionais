@@ -516,4 +516,15 @@ public class QuestionarioService
 		return true;
 	}
 	
+	/**
+	 * 
+	 * @param questionarioRespostaId
+	 * @param pageable
+	 * @return
+	 */
+	public Page<Resposta> listRespostasByQuestionarioResposta(long questionarioRespostaId, PageRequest pageable)
+	{
+		return this.respostaRepository.findByQuestionarioRespostaId(questionarioRespostaId, pageable);
+	}
+	
 }

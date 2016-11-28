@@ -16,7 +16,7 @@ import br.com.eits.common.domain.entity.AbstractEntity;
 
 @Entity
 @Audited
-@DataTransferObject(javascript = "papel")
+@DataTransferObject(javascript = "Papel")
 public class Papel extends AbstractEntity implements Serializable 
 {
 
@@ -38,14 +38,14 @@ public class Papel extends AbstractEntity implements Serializable
 	 * 
 	 */
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "estado_id")
+	@JoinColumn(name = "evento_id")
 	private Evento evento;
 	
 	/**
 	 * 
 	 */
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "estado_id")
+	@JoinColumn(name = "usuario_id")
 	private User usuario;
 
 	/*-------------------------------------------------------------------

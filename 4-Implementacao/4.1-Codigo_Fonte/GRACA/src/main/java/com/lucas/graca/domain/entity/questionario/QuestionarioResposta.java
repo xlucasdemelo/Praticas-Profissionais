@@ -5,15 +5,22 @@ import java.util.Calendar;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 
+import org.directwebremoting.annotations.DataTransferObject;
+import org.hibernate.envers.Audited;
+
 import com.lucas.graca.domain.entity.account.User;
 
 import br.com.eits.common.domain.entity.AbstractEntity;
 
+@Entity
+@Audited
+@DataTransferObject(javascript = "QuestionarioResposta")
 public class QuestionarioResposta extends AbstractEntity implements Serializable
 {
 
