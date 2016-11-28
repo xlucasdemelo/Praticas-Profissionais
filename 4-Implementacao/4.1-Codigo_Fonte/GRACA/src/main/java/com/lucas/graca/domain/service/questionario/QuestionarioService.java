@@ -20,7 +20,6 @@ import com.lucas.graca.domain.entity.account.User;
 import com.lucas.graca.domain.entity.account.UserRole;
 import com.lucas.graca.domain.entity.questionario.Questao;
 import com.lucas.graca.domain.entity.questionario.Questionario;
-import com.lucas.graca.domain.entity.questionario.QuestionarioResposta;
 import com.lucas.graca.domain.entity.questionario.StatusVersaoQuestionario;
 import com.lucas.graca.domain.entity.questionario.TipoQuestao;
 import com.lucas.graca.domain.entity.questionario.VersaoQuestionario;
@@ -391,15 +390,15 @@ public class QuestionarioService
 	 * @param questionarioResposta
 	 * @return
 	 */
-	public Questionario insertQuestionarioResposta( QuestionarioResposta questionarioResposta )
-	{
-		Assert.notNull( questionarioResposta );
-		Assert.isNull( questionarioResposta.getId(), "Id precisa ser nulo" );
-		Assert.notNull( questionarioResposta.getVersao(), "Versão é obrigatória" );
-		
-		questionarioResposta.setUsuario( (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal() );
-		
-		return questionario;
-	}
+//	public Questionario insertQuestionarioResposta( QuestionarioResposta questionarioResposta )
+//	{
+//		Assert.notNull( questionarioResposta );
+//		Assert.isNull( questionarioResposta.getId(), "Id precisa ser nulo" );
+//		Assert.notNull( questionarioResposta.getVersao(), "Versão é obrigatória" );
+//		
+//		questionarioResposta.setUsuario( (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal() );
+//		
+////		return questionario;
+//	}
 	
 }
