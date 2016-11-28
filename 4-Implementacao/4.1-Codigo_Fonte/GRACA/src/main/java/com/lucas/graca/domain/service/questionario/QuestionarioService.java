@@ -16,15 +16,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import com.lucas.graca.application.security.ContextHolder;
 import com.lucas.graca.domain.entity.account.User;
 import com.lucas.graca.domain.entity.account.UserRole;
 import com.lucas.graca.domain.entity.questionario.Questao;
 import com.lucas.graca.domain.entity.questionario.Questionario;
+import com.lucas.graca.domain.entity.questionario.QuestionarioResposta;
+import com.lucas.graca.domain.entity.questionario.Resposta;
+import com.lucas.graca.domain.entity.questionario.StatusQuestionarioResposta;
 import com.lucas.graca.domain.entity.questionario.StatusVersaoQuestionario;
 import com.lucas.graca.domain.entity.questionario.TipoQuestao;
 import com.lucas.graca.domain.entity.questionario.VersaoQuestionario;
 import com.lucas.graca.domain.repository.questionario.IQuestaoRepository;
 import com.lucas.graca.domain.repository.questionario.IQuestionarioReposiotry;
+import com.lucas.graca.domain.repository.questionario.IQuestionarioRespostaRepository;
+import com.lucas.graca.domain.repository.questionario.IRespostaRepository;
 import com.lucas.graca.domain.repository.questionario.IVersaoQuestionario;
 
 /**
@@ -53,6 +59,18 @@ public class QuestionarioService
 	 */
 	@Autowired
 	private IQuestionarioReposiotry questionarioRepository;
+	
+	/**
+	 * 
+	 */
+	@Autowired
+	private IQuestionarioRespostaRepository questionarioRespostaRepository;
+	
+	/**
+	 * 
+	 */
+	@Autowired
+	private IRespostaRepository respostaRepository;
 	
 	/**
 	 * 
@@ -390,15 +408,112 @@ public class QuestionarioService
 	 * @param questionarioResposta
 	 * @return
 	 */
-//	public Questionario insertQuestionarioResposta( QuestionarioResposta questionarioResposta )
-//	{
-//		Assert.notNull( questionarioResposta );
-//		Assert.isNull( questionarioResposta.getId(), "Id precisa ser nulo" );
-//		Assert.notNull( questionarioResposta.getVersao(), "Versão é obrigatória" );
-//		
-//		questionarioResposta.setUsuario( (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal() );
-//		
-////		return questionario;
-//	}
+	public QuestionarioResposta insertQuestionarioResposta( QuestionarioResposta questionarioResposta )
+	{
+		Assert.notNull( questionarioResposta );
+		Assert.isNull( questionarioResposta.getId(), "Id precisa ser nulo" );
+		Assert.notNull( questionarioResposta.getVersao(), "Versão é obrigatória" );
+		
+		questionarioResposta.setUsuario( (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal() );
+		
+		questionarioResposta = this.questionarioRespostaRepository.saveAndFlush(questionarioResposta);
+		
+		this.copyQuestoesToQuestionarioResposta(questionarioResposta);
+		
+		return questionarioResposta;
+	}
+	
+	/**
+	 * 
+	 * @param filters
+	 * @param pageable
+	 * @return
+	 */
+	@Transactional(readOnly=true)
+	public Page<QuestionarioResposta> listQuestionariosRespostaByUserAndFilters(String filters, PageRequest pageable)
+	{
+		return this.questionarioRespostaRepository.findByUsuarioId(ContextHolder.getAuthenticatedUser().getId() , pageable);
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	public QuestionarioResposta changeQuestionarioRespostaToFinalizado(long id)
+	{
+		QuestionarioResposta questionarioResposta = this.questionarioRespostaRepository.findOne(id);
+		
+		Assert.notNull(questionarioResposta, "Registro não encontrado");
+		
+		questionarioResposta.changeToFinalizado();
+		
+		return this.questionarioRespostaRepository.save(questionarioResposta);
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 */
+	public void removeQuestionarioResposta( long id )
+	{
+		QuestionarioResposta questionarioResposta = this.questionarioRespostaRepository.findOne(id);
+		
+		Assert.notNull(questionarioResposta, "Registro não encontrado");
+		
+		Assert.isTrue(questionarioResposta.getStatus() == StatusQuestionarioResposta.RASCUNHO, "Status deve ser rascunho");
+		
+		this.questionarioRespostaRepository.delete(questionarioResposta);
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return
+	 */
+	@Transactional(readOnly=true)
+	public QuestionarioResposta findQuestionarioRespostaById(long id)
+	{
+		return this.questionarioRespostaRepository.findOne(id);
+	}
+	
+	/**
+	 * 
+	 * @param versaoId
+	 */
+	private void copyQuestoesToQuestionarioResposta(QuestionarioResposta questionarioResposta)
+	{
+		List<Questao> questoes = this.questaoRepository.findByVersaoQuestionarioId(questionarioResposta.getId(), null).getContent();
+		
+		for (Questao questao : questoes) 
+		{
+			Resposta resposta = new Resposta();
+			resposta.setQuestao(questao);
+			resposta.setQuestionarioResposta(questionarioResposta);
+			
+			this.respostaRepository.save(resposta);
+		}
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public Boolean responderResposta(List<Resposta> respostas)
+	{
+		Assert.notNull(respostas, "Resposta não pode ser nula");
+		
+		for (Resposta resposta : respostas) 
+		{
+			if (resposta.getQuestao().getTipoQuestao() == TipoQuestao.TEXTO)
+				Assert.notNull(resposta.getRespostaTexto(), "Informa a resposta");
+			else
+				Assert.notNull(resposta.getRespostaBoolean(), "Informe a resposta");
+			
+			this.respostaRepository.save(resposta);
+		}
+		
+		return true;
+	}
 	
 }
