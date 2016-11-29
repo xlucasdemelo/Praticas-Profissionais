@@ -168,9 +168,9 @@ public class QuestionarioService
 	 */
 	@Transactional(readOnly=true)
 	@PreAuthorize("hasAuthority('"+UserRole.ATENDENTE_VALUE+"')")
-	public List<Questionario> listQuestionariosAprovados()
+	public List<Questionario> listQuestionariosAprovados(String filter, PageRequest pageable)
 	{
-		List<Questionario> questionarios = this.questionarioRepository.listQuestionariosByFilters( null, null ).getContent();
+		List<Questionario> questionarios = this.questionarioRepository.listQuestionariosByFilters( filter, pageable ).getContent();
 		
 		List<Questionario> questionariosAprovados = new ArrayList<Questionario>();
 		
@@ -218,6 +218,9 @@ public class QuestionarioService
 	{
 		VersaoQuestionario maiorVersao = this.versaoQuestionarioRepository.findTopByQuestionarioIdOrderByNumeroVersaoDesc( questionarioId );
 		maiorVersao.isRascunho();
+		
+		List<Questao> questoes = this.questaoRepository.findByVersaoQuestionarioId(maiorVersao.getId(), null).getContent();
+		Assert.notEmpty(questoes, "Insira ao menos uma questão");
 		
 		maiorVersao.changeToAguardandoAprovacao();
 		
@@ -411,16 +414,25 @@ public class QuestionarioService
 	public QuestionarioResposta insertQuestionarioResposta( QuestionarioResposta questionarioResposta )
 	{
 		Assert.notNull( questionarioResposta );
-		Assert.isNull( questionarioResposta.getId(), "Id precisa ser nulo" );
-		Assert.notNull( questionarioResposta.getVersao(), "Versão é obrigatória" );
 		
-		questionarioResposta.setUsuario( (User)SecurityContextHolder.getContext().getAuthentication().getPrincipal() );
+		VersaoQuestionario maiorVersao = this.versaoQuestionarioRepository.findTopByQuestionarioIdAndStatusOrderByNumeroVersaoDesc(questionarioResposta.getVersao().getQuestionario().getId(), StatusVersaoQuestionario.APROVADO );
+		questionarioResposta.setVersao(maiorVersao);
+		
+		Assert.notNull( questionarioResposta.getVersao(), "Versão é obrigatório" );
+		
+		questionarioResposta.setUsuario( new User(ContextHolder.getAuthenticatedUser().getId() ) );
 		
 		questionarioResposta = this.questionarioRespostaRepository.saveAndFlush(questionarioResposta);
 		
+		this.removeQuestoesOfQuestionarioResposta(questionarioResposta);
 		this.copyQuestoesToQuestionarioResposta(questionarioResposta);
 		
 		return questionarioResposta;
+	}
+	
+	public VersaoQuestionario findLastVersaoAprovadaByQuestionarrio( long questionarioId )
+	{
+		return this.versaoQuestionarioRepository.findTopByQuestionarioIdAndStatusOrderByNumeroVersaoDesc(questionarioId, StatusVersaoQuestionario.APROVADO );
 	}
 	
 	/**
@@ -463,6 +475,8 @@ public class QuestionarioService
 		
 		Assert.isTrue(questionarioResposta.getStatus() == StatusQuestionarioResposta.RASCUNHO, "Status deve ser rascunho");
 		
+		this.removeQuestoesOfQuestionarioResposta(questionarioResposta);
+		
 		this.questionarioRespostaRepository.delete(questionarioResposta);
 	}
 	
@@ -483,7 +497,9 @@ public class QuestionarioService
 	 */
 	private void copyQuestoesToQuestionarioResposta(QuestionarioResposta questionarioResposta)
 	{
-		List<Questao> questoes = this.questaoRepository.findByVersaoQuestionarioId(questionarioResposta.getId(), null).getContent();
+		VersaoQuestionario maiorVersao = this.versaoQuestionarioRepository.findTopByQuestionarioIdAndStatusOrderByNumeroVersaoDesc(questionarioResposta.getVersao().getQuestionario().getId(), StatusVersaoQuestionario.APROVADO );
+		
+		List<Questao> questoes = this.questaoRepository.findByVersaoQuestionarioId(maiorVersao.getId(), null).getContent();
 		
 		for (Questao questao : questoes) 
 		{
@@ -495,25 +511,35 @@ public class QuestionarioService
 		}
 	}
 	
+	private void removeQuestoesOfQuestionarioResposta(QuestionarioResposta questionarioResposta)
+	{
+		List<Resposta> respostas = this.respostaRepository.findByQuestionarioRespostaId(questionarioResposta.getId(), null).getContent();
+		
+		for (Resposta resposta : respostas) 
+		{
+			this.respostaRepository.delete(resposta);
+		}
+	}
+	
 	/**
 	 * 
 	 * @return
 	 */
-	public Boolean responderResposta(List<Resposta> respostas)
+	public List<Resposta> responderResposta(List<Resposta> respostas)
 	{
 		Assert.notNull(respostas, "Resposta não pode ser nula");
 		
 		for (Resposta resposta : respostas) 
 		{
 			if (resposta.getQuestao().getTipoQuestao() == TipoQuestao.TEXTO)
-				Assert.notNull(resposta.getRespostaTexto(), "Informa a resposta");
+				Assert.notNull(resposta.getRespostaTexto(), "Informe a resposta");
 			else
 				Assert.notNull(resposta.getRespostaBoolean(), "Informe a resposta");
 			
 			this.respostaRepository.save(resposta);
 		}
 		
-		return true;
+		return respostas;
 	}
 	
 	/**

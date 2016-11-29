@@ -16,6 +16,8 @@ import com.github.springtestdbunit.annotation.DatabaseSetup;
 import com.lucas.graca.domain.entity.questionario.Questao;
 import com.lucas.graca.domain.entity.questionario.Questionario;
 import com.lucas.graca.domain.entity.questionario.QuestionarioResposta;
+import com.lucas.graca.domain.entity.questionario.Resposta;
+import com.lucas.graca.domain.entity.questionario.StatusQuestionarioResposta;
 import com.lucas.graca.domain.entity.questionario.StatusVersaoQuestionario;
 import com.lucas.graca.domain.entity.questionario.TipoQuestao;
 import com.lucas.graca.domain.entity.questionario.VersaoQuestionario;
@@ -600,7 +602,7 @@ public class QuestionarioServiceIntegrationTests extends AbstractIntegrationTest
 	{
 		QuestionarioResposta questionarioResposta = new QuestionarioResposta();
 		
-		questionarioResposta.setVersao( new VersaoQuestionario(1000L) );
+//		questionarioResposta.setVersao( new VersaoQuestionario(1000L) );
 		
 		questionarioResposta = this.questionarioService.insertQuestionarioResposta(questionarioResposta);
 		
@@ -625,14 +627,17 @@ public class QuestionarioServiceIntegrationTests extends AbstractIntegrationTest
 	{
 		QuestionarioResposta questionarioResposta = new QuestionarioResposta();
 		
-		questionarioResposta.setVersao( null );
+//		questionarioResposta.setVersao( null );
 		
 		questionarioResposta = this.questionarioService.insertQuestionarioResposta(questionarioResposta);
 		
 		Assert.fail();
 	}
 	
-	@Test(expected=IllegalArgumentException.class)
+	/**
+	 * 
+	 */
+	@Test
 	@WithUserDetails("admin@email.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
 		"/dataset/casalar/ResponsavelDataSet.xml",
@@ -641,6 +646,7 @@ public class QuestionarioServiceIntegrationTests extends AbstractIntegrationTest
 		"/dataset/questionario/QuestionarioDataSet.xml",
 		"/dataset/questionario/VersaoDataSet.xml",
 		"/dataset/questionario/QuestaoDataSet.xml",
+		"/dataset/questionario/QuestionarioRespostaDataSet.xml"
 	})
 	public void listQuestionariosRespostaByUsuarioMustPass()
 	{
@@ -648,6 +654,106 @@ public class QuestionarioServiceIntegrationTests extends AbstractIntegrationTest
 		
 		Assert.assertNotNull(questionariosResposta);
 		Assert.assertFalse(questionariosResposta.isEmpty());
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	@WithUserDetails("atendente@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/casalar/ResponsavelDataSet.xml",
+		"/dataset/redeapoio/redeApoioDataSet.xml",
+		"/dataset/account/UserDataSet.xml",
+		"/dataset/questionario/QuestionarioDataSet.xml",
+		"/dataset/questionario/VersaoDataSet.xml",
+		"/dataset/questionario/QuestaoDataSet.xml",
+		"/dataset/questionario/QuestionarioRespostaDataSet.xml"
+	})
+	public void listQuestionariosRespostaByUsuarioMustReturnNone()
+	{
+		List<QuestionarioResposta> questionariosResposta = this.questionarioService.listQuestionariosRespostaByUserAndFilters(null, null).getContent();
+		
+		Assert.assertNotNull(questionariosResposta);
+		Assert.assertTrue(questionariosResposta.isEmpty());
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	@WithUserDetails("atendente@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/casalar/ResponsavelDataSet.xml",
+		"/dataset/redeapoio/redeApoioDataSet.xml",
+		"/dataset/account/UserDataSet.xml",
+		"/dataset/questionario/QuestionarioDataSet.xml",
+		"/dataset/questionario/VersaoDataSet.xml",
+		"/dataset/questionario/QuestaoDataSet.xml",
+		"/dataset/questionario/QuestionarioRespostaDataSet.xml",
+		"/dataset/questionario/RespostaDataSet.xml"
+	})
+	public void listRespostasByQuestionarioRespostaMustPass()
+	{
+		List<Resposta> respotas = this.questionarioService.listRespostasByQuestionarioResposta(9999L, null).getContent();
+		
+		Assert.assertNotNull(respotas);
+		Assert.assertFalse(respotas.isEmpty());
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	@WithUserDetails("atendente@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/casalar/ResponsavelDataSet.xml",
+		"/dataset/redeapoio/redeApoioDataSet.xml",
+		"/dataset/account/UserDataSet.xml",
+		"/dataset/questionario/QuestionarioDataSet.xml",
+		"/dataset/questionario/VersaoDataSet.xml",
+		"/dataset/questionario/QuestaoDataSet.xml",
+		"/dataset/questionario/QuestionarioRespostaDataSet.xml",
+		"/dataset/questionario/RespostaDataSet.xml"
+	})
+	public void responderRespostaMustPass()
+	{
+		List<Resposta> respostas = this.questionarioService.listRespostasByQuestionarioResposta(9999L, null).getContent();
+		
+		respostas.get(0).setRespostaTexto("LALA");
+		respostas.get(1).setRespostaTexto("PAPAPA");
+		
+		respostas = this.questionarioService.responderResposta(respostas);
+		
+		Assert.assertNotNull(respostas);
+		Assert.assertFalse(respostas.isEmpty());
+		
+		for (Resposta resposta : respostas) 
+		{
+			Assert.assertTrue(resposta.getRespostaTexto() != null || resposta.getRespostaBoolean() != null);
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	@WithUserDetails("atendente@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/casalar/ResponsavelDataSet.xml",
+		"/dataset/redeapoio/redeApoioDataSet.xml",
+		"/dataset/account/UserDataSet.xml",
+		"/dataset/questionario/QuestionarioDataSet.xml",
+		"/dataset/questionario/VersaoDataSet.xml",
+		"/dataset/questionario/QuestaoDataSet.xml",
+		"/dataset/questionario/QuestionarioRespostaDataSet.xml",
+		"/dataset/questionario/RespostaDataSet.xml"
+	})
+	public void changeQuestionarioRespostaToFinalizado()
+	{
+		this.questionarioService.changeQuestionarioRespostaToFinalizado(9999L);
+		
+		Assert.assertTrue( this.questionarioService.findQuestionarioRespostaById(9999L).getStatus() == StatusQuestionarioResposta.FINALIZADO );
 	}
 	
 }

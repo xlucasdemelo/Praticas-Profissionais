@@ -17,8 +17,6 @@
 	<public.questionario></public.questionario>
 	<public.questao/>
 	<public.versao_questionario/>
-	<public.avaliacao_individual />
-	<public.configuracao_avaliacao_individual />
 	<public.fornecedor></public.fornecedor>
 	<public.produto></public.produto>
 	<public.marca></public.marca>
@@ -30,4 +28,5 @@
 	<public.natureza_gastos></public.natureza_gastos>
 	<public.movimentacao></public.movimentacao>
 	<public.questionario_resposta></public.questionario_resposta>
+	<public.resposta></public.resposta>
 </dataset>

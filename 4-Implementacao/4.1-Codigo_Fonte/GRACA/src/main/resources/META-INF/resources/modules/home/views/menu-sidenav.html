@@ -46,6 +46,12 @@
 			</md-button>
 			
 			<md-button ng-if="hasPermission('OPERADOR_ATENDIMENTOS')" style="text-align: left;"
+				ng-click="toggleMenuSideNavHandler('questionario-resposta.list');">
+				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
+				Responder Questionário
+			</md-button>
+			
+			<md-button ng-if="hasPermission('OPERADOR_ATENDIMENTOS')" style="text-align: left;"
 				ng-click="toggleMenuSideNavHandler('produto.list');">
 				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
 				Produto

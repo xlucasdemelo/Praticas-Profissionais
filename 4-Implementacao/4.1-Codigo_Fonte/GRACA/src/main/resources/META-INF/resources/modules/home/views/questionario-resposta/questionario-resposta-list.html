@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" 
+	xmlns:th="http://www.thymeleaf.org" lang="pt">
+	
+	<div class="main-div" layout="column" flex>
+		<md-toolbar layout="row">
+	    	<div layout="row" flex>
+		        <h1 class="md-toolbar-tools" style="margin-left: 30px;">Responder Questionário</h1>
+	    	</div>
+	    	
+	    	<div layout="row" layout-align="end center" style="margin-right: 30px;">
+		        <md-button class="md-raised md-accent" ng-click="$state.go( QUESTIONARIO_RESPOSTA_ADD_STATE )">NOVO</md-button>
+	    	</div>
+	    </md-toolbar>
+	
+		<form class="default-frame" layout="row">
+			<md-toolbar class="md-hue-1" layout="column" flex>
+				<div class="default-filter" layout="column" flex>
+					<div layout="row">
+						<md-input-container md-no-float layout="column" style="margin-top: 0" flex>
+							<input autofocus placeholder="Digite sua pesquisa" type="text" name="filtro" ng-disabled="moreFilters" ng-model="model.questionarioResposta.filters.terms" maxlength="255">
+						</md-input-container>
+				            
+			            <div layout="row" layout-align="end center" ng-init="currentOption = true">
+				            <md-button class="md-raised" ng-click="!moreFilters ? listQuestionariosByFilters() : listQuestionariosByMoreFilters()">Filtrar</md-button>
+				            <md-button class="md-raised" ng-click="openMaisOpcoes(); currentOption = !currentOption" style="padding-left: 14px;">
+				            	Mais opções
+				            	<i ng-if="!currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-down"></i>
+				            	<i ng-if="currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-up"></i> 
+				            </md-button>
+			            </div>
+			    	</div>
+			    	
+			    	<div class="more-filters" layout="column" ng-if="moreFilters">
+						<div layout="row">
+							<md-checkbox class="md-warn" ng-model="model.crianca.filters.ativo" aria-label="Mostrar ativos">
+								Mostrar ativos
+					        </md-checkbox>
+				    		
+				    		<md-checkbox class="md-warn" ng-model="model.crianca.filters.inativo" aria-label="Mostrar inativos">
+								Mostrar inativos
+					        </md-checkbox>
+						</div>				    									
+			    	</div>
+			    </div>
+			</md-toolbar>
+		</form>
+		
+		<div class="default-frame" layout flex>
+			<md-toolbar class="md-hue-1" layout="column" flex>
+				<md-table-container>
+				  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+				    <thead md-head md-order="query.order">
+				      <tr md-row>
+				        <th md-column md-order-by="">Nome</th>
+				        <th md-column md-numeric md-order-by="">Descrição</th>
+				        <th md-column md-numeric md-order-by="">Criador</th>
+				        <th md-column md-numeric>Status</th>
+				      </tr>
+				    </thead>
+				    
+				    <tbody md-body>
+				      <tr md-row style="cursor:pointer" ng-click="$state.go( QUESTIONARIO_RESPOSTA_EDIT_STATE, {id:questionarioResposta.id} )" ng-repeat="questionarioResposta in model.questionarioResposta.page.content">
+				        <td md-cell>{{::questionarioResposta.versao.questionario.nome}}</td>
+				        <td md-cell>{{::questionarioResposta.versao.questionario.descricao}}</td>
+				        <td md-cell>{{::questionarioResposta.versao.questionario.usuarioCriador.name}}</td>
+				        <td md-cell>{{::questionarioResposta.status | translate}}</td>
+				      </tr>
+				    </tbody>
+				  </table>
+				</md-table-container>
+									
+				<div layout="column" flex class="empty-grid" layout-align="center center" ng-show="model.questionarioResposta.page.content.length == 0">
+					Nenhum registro de questionário encontrado
+				</div>
+				
+				<md-divider></md-divider>
+				
+				<div class="default-paginator" layout layout-align="end center" ng-if="model.questionarioResposta.page.content.length > 0">
+					{{ model.questionarioResposta.page.pageable.page + 1 }} de {{ totalPagesQuestionario }}
+					<md-button class="md-icon-button" ng-disabled="(model.questionarioResposta.page.pageable.page + 1) < 2" ng-click="onQuestionarioPaginationChange(false)">
+						<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.questionarioResposta.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
+					</md-button>
+					<md-button class="md-icon-button" ng-disabled="(model.questionarioResposta.page.pageable.page + 1) >= totalPagesQuestionario" ng-click="onQuestionarioPaginationChange(true)">
+						<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.questionarioResposta.page.pageable.page + 1) >= Math.ceil(model.questionarioResposta.page.total/model.questionarioResposta.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
+					</md-button>
+		  		</div>
+			</md-toolbar>
+		</div>
+	</div>
+</html>

@@ -305,6 +305,9 @@ public class User extends AbstractEntity implements Serializable, UserDetails
 	@Transient
 	public boolean isEnabled()
 	{
+		if (this.enabled == null)
+			return true;
+		
 		return this.enabled;
 	}
 

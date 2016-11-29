@@ -109,6 +109,26 @@
 	    	 templateUrl: './modules/home/views/questionario/questionario-form.html'
 	     })
 	     
+	     //QUESTIONARIO RESPOSTA
+	     $stateProvider.state('questionario-resposta',{
+	    	 abstract: true,
+	    	 url : "/questionario-resposta",
+	    	 template: '<div layout="column" flex ui-view=""/>',
+	    	 controller : 'QuestionarioRespostaController as questionarioRespostaController'
+	     })
+	     .state('questionario-resposta.list',{
+	    	 url:'/listar',
+	    	 templateUrl: './modules/home/views/questionario-resposta/questionario-resposta-list.html'
+	     })
+	     .state('questionario-resposta.add',{
+	    	 url:'/inserir',
+	    	 templateUrl: './modules/home/views/questionario-resposta/questionario-resposta-form.html'
+	     })
+	     .state('questionario-resposta.edit',{
+	    	 url:'/editar/{id:[0-9]{1,10}}',
+	    	 templateUrl: './modules/home/views/questionario-resposta/questionario-resposta-form.html'
+	     })
+	     
 //	     //AVALIAÇÃO INDIVIDUAL
 //	     $stateProvider.state('avaliacao-individual',{
 //	    	 abstract: true,
