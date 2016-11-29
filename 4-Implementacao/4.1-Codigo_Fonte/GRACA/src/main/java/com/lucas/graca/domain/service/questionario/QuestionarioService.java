@@ -3,10 +3,12 @@
  */
 package com.lucas.graca.domain.service.questionario;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.directwebremoting.annotations.RemoteProxy;
+import org.directwebremoting.io.FileTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -28,10 +30,13 @@ import com.lucas.graca.domain.entity.questionario.StatusVersaoQuestionario;
 import com.lucas.graca.domain.entity.questionario.TipoQuestao;
 import com.lucas.graca.domain.entity.questionario.VersaoQuestionario;
 import com.lucas.graca.domain.repository.questionario.IQuestaoRepository;
+import com.lucas.graca.domain.repository.questionario.IQuestionarioReportRepository;
 import com.lucas.graca.domain.repository.questionario.IQuestionarioReposiotry;
 import com.lucas.graca.domain.repository.questionario.IQuestionarioRespostaRepository;
 import com.lucas.graca.domain.repository.questionario.IRespostaRepository;
 import com.lucas.graca.domain.repository.questionario.IVersaoQuestionario;
+
+import br.com.eits.common.infrastructure.file.MimeType;
 
 /**
  * @author lucas
@@ -77,6 +82,9 @@ public class QuestionarioService
 	 */
 	@Autowired
 	private IVersaoQuestionario versaoQuestionarioRepository;
+	
+	@Autowired
+	private IQuestionarioReportRepository questionarioReportRepository;
 	
 	/*-------------------------------------------------------------------
 	 *				 		     SERVICES
@@ -551,6 +559,19 @@ public class QuestionarioService
 	public Page<Resposta> listRespostasByQuestionarioResposta(long questionarioRespostaId, PageRequest pageable)
 	{
 		return this.respostaRepository.findByQuestionarioRespostaId(questionarioRespostaId, pageable);
+	}
+	
+	/**
+	 * 
+	 * @param questionarioResposta
+	 * @return
+	 */
+	public FileTransfer imprimirQuestionario( QuestionarioResposta questionarioResposta )
+	{
+		final ByteArrayOutputStream reportOutputStream = this.questionarioReportRepository.imprimirQuestionario(questionarioResposta);
+
+		final String name = String.format( IQuestionarioReportRepository.QUESTIONARIO_REPORT, "OS" );
+		return new FileTransfer( name, MimeType.PDF.value, reportOutputStream.toByteArray() );
 	}
 	
 }

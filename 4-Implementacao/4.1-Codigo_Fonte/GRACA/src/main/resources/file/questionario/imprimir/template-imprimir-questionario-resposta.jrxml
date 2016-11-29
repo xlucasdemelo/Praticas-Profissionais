@@ -1,0 +1,683 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ordemServicoRelatorio" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="96bf6a3c-e3ab-454a-ad5f-47caf3affdf7">
+	<property name="ireport.zoom" value="2.1435888100000016"/>
+	<property name="ireport.x" value="462"/>
+	<property name="ireport.y" value="276"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#E0E0E0">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_CH" mode="Opaque" backcolor="#E0E0E0">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 1_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 2_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table 3_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="1e8de900-0551-40ed-86ff-fe2e865c0010">
+		<parameter name="pagamento_id" class="java.lang.Long"/>
+		<parameter name="default_schema" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[select distinct itemServico.ordem, itemContrato.descricao_completa, itemContrato.descricao_resumida, sum(itemServico.realizado) as quantidade_realizada,
+
+CAST( substring( itemServico.ordem, 0 , strpos( itemServico.ordem, '.' ) ) as int)  as first_index,
+
+ CAST( substring( itemServico.ordem, strpos( itemServico.ordem, '.' )+1, CAST(1000 AS int) ) AS int ) last_index,
+
+sum((itemContrato.valor_mao_de_obra * itemServico.realizado) )as total_realizado_MDO,
+
+sum((itemContrato.valor_equipamento_material * itemServico.realizado)) as total_realizado_MAT_EQUIP,
+
+sum
+(
+(itemContrato.valor_mao_de_obra * itemServico.realizado)
++ (itemContrato.valor_equipamento_material * itemServico.realizado)
+) as custo_total_realizado,
+
+
+contrato.numero, pagamento.numero_medicao, un.sigla,
+itemContrato.valor_equipamento_material as preco_unitario_MDO,
+itemContrato.valor_mao_de_obra as preco_unitario_MAT
+
+from $P!{default_schema}.pagamento
+left outer join $P!{default_schema}.ordem_servico as os on os.pagamento_id = pagamento.id
+left outer join $P!{default_schema}.item_servico as itemServico on itemServico.ordem_servico_id = os.id
+left outer join $P!{default_schema}.item_contrato as itemContrato on itemContrato.id = itemServico.item_contrato_id
+left outer join $P!{default_schema}.contrato on pagamento.contrato_id = contrato.id
+left outer join $P!{default_schema}.unidade_medida as un on un.id = itemContrato.unidade_medida_id
+
+where pagamento.id = $P{pagamento_id} AND itemServico.ativo is true
+group by itemServico.ordem, itemContrato.descricao_completa,  itemContrato.descricao_resumida, contrato.numero, pagamento.numero_medicao, un.sigla,itemContrato.valor_equipamento_material, itemContrato.valor_mao_de_obra
+order by first_index, last_index]]>
+		</queryString>
+		<field name="ordem" class="java.lang.String"/>
+		<field name="descricao_completa" class="java.lang.String"/>
+		<field name="quantidade_realizada" class="java.math.BigDecimal"/>
+		<field name="first_index" class="java.lang.Integer"/>
+		<field name="last_index" class="java.lang.Integer"/>
+		<field name="total_realizado_mdo" class="java.math.BigDecimal"/>
+		<field name="total_realizado_mat_equip" class="java.math.BigDecimal"/>
+		<field name="custo_total_realizado" class="java.math.BigDecimal"/>
+		<field name="numero" class="java.lang.String"/>
+		<field name="numero_medicao" class="java.lang.String"/>
+		<field name="sigla" class="java.lang.String"/>
+		<field name="preco_unitario_mdo" class="java.math.BigDecimal"/>
+		<field name="preco_unitario_mat" class="java.math.BigDecimal"/>
+		<field name="descricao_resumida" class="java.lang.String"/>
+		<variable name="variable1" class="java.math.BigDecimal" calculation="Sum">
+			<variableExpression><![CDATA[$F{custo_total_realizado}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<subDataset name="dataset2" uuid="e8f8eeee-f3aa-4581-9f0b-21b8774b8a58">
+		<parameter name="id_pagamento" class="java.lang.Long"/>
+		<queryString>
+			<![CDATA[select distinct itemServico.ordem, itemContrato.descricao_completa, sum(itemServico.realizado) as quantidade_realizada,
+
+sum((itemContrato.valor_mao_de_obra * itemServico.realizado) )as total_realizado_MDO,
+
+sum((itemContrato.valor_equipamento_material * itemServico.realizado)) as total_realizado_MAT_EQUIP,
+
+sum
+(
+(itemContrato.valor_mao_de_obra * itemServico.realizado)
++ (itemContrato.valor_equipamento_material * itemServico.realizado)
+) as custo_total_realizado,
+
+
+contrato.numero, contrato.calcularinss as calcular_inss, pagamento.numero_medicao, un.sigla,
+itemContrato.valor_equipamento_material as preco_unitario_MDO,
+itemContrato.valor_mao_de_obra as preco_unitario_MAT
+
+from osm.pagamento
+left outer join osm.ordem_servico as os on os.pagamento_id = pagamento.id
+left outer join osm.item_servico as itemServico on itemServico.ordem_servico_id = os.id
+left outer join osm.item_contrato as itemContrato on itemContrato.id = itemServico.item_contrato_id
+left outer join osm.contrato on pagamento.contrato_id = contrato.id
+left outer join osm.unidade_medida as un on un.id = itemContrato.unidade_medida_id
+
+where pagamento.id = $P{id_pagamento}
+group by itemServico.ordem, itemContrato.descricao_completa, contrato.numero, contrato.calcularinss, pagamento.numero_medicao, un.sigla,itemContrato.valor_equipamento_material, itemContrato.valor_mao_de_obra]]>
+		</queryString>
+		<field name="ordem" class="java.lang.String"/>
+		<field name="descricao_completa" class="java.lang.String"/>
+		<field name="quantidade_realizada" class="java.math.BigDecimal"/>
+		<field name="total_realizado_mdo" class="java.math.BigDecimal"/>
+		<field name="total_realizado_mat_equip" class="java.math.BigDecimal"/>
+		<field name="custo_total_realizado" class="java.math.BigDecimal"/>
+		<field name="numero" class="java.lang.String"/>
+		<field name="calcular_inss" class="java.lang.Boolean"/>
+		<field name="numero_medicao" class="java.lang.String"/>
+		<field name="sigla" class="java.lang.String"/>
+		<field name="preco_unitario_mdo" class="java.math.BigDecimal"/>
+		<field name="preco_unitario_mat" class="java.math.BigDecimal"/>
+	</subDataset>
+	<parameter name="logo_DIR" class="java.io.InputStream"/>
+	<parameter name="pagamento_id" class="java.lang.Long"/>
+	<parameter name="valor_total_bdi" class="java.math.BigDecimal"/>
+	<parameter name="mes_medicao" class="java.lang.String"/>
+	<parameter name="default_schema" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select distinct pagamento.numero_medicao as numero_pagamento,
+pagamento.data_fechamento as pagamento_data,
+contrato.numero as numero_contrato,
+contrato.calcularinss as calcular_inss,
+fornecedor.razao_social as nome_fornecedor,
+contrato.porcentagem_reajuste,
+
+sum
+	(
+	(itemContrato.valor_mao_de_obra * itemServico.realizado)
+	+ (itemContrato.valor_equipamento_material * itemServico.realizado)
+	) as sub_total,
+
+sum
+	(
+	(itemContrato.valor_mao_de_obra * itemServico.realizado)
+
+	)as total_realizado_mdo,
+
+sum
+	(
+	(itemContrato.valor_equipamento_material * itemServico.realizado)
+
+	) as total_realizado_mat,
+
+fornecedor.nome_responsavel_fornecedor as nome_responsavel_fornecedor,
+
+usuario.nome as elaborador
+
+from $P!{default_schema}.pagamento
+left outer join $P!{default_schema}.contrato on contrato.id = pagamento.contrato_id
+left outer join $P!{default_schema}.fornecedor on contrato.fornecedor_id = fornecedor.id
+left outer join $P!{default_schema}.ordem_servico as os on os.pagamento_id = pagamento.id
+left outer join $P!{default_schema}.item_servico as itemServico on itemServico.ordem_servico_id = os.id
+left outer join $P!{default_schema}.item_contrato as itemContrato on itemContrato.id = itemServico.item_contrato_id
+left outer join $P!{default_schema}.unidade_medida as un on un.id = itemContrato.unidade_medida_id
+left outer join $P!{default_schema}.usuario on usuario.id = pagamento.usuario_elaborador_id
+
+where pagamento.id = $P{pagamento_id}
+group by pagamento.numero_medicao, pagamento.data_fechamento, contrato.numero, contrato.calcularinss, fornecedor.razao_social, fornecedor.nome_responsavel_fornecedor, contrato.porcentagem_reajuste,
+usuario.nome]]>
+	</queryString>
+	<field name="numero_pagamento" class="java.lang.String"/>
+	<field name="pagamento_data" class="java.sql.Timestamp"/>
+	<field name="numero_contrato" class="java.lang.String"/>
+	<field name="nome_fornecedor" class="java.lang.String"/>
+	<field name="sub_total" class="java.math.BigDecimal"/>
+	<field name="total_realizado_mdo" class="java.math.BigDecimal"/>
+	<field name="total_realizado_mat" class="java.math.BigDecimal"/>
+	<field name="nome_responsavel_fornecedor" class="java.lang.String"/>
+	<field name="elaborador" class="java.lang.String"/>
+	<field name="porcentagem_reajuste" class="java.math.BigDecimal"/>
+	<field name="calcular_inss" class="java.lang.Boolean"/>
+	<variable name="valor_total" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$P{valor_total_bdi} + $F{sub_total}]]></variableExpression>
+	</variable>
+	<variable name="calculo_inss" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$P{valor_total_bdi} + $F{total_realizado_mdo}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="120" splitType="Stretch">
+			<staticText>
+				<reportElement x="220" y="43" width="423" height="20" uuid="acf7d7e1-34a7-4461-ac03-6af73cedc028"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ÁREA RESPONSÁVEL PELA FISCALIZAÇÃO E MEDIÇÃO: SGII.AD]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="237" y="66" width="327" height="20" uuid="9007d5fa-5d1d-4750-add5-eb376e011ae8"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nome_fornecedor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="258" y="86" width="280" height="20" uuid="5425aecd-9354-445a-935f-406aa35ec154"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Contrato Nº " + $F{numero_contrato}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="305" y="2" width="209" height="20" uuid="d8369469-dd4f-4d4b-979a-0bc4d1430ef4"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["MEDIÇÃO Nº " + $F{numero_pagamento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="342" y="22" width="125" height="20" uuid="5a997b24-e908-4573-ac7d-57547c66fbbb"/>
+				<textElement textAlignment="Center" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$P{mes_medicao} + "/" + new java.text.SimpleDateFormat("yyyy").format($F{pagamento_data})]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="0" y="2" width="102" height="86" uuid="8fab06a1-f466-4c9d-bbe8-9988bc28643d"/>
+				<imageExpression><![CDATA[$P{logo_DIR}]]></imageExpression>
+			</image>
+			<line>
+				<reportElement x="0" y="111" width="800" height="1" uuid="227aa787-4996-43e8-950c-ebeed8fb35f8"/>
+			</line>
+		</band>
+	</title>
+	<detail>
+		<band height="64" splitType="Stretch">
+			<componentElement>
+				<reportElement key="table 1" style="table 1" x="0" y="0" width="802" height="64" uuid="d23b91e2-a74a-43b4-ab12-691a870729ca"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table Dataset 1" uuid="297759a1-649f-4575-8846-2c5923e64ddb">
+						<datasetParameter name="pagamento_id">
+							<datasetParameterExpression><![CDATA[$P{pagamento_id}]]></datasetParameterExpression>
+						</datasetParameter>
+						<datasetParameter name="default_schema">
+							<datasetParameterExpression><![CDATA[$P{default_schema}]]></datasetParameterExpression>
+						</datasetParameter>
+						<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+					</datasetRun>
+					<jr:column width="33" uuid="cca6c784-34c3-4a7f-8f93-b0a9186d16c5">
+						<jr:columnHeader style="table 1_CH" height="41" rowSpan="1">
+							<staticText>
+								<reportElement x="6" y="7" width="26" height="30" uuid="091738b1-2e8d-48a1-b241-5097c377473c"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Item]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="27" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="33" height="27" uuid="1ed7a1d5-0a70-4237-a87c-f602820cfd07"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{ordem}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="253" uuid="0a42cb4c-6ef4-4549-887e-7eeed2290296">
+						<jr:columnHeader style="table 1_CH" height="41" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="2" width="252" height="30" uuid="4bea822a-8bbb-4773-8204-ffd99320f75a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Descrição]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="27" rowSpan="1">
+							<textField>
+								<reportElement x="11" y="0" width="230" height="27" uuid="61dbdd5e-2d50-4361-a16a-51cad35045e1"/>
+								<textElement verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{descricao_resumida}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="41" uuid="81d18865-eb13-42cb-aec3-26d02f50e5ce">
+						<jr:columnHeader style="table 1_CH" height="41" rowSpan="1">
+							<staticText>
+								<reportElement x="4" y="2" width="35" height="30" uuid="f378554e-5a55-4465-a040-2c15a65156f6"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Unid.]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="27" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="41" height="27" uuid="4bc57cf5-d16e-4a8b-b1ae-ec89e713a89e"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$F{sigla}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="62" uuid="ce8939a9-b462-446a-93cc-f530c19a5b76">
+						<jr:columnHeader style="table 1_CH" height="41" rowSpan="1">
+							<staticText>
+								<reportElement x="4" y="2" width="58" height="30" uuid="d2b7c80b-9329-4c0e-8a24-f0011bec5356"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Quant. Realizada]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="27" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="62" height="27" uuid="aca680cd-52b5-4c63-bbc3-9b5ce6e48fef"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[new java.text.DecimalFormat("").format(Double.valueOf($F{quantidade_realizada}))]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="abcea15d-e09a-4f9c-872b-2f4ce4694fe7">
+						<jr:columnHeader style="table 1_CH" height="41" rowSpan="1">
+							<staticText>
+								<reportElement x="7" y="0" width="77" height="37" uuid="e2f0685f-5cab-4d58-9954-888d7824ef94"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Preço unitário MAT]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="27" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="27" uuid="26e0b580-686d-45b6-9c75-28327fa076d5"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[java.text.NumberFormat.getCurrencyInstance(new Locale("pt","br")).format(Double.valueOf($F{preco_unitario_mat}))]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="73" uuid="50028179-2ed7-4f04-b1f1-613f899b9c8b">
+						<jr:columnHeader style="table 1_CH" height="41" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="2" width="73" height="35" uuid="d5e645fe-9051-4285-85ac-8abfc35d2937"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Preço unitário MDO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="27" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="73" height="27" uuid="18ae4eb9-b673-420c-88d5-814cac7e6548"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[java.text.NumberFormat.getCurrencyInstance(new Locale("pt","br")).format(Double.valueOf($F{preco_unitario_mdo}))]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="90" uuid="2887ca85-7e6f-4644-8eee-53f2368f7b35">
+						<jr:columnHeader style="table 1_CH" height="41" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="90" height="41" uuid="8ef7f033-d562-4fd3-9e3c-43a31b681b5f"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Realizado UNIT MAT]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="27" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="90" height="27" uuid="4a20d6f8-da49-4630-9615-dac57ca793ea"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[java.text.NumberFormat.getCurrencyInstance(new Locale("pt","br")).format(Double.valueOf($F{total_realizado_mat_equip}))]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="74" uuid="45f51e5a-4c25-417e-9631-8ea9edaec116">
+						<jr:columnHeader style="table 1_CH" height="41" rowSpan="1">
+							<staticText>
+								<reportElement x="12" y="2" width="51" height="30" uuid="76ea422d-d5e7-4282-a7cc-dc2ed5c678a8"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Realizado UNIT MDO]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="27" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="74" height="27" uuid="9a9d5e78-bde5-4ba8-921e-34627606bc90"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[java.text.NumberFormat.getCurrencyInstance(new Locale("pt","br")).format(Double.valueOf($F{total_realizado_mdo}))]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="85" uuid="15bc24dd-380c-4932-8f69-15e9476a8606">
+						<jr:columnHeader style="table 1_CH" height="41" rowSpan="1">
+							<staticText>
+								<reportElement x="7" y="2" width="68" height="30" uuid="737bf0ad-0464-4083-a2cb-075e78fb7f1a"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Custo Total Realizado]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell style="table 1_TD" height="27" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="85" height="27" uuid="2391fa15-76c2-42ef-848d-52f41e548feb"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="9"/>
+								</textElement>
+								<textFieldExpression><![CDATA[java.text.NumberFormat.getCurrencyInstance(new Locale("pt","br")).format(Double.valueOf($F{custo_total_realizado}))]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+		<band height="124" splitType="Prevent">
+			<elementGroup>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="715" y="0" width="1" height="73" isPrintInFirstWholeBand="true" uuid="51d742e8-49e0-478f-96e8-d2628b4c5b62"/>
+				</line>
+				<line>
+					<reportElement positionType="Float" x="0" y="98" width="801" height="1" uuid="c467363f-aa61-4c67-a229-fcf542079d5d"/>
+				</line>
+				<line>
+					<reportElement positionType="Float" x="0" y="73" width="801" height="1" isPrintInFirstWholeBand="true" uuid="8285bb42-ec6b-4877-a23f-2e41c226db59"/>
+				</line>
+				<staticText>
+					<reportElement positionType="Float" x="450" y="32" width="94" height="13" isPrintInFirstWholeBand="true" uuid="a849e1d1-afa7-4f68-ba47-067b18527c7b"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Valor total BDI ]]></text>
+				</staticText>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="642" y="1" width="1" height="72" isPrintInFirstWholeBand="true" uuid="4f75097b-7892-4a31-ae8a-3772f42e992c"/>
+				</line>
+				<line>
+					<reportElement positionType="Float" x="1" y="26" width="801" height="1" isPrintInFirstWholeBand="true" uuid="34a32ec0-10b3-447c-bdef-1eb849f0b27d"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="801" y="3" width="1" height="70" isPrintInFirstWholeBand="true" uuid="8bb91f71-7fea-4f14-bd0c-4e11212eeaca"/>
+				</line>
+				<line>
+					<reportElement positionType="Float" x="1" y="51" width="801" height="1" isPrintInFirstWholeBand="true" uuid="f2803bc7-3024-4416-8040-cd19badfafd9"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="0" y="1" width="1" height="72" isPrintInFirstWholeBand="true" uuid="f36b9efc-09b0-4f36-84cd-2d62c6cf3afe"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="551" y="2" width="1" height="71" isPrintInFirstWholeBand="true" uuid="1fb7a60a-ec15-4083-815d-ebdaa9e71856"/>
+				</line>
+				<staticText>
+					<reportElement positionType="Float" x="475" y="56" width="69" height="13" isPrintInFirstWholeBand="true" uuid="349f8aba-f4af-4858-bc49-2abf1ed1e708"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Valor total]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="338" y="103" width="206" height="15" isPrintInFirstWholeBand="true" uuid="859df655-301d-43f6-a218-dc651e39a1b9">
+						<printWhenExpression><![CDATA[$F{calcular_inss} != false]]></printWhenExpression>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Base de cálculo para INSS (BDI + MDO)]]></text>
+				</staticText>
+				<staticText>
+					<reportElement positionType="Float" x="471" y="10" width="71" height="13" isPrintInFirstWholeBand="true" uuid="1cefe383-8fae-46fe-9ab5-ca11584e9984"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Sub Total]]></text>
+				</staticText>
+				<line>
+					<reportElement positionType="Float" x="1" y="123" width="801" height="1" uuid="c643e5c1-c31c-4f28-838a-d30cb249057b">
+						<printWhenExpression><![CDATA[$F{calcular_inss} != false]]></printWhenExpression>
+					</reportElement>
+				</line>
+				<staticText>
+					<reportElement positionType="Float" x="487" y="79" width="57" height="15" isPrintInFirstWholeBand="true" uuid="5c26c203-55f9-4cf1-8baf-ab81fdb08e34"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle"/>
+					<text><![CDATA[Reajuste]]></text>
+				</staticText>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="551" y="99" width="1" height="25" isPrintInFirstWholeBand="true" uuid="9dac27a9-f241-4de7-a2e3-e9f5a49a7913">
+						<printWhenExpression><![CDATA[$F{calcular_inss} != false]]></printWhenExpression>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="642" y="99" width="1" height="25" isPrintInFirstWholeBand="true" uuid="f9932425-e0ed-4508-8022-e0508d4dc156">
+						<printWhenExpression><![CDATA[$F{calcular_inss} != false]]></printWhenExpression>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="0" y="98" width="1" height="25" isPrintInFirstWholeBand="true" uuid="08287849-ec49-4b07-b381-096015ca5571">
+						<printWhenExpression><![CDATA[$F{calcular_inss} != false]]></printWhenExpression>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="801" y="98" width="1" height="25" isPrintInFirstWholeBand="true" uuid="33c3bb65-cde7-42c0-96d6-9b73506fcb69">
+						<printWhenExpression><![CDATA[$F{calcular_inss} != false]]></printWhenExpression>
+					</reportElement>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="551" y="73" width="1" height="25" isPrintInFirstWholeBand="true" uuid="5b8e877e-6b8a-4066-a538-f17c13ef6f7a"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="0" y="74" width="1" height="25" isPrintInFirstWholeBand="true" uuid="0e22cec9-ea23-4e03-831e-a13676c01d35"/>
+				</line>
+				<line>
+					<reportElement stretchType="RelativeToBandHeight" x="642" y="73" width="1" height="25" isPrintInFirstWholeBand="true" uuid="4fea8a92-93ae-44fd-8b5f-380019b9fbbb"/>
+				</line>
+			</elementGroup>
+			<elementGroup/>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="716" y="3" width="85" height="24" uuid="f9a9e3b9-8a0d-4e8c-b0cc-0586afc6f5a1"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[java.text.NumberFormat.getCurrencyInstance(new Locale("pt","br")).format(Double.valueOf($F{sub_total}))]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="717" y="27" width="84" height="20" uuid="d2e0879d-ea59-43f3-a93e-62d361304387"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[java.text.NumberFormat.getCurrencyInstance(new Locale("pt","br")).format(Double.valueOf($P{valor_total_bdi}))]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="716" y="52" width="84" height="19" uuid="d5d22664-6170-4b32-9efe-3f977c2639b9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[java.text.NumberFormat.getCurrencyInstance(new Locale("pt","br")).format(Double.valueOf($V{valor_total}))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="643" y="3" width="72" height="23" uuid="f2a5e0bf-3c98-4e60-9ccc-28cabd7c1f23"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[java.text.NumberFormat.getCurrencyInstance(new Locale("pt","br")).format(Double.valueOf($F{total_realizado_mdo}))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="552" y="3" width="90" height="20" uuid="5612163b-0b9a-4ecb-ad09-bfb935b7eb02"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[java.text.NumberFormat.getCurrencyInstance(new Locale("pt","br")).format(Double.valueOf($F{total_realizado_mat}))]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" x="717" y="101" width="83" height="20" uuid="58e9dea1-f5ac-4a3c-9872-d385118a55b6">
+					<printWhenExpression><![CDATA[$F{calcular_inss} != false]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8" isItalic="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[java.text.NumberFormat.getCurrencyInstance(new Locale("pt","br")).format(Double.valueOf($V{calculo_inss}))]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="646" y="77" width="66" height="20" uuid="baf047db-e772-4e8f-a948-ee6dd7282b59"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{porcentagem_reajuste} != null ? new java.text.DecimalFormat("").format(Double.valueOf($F{porcentagem_reajuste})) + "%" : "Não se aplica"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement positionType="Float" x="717" y="77" width="83" height="20" uuid="5ef03b2a-20a1-4503-adfe-d74f9dbb2355"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{porcentagem_reajuste} != null ? new java.text.DecimalFormat("R\$ #,##0.00").format(Double.valueOf(($F{porcentagem_reajuste} * 0.01) * $V{valor_total})) : "Não se aplica"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="715" y="99" width="1" height="25" isPrintInFirstWholeBand="true" uuid="dcea12e5-4b8a-443e-9360-d5782ab18ff1">
+					<printWhenExpression><![CDATA[$F{calcular_inss} != false]]></printWhenExpression>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="715" y="73" width="1" height="25" isPrintInFirstWholeBand="true" uuid="63932986-07b9-4912-93aa-0bd72974f25e"/>
+			</line>
+			<line>
+				<reportElement stretchType="RelativeToBandHeight" x="801" y="73" width="1" height="25" isPrintInFirstWholeBand="true" uuid="cefe0274-ca88-4cfb-8e5c-65c2b020d41c"/>
+			</line>
+		</band>
+		<band height="169" splitType="Prevent">
+			<line>
+				<reportElement x="99" y="82" width="152" height="1" uuid="cada0419-d850-4bbf-b9ce-d6946d9bec5a"/>
+			</line>
+			<textField>
+				<reportElement x="744" y="15" width="44" height="20" uuid="49aba93b-29a3-4898-b778-f3c7be305dcc"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat("yyyy").format(new Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="606" y="15" width="138" height="20" uuid="6ab4329f-d700-4bf6-abaa-a1e319d1bbce"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[ em_______de________de]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="145" y="115" width="87" height="20" uuid="2bc0941f-0b16-48dc-a3f0-39db1223071a"/>
+				<text><![CDATA[Elaborador]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" x="557" y="115" width="146" height="20" uuid="15500cd1-41cb-4a03-b34d-78e75c86d1b5"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Responsável do fornecedor]]></text>
+			</staticText>
+			<line>
+				<reportElement x="551" y="84" width="152" height="1" uuid="7ce77cfd-369b-4b21-a6c3-5da83667440f"/>
+			</line>
+			<textField>
+				<reportElement x="523" y="95" width="209" height="20" uuid="f4db5cf4-f02f-45d7-afe1-24253d58cd08"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nome_responsavel_fornecedor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="78" y="95" width="190" height="20" uuid="642b89c3-d8e3-4cdb-99b8-557f11f959d9"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{elaborador}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20">
+			<textField>
+				<reportElement x="703" y="0" width="100" height="20" uuid="39dae2e6-002e-432d-acd8-96d1f554c61e"/>
+				<textElement textAlignment="Right" verticalAlignment="Top"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>

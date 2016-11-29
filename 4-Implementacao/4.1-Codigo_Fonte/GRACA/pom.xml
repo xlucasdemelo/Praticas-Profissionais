@@ -203,12 +203,39 @@
 			<resource>
 				<filtering>true</filtering>
 				<directory>src/main/resources</directory>
+				<excludes>
+					<exclude>**/*.xls</exclude>
+					<exclude>**/*.jasper</exclude>
+				</excludes>
+			</resource>
+			
+			<resource>
+				<filtering>false</filtering>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.xls</include>
+					<include>**/*.jasper</include>
+				</includes>
 			</resource>
 		</resources>
+		
 		<testResources>
 			<testResource>
 				<filtering>true</filtering>
 				<directory>src/test/resources</directory>
+				<excludes>
+					<exclude>**/*.xls</exclude>
+					<exclude>**/*.jasper</exclude>
+				</excludes>
+			</testResource>
+			
+			<testResource>
+				<filtering>false</filtering>
+				<directory>src/test/resources</directory>
+				<includes>
+					<include>**/*.xls</include>
+					<include>**/*.jasper</include>
+				</includes>
 			</testResource>
 		</testResources>
 		
@@ -587,6 +614,13 @@
 		    <groupId>org.webjars.bower</groupId>
 		    <artifactId>angular-material-expansion-panel</artifactId>
 		    <version>0.6.1</version>
+		</dependency>
+		
+		<!-- JASPER -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>6.1.0</version>
 		</dependency>
 		
 	</dependencies>
