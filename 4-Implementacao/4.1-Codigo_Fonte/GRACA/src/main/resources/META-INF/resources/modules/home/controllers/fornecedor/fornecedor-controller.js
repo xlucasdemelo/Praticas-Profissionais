@@ -327,10 +327,6 @@ angular.module('home')
 					return;
 				}
 				
-				
-				$scope.model.fornecedor.entity.responsavel = new Responsavel();
-				$scope.model.fornecedor.entity.responsavel.id = 1;
-				
 				fornecedorService.insertFornecedor( $scope.model.fornecedor.entity, {
 	                callback : function(result) {
 	                	

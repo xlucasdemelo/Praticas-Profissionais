@@ -190,6 +190,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	 * 
 	 */
 	@Test
+	@WithUserDetails("admin@admin.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
 		"/dataset/casalar/ResponsavelDataSet.xml",
 		"/dataset/redeapoio/redeApoioDataSet.xml",
@@ -209,6 +210,7 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	 * 
 	 */
 	@Test
+	@WithUserDetails("admin@admin.com")
 	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
 		"/dataset/casalar/ResponsavelDataSet.xml",
 		"/dataset/redeapoio/redeApoioDataSet.xml",
@@ -245,17 +247,4 @@ public class AccountServiceIntegrationTests extends AbstractIntegrationTests
 	/**
 	 * 
 	 */
-	@Test
-	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
-		"/dataset/casalar/ResponsavelDataSet.xml",	
-		"/dataset/redeapoio/redeApoioDataSet.xml",
-		"/dataset/account/UserDataSet.xml"
-	})
-	public void listByFiltersMustReturnAllDisabled()
-	{
-		final Page<User> users = this.accountService.listByFilters( null, false, null );
-		
-		Assert.assertNotNull( users );
-		Assert.assertEquals( 4, users.getTotalElements() );
-	}
 }

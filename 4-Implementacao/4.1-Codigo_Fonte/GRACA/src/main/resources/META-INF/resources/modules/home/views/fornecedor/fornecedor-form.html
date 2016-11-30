@@ -47,11 +47,12 @@
 											
 											<md-input-container layout="column" flex="30" ">
 									    		<label>CNPJ</label>
-								                <input type="text" name="cnpj" required ng-model="model.fornecedor.entity.cnpj">
+								                <input type="text" name="cnpj" ng-cnpj required mask="99.999.999/9999-99" ng-model="model.fornecedor.entity.cnpj">
 								
-								                <div ng-messages="model.fornecedor.form.numero.$error">
+								                <div ng-messages="model.fornecedor.form.cnpj.$error">
 								                	<div ng-message="required" ng-if="model.fornecedor.form.$submitted">Campo obrigatório</div>
 								                	<div ng-message="md-maxlength" ng-if="model.fornecedor.form.$submitted">Limite de caracteres excedido</div>
+								                	<div ng-message="cnpj"  ng-if="model.fornecedor.form.$submitted">CNPJ inválido</div>
 								                </div>
 								            </md-input-container>
 								            
@@ -63,6 +64,25 @@
 								                	<div ng-message="required" ng-if="model.fornecedor.form.$submitted">Campo obrigatório</div>
 								                	<div ng-message="md-maxlength" ng-if="model.fornecedor.form.$submitted">Limite de caracteres excedido</div>
 								                </div>
+								            </md-input-container>
+								            
+								            <md-input-container layout="column" flex="30" ">
+									    		<label>Nome do responsável</label>
+								                <input  maxlength="255" md-maxlength="255" name="nomeResponsavel" required ng-model="model.fornecedor.entity.responsavel.nome">
+								
+								                <div ng-messages="model.fornecedor.form.nomeResponsavel.$error">
+								                	<div ng-message="required" ng-if="model.fornecedor.form.$submitted">Campo obrigatório</div>
+								                </div>
+								            </md-input-container>
+								            
+								            <md-input-container layout="column" flex="30">
+									    		<label>Número do cpf</label>
+								                <input type="text" maxlength="14" name="responsavelCpf" mask="999.999.999-99" ng-model="model.fornecedor.entity.responsavel.cpf" ng-cpf>
+								            	
+								            	<div ng-messages="model.fornecedor.form.nomeResponsavel.$error">
+								               		<div ng-message="cpf"  ng-if="model.fornecedor.form.$submitted">CPF inválido</div>
+								                </div>
+								            	
 								            </md-input-container>
 								            
 										</form>

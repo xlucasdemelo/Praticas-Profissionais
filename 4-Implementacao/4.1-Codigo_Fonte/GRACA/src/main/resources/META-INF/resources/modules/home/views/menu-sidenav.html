@@ -15,6 +15,12 @@
 		
 			<label class="md-body-2">MENU</label>
 			
+			<md-button style="text-align: left;"
+				ng-click="toggleMenuSideNavHandler('evento.list');">
+				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
+				Evento
+			</md-button>
+			
 			<md-button ng-if="hasPermission('ADMINISTRATOR')" style="text-align: left;"
 				ng-click="toggleMenuSideNavHandler('user.list');">
 				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
@@ -63,12 +69,6 @@
 				Avaliação indivídual
 			</md-button>
 			
-			<md-button ng-if="hasPermission('OPERADOR_ADMINISTRATIVO')" style="text-align: left;"
-				ng-click="toggleMenuSideNavHandler('fornecedor.list');">
-				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
-				Fornecedor
-			</md-button>
-			
 			<md-button ng-if="hasPermission('OPERADOR_ATENDIMENTOS')" style="text-align: left;"
 				ng-click="toggleMenuSideNavHandler('crianca.list');">
 				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
@@ -93,6 +93,12 @@
 				ng-click="toggleMenuSideNavHandler('movimentacao.list');">
 				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
 				Movimentacao
+			</md-button>
+			
+			<md-button ng-if="hasPermission('OPERADOR_ADMINISTRATIVO')" style="text-align: left;"
+				ng-click="toggleMenuSideNavHandler('fornecedor.list');">
+				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
+				Fornecedor
 			</md-button>
 			
 			<md-button ng-if="hasPermission('OPERADOR_ADMINISTRATIVO')" style="text-align: left;"

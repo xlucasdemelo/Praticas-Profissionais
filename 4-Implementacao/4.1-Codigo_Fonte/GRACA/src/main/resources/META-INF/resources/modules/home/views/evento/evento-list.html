@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" 
+	xmlns:th="http://www.thymeleaf.org" lang="pt">
+	
+	<div class="main-div" layout="column" flex>
+		<md-toolbar layout="row">
+	    	<div layout="row" flex>
+		        <h1 class="md-toolbar-tools" style="margin-left: 30px;">Evento</h1>
+	    	</div>
+	    	
+	    	<div layout="row" layout-align="end center" style="margin-right: 30px;">
+		        <md-button class="md-raised md-accent" ng-click="$state.go( EVENTO_ADD_STATE )">NOVO</md-button>
+	    	</div>
+	    </md-toolbar>
+	
+		<form class="default-frame" layout="row">
+			<md-toolbar class="md-hue-1" layout="column" flex>
+				<div class="default-filter" layout="column" flex>
+					<div layout="row">
+						<md-input-container md-no-float layout="column" style="margin-top: 0" flex>
+							<input autofocus placeholder="Digite sua pesquisa" type="text" name="filtro" ng-disabled="moreFilters" ng-model="model.evento.filters.terms" maxlength="255">
+						</md-input-container>
+				            
+			            <div layout="row" layout-align="end center" ng-init="currentOption = true">
+				            <md-button class="md-raised" ng-click="!moreFilters ? listEventosByFilters() : listEventosByMoreFilters()">Filtrar</md-button>
+				            <md-button class="md-raised" ng-click="openMaisOpcoes(); currentOption = !currentOption" style="padding-left: 14px;">
+				            	Mais opções
+				            	<i ng-if="!currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-down"></i>
+				            	<i ng-if="currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-up"></i> 
+				            </md-button>
+			            </div>
+			    	</div>
+			    	
+			    	<div class="more-filters" layout="column" ng-if="moreFilters">
+						<div layout="row">
+							<md-checkbox class="md-warn" ng-model="model.crianca.filters.ativo" aria-label="Mostrar ativos">
+								Mostrar ativos
+					        </md-checkbox>
+				    		
+				    		<md-checkbox class="md-warn" ng-model="model.crianca.filters.inativo" aria-label="Mostrar inativos">
+								Mostrar inativos
+					        </md-checkbox>
+						</div>				    									
+			    	</div>
+			    </div>
+			</md-toolbar>
+		</form>
+		
+		<div class="default-frame" layout flex>
+			<md-toolbar class="md-hue-1" layout="column" flex>
+				<md-table-container>
+				  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+				    <thead md-head md-order="query.order">
+				      <tr md-row>
+				        <th md-column md-order-by="">Nome</th>
+				        <th md-column md-numeric md-order-by="">Local</th>
+				        <th md-column md-numeric md-order-by="">Hora início</th>
+				        <th md-column md-numeric md-order-by="">Hora fim</th>
+				        <th md-column md-numeric md-order-by="">Data</th>
+				      </tr>
+				    </thead>
+				    
+				    <tbody md-body>
+				      <tr md-row style="cursor:pointer" ng-click="$state.go( EVENTO_EDIT_STATE, {id:evento.id} )" ng-repeat="evento in model.evento.page.content">
+				        <td md-cell>{{evento.nome}}</td>
+				        <td md-cell>{{evento.local}}</td>
+				        <td md-cell>{{evento.horaInicio}}</td>
+				        <td md-cell>{{evento.horaFim}}</td>
+				        <td md-cell>{{evento.data.toLocaleDateString()}}</td>
+				      </tr>
+				    </tbody>
+				  </table>
+				</md-table-container>
+									
+				<div layout="column" flex class="empty-grid" layout-align="center center" ng-show="model.evento.page.content.length == 0">
+					Nenhum registro de evento encontrado
+				</div>
+				
+				<md-divider></md-divider>
+				
+				<div class="default-paginator" layout layout-align="end center" ng-if="model.evento.page.content.length > 0">
+					{{ model.evento.page.pageable.page + 1 }} de {{ totalPagesEvento }}
+					<md-button class="md-icon-button" ng-disabled="(model.evento.page.pageable.page + 1) < 2" ng-click="onEventoPaginationChange(false)">
+						<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.evento.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
+					</md-button>
+					<md-button class="md-icon-button" ng-disabled="(model.evento.page.pageable.page + 1) >= totalPagesEvento" ng-click="onEventoPaginationChange(true)">
+						<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.evento.page.pageable.page + 1) >= Math.ceil(model.evento.page.total/model.evento.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
+					</md-button>
+		  		</div>
+			</md-toolbar>
+		</div>
+	</div>
+</html>

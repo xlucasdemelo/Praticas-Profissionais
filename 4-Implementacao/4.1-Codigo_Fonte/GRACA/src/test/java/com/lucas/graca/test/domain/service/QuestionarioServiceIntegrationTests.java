@@ -260,7 +260,8 @@ public class QuestionarioServiceIntegrationTests extends AbstractIntegrationTest
 		"/dataset/redeapoio/redeApoioDataSet.xml",
 		"/dataset/account/UserDataSet.xml",
 		"/dataset/questionario/QuestionarioDataSet.xml",
-		"/dataset/questionario/VersaoDataSet.xml"
+		"/dataset/questionario/VersaoDataSet.xml",
+		"/dataset/questionario/QuestaoDataSet.xml"
 	})
 	public void enviarVersaoParaAvaliacaoMustPass()
 	{
@@ -301,7 +302,8 @@ public class QuestionarioServiceIntegrationTests extends AbstractIntegrationTest
 		"/dataset/redeapoio/redeApoioDataSet.xml",
 		"/dataset/account/UserDataSet.xml",
 		"/dataset/questionario/QuestionarioDataSet.xml",
-		"/dataset/questionario/VersaoDataSet.xml"
+		"/dataset/questionario/VersaoDataSet.xml",
+		"/dataset/questionario/QuestaoDataSet.xml"
 	})
 	public void aprovarVersaoMustPass()
 	{
@@ -349,7 +351,8 @@ public class QuestionarioServiceIntegrationTests extends AbstractIntegrationTest
 		"/dataset/redeapoio/redeApoioDataSet.xml",
 		"/dataset/account/UserDataSet.xml",
 		"/dataset/questionario/QuestionarioDataSet.xml",
-		"/dataset/questionario/VersaoDataSet.xml"
+		"/dataset/questionario/VersaoDataSet.xml",
+		"/dataset/questionario/QuestaoDataSet.xml",
 	})
 	public void rejeitarVersaoMustPass()
 	{
@@ -602,7 +605,7 @@ public class QuestionarioServiceIntegrationTests extends AbstractIntegrationTest
 	{
 		QuestionarioResposta questionarioResposta = new QuestionarioResposta();
 		
-//		questionarioResposta.setVersao( new VersaoQuestionario(1000L) );
+		questionarioResposta.setVersao( new VersaoQuestionario(1000L) );
 		
 		questionarioResposta = this.questionarioService.insertQuestionarioResposta(questionarioResposta);
 		
@@ -627,7 +630,7 @@ public class QuestionarioServiceIntegrationTests extends AbstractIntegrationTest
 	{
 		QuestionarioResposta questionarioResposta = new QuestionarioResposta();
 		
-//		questionarioResposta.setVersao( null );
+		questionarioResposta.setVersao( null );
 		
 		questionarioResposta = this.questionarioService.insertQuestionarioResposta(questionarioResposta);
 		

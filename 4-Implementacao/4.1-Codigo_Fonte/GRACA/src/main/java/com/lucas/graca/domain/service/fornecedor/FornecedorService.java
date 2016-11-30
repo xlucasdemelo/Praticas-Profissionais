@@ -15,6 +15,7 @@ import org.springframework.util.Assert;
 import com.lucas.graca.domain.entity.account.UserRole;
 import com.lucas.graca.domain.entity.fornecedor.Fornecedor;
 import com.lucas.graca.domain.repository.fornecedor.IFornecedorRepository;
+import com.lucas.graca.domain.repository.planoatendimento.IResponsavelRepository;
 
 /**
  * @author lucas
@@ -37,6 +38,12 @@ public class FornecedorService
 	@Autowired
 	private IFornecedorRepository fornecedorRepository; 
 	
+	/**
+	 * 
+	 */
+	@Autowired
+	private IResponsavelRepository responsavelRepository;
+	
 	/*-------------------------------------------------------------------
 	 *				 		 SERVICES FORNECDOR
 	 *-------------------------------------------------------------------*/
@@ -53,6 +60,8 @@ public class FornecedorService
 		Assert.notNull( fornecedor.getResponsavel(), "Responsável não pode ser nulo" );
 		
 		Assert.isNull( fornecedor.getId(), "Id precisa ser nulo" );
+		
+		this.responsavelRepository.saveAndFlush(fornecedor.getResponsavel());
 		
 		return this.fornecedorRepository.save( fornecedor );
 	}

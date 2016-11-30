@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" 
+	xmlns:th="http://www.thymeleaf.org" lang="pt">
+	
+	<div class="main-div" layout="column" flex>
+		<md-toolbar layout="row">
+	    	<div layout="row" flex>
+		        <h1 class="md-toolbar-tools">Evento</h1>
+	    	</div>
+	    	
+	    	<div layout="row" style="margin-right: 30px;" layout-align="end center">
+		        <md-button class="md-raised" ng-click="$state.go( EVENTO_LIST_STATE )">Voltar</md-button>
+		        <md-button class="md-raised md-accent" ng-click="save()">Salvar</md-button>
+	    	</div>
+	    </md-toolbar>
+			
+		<md-content layout="column" flex style="height:100%">
+			<md-tabs style="height:100%" md-border-bottom md-selected="model.evento.selectedTab" flex>
+				<md-tab style="height:100%" label="Evento">
+					<div style="height:100%" class="default-frame" layout="column">
+						<md-toolbar layout style="height:100%" class="md-hue-1">
+							<form novalidate name="model.evento.form" style="height:100%" class="default-form" flex>
+								<div class="default-info" flex> 
+									<span>INFORMAÇÕES DO EVENTO</span>
+								</div>
+								
+				    			<div layout="column">
+					    			<md-input-container layout="column" flex="30" style="margin-right:30px">
+							    		<label>Nome</label>
+						                <input md-maxlength="255" name="nome" required ng-model="model.evento.entity.nome">
+						
+						                <div ng-messages="model.evento.form.nome.$error">
+						                	<div ng-message="required" ng-if="model.evento.form.$submitted">Campo Obrigatório</div>
+						                	<div ng-message="md-maxlength" ng-if="model.evento.form.$submitted">Limite de caracteres excedido</div>
+						                </div>
+						            </md-input-container>
+				    			</div>
+					            
+					            <div layout="column">
+						            <md-input-container layout="column" flex>
+							    		<label>Descrição</label>
+							    		<textarea maxlength="255" name="descricao" ng-model="model.evento.entity.descricao" rows="5" required></textarea>
+						                
+						                <div ng-messages="model.evento.form.descricao.$error">
+						               		<div ng-message="required" ng-if="model.evento.form.$submitted">Campo obrigatório</div>
+						                </div>
+						            </md-input-container>
+								</div>
+								
+					            <div layout="column">
+						            <md-input-container layout="column" flex>
+							    		<label>Local</label>
+							    		<textarea maxlength="255" name="local" ng-model="model.evento.entity.local" required></textarea>
+						                
+						                <div ng-messages="model.evento.form.local.$error">
+						               		<div ng-message="required" ng-if="model.evento.form.$submitted">Campo obrigatório</div>
+						                </div>
+						            </md-input-container>
+								</div>
+								
+					            <div layout="row">
+						            <md-input-container layout="column" style="margin-right: 30px;" flex="15">
+							    		<label>Hora início</label>
+							    		<input type="number" min="0" max="2359" name="horaInicio" ng-model="model.evento.entity.horaInicio" required/>
+						                
+						                <div ng-messages="model.evento.form.horaInicio.$error">
+						               		<div ng-message="required" ng-if="model.evento.form.$submitted">Campo obrigatório</div>
+						                </div>
+						            </md-input-container>
+						            
+						            <md-input-container layout="column" style="margin-right: 30px;" flex="15">
+							    		<label>Hora fim</label>
+							    		<input type="number" min="0" max="2359" name="horaFim" ng-model="model.evento.entity.horaFim" required/>
+						                
+						                <div ng-messages="model.evento.form.horaFim.$error">
+						               		<div ng-message="required" ng-if="model.evento.form.$submitted">Campo obrigatório</div>
+						                </div>
+						            </md-input-container>
+						            
+						            <md-input-container layout="column" style="margin: 0; margin-right: 30px; top: 43px;" flex="20">
+							    		<label>Data do evento</label>
+						                <md-datepicker name="data" flex ng-model="model.evento.entity.data" md-placeholder="Data do evento"></md-datepicker>
+						
+						                <div ng-messages="model.evento.form.data.$error">
+						                	<div ng-message="required" ng-if="model.evento.form.$submitted">Campo obrigatório</div>
+						                </div>
+						            </md-input-container>
+								</div>
+							</form>
+						</md-toolbar>
+					</div>
+				</md-tab>
+				
+				<md-tab label="Papeis" ng-click="listPapeisByEvento()" ng-if="model.evento.entity.id">
+					<div class="default-frame" layout="column">
+						<div layout="row" flex>
+							<div class="default-info" flex>PAPÉIS</div>
+							
+							<div>
+							 	<md-button class="md-raised" ng-click="openSelecionarPapelHandler()">Novo papel</md-button>
+							</div>
+						</div>
+						
+						<md-toolbar class="md-hue-1" layout="column" flex>
+							<md-table-container flex>
+								<table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+									<thead md-head md-order="" md-on-reorder="">
+										<tr md-row>
+											<th md-column>Nome do usuário</th>
+											<th md-column md-order-by="">Descrição do papel</th>
+										</tr>
+									</thead>
+									<tbody md-body>
+										<tr md-row md-auto-select ng-repeat="papel in model.papel.page.content">
+											<td md-cell>{{ papel.usuario.name }}</td>
+											<td md-cell>{{ papel.descricao }}</td>
+										</tr>
+									</tbody>
+								</table>
+							</md-table-container>
+							
+							<div layout="column" flex class="empty-grid" layout-align="center center" ng-show="model.papel.page.content.length == 0">
+								Nenhum registro de papel encontrado
+							</div>
+							
+							<md-divider></md-divider>
+							
+							<div class="default-paginator" layout layout-align="end center" ng-if="model.papel.page.content.length > 0">
+								{{ model.papel.page.pageable.page + 1 }} de {{ totalPagesPapel }}
+								<md-button class="md-icon-button" ng-disabled="(model.papel.page.pageable.page + 1) < 2" ng-click="onPapelPaginationChange(false)">
+									<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.papel.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
+								</md-button>
+								<md-button class="md-icon-button" ng-disabled="(model.papel.page.pageable.page + 1) >= totalPagesPapel" ng-click="onPapelPaginationChange(true)">
+									<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.papel.page.pageable.page + 1) >= Math.ceil(model.papel.page.total/model.papel.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
+								</md-button>
+					  		</div>
+						</md-toolbar>
+					</div>
+				</md-tab>
+			</md-tabs>
+		</md-content>
+	</div>
+
+</html>

@@ -463,7 +463,7 @@ public class CaixaServiceIntegrationTests extends AbstractIntegrationTests
 	public void changeToConcluidoMustPass()
 	{
 		Conta contaOrigem = this.caixaService.findContaById(9999L);
-		contaOrigem.setSaldo(new BigDecimal("1209"));
+		contaOrigem.setSaldo(new BigDecimal("99999999"));
 		
 		Conta contaDestino = this.caixaService.findContaById(1001L);
 		contaDestino.setSaldo(new BigDecimal("0"));

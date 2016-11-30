@@ -89,6 +89,26 @@
 	        templateUrl: './modules/home/views/crianca/crianca-form.html'
 	     })
 	     
+	      //Evento
+	     $stateProvider.state('evento',{
+	    	 abstract: true,
+	    	 url : "/evento",
+	    	 template: '<div layout="column" flex ui-view=""/>',
+	    	 controller : 'EventoController as eventoController'
+	     })
+	     .state('evento.list',{
+	    	 url:'/listar',
+	    	 templateUrl: './modules/home/views/evento/evento-list.html'
+	     })
+	     .state('evento.add',{
+	    	 url:'/inserir',
+	    	 templateUrl: './modules/home/views/evento/evento-form.html'
+	     })
+	     .state('evento.edit',{
+	    	 url:'/editar/{id:[0-9]{1,10}}',
+	    	 templateUrl: './modules/home/views/evento/evento-form.html'
+	     })
+	     
 	     //QUESTIONARIO
 	     $stateProvider.state('questionario',{
 	    	 abstract: true,
