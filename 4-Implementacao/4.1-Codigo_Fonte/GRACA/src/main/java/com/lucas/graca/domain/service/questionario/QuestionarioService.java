@@ -566,11 +566,13 @@ public class QuestionarioService
 	 * @param questionarioResposta
 	 * @return
 	 */
-	public FileTransfer imprimirQuestionario( QuestionarioResposta questionarioResposta )
+	public FileTransfer imprimirQuestionario( long questionarioId )
 	{
-		final ByteArrayOutputStream reportOutputStream = this.questionarioReportRepository.imprimirQuestionario(questionarioResposta);
+		VersaoQuestionario maiorVersao = this.versaoQuestionarioRepository.findTopByQuestionarioIdAndStatusOrderByNumeroVersaoDesc(questionarioId, StatusVersaoQuestionario.APROVADO );
+		
+		final ByteArrayOutputStream reportOutputStream = this.questionarioReportRepository.imprimirQuestionario(maiorVersao);
 
-		final String name = String.format( IQuestionarioReportRepository.QUESTIONARIO_REPORT, "OS" );
+		final String name = String.format( IQuestionarioReportRepository.QUESTIONARIO_REPORT, "PAIA" );
 		return new FileTransfer( name, MimeType.PDF.value, reportOutputStream.toByteArray() );
 	}
 	

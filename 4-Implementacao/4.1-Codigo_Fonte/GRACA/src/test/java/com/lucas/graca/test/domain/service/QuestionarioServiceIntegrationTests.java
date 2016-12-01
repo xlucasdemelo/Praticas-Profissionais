@@ -5,6 +5,7 @@ package com.lucas.graca.test.domain.service;
 
 import java.util.List;
 
+import org.directwebremoting.io.FileTransfer;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -757,6 +758,28 @@ public class QuestionarioServiceIntegrationTests extends AbstractIntegrationTest
 		this.questionarioService.changeQuestionarioRespostaToFinalizado(9999L);
 		
 		Assert.assertTrue( this.questionarioService.findQuestionarioRespostaById(9999L).getStatus() == StatusQuestionarioResposta.FINALIZADO );
+	}
+	
+	/**
+	 * 
+	 */
+	@Test
+	@WithUserDetails("atendente@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/casalar/ResponsavelDataSet.xml",
+		"/dataset/redeapoio/redeApoioDataSet.xml",
+		"/dataset/account/UserDataSet.xml",
+		"/dataset/questionario/QuestionarioDataSet.xml",
+		"/dataset/questionario/VersaoDataSet.xml",
+		"/dataset/questionario/QuestaoDataSet.xml",
+		"/dataset/questionario/QuestionarioRespostaDataSet.xml",
+		"/dataset/questionario/RespostaDataSet.xml"
+	})
+	public void imprimirQuestionarioMustPass()
+	{
+		FileTransfer file = this.questionarioService.imprimirQuestionario(1000L);
+		
+		Assert.assertNotNull(file);
 	}
 	
 }

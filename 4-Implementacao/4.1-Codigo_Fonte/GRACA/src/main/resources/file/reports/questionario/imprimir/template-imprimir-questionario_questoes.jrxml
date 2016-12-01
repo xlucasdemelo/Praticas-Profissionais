@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="template-imprimir-questionario_questoes" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="9b43261c-f58c-48fd-8bfd-0bf64c37cb14">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="versao_questionario_id" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[select * from public.questao where versao_questionario_id = $P{versao_questionario_id}]]>
+	</queryString>
+	<field name="id" class="java.lang.Long"/>
+	<field name="created" class="java.sql.Timestamp"/>
+	<field name="updated" class="java.sql.Timestamp"/>
+	<field name="descricao" class="java.lang.String"/>
+	<field name="tipo_questao" class="java.lang.Integer"/>
+	<field name="versao_questionario_id" class="java.lang.Long"/>
+	<variable name="numero_questao" class="java.lang.Long" calculation="Count">
+		<initialValueExpression><![CDATA[1]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="72" splitType="Stretch">
+			<textField>
+				<reportElement x="43" y="5" width="512" height="20" uuid="2a929a55-68ba-42a7-aeec-27c646f2604c"/>
+				<textElement textAlignment="Justified" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="5" width="43" height="20" uuid="4ddd7d4a-b010-4b78-9b29-be374430b432"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{numero_questao} + "."]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -2,11 +2,15 @@ package com.lucas.graca.domain.repository.questionario;
 
 import java.io.ByteArrayOutputStream;
 
-import com.lucas.graca.domain.entity.questionario.QuestionarioResposta;
+import com.lucas.graca.domain.entity.questionario.VersaoQuestionario;
 
 public interface IQuestionarioReportRepository 
 {
+	public static final String LOGO_DIR = "/META-INF/resources/static/images/aldeias.jpg";
 	
+	/**
+	 * 
+	 */
 	public static final String QUESTIONARIO_REPORT = "questionario-%s.pdf";
 	
 	/*-------------------------------------------------------------------
@@ -18,6 +22,6 @@ public interface IQuestionarioReportRepository
 	 * @param questionarioResposta
 	 * @return
 	 */
-	public ByteArrayOutputStream imprimirQuestionario(QuestionarioResposta questionarioResposta);
+	public ByteArrayOutputStream imprimirQuestionario(VersaoQuestionario lastVersion);
 	
 }

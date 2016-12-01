@@ -424,6 +424,20 @@ angular.module('home')
 	        });
 	    };
 	    
+	    $scope.imprimirQuestionario = function() {
+	    	
+	    	questionarioService.imprimirQuestionario( $scope.model.questionario.entity.id, {
+ 	            callback : function(result) {
+ 	            	dwr.engine.openInDownload( result );
+ 	                $scope.$apply();
+ 	            },
+ 	            errorHandler : function(message, exception) {
+ 	            	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+ 	                $scope.$apply();
+ 	            }
+ 	        });
+	    }
+	    
 	    /**
 	     * 
 	     */

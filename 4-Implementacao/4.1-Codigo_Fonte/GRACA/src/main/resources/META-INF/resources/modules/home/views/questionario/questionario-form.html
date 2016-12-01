@@ -10,6 +10,7 @@
 	    	
 	    	<div layout="row" style="margin-right: 30px;" layout-align="end center">
 		        <md-button class="md-raised" ng-click="$state.go( QUESTIONARIO_LIST_STATE )">Voltar</md-button>
+		        <md-button class="md-raised md-accent" ng-click="imprimirQuestionario()">Imprimir</md-button>
 		        <md-button class="md-raised " ng-click="enviarParaAprovacao()" ng-if="model.questionario.entity.id && ( model.versao.entity.status == 'RASCUNHO' || model.versao.entity.status == 'REJEITADO' )">Enviar para aprovação</md-button>
 		        <md-button class="md-raised " ng-click="aprovarQuestionario()" ng-if="hasPermission('ADMINISTRATOR') && ( model.questionario.entity.id && ( model.versao.entity.status == 'AGUARDANDO_APROVACAO'  ))">Aprovar questionário</md-button>
 		        <md-button class="md-raised " ng-click="recusarQuestionario()" ng-if="hasPermission('ADMINISTRATOR') && ( model.questionario.entity.id && ( model.versao.entity.status == 'AGUARDANDO_APROVACAO' ))">Recusar questionário</md-button>
