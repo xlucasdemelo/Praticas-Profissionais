@@ -223,7 +223,10 @@ angular.module('home')
 	        
 	        if ( paginate ) $scope.model.questionario.page.pageable.page++;
 	        
-	        $scope.listQuestionariosByFilters();
+	        if ($scope.hasPermission('ADMINISTRATOR'))
+	        	$scope.listQuestionariosByFilters();
+	        else
+	        	$scope.listQuestionariosByUsersAndFilters();
 	    };
 	    
 	    /*-------------------------------------------------------------------
@@ -233,9 +236,36 @@ angular.module('home')
 	    /**
 	     * 
 	     */
-		$scope.listQuestionariosByFilters = function(){
+		$scope.listQuestionariosByUsersAndFilters = function(){
 			
 			//TODO distinguir listagem de usuario comum e de usuario admininstrador 
+			
+			questionarioService.listQuestionariosByUserAndFilters(  $scope.model.questionario.filters.terms.toString(), $scope.model.questionario.page.pageable, {
+                callback : function(result) {
+                	$scope.totalPagesQuestionario = result.totalPages;
+                	$scope.model.questionario.page = {//PageImpl
+    						content : result.content,
+							pageable : {//PageRequest
+								page : result.number,
+								size : result.size,
+								sort:result.sort,
+								total   : result.totalElements
+							},
+    				};
+                	
+                	$scope.$apply();
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+		};
+		
+		/**
+		 * 
+		 */
+		$scope.listQuestionariosByFilters = function(){
 			
 			questionarioService.listQuestionariosByFilters(  $scope.model.questionario.filters.terms.toString(), $scope.model.questionario.page.pageable, {
                 callback : function(result) {
@@ -263,7 +293,7 @@ angular.module('home')
 		 * 
 		 */
 		$scope.listQuestoesByVersao = function(){
-			questionarioService.listQuestoesByQuestionario( $scope.model.versao.entity.questionario.id, $scope.model.questionario.page.pageable, {
+			questionarioService.listQuestoesByVersao( $scope.model.versao.entity.id, $scope.model.questionario.page.pageable, {
 				callback : function(result) {
 					$scope.totalPagesQuestionario = result.totalPages;
 					$scope.model.questao.page = {//PageImpl
@@ -517,9 +547,9 @@ angular.module('home')
 				  				return;
 				  			}
 				  			
-				  			$scope.model.questao.entity.versaoQuestionario = new VersaoQuestionario();
-				  			$scope.model.questao.entity.versaoQuestionario.questionario = new Questionario();
-				  			$scope.model.questao.entity.versaoQuestionario.questionario.id = $scope.model.questionario.entity.id;
+//				  			$scope.model.questao.entity.versaoQuestionario = new VersaoQuestionario();
+//				  			$scope.model.questao.entity.versaoQuestionario.questionario = new Questionario();
+//				  			$scope.model.questao.entity.versaoQuestionario.questionario.id = $scope.model.questionario.entity.id;
 				  			
 				  			questionarioService.updateQuestao(  $scope.model.questao.entity, {
 				  				callback : function(result) {
@@ -549,6 +579,32 @@ angular.module('home')
 			    	 $scope.listQuestoesByVersao();
 			 });
 		};
+		
+		$scope.removeQuestao = function(questao)
+		{
+			var confirm = $mdDialog.confirm()
+            .title('Tem certeza que deseja remover esta questão')
+            .content('')
+            .ok('Sim')
+            .cancel('Cancelar');
+
+			$mdDialog.show(confirm).then(function (result) {
+			
+			questionarioService.disableQuestao(  questao.id, {
+                callback : function(result) {
+                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi removido com sucesso!" );
+                	$scope.listQuestoesByVersao();
+                	$mdDialog.hide( result );
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
+			
+			});
+			
+		}
 		
 		/**
 		 * 

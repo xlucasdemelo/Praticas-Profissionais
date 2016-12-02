@@ -10,12 +10,12 @@
 	    	
 	    	<div layout="row" style="margin-right: 30px;" layout-align="end center">
 		        <md-button class="md-raised" ng-click="$state.go( QUESTIONARIO_LIST_STATE )">Voltar</md-button>
-		        <md-button class="md-raised md-accent" ng-click="imprimirQuestionario()">Imprimir</md-button>
+		        <md-button class="md-raised md-accent" ng-if="user.principal.id == model.questionario.entity.usuarioCriador.id && ( model.questionario.entity.id && ( model.versao.entity.status == 'APROVADO') )" ng-click="imprimirQuestionario()">Imprimir</md-button>
 		        <md-button class="md-raised " ng-click="enviarParaAprovacao()" ng-if="model.questionario.entity.id && ( model.versao.entity.status == 'RASCUNHO' || model.versao.entity.status == 'REJEITADO' )">Enviar para aprovação</md-button>
 		        <md-button class="md-raised " ng-click="aprovarQuestionario()" ng-if="hasPermission('ADMINISTRATOR') && ( model.questionario.entity.id && ( model.versao.entity.status == 'AGUARDANDO_APROVACAO'  ))">Aprovar questionário</md-button>
 		        <md-button class="md-raised " ng-click="recusarQuestionario()" ng-if="hasPermission('ADMINISTRATOR') && ( model.questionario.entity.id && ( model.versao.entity.status == 'AGUARDANDO_APROVACAO' ))">Recusar questionário</md-button>
 		        <md-button class="md-raised " ng-click="aumentarVersaoQuestionario()" ng-if="user.principal.id == model.questionario.entity.usuarioCriador.id && ( model.questionario.entity.id && ( model.versao.entity.status == 'APROVADO') )">Aumentar versão</md-button>
-		        <md-button class="md-raised md-accent" ng-click="save()">Salvar</md-button>
+		        <md-button class="md-raised md-accent" ng-if="!model.questionario.entity.id || model.versao.entity.status == 'RASCUNHO' || model.versao.entity.status == 'REJEITADO'" ng-click="save()">Salvar</md-button>
 	    	</div>
 	    </md-toolbar>
 			
@@ -64,7 +64,7 @@
 					<div class="default-frame" layout="column">
 						<div layout="row" flex>
 							<div class="default-info" flex>QUESTÕES</div>
-						 	<md-button class="md-raised" ng-if="model.questionario.entity.id && ( model.versao.entity.status == 'RASCUNHO')" ng-click="openInsertUpdateQuestaoHandler()">Nova Questão</md-button>
+						 	<md-button class="md-raised" ng-if="model.questionario.entity.id && ( model.versao.entity.status == 'RASCUNHO' || model.versao.entity.status == 'REJEITADO')" ng-click="openInsertUpdateQuestaoHandler()">Nova Questão</md-button>
 						</div>
 						
 						<md-toolbar class="md-hue-1" layout flex>
@@ -74,12 +74,17 @@
 										<tr md-row>
 											<th md-column>Nome</th>
 											<th md-column md-order-by="">Tipo</th>
+											<th md-column md-order-by="">Ações</th>
 										</tr>
 									</thead>
 									<tbody md-body>
-										<tr md-row md-select="dessert" style="cursor:pointer" ng-click="$scope.model.versao.entity.status == 'RASCUNHO' ? openInsertUpdateQuestaoHandler( questao ) : null" md-auto-select ng-repeat="questao in model.questao.page.content track by questao.id">
+										<tr md-row md-select="dessert"  md-auto-select ng-repeat="questao in model.questao.page.content track by questao.id">
 											<td md-cell>{{ questao.descricao }}</td>
 											<td md-cell>{{ questao.tipoQuestao | translate }}</td>
+											<td md-cell ng-if="model.versao.entity.status == 'RASCUNHO' || model.versao.entity.status == 'REJEITADO'">
+												<i class="zmdi zmdi-delete" style="cursor:pointer;font-size: 20px;" ng-click="removeQuestao(questao)" ></i>
+												<i class="zmdi zmdi-edit"  style="margin-left:5px; cursor:pointer; font-size: 20px;" ng-click="openInsertUpdateQuestaoHandler(questao)" ></i>
+											</td>
 										</tr>
 									</tbody>
 								</table>

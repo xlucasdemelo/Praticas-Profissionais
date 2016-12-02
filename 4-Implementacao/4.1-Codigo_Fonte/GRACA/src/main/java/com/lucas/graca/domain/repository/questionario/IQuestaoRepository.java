@@ -24,10 +24,11 @@ public interface IQuestaoRepository extends JpaRepository<Questao, Long>
 	 * @param pageable
 	 * @return
 	 */
-	Page<Questao> findByVersaoQuestionarioId ( Long versaoQuestionarioId, Pageable pageable );
+	Page<Questao> findByVersaoQuestionarioIdAndEnabled ( Long versaoQuestionarioId, Boolean enabled, Pageable pageable );
 	
+	Page<Questao> findByVersaoQuestionarioId( Long versaoQuestionarioId, Pageable pageable );
 	
-	@Query(value="SELECT new Questao( questao.id, questao.descricao, questao.tipoQuestao, versao) " + 
+	@Query(value="SELECT new Questao( questao.id, questao.descricao, questao.tipoQuestao, versao, questao.enabled) " + 
 			   
 			"FROM Questao questao " +
 			   "LEFT OUTER JOIN questao.versaoQuestionario versao " +

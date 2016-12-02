@@ -5,9 +5,11 @@ package com.lucas.graca.domain.entity.questionario;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
@@ -50,6 +52,13 @@ public class Questao extends AbstractEntity implements Serializable
 	/**
 	 * 
 	 */
+	@NotNull
+	@Column(nullable=false)
+	private Boolean enabled;
+	
+	/**
+	 * 
+	 */
 	@ManyToOne( fetch=FetchType.EAGER )
 	private VersaoQuestionario versaoQuestionario;
 
@@ -62,12 +71,13 @@ public class Questao extends AbstractEntity implements Serializable
 	 * @param tipoQuestao
 	 * @param versaoQuestionario
 	 */
-	public Questao( Long id, String descricao, TipoQuestao tipoQuestao, VersaoQuestionario versaoQuestionario )
+	public Questao( Long id, String descricao, TipoQuestao tipoQuestao, VersaoQuestionario versaoQuestionario, Boolean enabled )
 	{
 		super(id);
 		this.descricao = descricao;
 		this.tipoQuestao = tipoQuestao;
 		this.versaoQuestionario = versaoQuestionario;
+		this.enabled = enabled;
 	}
 
 	/**
@@ -94,13 +104,13 @@ public class Questao extends AbstractEntity implements Serializable
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
-	public int hashCode()
-	{
+	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ( ( descricao == null ) ? 0 : descricao.hashCode() );
-		result = prime * result + ( ( tipoQuestao == null ) ? 0 : tipoQuestao.hashCode() );
-		result = prime * result + ( ( versaoQuestionario == null ) ? 0 : versaoQuestionario.hashCode() );
+		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
+		result = prime * result + ((enabled == null) ? 0 : enabled.hashCode());
+		result = prime * result + ((tipoQuestao == null) ? 0 : tipoQuestao.hashCode());
+		result = prime * result + ((versaoQuestionario == null) ? 0 : versaoQuestionario.hashCode());
 		return result;
 	}
 
@@ -108,23 +118,31 @@ public class Questao extends AbstractEntity implements Serializable
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals( Object obj )
-	{
-		if ( this == obj ) return true;
-		if ( !super.equals( obj ) ) return false;
-		if ( getClass() != obj.getClass() ) return false;
-		Questao other = ( Questao ) obj;
-		if ( descricao == null )
-		{
-			if ( other.descricao != null ) return false;
-		}
-		else if ( !descricao.equals( other.descricao ) ) return false;
-		if ( tipoQuestao != other.tipoQuestao ) return false;
-		if ( versaoQuestionario == null )
-		{
-			if ( other.versaoQuestionario != null ) return false;
-		}
-		else if ( !versaoQuestionario.equals( other.versaoQuestionario ) ) return false;
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Questao other = (Questao) obj;
+		if (descricao == null) {
+			if (other.descricao != null)
+				return false;
+		} else if (!descricao.equals(other.descricao))
+			return false;
+		if (enabled == null) {
+			if (other.enabled != null)
+				return false;
+		} else if (!enabled.equals(other.enabled))
+			return false;
+		if (tipoQuestao != other.tipoQuestao)
+			return false;
+		if (versaoQuestionario == null) {
+			if (other.versaoQuestionario != null)
+				return false;
+		} else if (!versaoQuestionario.equals(other.versaoQuestionario))
+			return false;
 		return true;
 	}
 	
@@ -147,6 +165,23 @@ public class Questao extends AbstractEntity implements Serializable
 		novaQuestao.setTipoQuestao( this.tipoQuestao );
 		
 		return novaQuestao;
+	}
+	
+	/**
+	 * 
+	 */
+	@PrePersist
+	public void enable()
+	{
+		this.enabled = true;
+	}
+	
+	/**
+	 * 
+	 */
+	public void disable()
+	{
+		this.enabled = false;
 	}
 	
 	/*-------------------------------------------------------------------
@@ -199,6 +234,20 @@ public class Questao extends AbstractEntity implements Serializable
 	public void setVersaoQuestionario( VersaoQuestionario versaoQuestionario )
 	{
 		this.versaoQuestionario = versaoQuestionario;
+	}
+
+	/**
+	 * @return the enabled
+	 */
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	/**
+	 * @param enabled the enabled to set
+	 */
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 	
 	

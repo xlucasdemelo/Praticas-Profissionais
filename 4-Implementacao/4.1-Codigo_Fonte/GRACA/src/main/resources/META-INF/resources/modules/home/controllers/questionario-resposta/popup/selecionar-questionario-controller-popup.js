@@ -99,6 +99,35 @@ angular.module('home')
     	$scope.listQuestionariosByFilters();
     };
     
+	/**
+	 * 
+	 */
+	$scope.listQuestionariosByUsersAndFilters = function(){
+		
+		//TODO distinguir listagem de usuario comum e de usuario admininstrador 
+		
+		questionarioService.listQuestionariosByUserAndFilters(  $scope.model.questionario.filters.terms.toString(), $scope.model.questionario.page.pageable, {
+	        callback : function(result) {
+	        	$scope.totalPagesQuestionario = result.totalPages;
+	        	$scope.model.questionario.page = {//PageImpl
+						content : result.content,
+						pageable : {//PageRequest
+							page : result.number,
+							size : result.size,
+							sort:result.sort,
+							total   : result.totalElements
+						},
+				};
+	        	
+	        	$scope.$apply();
+	        },
+	        errorHandler : function(message, exception) {
+	        	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+	            $scope.$apply();
+	        }
+	    });
+	};
+
     /**
 	 * Realiza a consulta para os filtros do campo único
 	 */
@@ -141,11 +170,16 @@ angular.module('home')
 		$scope.selectedEntity = conta;
 	}
 	
+	$scope.init = function()
+	{
+    	$scope.listQuestionariosByFilters();
+	};
+	
 	/*-------------------------------------------------------------------
 	 * 		 				  	POST CONSTRUCT
 	 *-------------------------------------------------------------------*/
     
-    $scope.listQuestionariosByFilters();
+    $scope.init();
     
     /**
     $scope.openSelecionarQuestionarioPopup = function() {

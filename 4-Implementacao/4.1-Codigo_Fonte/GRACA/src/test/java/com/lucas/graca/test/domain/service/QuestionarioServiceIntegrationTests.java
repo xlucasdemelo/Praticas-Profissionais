@@ -163,7 +163,7 @@ public class QuestionarioServiceIntegrationTests extends AbstractIntegrationTest
 	})
 	public void listQuestionariosByUsersAndFilters()
 	{
-		List<Questionario> questionarios = this.questionarioService.listQuestionariosByUserAndFilters( null, 9999L, null ).getContent();
+		List<Questionario> questionarios = this.questionarioService.listQuestionariosByUserAndFilters( null, null ).getContent();
 		
 		Assert.assertFalse( questionarios.isEmpty() );
 		
@@ -187,7 +187,7 @@ public class QuestionarioServiceIntegrationTests extends AbstractIntegrationTest
 	})
 	public void listQuestionariosByUsersAndFiltersMustReturnEmptyList()
 	{
-		List<Questionario> questionarios = this.questionarioService.listQuestionariosByUserAndFilters( null, 192L, null ).getContent();
+		List<Questionario> questionarios = this.questionarioService.listQuestionariosByUserAndFilters( null, null ).getContent();
 		
 		Assert.assertTrue( questionarios.isEmpty() );
 	}
@@ -514,7 +514,7 @@ public class QuestionarioServiceIntegrationTests extends AbstractIntegrationTest
 	})
 	public void removeQuestaoMustPass()
 	{
-		this.questionarioService.removeQuestao( 9999L );
+		this.questionarioService.disableQuestao( 9999L );
 		
 		Questao questao = this.questionarioService.findQuestaoById( 9999L );
 		Assert.assertNull( questao );
@@ -535,7 +535,7 @@ public class QuestionarioServiceIntegrationTests extends AbstractIntegrationTest
 	})
 	public void removeQuestaoMustFailNotRascunho()
 	{
-		this.questionarioService.removeQuestao( 1000L );
+		this.questionarioService.disableQuestao( 1000L );
 		
 		Assert.fail();
 	}

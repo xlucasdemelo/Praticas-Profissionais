@@ -323,10 +323,10 @@ angular.module('home')
 		$scope.insertQuestionarioResposta = function() {
 			$scope.model.questionarioResposta.form.$submitted = true;
 			
-			if ($scope.model.questionarioResposta.form.$invalid ){
-				$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
-				return;
-			}
+//			if ($scope.model.questionarioResposta.form.$invalid ){
+//				$scope.showMessage( $scope.ERROR_MESSAGE,  "Preencha os campos obrigatórios" );
+//				return;
+//			}
 
 			questionarioService.insertQuestionarioResposta(  $scope.model.questionarioResposta.entity, {
                 callback : function(result) {

@@ -142,9 +142,17 @@ public class QuestionarioService
 	 * @return
 	 */
 	@Transactional(readOnly=true)
-	public Page<Questionario> listQuestionariosByUserAndFilters(String filter, long userId, PageRequest pageable)
+	public Page<Questionario> listQuestionariosByUserAndFilters(String filter, PageRequest pageable)
 	{
-		return this.questionarioRepository.listQuestionariosByUserAndFilters( filter, userId, pageable );
+		Page<Questionario> questionarios = this.questionarioRepository.listQuestionariosByUserAndFilters( filter, ContextHolder.getAuthenticatedUser().getId(), pageable );
+		
+		for ( Questionario questionario : questionarios )
+		{
+			VersaoQuestionario maiorVersao = this.versaoQuestionarioRepository.findTopByQuestionarioIdOrderByNumeroVersaoDesc( questionario.getId() );
+			questionario.setStatusVersao( maiorVersao.getStatus() );
+		}
+		
+		return questionarios;
 	}
 	
 	/**
@@ -225,9 +233,8 @@ public class QuestionarioService
 	public VersaoQuestionario enviarVersaoParaAprovacao( long questionarioId )
 	{
 		VersaoQuestionario maiorVersao = this.versaoQuestionarioRepository.findTopByQuestionarioIdOrderByNumeroVersaoDesc( questionarioId );
-		maiorVersao.isRascunho();
 		
-		List<Questao> questoes = this.questaoRepository.findByVersaoQuestionarioId(maiorVersao.getId(), null).getContent();
+		List<Questao> questoes = this.questaoRepository.findByVersaoQuestionarioIdAndEnabled(maiorVersao.getId(), true, null).getContent();
 		Assert.notEmpty(questoes, "Insira ao menos uma questão");
 		
 		maiorVersao.changeToAguardandoAprovacao();
@@ -277,7 +284,7 @@ public class QuestionarioService
 		
 		Integer numeroVersao = maiorVersao.getNumeroVersao() + 1;
 		
-		List<Questao> questoes = this.questaoRepository.listQuestoesByQuestionario( maiorVersao.getQuestionario().getId(), null ).getContent();
+		List<Questao> questoes = this.questaoRepository.findByVersaoQuestionarioId(maiorVersao.getId(), null ).getContent();
 		
 		VersaoQuestionario novaVersao = new VersaoQuestionario();
 		novaVersao.setNumeroVersao( numeroVersao );
@@ -290,6 +297,9 @@ public class QuestionarioService
 			Questao novaQuestao = questao.clone();
 			novaQuestao.setVersaoQuestionario( novaVersao );
 			
+			questao.disable();
+			
+			this.questaoRepository.save( novaQuestao );
 			this.questaoRepository.save( questao );
 		}
 		
@@ -336,7 +346,7 @@ public class QuestionarioService
 		Assert.notNull( questao.getVersaoQuestionario(), "Versão não pode ser nula");
 		
 		VersaoQuestionario versao = this.versaoQuestionarioRepository.findTopByQuestionarioIdOrderByNumeroVersaoDesc( questao.getVersaoQuestionario().getQuestionario().getId() );
-		Assert.isTrue( versao.getStatus() == StatusVersaoQuestionario.RASCUNHO, "Status precisa ser rascunho" );
+		Assert.isTrue( versao.getStatus() == StatusVersaoQuestionario.RASCUNHO || versao.getStatus() == StatusVersaoQuestionario.REJEITADO , "Status precisa ser rascunho" );
 		
 		questao.setVersaoQuestionario( versao );
 		
@@ -360,6 +370,7 @@ public class QuestionarioService
 		Questao questaoBd = this.questaoRepository.findOne( questao.getId() );
 		questaoBd.setDescricao( questao.getDescricao() );
 		questaoBd.setTipoQuestao( questao.getTipoQuestao() );
+		questaoBd.setEnabled(questao.getEnabled());
 		
 		return this.questaoRepository.save( questao );
 	}
@@ -367,12 +378,14 @@ public class QuestionarioService
 	/**
 	 * 
 	 */
-	public void removeQuestao( long id )
+	public void disableQuestao( long id )
 	{
 		Questao questao = this.questaoRepository.findOne( id );
 		questao.isRascunho();
 		
-		this.questaoRepository.delete( questao );
+		questao.disable();
+		
+		this.questaoRepository.save( questao );
 	}
 	
 	/**
@@ -384,7 +397,7 @@ public class QuestionarioService
 	@Transactional(readOnly=true)
 	public Page<Questao> listQuestoesByVersao(long versaoId, PageRequest pageable)
 	{
-		return this.questaoRepository.findByVersaoQuestionarioId( versaoId, pageable );
+		return this.questaoRepository.findByVersaoQuestionarioIdAndEnabled( versaoId, true, pageable );
 	}
 	
 	/**
@@ -507,7 +520,7 @@ public class QuestionarioService
 	{
 		VersaoQuestionario maiorVersao = this.versaoQuestionarioRepository.findTopByQuestionarioIdAndStatusOrderByNumeroVersaoDesc(questionarioResposta.getVersao().getQuestionario().getId(), StatusVersaoQuestionario.APROVADO );
 		
-		List<Questao> questoes = this.questaoRepository.findByVersaoQuestionarioId(maiorVersao.getId(), null).getContent();
+		List<Questao> questoes = this.questaoRepository.findByVersaoQuestionarioIdAndEnabled(maiorVersao.getId(), true, null).getContent();
 		
 		for (Questao questao : questoes) 
 		{

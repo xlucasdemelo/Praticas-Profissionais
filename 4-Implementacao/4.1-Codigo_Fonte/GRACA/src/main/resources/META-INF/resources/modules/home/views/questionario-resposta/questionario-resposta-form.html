@@ -42,7 +42,8 @@
 				    			
 				    			<div ng-repeat="resposta in model.resposta.page.content track by $index" >
 				    				<ng-form name="respostaForm">
-				    					<md-input-container layout="column" >
+				    				
+				    					<md-input-container layout="column" ng-if="resposta.questao.tipoQuestao == 'TEXTO'" >
 								    		<label>{{::resposta.questao.descricao}}</label>
 								    		<textarea ng-disabled="model.questionarioResposta.entity.id && ( model.questionarioResposta.entity.status == 'FINALIZADO')" maxlength="255" name="pergunta-{{resposta.questao.id}}" ng-model="model.resposta.page.content[$index].respostaTexto" rows="3" ng-required="toFinalizado"></textarea>
 							                
@@ -51,6 +52,13 @@
 							                </div>
 							                
 							            </md-input-container>
+							            
+							            <md-radio-group ng-model="model.resposta.page.content[$index].respostaBoolean" ng-if="resposta.questao.tipoQuestao == 'BOOLEANO'">
+										  <label>{{::resposta.questao.descricao}}</label>
+									      <md-radio-button ng-disabled="model.questionarioResposta.entity.id && ( model.questionarioResposta.entity.status == 'FINALIZADO')" value="true" class="md-primary">Sim</md-radio-button>
+									      <md-radio-button ng-disabled="model.questionarioResposta.entity.id && ( model.questionarioResposta.entity.status == 'FINALIZADO')" value="false"> Não </md-radio-button>
+									    </md-radio-group>
+							            
 				    				</ng-form>
 				    			</div>
 				    			
