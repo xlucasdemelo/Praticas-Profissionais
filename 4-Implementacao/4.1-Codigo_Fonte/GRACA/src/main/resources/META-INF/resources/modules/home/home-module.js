@@ -393,6 +393,20 @@
 	    	 templateUrl: './modules/home/views/report/produto/produtos-repassados.html'
 	     })
 	     
+	     /**
+	      * 
+	      */
+	     $stateProvider.state('relatorio-caixa',{
+	    	 abstract: true,
+	    	 url : "/relatorio-caixa",
+	    	 template: '<div layout="column" flex ui-view=""/>',
+	    	 controller : 'CaixaReportController as caixaReportController'
+	     })
+	     .state('relatorio-caixa.movimentacao-conta',{
+	    	 url:'/movimentacao-conta',
+	    	 templateUrl: './modules/home/views/report/caixa/movimentacao-conta.html'
+	     })
+	     
 	});
 
 	/**

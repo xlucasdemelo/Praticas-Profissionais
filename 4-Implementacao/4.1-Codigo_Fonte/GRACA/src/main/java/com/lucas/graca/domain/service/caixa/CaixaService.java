@@ -3,10 +3,13 @@
  */
 package com.lucas.graca.domain.service.caixa;
 
+import java.io.ByteArrayOutputStream;
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.List;
 
 import org.directwebremoting.annotations.RemoteProxy;
+import org.directwebremoting.io.FileTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,8 +24,11 @@ import com.lucas.graca.domain.entity.caixa.Movimentacao;
 import com.lucas.graca.domain.entity.caixa.StatusMovimentacao;
 import com.lucas.graca.domain.entity.caixa.TipoMovimentacao;
 import com.lucas.graca.domain.repository.caixa.IContaRepository;
+import com.lucas.graca.domain.repository.caixa.IMovimentacaoReportRepository;
 import com.lucas.graca.domain.repository.caixa.IMovimentacaoRepository;
 import com.lucas.graca.domain.repository.caixa.INaturezaGastosRepository;
+
+import br.com.eits.common.infrastructure.file.MimeType;
 
 /**
  * @author lucas
@@ -51,6 +57,12 @@ public class CaixaService
 	 */
 	@Autowired
 	private INaturezaGastosRepository naturezaGastosRepository;
+	
+	/**
+	 * 
+	 */
+	@Autowired
+	private IMovimentacaoReportRepository movimentacaoReportRepository;
 	
 	/*-------------------------------------------------------------------
 	 *				 		SERVICES CONTA
@@ -341,6 +353,27 @@ public class CaixaService
 	public TipoMovimentacao[] listAllTiposMovimentacao()
 	{
 		return TipoMovimentacao.values();
+	}
+	
+	/*-------------------------------------------------------------------
+	 *				 		SERVICES REPORTS
+	 *-------------------------------------------------------------------*/
+	
+	/**
+	 * 
+	 * @param contas
+	 * @param dataInicio
+	 * @param dataFIm
+	 * @return
+	 */
+	public FileTransfer gerarRelatorioMovimentacoesConta(List<Conta> contas, Calendar dataInicio,
+			Calendar dataFIm) 
+	{
+		
+		final ByteArrayOutputStream reportOutputStream = this.movimentacaoReportRepository.gerarRelatorioMovimentacoesConta(contas, dataInicio, dataFIm);
+		
+		final String name = String.format( IMovimentacaoReportRepository.MOVIMENTACAO_CONTA_REPORT, Calendar.getInstance().getTime().toString() );
+		return new FileTransfer( name, MimeType.PDF.value, reportOutputStream.toByteArray() );
 	}
 	
 }

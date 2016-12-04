@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="template-produtos-adquiridos" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4023ae93-60a0-464f-a0dd-9ab1692a3633">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#969696">
+		<box>
+			<pen lineWidth="0.5" lineColor="#969696"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#D9D8D6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="e92c94ac-84b5-41b3-ae89-879d70d7dccd">
+		<parameter name="inicio" class="java.util.Date"/>
+		<parameter name="termino" class="java.util.Date"/>
+		<parameter name="tipoServico" class="java.lang.Integer"/>
+		<parameter name="produtosId" class="java.util.List">
+			<defaultValueExpression><![CDATA[new ArrayList<Integer>(3)]]></defaultValueExpression>
+		</parameter>
+		<parameter name="conta_id" class="java.lang.Long"/>
+		<parameter name="nome_responsavel" class="java.lang.String"/>
+		<parameter name="default_schema" class="java.lang.String"/>
+		<parameter name="conta_nome" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[select movimentacao.id, movimentacao.valor_emissao, movimentacao.valor_efetivado, movimentacao.data_pagamento,
+movimentacao.data_efetivada, ( movimentacao.data_pagamento - movimentacao.data_efetivada ) as diferenca_dias,
+
+CASE
+  WHEN (contaOrigem.id = $P{conta_id}) THEN 'origem'
+  WHEN (contaDestino.id = $P{conta_id}) THEN 'destino'
+  ELSE 'bla'
+ END AS tipo_conta
+
+from public.movimentacao as movimentacao
+left outer join public.conta as contaOrigem on contaOrigem.id = movimentacao.conta_origem_id
+left outer join public.conta as contaDestino on contaDestino.id = movimentacao.conta_destino_id
+
+where movimentacao.status = 1
+AND (
+
+	contaOrigem.id = $P{conta_id}
+	OR contaDestino.id = $P{conta_id}
+	AND(
+		(movimentacao.created >= $P{inicio} or $P{inicio}::timestamp is null )
+		and (movimentacao.created <= $P{termino} or $P{termino}::timestamp is null )
+	)
+
+)]]>
+		</queryString>
+		<field name="id" class="java.lang.Long"/>
+		<field name="valor_emissao" class="java.math.BigDecimal"/>
+		<field name="valor_efetivado" class="java.math.BigDecimal"/>
+		<field name="data_pagamento" class="java.sql.Timestamp"/>
+		<field name="data_efetivada" class="java.sql.Timestamp"/>
+		<field name="diferenca_dias" class="org.postgresql.util.PGInterval"/>
+		<field name="tipo_conta" class="java.lang.String"/>
+		<variable name="total_quantidade" class="java.lang.Long" calculation="Sum">
+			<variableExpression><![CDATA[]]></variableExpression>
+		</variable>
+		<variable name="total_valor" class="java.lang.Long" calculation="Sum">
+			<variableExpression><![CDATA[]]></variableExpression>
+		</variable>
+		<variable name="media_total" class="java.lang.Long" calculation="Average">
+			<variableExpression><![CDATA[]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="inicio" class="java.util.Date"/>
+	<parameter name="termino" class="java.util.Date"/>
+	<parameter name="contasId" class="java.util.List">
+		<defaultValueExpression><![CDATA[new ArrayList<Integer>(3)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fornecedoresId" class="java.util.List">
+		<defaultValueExpression><![CDATA[new ArrayList<Integer>(6)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo_DIR" class="java.io.InputStream"/>
+	<parameter name="default_schema" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select distinct conta.id, conta.nome
+
+from public.conta as conta
+
+where $X{IN, conta.id, contasId}
+
+group by conta.id]]>
+	</queryString>
+	<field name="id" class="java.lang.Long"/>
+	<field name="nome" class="java.lang.String"/>
+	<variable name="tableValues" class="java.lang.String"/>
+	<filterExpression><![CDATA[new Boolean(true)]]></filterExpression>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="102" splitType="Stretch">
+			<staticText>
+				<reportElement x="161" y="0" width="555" height="44" uuid="ed519691-35a4-453a-a0ed-38a8c7666ae5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relatório de movimentações por conta]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="120" height="79" uuid="aa4d1da6-8b20-47de-befe-e46a2b788c0a"/>
+				<imageExpression><![CDATA[$P{logo_DIR}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="303" y="59" width="244" height="20" uuid="20c3832c-1283-418b-8d45-4314c026a865">
+					<printWhenExpression><![CDATA[$P{inicio} != null &&  $P{termino} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Período de " + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{inicio}) + " até " + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{termino})]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="90" width="802" height="1" uuid="aa3d33c1-7b33-4644-bb80-89acdd4a99fb"/>
+			</line>
+		</band>
+	</title>
+	<detail>
+		<band height="174" splitType="Stretch">
+			<elementGroup>
+				<componentElement>
+					<reportElement key="table" style="table" x="0" y="0" width="802" height="152" isRemoveLineWhenBlank="true" uuid="064a338f-74ed-49fe-86dd-68e47070a870"/>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+						<datasetRun subDataset="Table Dataset 1" uuid="b9d7b0c4-a67c-4843-b1a9-ca4b98132137">
+							<datasetParameter name="inicio">
+								<datasetParameterExpression><![CDATA[$P{inicio}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="termino">
+								<datasetParameterExpression><![CDATA[$P{termino}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="produtosId">
+								<datasetParameterExpression><![CDATA[]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="conta_id">
+								<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="conta_nome">
+								<datasetParameterExpression><![CDATA[$F{nome}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:column width="147" uuid="cc3f3f9f-e12f-47a5-adfe-abf66f0a89d4">
+							<jr:tableHeader style="table_TH" height="34" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="147" height="34" uuid="06bac24d-6448-4631-a223-6500dfbaa2fe"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$P{conta_nome}]]></textFieldExpression>
+								</textField>
+							</jr:tableHeader>
+							<jr:columnHeader style="table_CH" height="37" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="147" height="36" uuid="dfdaf0c4-2287-43fd-880b-144c8db691b2"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Número da movimentação]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter style="table_CH" height="30" rowSpan="1"/>
+							<jr:detailCell style="table_TD" height="43" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="147" height="43" uuid="86399669-47ff-4753-a463-e8b7610da270"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="90" uuid="85d0adb8-cec4-4169-b78b-3894bb14d7f5">
+							<jr:tableHeader style="table_TH" height="34" rowSpan="1"/>
+							<jr:columnHeader style="table_CH" height="37" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="90" height="37" uuid="3b7a13a6-32f0-4a3b-b145-a98a42d35080"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Tipo da conta]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter style="table_CH" height="30" rowSpan="1"/>
+							<jr:detailCell style="table" height="43" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="90" height="43" uuid="718e85aa-77bb-44e6-9cdd-75fffa9bddb5"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{tipo_conta}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="112" uuid="e4d3e5f4-d397-431a-abbb-f3012f20b92e">
+							<jr:tableHeader style="table_TH" height="34" rowSpan="1"/>
+							<jr:columnHeader style="table_CH" height="37" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="112" height="37" uuid="59628553-0877-4a1c-b611-03fe12488701"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Valor da emissão]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter style="table_CH" height="30" rowSpan="1"/>
+							<jr:detailCell style="table_TD" height="43" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="112" height="43" uuid="7e6fd669-5d49-44f4-a144-7ce653af0a2c"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[new java.text.DecimalFormat("R\$ #,##0.00").format(Double.valueOf($F{valor_emissao}))]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="127" uuid="49eb1b3f-2976-4edb-9a9d-70b4ea2fd77a">
+							<jr:tableHeader style="table_TH" height="34" rowSpan="1"/>
+							<jr:columnHeader style="table_CH" height="37" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="127" height="36" uuid="93c4da6f-94de-45b4-ac2e-34cba3c5de6d"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Data prevista para pagamento]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter style="table_CH" height="30" rowSpan="1"/>
+							<jr:detailCell style="table_TD" height="43" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="127" height="43" uuid="3aecacc1-341e-4aed-aaa9-0a12db0bcacd"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{data_pagamento})]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="105" uuid="423ee956-8aca-4481-afa3-d5b4952a065a">
+							<jr:tableHeader style="table_TH" height="34" rowSpan="1"/>
+							<jr:columnHeader style="table_CH" height="37" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="105" height="37" uuid="2ca9d483-6a92-468f-8e54-409f9f5553cd"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Data efetivada]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter style="table_CH" height="30" rowSpan="1"/>
+							<jr:detailCell style="table" height="43" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="105" height="43" uuid="544b7330-12aa-4299-a64d-baf858812d75"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[new SimpleDateFormat("dd/MM/yyyy").format($F{data_efetivada})]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="90" uuid="0c379739-6132-4e22-a836-2406539357f9">
+							<jr:tableHeader style="table_TH" height="34" rowSpan="1"/>
+							<jr:columnHeader style="table_CH" height="37" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="90" height="37" uuid="4a260658-3e57-4d02-ba1d-bed91c52f085"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Dias de atraso]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter style="table_CH" height="30" rowSpan="1"/>
+							<jr:detailCell style="table" height="43" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="90" height="43" uuid="63614d1f-3858-4527-a69a-f02b2d484ff2"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{diferenca_dias}.getDays() > 0 ? ""+0 : ""+$F{diferenca_dias}.getDays()*-1]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="90" uuid="813bb8e2-ed1f-4c40-92df-04b9aca0d3a5">
+							<jr:tableHeader style="table_TH" height="34" rowSpan="1"/>
+							<jr:columnHeader style="table_CH" height="37" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="90" height="37" uuid="bab96f70-e277-4637-8a76-d6ca09d18d2c"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Valor efetivado]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter style="table_CH" height="30" rowSpan="1"/>
+							<jr:detailCell style="table" height="43" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="90" height="43" uuid="92a4271d-dc28-464d-aa5e-f2411e9dcb45"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[new java.text.DecimalFormat("R\$ #,##0.00").format(Double.valueOf($F{valor_efetivado}))]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:table>
+				</componentElement>
+			</elementGroup>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="23">
+			<textField>
+				<reportElement x="702" y="3" width="100" height="20" uuid="0185a7c0-c688-40e3-8f1a-06887699b033"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<noData>
+		<band height="63">
+			<staticText>
+				<reportElement x="326" y="31" width="143" height="16" uuid="b4de61e3-2832-4277-8d4e-8a0aaa435fa8"/>
+				<text><![CDATA[Nenhum registro encontrado]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

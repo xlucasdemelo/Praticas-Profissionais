@@ -129,6 +129,12 @@
 				Relatório de produtos repassados
 			</md-button>
 			
+			<md-button ng-if="hasPermission('ADMINISTRATOR')" style="text-align: left;"
+				ng-click="toggleMenuSideNavHandler('relatorio-caixa.movimentacao-conta');">
+				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
+				Relatório de movimentações por conta
+			</md-button>
+			
 			<md-divider></md-divider>
 			<label class="md-caption" style="margin-top: 20px;">
 <!-- 				Copyright © eits.com.br - Todos os direitos reservados. -->
