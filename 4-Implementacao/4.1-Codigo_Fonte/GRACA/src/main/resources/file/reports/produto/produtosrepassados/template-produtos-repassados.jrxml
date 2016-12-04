@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="template-produtos-adquiridos" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4023ae93-60a0-464f-a0dd-9ab1692a3633">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#969696">
+		<box>
+			<pen lineWidth="0.5" lineColor="#969696"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#D9D8D6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="e92c94ac-84b5-41b3-ae89-879d70d7dccd">
+		<parameter name="inicio" class="java.util.Date"/>
+		<parameter name="termino" class="java.util.Date"/>
+		<parameter name="tipoServico" class="java.lang.Integer"/>
+		<parameter name="produtosId" class="java.util.List">
+			<defaultValueExpression><![CDATA[new ArrayList<Integer>(3)]]></defaultValueExpression>
+		</parameter>
+		<parameter name="fornecedor_id" class="java.lang.Long"/>
+		<parameter name="nome_responsavel" class="java.lang.String"/>
+		<parameter name="default_schema" class="java.lang.String"/>
+		<parameter name="casa_lar_id" class="java.lang.Long"/>
+		<queryString>
+			<![CDATA[select distinct casa_lar.id as casa_lar_id, casa_lar.numero, produto.nome, sum(produto_repassado.quantidade) as quantidade
+
+from public.casa_lar as casa_lar
+left outer join public.repasse as repasse on repasse.casa_lar_id = casa_lar.id
+left outer join public.produto_repassado as produto_repassado on produto_repassado.repasse_id = repasse.id
+left outer join public.produto as produto on produto.id = produto_repassado.produto_id
+
+where repasse.status = 1 and
+(
+
+	casa_lar.id = $P{casa_lar_id}
+	AND $X{IN, produto.id, produtosId}
+	AND (
+		(repasse.created >= $P{inicio} or $P{inicio}::timestamp is null )
+		and (repasse.created <= $P{termino} or $P{termino}::timestamp is null )
+	)
+
+)
+
+group by casa_lar.id, produto.nome]]>
+		</queryString>
+		<field name="casa_lar_id" class="java.lang.Long"/>
+		<field name="numero" class="java.lang.Integer"/>
+		<field name="nome" class="java.lang.String"/>
+		<field name="quantidade" class="java.lang.Long"/>
+		<variable name="total_quantidade" class="java.lang.Long" calculation="Sum">
+			<variableExpression><![CDATA[$F{quantidade}]]></variableExpression>
+		</variable>
+		<variable name="total_valor" class="java.lang.Long" calculation="Sum">
+			<variableExpression><![CDATA[]]></variableExpression>
+		</variable>
+		<variable name="media_total" class="java.lang.Long" calculation="Average">
+			<variableExpression><![CDATA[]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="inicio" class="java.util.Date"/>
+	<parameter name="termino" class="java.util.Date"/>
+	<parameter name="produtosId" class="java.util.List">
+		<defaultValueExpression><![CDATA[new ArrayList<Integer>(3)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="casasLaresId" class="java.util.List">
+		<defaultValueExpression><![CDATA[new ArrayList<Integer>(6)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo_DIR" class="java.io.InputStream"/>
+	<parameter name="default_schema" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select distinct casa_lar.id
+
+from public.casa_lar as casa_lar
+left outer join public.repasse as repasse on repasse.casa_lar_id = casa_lar.id
+
+where $X{IN, casa_lar.id, casasLaresId} AND repasse.casa_lar_id = casa_lar.id
+
+group by casa_lar.id]]>
+	</queryString>
+	<field name="id" class="java.lang.Long"/>
+	<variable name="tableValues" class="java.lang.String"/>
+	<filterExpression><![CDATA[new Boolean(true)]]></filterExpression>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="102" splitType="Stretch">
+			<staticText>
+				<reportElement x="147" y="0" width="555" height="44" uuid="ed519691-35a4-453a-a0ed-38a8c7666ae5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relatório de produtos repassados]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="120" height="79" uuid="aa4d1da6-8b20-47de-befe-e46a2b788c0a"/>
+				<imageExpression><![CDATA[$P{logo_DIR}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="310" y="64" width="244" height="20" uuid="20c3832c-1283-418b-8d45-4314c026a865">
+					<printWhenExpression><![CDATA[$P{inicio} != null &&  $P{termino} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Período de " + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{inicio}) + " até " + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{termino})]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="90" width="802" height="1" uuid="aa3d33c1-7b33-4644-bb80-89acdd4a99fb"/>
+			</line>
+		</band>
+	</title>
+	<detail>
+		<band height="174" splitType="Stretch">
+			<elementGroup>
+				<componentElement>
+					<reportElement key="table" style="table" x="192" y="12" width="457" height="140" isRemoveLineWhenBlank="true" uuid="064a338f-74ed-49fe-86dd-68e47070a870"/>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+						<datasetRun subDataset="Table Dataset 1" uuid="8fe87130-75aa-44b2-b95d-fb10226e03f2">
+							<datasetParameter name="inicio">
+								<datasetParameterExpression><![CDATA[$P{inicio}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="termino">
+								<datasetParameterExpression><![CDATA[$P{termino}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="produtosId">
+								<datasetParameterExpression><![CDATA[$P{produtosId}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="casa_lar_id">
+								<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:column width="268" uuid="cc3f3f9f-e12f-47a5-adfe-abf66f0a89d4">
+							<jr:tableHeader style="table_TH" height="30" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="220" height="30" uuid="e3458b50-b0bb-4fbe-a4b0-174eeed8ed56"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+								</textField>
+							</jr:tableHeader>
+							<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="268" height="30" uuid="4e1e52dc-029d-4e82-ada5-340115c77c79"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Produto]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter style="table_CH" height="34" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="268" height="34" uuid="cf7152c8-835f-4400-b626-d9f39316de39"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Totais]]></text>
+								</staticText>
+							</jr:columnFooter>
+							<jr:detailCell style="table_TD" height="30" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="268" height="30" uuid="504d4dec-57c3-4c3a-82a7-96b10439ffd2"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="165" uuid="e4d3e5f4-d397-431a-abbb-f3012f20b92e">
+							<jr:tableHeader style="table_TH" height="30" rowSpan="1"/>
+							<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="165" height="30" uuid="772c96ec-193c-4091-997c-129103f6aa82"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Quantidade]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter style="table_CH" height="34" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="165" height="34" uuid="09a52408-dab2-4d94-a245-50a87028a9b3"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$V{total_quantidade}]]></textFieldExpression>
+								</textField>
+							</jr:columnFooter>
+							<jr:detailCell style="table_TD" height="30" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="165" height="30" uuid="cd313801-954f-494d-8161-5308886c7880"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{quantidade}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:table>
+				</componentElement>
+			</elementGroup>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="23">
+			<textField>
+				<reportElement x="702" y="3" width="100" height="20" uuid="0185a7c0-c688-40e3-8f1a-06887699b033"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<noData>
+		<band height="63">
+			<staticText>
+				<reportElement x="326" y="31" width="143" height="16" uuid="b4de61e3-2832-4277-8d4e-8a0aaa435fa8"/>
+				<text><![CDATA[Nenhum registro encontrado]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

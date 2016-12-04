@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.lucas.graca.domain.entity.account.UserRole;
+import com.lucas.graca.domain.entity.casalar.CasaLar;
 import com.lucas.graca.domain.entity.fornecedor.Fornecedor;
 import com.lucas.graca.domain.entity.produto.Categoria;
 import com.lucas.graca.domain.entity.produto.Marca;
@@ -521,6 +522,23 @@ public class ProdutoService
 		final ByteArrayOutputStream reportOutputStream = this.produtoReportRepository.gerarRelatorioProdutosAdquiridos(fornecedores, produtos, dataInicio, dataFIm);
 		
 		final String name = String.format( IProdutoReportRepository.PRODUTO_ADQUIRIDO_REPORT, Calendar.getInstance().getTime().toString() );
+		return new FileTransfer( name, MimeType.PDF.value, reportOutputStream.toByteArray() );
+	}
+	
+	/**
+	 * 
+	 * @param casasLares
+	 * @param produtos
+	 * @param dataInicio
+	 * @param dataFIm
+	 * @return
+	 */
+	public FileTransfer gerarRelatorioProdutosRepassados(List<CasaLar> casasLares, List<Produto> produtos,
+			Calendar dataInicio, Calendar dataFIm)
+	{
+		final ByteArrayOutputStream reportOutputStream = this.produtoReportRepository.gerarRelatorioProdutosRepassados(casasLares, produtos, dataInicio, dataFIm);
+		
+		final String name = String.format( IProdutoReportRepository.PRODUTO_REPASSADO_REPORT, Calendar.getInstance().getTime().toString() );
 		return new FileTransfer( name, MimeType.PDF.value, reportOutputStream.toByteArray() );
 	}
 	

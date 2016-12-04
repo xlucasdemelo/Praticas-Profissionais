@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" 
+	xmlns:th="http://www.thymeleaf.org" lang="pt">
+	
+<div class="main-div" layout="column" flex>
+	
+		<md-toolbar layout="row" style="z-index: 3;">
+	    	<div flex layout="row" class="default-header">
+		        <h1 class="md-toolbar-tools">Relatório de produtos repassados</h1>
+	    	</div>
+	    	
+	        <div md-theme="default" layout="row" layout-align="end center" class="default-header md-primary md-hue-3">
+	        	<md-button class="md-raised md-accent default-save-button" ng-click="exportarProdutosRepassados()">Exportar <i style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-download"></i> </md-button>
+	        </div>
+	        
+	    </md-toolbar>
+		
+			<md-content layout="column" flex >
+				<md-tabs  md-border-bottom flex >
+					<md-tab label="Movimentacao" >
+						
+								<div style="height:100%" class="default-frame" layout="column">
+									<md-toolbar layout style="height:100%" class="md-hue-1">
+										<form novalidate name="model.movimentacao.form" class="default-form" flex>
+											
+											<div layout="row">
+												<div layout="column" flex style="margin-top: 30px;">
+													<label>Data de criação</label>
+													<div layout="row" layout-align="start center" style="height: 48px;">
+														<label>De:</label>
+														<div>
+															<md-datepicker ng-model="model.relatorio.produtosAdquiridos.filters.dataInicio" required></md-datepicker>
+														</div>
+													
+														<label style="margin-left: 30px;">Até:</label>
+														<div>
+															<md-datepicker
+																ng-model="model.relatorio.produtosAdquiridos.filters.dataFim"
+																md-min-date="model.relatorio.produtosAdquiridos.filters.dataInicio"
+																ng-disabled="model.relatorio.produtosAdquiridos.filters.dataInicio == null"
+																required>
+															</md-datepicker>
+														</div>
+													</div>
+												</div>
+											</div>
+								            
+								            <div id="selectProdutos">
+								            	
+								            	<div layout="row">
+									            	<div class="default-info" layout="column" flex> 
+														<span>Produtos</span>
+													</div>
+													
+													<div md-theme="default" layout="column" class="default-header md-primary md-hue-3">
+												        <md-button class="md-raised" ng-click="openSelecionarProduto(false)">Selecionar produto</md-button>
+											        </div>
+												</div>
+												
+												<md-table-container>
+												  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+												    <thead md-head md-order="query.order">
+												      <tr md-row>
+												        <th md-column md-order-by="">Nome</th>
+												        <th md-column md-order-by="">Categoria</th>
+												        <th md-column md-order-by="">Quantidade em estoque</th>
+												      </tr>
+												    </thead>
+												    
+												    <tbody md-body>
+												      <tr md-row style="cursor:pointer" ng-repeat="produto in model.relatorio.produtosAdquiridos.filters.produtos">
+												        <td md-cell>{{::produto.nome}}</td>
+												        <td md-cell>{{::produto.categoria.nome}}</td>
+												        <td md-cell>{{::produto.quantidade}}</td>
+												        <td md-cell>{{::produto.valor}}</td>
+												        <td md-cell><i class="zmdi zmdi-delete" style="font-size: 20px;" ng-click="removeProduto(produto, $index)" ></i></td>
+												      </tr>
+												    </tbody>
+												  </table>
+												</md-table-container>
+										        
+										        <md-divider></md-divider>
+										        
+										        <div layout="column" flex class="empty-grid" layout-align="center center" ng-if="model.relatorio.produtosAdquiridos.filters.produtos == 0">
+													Não há nenhum produto selecionado . 
+												</div>
+												
+								            </div>
+								            
+								            <div id="selectProdutos" style="margin-top:40px">
+								            	
+								            	<div layout="row">
+									            	<div class="default-info" layout="column" flex> 
+														<span>Fornecedores</span>
+													</div>
+													
+													<div md-theme="default" layout="column" class="default-header md-primary md-hue-3">
+												        <md-button class="md-raised" ng-click="openSelecionarFornecedor(false)">Selecionar fornecedor</md-button>
+											        </div>
+												</div>
+												
+												<md-table-container>
+												  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+												    <thead md-head md-order="query.order" md-on-reorder="getDesserts">
+												      <tr md-row>
+												        <th md-column md-order-by="nameToLower"><span>Razao Social</span></th>
+												        <th md-column md-order-by="nameToLower"><span>Cnpj</span></th>
+												        <th md-column md-order-by="nameToLower"><span>Telefone</span></th>
+												        <th md-column md-order-by="nameToLower"><span>Responsavel</span></th>
+												      </tr>
+												    </thead>
+												    <tbody md-body>
+												      <tr md-row md-select="dessert" style="cursor:pointer" md-select-id="name" md-auto-select ng-repeat="fornecedor in model.relatorio.produtosAdquiridos.filters.fornecedores">
+												        <td md-cell >{{::fornecedor.razaoSocial}}</td>
+												        <td md-cell >{{::fornecedor.cnpj}}</td>
+												        <td md-cell >{{::fornecedor.telefone}}</td>
+												        <td md-cell >{{::fornecedor.responsavel.nome}}</td>
+												        <td md-cell><i class="zmdi zmdi-delete" style="font-size: 20px;" ng-click="removeFornecedor(produto, $index)" ></i></td>
+												      </tr>
+												    </tbody>
+												  </table>
+												</md-table-container>
+										        
+										        <md-divider></md-divider>
+										        
+										        <div layout="column" flex class="empty-grid" layout-align="center center" ng-if="model.relatorio.produtosAdquiridos.filters.fornecedores == 0">
+													Não há nenhum fornecedor selecionado . 
+												</div>
+												
+								            </div>
+								            
+										</form>
+									</md-toolbar>
+								</div>
+						
+					</md-tab>
+					
+				</md-tabs>
+			</md-content>
+	</div>
+</html>

@@ -117,10 +117,16 @@
 			
 			<md-divider></md-divider>
 			
-			<md-button ng-if="hasPermission('OPERADOR_ADMINISTRATIVO')" style="text-align: left;"
+			<md-button ng-if="hasPermission('ADMINISTRATOR')" style="text-align: left;"
 				ng-click="toggleMenuSideNavHandler('relatorio-produto.adquiridos');">
 				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
 				Relatório de produtos adquiridos
+			</md-button>
+			
+			<md-button ng-if="hasPermission('ADMINISTRATOR')" style="text-align: left;"
+				ng-click="toggleMenuSideNavHandler('relatorio-produto.repassados');">
+				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
+				Relatório de produtos repassados
 			</md-button>
 			
 			<md-divider></md-divider>

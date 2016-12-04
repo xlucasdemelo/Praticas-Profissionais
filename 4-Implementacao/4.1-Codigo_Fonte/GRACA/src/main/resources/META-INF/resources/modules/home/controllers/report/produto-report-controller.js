@@ -217,6 +217,25 @@ angular.module('home')
  	        });
 	    }
 	    
+	    /**
+	     * 
+	     */
+	    $scope.exportarProdutosRepassados = function()
+	    {
+	    	produtoService.gerarRelatorioProdutosRepassados( null, $scope.model.relatorio.produtosAdquiridos.filters.produtos, 
+	    			$scope.model.relatorio.produtosAdquiridos.filters.dataInicio, $scope.model.relatorio.produtosAdquiridos.filters.dataFim, 
+	    		{
+ 	            callback : function(result) {
+ 	            	dwr.engine.openInDownload( result );
+ 	                $scope.$apply();
+ 	            },
+ 	            errorHandler : function(message, exception) {
+ 	            	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+ 	                $scope.$apply();
+ 	            }
+ 	        });
+	    }
+	    
 	    $scope.openSelecionarFornecedor = function( tipoConta )
 		{
 	    	$mdDialog.show({

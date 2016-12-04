@@ -388,6 +388,10 @@
 	    	 url:'/adquiridos',
 	    	 templateUrl: './modules/home/views/report/produto/produtos-adquiridos.html'
 	     })
+	     .state('relatorio-produto.repassados',{
+	    	 url:'/repassados',
+	    	 templateUrl: './modules/home/views/report/produto/produtos-repassados.html'
+	     })
 	     
 	});
 
