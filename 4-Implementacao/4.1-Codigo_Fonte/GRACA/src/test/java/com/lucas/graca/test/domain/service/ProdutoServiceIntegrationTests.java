@@ -3,6 +3,10 @@
  */
 package com.lucas.graca.test.domain.service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import org.junit.Assert;
@@ -17,6 +21,7 @@ import com.lucas.graca.domain.entity.produto.Marca;
 import com.lucas.graca.domain.entity.produto.Modelo;
 import com.lucas.graca.domain.entity.produto.Produto;
 import com.lucas.graca.domain.service.produto.ProdutoService;
+import com.lucas.graca.infrastructure.report.ProdutoReportRepository;
 import com.lucas.graca.test.domain.AbstractIntegrationTests;
 
 /**
@@ -35,6 +40,12 @@ public class ProdutoServiceIntegrationTests extends AbstractIntegrationTests
 	 */
 	@Autowired
 	private ProdutoService produtoService;
+	
+	/**
+	 * 
+	 */
+	@Autowired
+	private ProdutoReportRepository produtoServiceIntegrationTests;
 	
 	/*-------------------------------------------------------------------
 	 *				 		     TESTS PRODUTO
@@ -422,9 +433,49 @@ public class ProdutoServiceIntegrationTests extends AbstractIntegrationTests
 	}
 	
 	/*-------------------------------------------------------------------
-	 *				 		  TESTS REPASSES
+	 *				 		  TESTS REPORTS
 	 *-------------------------------------------------------------------*/
 	
+	/**
+	 * 
+	 * @throws FileNotFoundException
+	 */
+	@Test
+	@WithUserDetails("admin@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+		"/dataset/casalar/ResponsavelDataSet.xml",
+		"/dataset/redeapoio/redeApoioDataSet.xml",
+		"/dataset/account/UserDataSet.xml",
+		"/dataset/fornecedor/FornecedorDataSet.xml",
+		"/dataset/aquisicaoproduto/AquisicaoProdutoDataSet.xml",
+		"/dataset/produto/MarcaDataSet.xml",
+		"/dataset/produto/ModeloDataSet.xml",
+		"/dataset/produto/CategoriaDataSet.xml",
+		"/dataset/produto/ProdutoDataSet.xml",
+		"/dataset/aquisicaoproduto/ProdutoAdquiridoDataSet.xml",
+	})
+	public void gerarRelatorioProdutosAdquiridos() throws FileNotFoundException
+	{
+		
+//		Calendar inicio = new GregorianCalendar(2013,1,1);
+//		Calendar termino = Calendar.getInstance();
+//		
+//		List<Fornecedor> fornecedores = new ArrayList<Fornecedor>();
+//		List<Produto> produtos = new ArrayList<Produto>();
+		
+		ByteArrayOutputStream report = this.produtoServiceIntegrationTests.gerarRelatorioProdutosAdquiridos(null, null, null, null);
+		
+		FileOutputStream fos = new FileOutputStream("/tmp/teste.pdf");
+		try
+		{
+			fos.write( report.toByteArray() );
+			fos.close();
+		}
+		catch ( IOException e )
+		{
+			e.printStackTrace();
+		}
+	}
 	
 }
 

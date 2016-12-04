@@ -3,9 +3,12 @@
  */
 package com.lucas.graca.domain.service.produto;
 
+import java.io.ByteArrayOutputStream;
+import java.util.Calendar;
 import java.util.List;
 
 import org.directwebremoting.annotations.RemoteProxy;
+import org.directwebremoting.io.FileTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import com.lucas.graca.domain.entity.account.UserRole;
+import com.lucas.graca.domain.entity.fornecedor.Fornecedor;
 import com.lucas.graca.domain.entity.produto.Categoria;
 import com.lucas.graca.domain.entity.produto.Marca;
 import com.lucas.graca.domain.entity.produto.Modelo;
@@ -26,8 +30,11 @@ import com.lucas.graca.domain.repository.produto.ICategoriaRepository;
 import com.lucas.graca.domain.repository.produto.IMarcaRepository;
 import com.lucas.graca.domain.repository.produto.IModeloRepository;
 import com.lucas.graca.domain.repository.produto.IProdutoRepassadoRepository;
+import com.lucas.graca.domain.repository.produto.IProdutoReportRepository;
 import com.lucas.graca.domain.repository.produto.IProdutoRepository;
 import com.lucas.graca.domain.repository.produto.IRepasseRepository;
+
+import br.com.eits.common.infrastructure.file.MimeType;
 
 /**
  * @author eits
@@ -78,6 +85,12 @@ public class ProdutoService
 	 */
 	@Autowired
 	private IProdutoRepassadoRepository produtoRepassadoRepository;
+	
+	/**
+	 * 
+	 */
+	@Autowired
+	private IProdutoReportRepository produtoReportRepository;
 	
 	/*-------------------------------------------------------------------
 	 *				 		 SERVICES PRODUTO
@@ -132,7 +145,7 @@ public class ProdutoService
 	 * @return
 	 */
 	@Transactional(readOnly=true)
-	public Page<Produto> listProdutosByFilters( String filter, boolean ativo, PageRequest pageable )
+	public Page<Produto> listProdutosByFilters( String filter, Boolean ativo, PageRequest pageable )
 	{
 		return this.produtoRepository.listByFilters( filter, ativo, pageable );
 	}
@@ -492,6 +505,23 @@ public class ProdutoService
 	public Page<ProdutoRepassado> listProdutosRepassadosByRepasse(long repasseId, PageRequest pageable)
 	{
 		return this.produtoRepassadoRepository.findByRepasseId(repasseId, pageable);
+	}
+	
+	/**
+	 * 
+	 * @param fornecedores
+	 * @param produtos
+	 * @param dataInicio
+	 * @param dataFIm
+	 * @return
+	 */
+	public FileTransfer gerarRelatorioProdutosAdquiridos(List<Fornecedor> fornecedores, List<Produto> produtos,
+			Calendar dataInicio, Calendar dataFIm)
+	{
+		final ByteArrayOutputStream reportOutputStream = this.produtoReportRepository.gerarRelatorioProdutosAdquiridos(fornecedores, produtos, dataInicio, dataFIm);
+		
+		final String name = String.format( IProdutoReportRepository.PRODUTO_ADQUIRIDO_REPORT, Calendar.getInstance().getTime().toString() );
+		return new FileTransfer( name, MimeType.PDF.value, reportOutputStream.toByteArray() );
 	}
 	
 }

@@ -375,6 +375,20 @@
 	    	 templateUrl: './modules/home/views/repasse/repasse-form.html'
 	     })
 	     
+	     /**
+	      * 
+	      */
+	     $stateProvider.state('relatorio-produto',{
+	    	 abstract: true,
+	    	 url : "/relatorio-produto",
+	    	 template: '<div layout="column" flex ui-view=""/>',
+	    	 controller : 'ProdutoReportController as produtoReportController'
+	     })
+	     .state('relatorio-produto.adquiridos',{
+	    	 url:'/adquiridos',
+	    	 templateUrl: './modules/home/views/report/produto/produtos-adquiridos.html'
+	     })
+	     
 	});
 
 	/**

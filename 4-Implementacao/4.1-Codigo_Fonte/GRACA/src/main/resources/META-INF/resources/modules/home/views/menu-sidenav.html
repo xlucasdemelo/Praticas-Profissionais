@@ -116,6 +116,14 @@
 			<span flex></span>
 			
 			<md-divider></md-divider>
+			
+			<md-button ng-if="hasPermission('OPERADOR_ADMINISTRATIVO')" style="text-align: left;"
+				ng-click="toggleMenuSideNavHandler('relatorio-produto.adquiridos');">
+				<md-icon class="zmdi zmdi-accounts zmdi-hc-fw zmdi-hc-2x"></md-icon>
+				Relatório de produtos adquiridos
+			</md-button>
+			
+			<md-divider></md-divider>
 			<label class="md-caption" style="margin-top: 20px;">
 <!-- 				Copyright © eits.com.br - Todos os direitos reservados. -->
 			</label>

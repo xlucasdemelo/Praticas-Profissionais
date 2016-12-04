@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="template-produtos-adquiridos" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4023ae93-60a0-464f-a0dd-9ab1692a3633">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#969696">
+		<box>
+			<pen lineWidth="0.5" lineColor="#969696"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#D9D8D6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="e92c94ac-84b5-41b3-ae89-879d70d7dccd">
+		<parameter name="inicio" class="java.util.Date"/>
+		<parameter name="termino" class="java.util.Date"/>
+		<parameter name="tipoServico" class="java.lang.Integer"/>
+		<parameter name="produtosId" class="java.util.List">
+			<defaultValueExpression><![CDATA[new ArrayList<Integer>(3)]]></defaultValueExpression>
+		</parameter>
+		<parameter name="fornecedor_id" class="java.lang.Long"/>
+		<parameter name="nome_responsavel" class="java.lang.String"/>
+		<parameter name="default_schema" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[select distinct fornecedor.id, fornecedor.razao_social, produto.nome, sum(produto_adquirido.quantidade) as quantidade, sum(produto_adquirido.quantidade * produto_adquirido.valor) as total
+
+from public.fornecedor as fornecedor
+left outer join public.aquisicao_produto as aquisicao on aquisicao.fornecedor_id = fornecedor.id
+left outer join public.produto_adquirido as produto_adquirido on produto_adquirido.aquisicao_produto_id = aquisicao.id
+left outer join public.produto as produto on produto.id = produto_adquirido.produto_id
+
+where aquisicao.status = 1 and
+(
+
+	fornecedor.id = $P{fornecedor_id}
+	AND $X{IN, produto.id, produtosId}
+	AND (
+		(aquisicao.created >= '2000-11-30 19:41:15.427')
+		and (aquisicao.created <= '2020-11-30 19:41:15.427' )
+	)
+
+)
+
+group by fornecedor.id, produto.nome]]>
+		</queryString>
+		<field name="id" class="java.lang.Long"/>
+		<field name="razao_social" class="java.lang.String"/>
+		<field name="nome" class="java.lang.String"/>
+		<field name="quantidade" class="java.lang.Long"/>
+		<field name="total" class="java.math.BigDecimal"/>
+		<variable name="total_quantidade" class="java.lang.Long" calculation="Sum">
+			<variableExpression><![CDATA[$F{quantidade}]]></variableExpression>
+		</variable>
+		<variable name="total_valor" class="java.lang.Long" calculation="Sum">
+			<variableExpression><![CDATA[$F{total}]]></variableExpression>
+		</variable>
+		<variable name="media_total" class="java.lang.Long" calculation="Average">
+			<variableExpression><![CDATA[]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="inicio" class="java.util.Date"/>
+	<parameter name="termino" class="java.util.Date"/>
+	<parameter name="produtosId" class="java.util.List">
+		<defaultValueExpression><![CDATA[new ArrayList<Integer>(3)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fornecedoresId" class="java.util.List">
+		<defaultValueExpression><![CDATA[new ArrayList<Integer>(6)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo_DIR" class="java.io.InputStream"/>
+	<parameter name="default_schema" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select distinct fornecedor.id, fornecedor.razao_social
+
+from public.fornecedor as fornecedor
+
+where $X{IN, fornecedor.id, fornecedoresId}
+
+group by fornecedor.id]]>
+	</queryString>
+	<field name="razao_social" class="java.lang.String"/>
+	<field name="id" class="java.lang.Long"/>
+	<variable name="tableValues" class="java.lang.String"/>
+	<filterExpression><![CDATA[new Boolean(true)]]></filterExpression>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="102" splitType="Stretch">
+			<staticText>
+				<reportElement x="169" y="20" width="555" height="44" uuid="ed519691-35a4-453a-a0ed-38a8c7666ae5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relatório de produtos adquiridos]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="120" height="79" uuid="aa4d1da6-8b20-47de-befe-e46a2b788c0a"/>
+				<imageExpression><![CDATA[$P{logo_DIR}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="310" y="64" width="244" height="20" uuid="20c3832c-1283-418b-8d45-4314c026a865">
+					<printWhenExpression><![CDATA[$P{inicio} != null &&  $P{termino} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Período de " + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{inicio}) + " até " + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{termino})]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="90" width="802" height="1" uuid="aa3d33c1-7b33-4644-bb80-89acdd4a99fb"/>
+			</line>
+		</band>
+	</title>
+	<detail>
+		<band height="174" splitType="Stretch">
+			<elementGroup>
+				<componentElement>
+					<reportElement key="table" style="table" x="90" y="12" width="500" height="140" isRemoveLineWhenBlank="true" uuid="064a338f-74ed-49fe-86dd-68e47070a870"/>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+						<datasetRun subDataset="Table Dataset 1" uuid="98186cda-150c-418d-86b4-6dbba6c5fd20">
+							<datasetParameter name="inicio">
+								<datasetParameterExpression><![CDATA[$P{inicio}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="termino">
+								<datasetParameterExpression><![CDATA[$P{termino}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="produtosId">
+								<datasetParameterExpression><![CDATA[$P{produtosId}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="fornecedor_id">
+								<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:column width="220" uuid="cc3f3f9f-e12f-47a5-adfe-abf66f0a89d4">
+							<jr:tableHeader style="table_TH" height="30" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="220" height="30" uuid="8fd7c427-59f1-4fa7-8008-262a8c9e3179"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{razao_social}]]></textFieldExpression>
+								</textField>
+							</jr:tableHeader>
+							<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="220" height="30" uuid="4e1e52dc-029d-4e82-ada5-340115c77c79"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Produto]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter style="table_CH" height="34" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="220" height="34" uuid="cf7152c8-835f-4400-b626-d9f39316de39"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Totais]]></text>
+								</staticText>
+							</jr:columnFooter>
+							<jr:detailCell style="table_TD" height="30" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="220" height="30" uuid="504d4dec-57c3-4c3a-82a7-96b10439ffd2"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="141" uuid="e4d3e5f4-d397-431a-abbb-f3012f20b92e">
+							<jr:tableHeader style="table_TH" height="30" rowSpan="1"/>
+							<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="141" height="30" uuid="772c96ec-193c-4091-997c-129103f6aa82"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Quantidade]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter style="table_CH" height="34" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="141" height="34" uuid="09a52408-dab2-4d94-a245-50a87028a9b3"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$V{total_quantidade}]]></textFieldExpression>
+								</textField>
+							</jr:columnFooter>
+							<jr:detailCell style="table_TD" height="30" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="141" height="30" uuid="cd313801-954f-494d-8161-5308886c7880"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{quantidade}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="127" uuid="49eb1b3f-2976-4edb-9a9d-70b4ea2fd77a">
+							<jr:tableHeader style="table_TH" height="30" rowSpan="1"/>
+							<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="127" height="30" uuid="304e4035-df20-47e8-8bd5-eb9ffc780d8a"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Valor total]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter style="table_CH" height="34" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="127" height="34" uuid="1dbba2e4-4aa3-422c-a1ce-e31c58247cfa"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[new java.text.DecimalFormat("R\$ #,##0.00").format(Double.valueOf($V{total_valor}))]]></textFieldExpression>
+								</textField>
+							</jr:columnFooter>
+							<jr:detailCell style="table_TD" height="30" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="127" height="30" uuid="628a922c-fb82-400d-a54d-755b288c14f8"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[new java.text.DecimalFormat("R\$ #,##0.00").format(Double.valueOf($F{total}))]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:table>
+				</componentElement>
+			</elementGroup>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="23">
+			<textField>
+				<reportElement x="702" y="3" width="100" height="20" uuid="0185a7c0-c688-40e3-8f1a-06887699b033"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<noData>
+		<band height="63">
+			<staticText>
+				<reportElement x="326" y="31" width="143" height="16" uuid="b4de61e3-2832-4277-8d4e-8a0aaa435fa8"/>
+				<text><![CDATA[Nenhum registro encontrado]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>
