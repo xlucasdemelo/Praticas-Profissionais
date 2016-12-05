@@ -40,14 +40,14 @@ angular.module('home')
 			},
 			
 			relatorio:{
-				movimentacaoConta:{
+				familiasAtendidas:{
 					filters: {
 					    terms: "",
 					    ativo: true,
 					    inativo: false,
 					    dataInicio: null,
 					    dataFim: null,
-					    contas: [],
+					    familias: [],
 					}
 				}
 				
@@ -123,7 +123,7 @@ angular.module('home')
 	    $scope.changeToEdit = function( id ) {
 	        console.debug("changeToEdit", id);
 	        
-	        caixaService.findProdutoById( id, {
+	        familiaService.findProdutoById( id, {
 	            callback : function(result) {	   
 	            	$scope.model.produto.entity = result;
 	            	$scope.$apply();
@@ -147,13 +147,13 @@ angular.module('home')
 	    $scope.changeToMovimentacaoConta = function( paginate ) {
 	        console.debug("changeToList");
 	        
-	        $scope.model.relatorio.movimentacaoConta.filters = {
+	        $scope.model.relatorio.familiasAtendidas.filters = {
 			    terms: "",
 			    ativo: true,
 			    inativo: false,
 			    dataInicio: null,
 			    dataFim: null,
-			    contas: [],
+			    familias: [],
 			}
 	        
 	    };
@@ -165,10 +165,10 @@ angular.module('home')
 	    /**
 	     * 
 	     */
-	    $scope.exportarMovimentacoesConta = function()
+	    $scope.exportarFamiliasAtendidas= function()
 	    {
-	    	caixaService.gerarRelatorioMovimentacoesConta( $scope.model.relatorio.movimentacaoConta.filters.contas,
-	    			$scope.model.relatorio.movimentacaoConta.filters.dataInicio, $scope.model.relatorio.movimentacaoConta.filters.dataFim, 
+	    	familiaService.gerarRelatorioFamiliasAtendidas( $scope.model.relatorio.familiasAtendidas.filters.familias,
+	    			$scope.model.relatorio.familiasAtendidas.filters.dataInicio, $scope.model.relatorio.familiasAtendidas.filters.dataFim, 
 	    		{
  	            callback : function(result) {
  	            	dwr.engine.openInDownload( result );
@@ -186,8 +186,8 @@ angular.module('home')
 	     */
 	    $scope.exportarProdutosRepassados = function()
 	    {
-	    	caixaService.gerarRelatorioProdutosRepassados( null, $scope.model.relatorio.movimentacaoConta.filters.produtos, 
-	    			$scope.model.relatorio.movimentacaoConta.filters.dataInicio, $scope.model.relatorio.movimentacaoConta.filters.dataFim, 
+	    	familiaService.gerarRelatorioProdutosRepassados( null, $scope.model.relatorio.familiasAtendidas.filters.produtos, 
+	    			$scope.model.relatorio.familiasAtendidas.filters.dataInicio, $scope.model.relatorio.familiasAtendidas.filters.dataFim, 
 	    		{
  	            callback : function(result) {
  	            	dwr.engine.openInDownload( result );
@@ -212,7 +212,7 @@ angular.module('home')
 		    })
 		    .then(function(fornecedor) {
 		    	
-		    	$scope.model.relatorio.movimentacaoConta.filters.fornecedores.push(fornecedor);
+		    	$scope.model.relatorio.familiasAtendidas.filters.fornecedores.push(fornecedor);
 		    	
 		    }, function() {
 		    	
@@ -235,7 +235,7 @@ angular.module('home')
 		    })
 		    .then(function(conta) {
 		    	
-	    		$scope.model.relatorio.movimentacaoConta.filters.contas.push(conta);
+	    		$scope.model.relatorio.familiasAtendidas.filters.familias.push(conta);
 		    	
 		    }, function() {
 		    	
@@ -249,8 +249,8 @@ angular.module('home')
 		$scope.removeConta = function( conta, index )
 		{
 			if (index == 0)
-				return $scope.model.relatorio.movimentacaoConta.filters.contas.shift();
-			$scope.model.relatorio.movimentacaoConta.filters.contas = $scope.model.relatorio.movimentacaoConta.filters.contas.splice(index,1) ;
+				return $scope.model.relatorio.familiasAtendidas.filters.familias.shift();
+			$scope.model.relatorio.familiasAtendidas.filters.familias = $scope.model.relatorio.familiasAtendidas.filters.familias.splice(index,1) ;
 			
 		}
 		
@@ -265,7 +265,7 @@ angular.module('home')
 				return;
 			}
 			
-			caixaService.updateProduto(  $scope.model.produto.entity, {
+			familiaService.updateProduto(  $scope.model.produto.entity, {
 				callback : function(result) {
 					$scope.model.produto.entity = result;
 					$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi cadastrado com sucesso!" );

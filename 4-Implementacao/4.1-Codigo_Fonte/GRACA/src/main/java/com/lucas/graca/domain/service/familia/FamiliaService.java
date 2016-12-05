@@ -193,7 +193,7 @@ public class FamiliaService
 	 * @param dataFIm
 	 * @return
 	 */
-	public FileTransfer gerarRelatorioMovimentacoesConta(List<Familia> familias, Calendar dataInicio,
+	public FileTransfer gerarRelatorioFamiliasAtendidas(List<Familia> familias, Calendar dataInicio,
 			Calendar dataFIm) 
 	{
 		
