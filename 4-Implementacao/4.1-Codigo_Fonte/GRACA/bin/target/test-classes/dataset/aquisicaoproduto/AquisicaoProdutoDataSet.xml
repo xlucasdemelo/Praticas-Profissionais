@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+	<public.aquisicao_produto
+		id="9999"
+		created="2015-03-30 00:00:00"
+		condicao_pagamento="0"
+		forma_pagamento="0"
+		status="0"
+		fornecedor_id="9999"
+	/>
+	
+	<public.aquisicao_produto
+		id="1000"
+		created="2015-03-30 00:00:00"
+		condicao_pagamento="0"
+		forma_pagamento="0"
+		status="1"
+		fornecedor_id="9999"
+	/>
+	
+	<public.aquisicao_produto
+		id="1001"
+		created="2015-03-30 00:00:00"
+		condicao_pagamento="1"
+		vezes_pagamento="2"
+		forma_pagamento="1"
+		dia_vencimento="15"
+		status="0"
+		fornecedor_id="9999"
+	/>
+	
+</dataset>

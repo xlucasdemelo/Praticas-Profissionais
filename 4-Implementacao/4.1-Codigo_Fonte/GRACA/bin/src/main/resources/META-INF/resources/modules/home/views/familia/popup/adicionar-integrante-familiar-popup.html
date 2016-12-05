@@ -1,0 +1,296 @@
+<md-dialog class="default-popup">
+
+  	<md-toolbar style="height: 60px; min-height: 60px !important;">
+  		<div flex layout="row" class="default-header">
+  			<div >
+	  			<h1 class="md-toolbar-tools" ng-if="!model.integranteFamiliar.entity.id">Adicionar Integrante Familiar</h1>
+	  			<h1 class="md-toolbar-tools" ng-if="model.integranteFamiliar.entity.id">Editar Integrante Familiar</h1>
+  			</div>
+    	</div> 
+  	</md-toolbar> 
+  	
+	<form name="model.integranteFamiliar.form" style="height: 100%;" md-theme="{{osmTheme}}" layout="column" novalidate>
+	  	<md-dialog-content layout="column" style="height: 100%;">
+	  		
+	  		<md-tabs md-dynamic-height md-border-bottom>
+     			<md-tab label="Integrante familiar">
+			  		<div layout="column" style="height:100%">
+			  			<div class="default-form">
+					        <div>
+						        <div class="default-info" layout="row">Informações do integrante familiar</div>
+					        
+					            <div >
+						            <div layout="row" flex>
+							            <md-input-container layout="column" flex="50">
+								    		<label style="position:absolute;padding-top:15px;padding-left:15px">Nome</label>
+								    		<textarea maxlength="255" name="nome" ng-model="model.integranteFamiliar.entity.nome" rows="3" required></textarea>
+							                
+							                <div ng-messages="model.integranteFamiliar.form.nome.$error">
+							               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+							                </div>
+							            </md-input-container>
+							            
+							            <md-input-container layout="column"  flex>
+							            	<label>Data de nascimento</label>
+							            	<md-datepicker required name="dataNascimento" md-max-date="maxDate" ng-model="model.integranteFamiliar.entity.dataNascimento" style="margin-top:25px" ></md-datepicker>
+							            	
+							            	<div ng-messages="model.integranteFamiliar.form.dataNascimento.$error">
+							               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+							                </div>
+							            </md-input-container>
+						            </div>
+						            
+						            <div layout="row" flex>
+						           		<md-input-container layout="column" gap="20px">
+						            		<label>Sexo</label>
+						            		<md-select style="margin-top:24px" required name="sexo" ng-model="model.integranteFamiliar.entity.sexo">
+									        	<md-option required ng-repeat="sexo in allSexos" value="{{sexo}}">{{::sexo | translate}}</md-option>
+									        </md-select>
+									        
+									        <div ng-messages="model.integranteFamiliar.form.sexo.$error">
+							               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+							                </div>
+						            	</md-input-container>
+						            	
+						            	<md-input-container layout="column" gap="20px">
+						            		<label>Grau de escolaridade</label>
+						            		<md-select style="margin-top:24px" required name="grauEscolaridade" ng-model="model.integranteFamiliar.entity.grauEscolaridade">
+									        	<md-option required ng-repeat="grau in allGrausEscolaridade" value="{{grau}}">{{::grau | translate}}</md-option>
+									        </md-select>
+									        
+									        <div ng-messages="model.integranteFamiliar.form.grauEscolaridade.$error">
+							               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+							                </div>
+						            	</md-input-container>
+						            	
+						            	<md-input-container layout="column" flex="35" style="margin-left:25px">
+								    		<label>Ocupação</label>
+							                <input type="text" name="ocupacao" ng-model="model.integranteFamiliar.entity.ocupacao" maxlength="255" >
+							                
+							                <div ng-messages="model.integranteFamiliar.form.ocupacao.$error">
+							               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+							                </div>
+						            	</md-input-container>
+				                     </div>
+				                        
+				                     <div layout="row">
+						            	<md-input-container layout="column" flex="30">
+								    		<label>Renda mensal</label>
+							                <input type="text" name="rendaMensal" max="9999999" mask-money prefix="'R$ '" name="rendaMensal" ng-model="model.integranteFamiliar.entity.rendaMensal" >
+							            
+							            	<div ng-messages="model.integranteFamiliar.form.rendaMensal.$error">
+							               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+							                </div>
+							            </md-input-container>
+							            
+							            <md-input-container layout="column" flex="30">
+								    		<label>Telefone</label>
+							                <input type="text" mask="(999) 9?9999-9999" name="telefone" ng-model="model.integranteFamiliar.entity.telefone" >
+							            
+							            	<div ng-messages="model.integranteFamiliar.form.telefone.$error">
+							               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+							                </div>
+							            </md-input-container>
+				                     </div>
+				                     
+				                     <div layout="row">
+						            	<md-input-container layout="column" flex="30">
+								    		<label>Filiação</label>
+							                <input type="text" name="filiacao" max-length="255" name="filiacao" ng-model="model.integranteFamiliar.entity.filiacao" >
+							            
+							            	<div ng-messages="model.integranteFamiliar.form.filiacao.$error">
+							               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+							                </div>
+							            </md-input-container>
+				                     </div>
+				                     
+				                     <div class="default-info" flex> 
+										<span>ENDEREÇO</span>
+									</div>
+									
+									<div layout="row">
+						    			<md-input-container layout="column" flex="30" style="margin-right:30px">
+								    		<label>Rua</label>                                  
+							                <input maxlength="144" name="rua" ng-model="model.integranteFamiliar.entity.endereco.rua">
+							
+							                <div ng-messages="model.integranteFamiliar.form.rua.$error">
+							                	<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+							                </div>
+							            </md-input-container>
+							            
+							            <md-input-container layout="column" flex="30" ">
+								    		<label>Bairro</label>
+							                <input maxlength="144" name="bairro" ng-model="model.integranteFamiliar.entity.endereco.bairro">
+							
+							                <div ng-messages="model.integranteFamiliar.form.bairro.$error">
+							                	<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+							                </div>	
+							            </md-input-container>
+							        </div>
+							        
+							        <div layout="row">
+							        	<md-autocomplete 
+							        		style="margin-right:20px" 
+							        		md-selected-item="model.pais.selectedItem" 
+							        		md-search-text="model.pais.searchText"
+											md-search-text-change="listPaisesByFiltes(model.pais.searchText)" 
+											md-items="item in model.pais.itens" 
+											md-item-text="item.nome"
+											placeholder="País"
+											>
+											
+											<md-item-template>
+												<span md-highlight-text="searchText">{{item.nome}}</span>
+										    </md-item-template>
+										    <md-not-found>
+										    	Nenhum país encontrado
+										    </md-not-found>
+										</md-autocomplete>
+										
+										<md-autocomplete 
+											style="margin-right:20px"
+											md-selected-item="model.estado.selectedItem" 
+											md-search-text="model.estado.searchText" 
+											md-search-text-change="listEstadosByFiltes(model.estado.searchText)" 
+											md-items="item in model.estado.itens" 
+											md-item-text="item.nome"
+											placeholder="Estado"
+											>
+											
+											<md-item-template>
+												<span md-highlight-text="searchText">{{item.nome}}</span>
+										    </md-item-template>
+										    <md-not-found>
+										    	Nenhum estado encontrado
+										    </md-not-found>
+										</md-autocomplete>
+										
+										<md-autocomplete 
+											md-selected-item="model.cidade.selectedItem" 
+											md-search-text="model.cidade.searchText" 
+											md-search-text-change="listCidadesByFiltes(model.cidade.searchText)" 
+											md-items="item in model.cidade.itens" 
+											md-item-text="item.nome"
+											placeholder="Cidade"
+											>
+											<md-item-template>
+												<span md-highlight-text="searchText">{{item.nome}}</span>
+										    </md-item-template>
+										    <md-not-found>
+										    	Nenhum estado encontrado
+										    </md-not-found>
+										</md-autocomplete>
+										
+							        </div>
+				                     
+			                     </div>
+			            	</div>
+			  			</div>
+					</div>
+				</md-tab>
+				
+				<md-tab ng-if="model.integranteFamiliar.entity.id" label="documentos">
+				
+					<div layout="column" style="height:100%">
+			  			<div class="default-form">
+			  				
+			  				<div layout="row" flex>
+			  					<md-input-container layout="column" gap="20px">
+				            		<label>Documento</label>
+				            		<md-select style="margin-top:24px" name="tipoDocumento" ng-model="model.documentoIntegranteFamiliar.entity.tipoDocumento">
+							        	<md-option ng-repeat="documento in allTiposDocumentos" value="{{documento}}">{{documento}}</md-option>
+							        </md-select>
+							        
+							        <div ng-messages="model.integranteFamiliar.form.documento.$error">
+					               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+					                </div>
+				            	</md-input-container>
+				            	
+				            	<md-input-container ng-if="model.documentoIntegranteFamiliar.entity.tipoDocumento == 'RG'" layout="column" flex="30">
+						    		<label>Número</label>
+					                <input type="text" maxlength="11" name="numeroRg" mask="9.999.999-9" required ng-model="model.documentoIntegranteFamiliar.entity.numeroDocumento">
+					            
+					            	<div ng-messages="model.integranteFamiliar.form.numeroRg.$error">
+					               		<div ng-message="required"  ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+					                </div>
+					            </md-input-container>
+					            
+					            <md-input-container ng-if="model.documentoIntegranteFamiliar.entity.tipoDocumento == 'CPF'" layout="column" flex="30">
+						    		<label>Número</label>
+					                <input type="text" maxlength="14" required name="numeroCpf" mask="999.999.999-99" required ng-model="model.documentoIntegranteFamiliar.entity.numeroDocumento" ng-cpf>
+					            	
+					            	<div ng-messages="model.integranteFamiliar.form.numeroCpf.$error">
+					               		<div ng-message="required"  ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+					               		<div ng-message="cpf"  ng-if="model.integranteFamiliar.form.$submitted">CPF inválido</div>
+					                </div>
+					            	
+					            </md-input-container>
+					            
+					            <md-button style="height:20px; margin-top:32px" class="md-raised md-primary md-hue-3" type="button" ng-click="insertDocumentoIntegranteFamiliar()">
+							    	Inserir
+							    </md-button>
+			  				</div>
+			  				
+			  				<md-table-container>
+							  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+							    <thead md-head md-order="query.order" md-on-reorder="getDesserts">
+							      <tr md-row>
+							        <th md-column md-order-by="nameToLower"><span>Documento</span></th>
+							        <th md-column md-numeric ><span>Numero</span></th>
+							        <th md-column md-numeric ><span>Ações</span></th>
+							      </tr>
+							    </thead>
+							    <tbody md-body>
+							      <tr md-row md-select="dessert" style="cursor:pointer" ng-repeat="documento in model.integranteFamiliar.entity.documentos">
+							        <td md-cell>{{::documento.tipoDocumento}}</td>
+							        <td md-cell ng-if="documento.tipoDocumento == 'RG'"><input maxlength="11" mask="9.999.999-9" name="numero" ng-blur="updateDocumento($event, documento)" required ng-model="documento.numeroDocumento"></td>
+							        
+							        <td md-cell ng-if="documento.tipoDocumento == 'CPF'" ><input maxlength="14" mask="999.999.999-99" name="numeroCpfGrid" ng-blur="updateDocumento($event, documento)" required ng-model="documento.numeroDocumento" ng-cpf>
+							        	
+							        	 <div ng-messages="model.integranteFamiliar.form.numeroCpfGrid.$error">
+						               		<div ng-message="required" >Campo obrigatório</div>
+						               		<div ng-message="cpf" ng-if="model.integranteFamiliar.form.numeroCpfGrid.$error" >CPF inválido</div>
+						                </div>
+							        	
+							        </td>
+							        
+							        <td md-cell> 
+								        <i class="zmdi zmdi-delete" ng-click="removeDocumentoIntegranteFamiliar(documento)" style="font-size: 25px; margin-left: 5px;"></i>
+							      	</td>
+							      </tr>
+							    </tbody>
+							  </table>
+							</md-table-container>
+							
+			  			</div>
+			  		</div>
+			  		
+				</md-tab>
+			</md-tabs>
+	  	</md-dialog-content>
+	  	
+	  	<md-divider style="order: 2"></md-divider>
+  	
+	  	<md-dialog-actions layout="row" layout-align="end center">
+		    <div layout="row" ng-if="model.integranteFamiliar.entity">
+			    <div>
+				    <md-button ng-if="model.integranteFamiliar.entity.id" class="md-raised md-primary md-hue-3" type="button" ng-click="removeIntegranteFamiliar()">
+				    	Excluir integrante
+				    </md-button>
+			    </div>
+			    
+			    <div>
+				    <md-button class="md-raised md-primary md-hue-3" type="button" ng-click="cancel()">
+				    	Cancelar
+				    </md-button>
+			    </div>
+			    
+		    	<div >
+		        	<md-button class="md-raised md-accent default-save-button" type="submit" ng-click="model.integranteFamiliar.entity.id ? updateIntegranteFamiliar() : insertIntegranteFamiliar()">
+				    	SALVAR
+				    </md-button>
+				</div>
+		    </div>
+	    </md-dialog-actions>
+  	</form> 
+</md-dialog>

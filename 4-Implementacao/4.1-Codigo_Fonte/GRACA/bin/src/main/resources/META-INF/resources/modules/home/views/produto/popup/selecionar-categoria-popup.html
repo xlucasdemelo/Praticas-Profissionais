@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" 
+	xmlns:th="http://www.thymeleaf.org" lang="pt">
+	
+	<md-dialog>
+		<md-dialog-content style="width: 640px; height: 350px; display: flex;">
+			<div layout="column" flex>
+				<div layout="row" style="display: block; margin-top: 10px; margin-bottom: 10px;">
+					<i tabindex="-1" class="zmdi zmdi-search" ng-click="listCategoriasByFilters( true )" style="position: relative; left: 25px; top: 2px; opacity: 0.5; color: #000;"></i>
+					
+					<input autofocus type="text" style="width: 85%; padding-right: 30px; height:30px; font-size:15px; padding-left: 35px; border-radius: 4px; border:3px;"
+						placeholder="Pesquisar por categorias" 
+						ng-model="model.categoria.filters.terms" 
+						ng-keyup="$event.keyCode == 13 && listCategoriasByFilters( true )">
+				</div>
+				
+				<md-divider></md-divider>
+				
+				<md-content flex layout="column" ng-if="model.categoria.page.content.length">
+					<md-list-item layout="row" ng-click="setSelectedEntity( categoria )" ng-repeat="categoria in model.categoria.page.content">
+						<md-checkbox tabindex="-1" ng-click="setSelectedEntity( categoria )" ng-checked="categoria.id == selectedEntity.id"></md-checkbox>
+						<div class="truncate md-body-1" flex title="{{ categoria.nome }}">{{ categoria.nome }}</div>
+					</md-list-item>
+				</md-content>
+				
+				<div class="neutral-background" layout-align="center center" layout="column" ng-if="!model.categoria.page.content.length" flex>
+					Nenhum registro de categoria encontrado
+					
+					<div layout="row" layout-align="center center" style="word-break: break-all; max-width: 70%; margin-top: 20px;" ng-show="model.categoria.filters.terms.length">
+						<div>Deseja cadastrar<span style="font-weight: bold; ">"{{ model.categoria.filters.terms }}"</span> ?</div>
+						<md-button type="button" class="md-accent" ng-click="insertCategoria()">SIM</md-button>
+					</div>
+				</div>
+			</div>
+		</md-dialog-content>
+		
+		<md-divider style="order: 2;"></md-divider>
+		
+		<md-dialog-actions layout="row">
+			<md-button type="button" ng-click="cancel()">
+				CANCELAR
+			</md-button>
+			
+			<md-button type="button" ng-disabled="!selectedEntity" class="md-accent" ng-click="associateSelectedEntity()">
+				SELECIONAR
+			</md-button>
+		</md-dialog-actions>
+	</md-dialog>
+
+</html>

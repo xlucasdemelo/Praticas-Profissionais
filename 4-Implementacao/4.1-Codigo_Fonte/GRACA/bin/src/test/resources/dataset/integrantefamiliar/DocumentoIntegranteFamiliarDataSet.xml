@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+	<public.documento_integrante_familiar
+		id="100"
+		created="2015-03-30 00:00:00"
+		updated="2015-03-30 00:00:00"
+		numero_documento="99999999"
+		tipo_documento = "0"
+		integrante_familiar_id="100"
+	/>
+	
+	<public.documento_integrante_familiar
+		id="101"
+		created="2015-03-30 00:00:00"
+		updated="2015-03-30 00:00:00"
+		numero_documento="77777"
+		tipo_documento = "1"
+		integrante_familiar_id="100"
+	/>
+
+	<public.documento_integrante_familiar
+		id="102"
+		created="2015-03-30 00:00:00"
+		updated="2015-03-30 00:00:00"
+		numero_documento="1211212211212"
+		tipo_documento = "0"
+		integrante_familiar_id="101"
+	/>
+</dataset>

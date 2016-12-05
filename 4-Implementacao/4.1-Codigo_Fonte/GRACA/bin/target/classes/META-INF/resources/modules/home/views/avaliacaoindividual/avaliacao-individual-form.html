@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" 
+	xmlns:th="http://www.thymeleaf.org" lang="pt">
+	
+	<div class="main-div" layout="column" flex>
+		<md-toolbar layout="row">
+	    	<div layout="row" flex>
+		        <h1 class="md-toolbar-tools">Avaliação individual</h1>
+	    	</div>
+	    	
+	    	<div layout="row" style="margin-right: 30px;" layout-align="end center">
+		        <md-button class="md-raised" ng-click="$state.go( AVALIACAO_INDIVIDUAL_LIST_STATE )">Voltar</md-button>
+		        <md-button class="md-raised " ng-click="enviarParaAprovacao()" ng-if="model.avaliacaoIndividual.entity.id && ( model.avaliacaoIndividual.entity.status == 'RASCUNHO' || model.avaliacaoIndividual.entity.status == 'REJEITADO' )">Enviar para aprovação</md-button>
+		        <md-button class="md-raised " ng-click="aprovarAvaliacao()" ng-if="hasPermission('ADMINISTRATOR') && model.avaliacaoIndividual.entity.id && ( model.avaliacaoIndividual.entity.status == 'ENVIADO_PARA_AVALIACAO' )">Aprovar avaliação</md-button>
+		        <md-button class="md-raised " ng-click="recusarAvaliacao()" ng-if="hasPermission('ADMINISTRATOR') && model.avaliacaoIndividual.entity.id && ( model.avaliacaoIndividual.entity.status == 'ENVIADO_PARA_AVALIACAO' )">Recusar avaliação</md-button>
+		        <md-button class="md-raised md-accent" ng-if="!model.avaliacaoIndividual.entity.id " ng-click="insertAvaliacaoIndividual()">Salvar</md-button>
+	    		<md-button class="md-raised md-accent" ng-if="model.avaliacaoIndividual.entity.id && ( model.avaliacaoIndividual.entity.status == 'RASCUNHO' || model.avaliacaoIndividual.entity.status == 'REJEITADO' )" ng-click="salvarResposta()">Salvar</md-button>
+	    	</div>
+	    </md-toolbar>
+			
+		<md-content layout="column" flex style="height:100%">
+			<md-tabs style="height:100%" md-border-bottom md-selected="model.questionario.selectedTab" flex>
+				<md-tab style="height:100%" label="Avaliação indivídual">
+					<div style="height:100%" class="default-frame" layout="column">
+						<md-toolbar layout style="height:100%" class="md-hue-1">
+							<form novalidate name="model.avaliacaoIndividual.form" style="height:100%" class="default-form" flex>
+								
+				    			<div layout="row">
+									<md-input-container layout="column" >
+							    		<label style="position:absolute;padding-top:15px;">Criança</label>
+							    		<input typ="text" disabled maxlength="255" name="crianca" ng-model="model.avaliacaoIndividual.entity.crianca.nome" required></input>
+						                
+						            </md-input-container>
+									
+									<div md-theme="default" layout="row" layout-align="end center" class="default-header md-primary md-hue-3">
+								        <md-button class="md-raised md-accent default-save-button" ng-if="!model.avaliacaoIndividual.entity.id || model.avaliacaoIndividual.status == 'RASCUNHO'" ng-click="openSelectCrianca()">Selecionar Criança</md-button>
+							        </div>
+								</div>
+				    			
+				    			<div ng-repeat="resposta in model.resposta.page.content track by $index" >
+				    				<ng-form name="respostaForm">
+				    					<md-input-container layout="column" >
+								    		<label>{{::resposta.questao.descricao}}</label>
+								    		<textarea ng-disabled="model.avaliacaoIndividual.entity.id && ( model.avaliacaoIndividual.entity.status == 'ENVIADO_PARA_AVALIACAO' || model.avaliacaoIndividual.entity.status == 'ACEITO' )" maxlength="255" name="pergunta-{{resposta.questao.id}}" ng-model="model.resposta.page.content[$index].resposta" rows="3" ng-required="toAprovacao"></textarea>
+							                
+							                <div ng-messages="respostaForm.$error">
+							               		<div ng-message="required" ng-if="respostaForm.resposta.$invalid">Campo obrigatório</div>
+							                </div>
+							                
+							            </md-input-container>
+				    				</ng-form>
+				    			</div>
+				    			
+							</form>
+						</md-toolbar>
+					</div>
+				</md-tab>
+			</md-tabs>
+		</md-content>
+	</div>
+
+</html>

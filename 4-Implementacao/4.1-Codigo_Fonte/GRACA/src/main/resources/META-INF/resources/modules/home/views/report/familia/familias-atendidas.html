@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" 
+	xmlns:th="http://www.thymeleaf.org" lang="pt">
+	
+<div class="main-div" layout="column" flex>
+	
+		<md-toolbar layout="row" style="z-index: 3;">
+	    	<div flex layout="row" class="default-header">
+		        <h1 class="md-toolbar-tools">Relatório de famílias atendidas</h1>
+	    	</div>
+	    	
+	        <div md-theme="default" layout="row" layout-align="end center" class="default-header md-primary md-hue-3">
+	        	<md-button class="md-raised md-accent default-save-button" ng-click="exportarMovimentacoesConta()">Exportar <i style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-download"></i> </md-button>
+	        </div>
+	        
+	    </md-toolbar>
+		
+			<md-content layout="column" flex >
+				<md-tabs  md-border-bottom flex >
+					<md-tab label="Movimentacao" >
+						
+								<div style="height:100%" class="default-frame" layout="column">
+									<md-toolbar layout style="height:100%" class="md-hue-1">
+										<form novalidate name="model.movimentacao.form" class="default-form" flex>
+											
+											<div layout="row">
+												<div layout="column" flex style="margin-top: 30px;">
+													<label>Data de criação</label>
+													<div layout="row" layout-align="start center" style="height: 48px;">
+														<label>De:</label>
+														<div>
+															<md-datepicker ng-model="model.relatorio.movimentacaoConta.filters.dataInicio" required></md-datepicker>
+														</div>
+													
+														<label style="margin-left: 30px;">Até:</label>
+														<div>
+															<md-datepicker
+																ng-model="model.relatorio.movimentacaoConta.filters.dataFim"
+																md-min-date="model.relatorio.movimentacaoConta.filters.dataInicio"
+																ng-disabled="model.relatorio.movimentacaoConta.filters.dataInicio == null"
+																required>
+															</md-datepicker>
+														</div>
+													</div>
+												</div>
+											</div>
+								            
+								            <div id="selectProdutos">
+								            	
+								            	<div layout="row">
+									            	<div class="default-info" layout="column" flex> 
+														<span>Contas</span>
+													</div>
+													
+													<div md-theme="default" layout="column" class="default-header md-primary md-hue-3">
+												        <md-button class="md-raised" ng-click="openSelecionarConta(false)">Selecionar conta</md-button>
+											        </div>
+												</div>
+												
+												<md-table-container>
+												  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+												    <thead md-head md-order="query.order" md-on-reorder="getDesserts">
+												      <tr md-row>
+												        <th md-column><span>Nome</span></th>
+												        <th md-column><span>Descrição</span></th>
+												        <th md-column md-numeric><span>Saldo</span></th>
+												      </tr>
+												    </thead>
+												    <tbody md-body>
+												      <tr md-row md-select="dessert" style="cursor:pointer" md-select-id="name" md-auto-select ng-repeat="conta in model.relatorio.movimentacaoConta.filters.contas">
+												        <td md-cell >{{::conta.nome}}</td>
+												        <td md-cell >{{::conta.descricao}}</td>
+												        <td md-cell >{{::conta.saldo}}</td>
+												        <td md-cell><i class="zmdi zmdi-delete" style="font-size: 20px;" ng-click="removeConta(conta, $index)" ></i></td>
+												      </tr>
+												    </tbody>
+												  </table>
+												</md-table-container>
+												
+										        <md-divider></md-divider>
+										        
+										        <div layout="column" flex class="empty-grid" layout-align="center center" ng-if="model.relatorio.movimentacaoConta.filters.produtos == 0">
+													Não há nenhum produto selecionado . 
+												</div>
+												
+								            </div>
+								            
+										</form>
+									</md-toolbar>
+								</div>
+						
+					</md-tab>
+					
+				</md-tabs>
+			</md-content>
+	</div>
+</html>

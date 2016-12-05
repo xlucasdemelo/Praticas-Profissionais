@@ -3,9 +3,12 @@
  */
 package com.lucas.graca.domain.service.familia;
 
+import java.io.ByteArrayOutputStream;
+import java.util.Calendar;
 import java.util.List;
 
 import org.directwebremoting.annotations.RemoteProxy;
+import org.directwebremoting.io.FileTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,8 +21,11 @@ import com.lucas.graca.domain.entity.familia.TipoImovel;
 import com.lucas.graca.domain.entity.familia.TipoMoradia;
 import com.lucas.graca.domain.entity.planoatendimentofamiliar.PlanoAtendimentoFamiliar;
 import com.lucas.graca.domain.repository.endereco.IEnderecoRepository;
+import com.lucas.graca.domain.repository.familia.IFamiliaReportRepository;
 import com.lucas.graca.domain.repository.familia.IFamiliaRepository;
 import com.lucas.graca.domain.repository.planoatendimento.IPlanoAtendimentoFamiliarRepository;
+
+import br.com.eits.common.infrastructure.file.MimeType;
 
 /**
  * @author lucas
@@ -52,6 +58,11 @@ public class FamiliaService
 	@Autowired
 	private IPlanoAtendimentoFamiliarRepository planoAtendimentoFamiliarRepository ;
 	
+	/**
+	 * 
+	 */
+	@Autowired
+	private IFamiliaReportRepository familiaReportRepository;
 	
 	/*-------------------------------------------------------------------
 	 *				 		 SERVICES FAMILIA
@@ -169,5 +180,26 @@ public class FamiliaService
 	public TipoMoradia[] listAllTiposMoradia()
 	{
 		return TipoMoradia.values(  );
+	}
+	
+	/*-------------------------------------------------------------------
+	 *				 		SERVICES REPORTS
+	 *-------------------------------------------------------------------*/
+	
+	/**
+	 * 
+	 * @param familias
+	 * @param dataInicio
+	 * @param dataFIm
+	 * @return
+	 */
+	public FileTransfer gerarRelatorioMovimentacoesConta(List<Familia> familias, Calendar dataInicio,
+			Calendar dataFIm) 
+	{
+		
+		final ByteArrayOutputStream reportOutputStream = this.familiaReportRepository.gerarRelatorioFamiliasAtendidas(familias, dataInicio, dataFIm);
+		
+		final String name = String.format( IFamiliaReportRepository.FAMILIAS_ATENDIDAS_REPORT, Calendar.getInstance().getTime().toString() );
+		return new FileTransfer( name, MimeType.PDF.value, reportOutputStream.toByteArray() );
 	}
 }

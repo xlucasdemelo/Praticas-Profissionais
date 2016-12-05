@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+	<public.crianca
+		id="100"
+		peso="200"
+		motivo_acolhimento="Sofre violencia"
+		numero_processo="123456"
+		altura="1,92"
+		data_elaboracaopia="2015-03-30 00:00:00"
+		data_limite="2015-03-30 00:00:00"
+		data_acolhimento="2015-03-30 00:00:00"
+		etnia="1"
+	/>
+	
+	<public.crianca
+		id="101"
+		peso="200"
+		motivo_acolhimento="Sofre violencia"
+		numero_processo="123456"
+		altura="1,92"
+		data_elaboracaopia="2015-03-30 00:00:00"
+		data_limite="2015-03-30 00:00:00"
+		data_acolhimento="2015-03-30 00:00:00"
+		etnia="0"
+	/>
+	
+</dataset>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+	<public.familia
+		id="100"
+		created="2015-03-30 00:00:00"
+		ativo="true"
+		infraestrutura="Boa"
+	  	nome="Silva" 
+	  	nome_mae="Marlene Silva"
+	    numero_comodos= "5" 
+	    situacao_imovel = "Fera"
+	  	telefone = "99999"
+	  	tipo_imovel="1"
+	  	endereco_id = "100"
+	  	numero_dormitorios="10"
+	  	tipo_moradia="1"
+	/>
+	
+	<public.familia
+		id="101"
+		created="2015-03-30 00:00:00"
+		ativo="false"
+		infraestrutura="Boa"
+	  	nome="Paia" 
+	  	nome_mae="Marlene Paia"
+	    numero_comodos= "5" 
+	    situacao_imovel = "Fera"
+	  	telefone = "99999"
+	  	tipo_imovel="1"
+	  	endereco_id = "100"
+	  	numero_dormitorios="10"
+	  	tipo_moradia="1"
+	/>
+	
+</dataset>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" 
+	xmlns:th="http://www.thymeleaf.org" lang="pt">
+	
+<div class="main-div" layout="column" flex>
+	
+		<md-toolbar layout="row" style="z-index: 3;">
+	    	<div flex layout="row" class="default-header">
+		        <h1 class="md-toolbar-tools">Movimentação</h1>
+	    	</div>
+	    	
+	    	<div md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised" ng-click="$state.go(MOVIMENTACAO_LIST_STATE)">Voltar</md-button>
+	        </div>
+	        
+	        <div ng-if="model.movimentacao.entity.id && model.movimentacao.entity.status == 'RASCUNHO'" md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="changeToRemove()">Excluir</md-button>
+	        </div>
+	        
+	        <div ng-if="model.movimentacao.entity.id && model.movimentacao.entity.status == 'RASCUNHO'" md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="changeToEmAberto()">Enviar para em aberto</md-button>
+	        </div>
+	        
+	        <div ng-if="model.movimentacao.entity.id && model.movimentacao.entity.status == 'ABERTO'" md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="changeToConcluido()">Concluir</md-button>
+	        </div>
+	        
+	        <div md-theme="default" layout="row" layout-align="end center" ng-if="model.movimentacao.entity.status != 'CONCLUIDO'" class="default-header md-primary md-hue-3">
+		        <md-button class="md-raised md-accent default-save-button" ng-click=" model.movimentacao.entity.id ? updateMovimentacao() : insertMovimentacao()">Salvar</md-button>
+	        </div>
+	        
+	    </md-toolbar>
+		
+			<md-content layout="column" flex >
+				<md-tabs  md-border-bottom flex >
+					<md-tab label="Movimentacao" >
+						
+								<div style="height:100%" class="default-frame" layout="column">
+									<md-toolbar layout style="height:100%" class="md-hue-1">
+										<form novalidate name="model.movimentacao.form" class="default-form" flex>
+											
+											<div layout="row">
+												<md-input-container layout="column" flex="30" >
+										    		<label>Valor Efetivado</label>
+									                <input type="number" disabled name="valorEfetivado" ng-model="model.movimentacao.entity.valorEfetivado">
+									
+									                <div ng-messages="model.movimentacao.form.valor.$error">
+									                	<div ng-message="required" ng-if="model.movimentacao.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+												
+									            <md-input-container layout="column" flex="30" style="margin-left:30px">
+										    		<label>Porcentagem da diferença</label>
+									                <input type="number" ng-disabled="model.movimentacao.entity.id && model.movimentacao.entity.status != 'RASCUNHO'"" name="porcentagemDiferenca" ng-model="model.movimentacao.entity.porcentagemDiferenca">
+									
+									                <div ng-messages="model.movimentacao.form.porcentagemDiferenca.$error">
+									                	<div ng-message="required" ng-if="model.movimentacao.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+									        </div>
+											
+											<div layout="row">
+												
+												<md-input-container layout="column" flex="30" style="margin-right:30px">
+											        <label>Tipo de movimentação</label>
+											        <md-select name="tipo" ng-disabled="model.movimentacao.entity.id && model.movimentacao.entity.status != 'RASCUNHO'" required ng-model="model.movimentacao.entity.tipoMovimentacao">
+											          <md-option ng-repeat="tipoMovimentacao in allTiposMovimentacao" value="{{tipoMovimentacao}}">{{::tipoMovimentacao | translate}}</md-option>
+											        </md-select>
+											        
+											        <div ng-messages="model.movimentacao.form.tipo.$error">
+									                	<div ng-message="required" ng-if="model.movimentacao.form.$submitted">Campo obrigatório</div>
+									                </div>
+											    </md-input-container>
+											    
+											    <md-input-container layout="column" flex >
+										    		<label>Data de pagamento</label>
+									                <md-datepicker name="dataPagamento" ng-disabled="model.movimentacao.entity.id && model.movimentacao.entity.status != 'RASCUNHO'"" flex ng-model="model.movimentacao.entity.dataPagamento" 
+									                				style="width:200px" md-placeholder="Data de pagamento"></md-datepicker>
+									
+									                <div ng-messages="model.movimentacao.form.dataPagamento.$error">
+									                	<div ng-message="required" ng-if="model.movimentacao.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+											    
+											</div>
+											
+											<md-input-container layout="column" flex="30">
+									    		<label>Natureza dos gastos</label>
+								                <input type="text" name="naturezaGastos" ng-disabled="model.movimentacao.entity.id && model.movimentacao.entity.status != 'RASCUNHO'"" required ng-model="model.movimentacao.entity.naturezaGastos.nome">
+								
+								                <div ng-messages="model.movimentacao.form.naturezaGastos.$error">
+								                	<div ng-message="required" ng-if="model.movimentacao.form.$submitted">Campo obrigatório</div>
+								                </div>
+								            </md-input-container>
+											
+											<md-input-container layout="column" >
+									    		<label>Descrição</label>
+								                <input type="text"ng-disabled="model.movimentacao.entity.id && model.movimentacao.entity.status != 'RASCUNHO'""  name="descricao" required ng-model="model.movimentacao.entity.descricao">
+								
+								                <div ng-messages="model.movimentacao.form.descricao.$error">
+								                	<div ng-message="required" ng-if="model.movimentacao.form.$submitted">Campo obrigatório</div>
+								                </div>
+								            </md-input-container>
+											
+											<div layout="row">
+												<md-input-container layout="column" flex="30" >
+										    		<label>Valor</label>
+									                <input type="number" ng-disabled="model.movimentacao.entity.id && model.movimentacao.entity.status != 'RASCUNHO'"" name="valor" required ng-model="model.movimentacao.entity.valorEmissao">
+									
+									                <div ng-messages="model.movimentacao.form.valor.$error">
+									                	<div ng-message="required" ng-if="model.movimentacao.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+												
+									            <md-input-container layout="column" flex="30" style="margin-left:30px">
+										    		<label>Porcentagem da diferença</label>
+									                <input type="number" ng-disabled="model.movimentacao.entity.id && model.movimentacao.entity.status != 'RASCUNHO'"" name="porcentagemDiferenca" ng-model="model.movimentacao.entity.porcentagemDiferenca">
+									
+									                <div ng-messages="model.movimentacao.form.porcentagemDiferenca.$error">
+									                	<div ng-message="required" ng-if="model.movimentacao.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+									        </div>
+								            
+								            <div layout="row">
+									            <md-input-container layout="column" flex="30" >
+										    		<label>Conta de origem</label>
+									                <input type="text" name="contaOrigem" disabled required ng-model="model.movimentacao.entity.contaOrigem.nome">
+									
+									                <div ng-messages="model.movimentacao.form.contaOrigem.$error">
+									                	<div ng-message="required" ng-if="model.movimentacao.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+									            
+									            <md-input-container layout="column" flex="10">
+										    		<label>Saldo</label>
+										    		<input type="text" name="saldoOrigem" disabled ng-model="model.movimentacao.entity.contaOrigem.saldo">
+									            </md-input-container>
+									            
+									            <div md-theme="default" layout="column" ng-if="model.movimentacao.entity.status != 'CONCLUIDO'" style="margin-top:35px" class="default-header md-primary md-hue-3">
+											        <md-button class="md-raised" ng-click="openSelecionarConta(true)">Selecionar conta</md-button>
+										        </div>
+									            
+								            </div>
+								            
+								            <div layout="row">
+									            <md-input-container layout="column" flex="30" >
+										    		<label>Conta destino</label>
+									                <input type="text" name="contaDestino" disabled required ng-model="model.movimentacao.entity.contaDestino.nome">
+									
+									                <div ng-messages="model.movimentacao.form.contaDestino.$error">
+									                	<div ng-message="required" ng-if="model.movimentacao.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+									            
+									            <md-input-container layout="column" flex="10">
+										    		<label>Saldo</label>
+										    		<input type="text" name="saldoDestino" disabled ng-model="model.movimentacao.entity.contaDestino.saldo">
+									            </md-input-container>
+									            
+									            <div md-theme="default" layout="column" ng-if="model.movimentacao.entity.status != 'CONCLUIDO'" style="margin-top:35px" class="default-header md-primary md-hue-3">
+											        <md-button class="md-raised" ng-click="openSelecionarConta(false)">Selecionar conta</md-button>
+										        </div>
+								            </div>
+								            
+										</form>
+									</md-toolbar>
+								</div>
+						
+					</md-tab>
+					
+				</md-tabs>
+			</md-content>
+	</div>
+</html>

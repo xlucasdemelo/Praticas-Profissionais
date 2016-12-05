@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="template-produtos-adquiridos" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" whenNoDataType="NoDataSection" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="4023ae93-60a0-464f-a0dd-9ab1692a3633">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#969696">
+		<box>
+			<pen lineWidth="0.5" lineColor="#969696"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#D9D8D6">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="e92c94ac-84b5-41b3-ae89-879d70d7dccd">
+		<parameter name="inicio" class="java.util.Date"/>
+		<parameter name="termino" class="java.util.Date"/>
+		<parameter name="tipoServico" class="java.lang.Integer"/>
+		<parameter name="produtosId" class="java.util.List">
+			<defaultValueExpression><![CDATA[new ArrayList<Integer>(3)]]></defaultValueExpression>
+		</parameter>
+		<parameter name="familia_id" class="java.lang.Long"/>
+		<parameter name="nome_responsavel" class="java.lang.String"/>
+		<parameter name="default_schema" class="java.lang.String"/>
+		<queryString>
+			<![CDATA[select distinct familia.id, familia.nome,
+
+(
+	select count(id) from public.integrante_familiar as integrante
+	where integrante.familia_id = familia.id
+) as numero_integrantes,
+
+
+count(encaminhamento) as numero_encaminhamentos,
+
+
+count(
+	CASE true WHEN encaminhamento.status = 2  THEN
+		encaminhamento.id
+        else null end
+) as encaminhamentos_concluidos,
+
+count(
+	CASE true WHEN encaminhamento.status = 3  THEN
+		encaminhamento.id
+        else null end
+) as encaminhamentos_cancelados
+
+from public.familia as familia
+left outer join public.plano_atendimento_familiar as atendimento on atendimento.familia_id = familia.id
+left outer join public.encaminhamento as encaminhamento on encaminhamento.plano_atendimento_id = atendimento.id
+
+where familia.id = $P{familia_id} and
+(
+
+	( (encaminhamento.created >= $P{inicio} or $P{inicio}::timestamp is null) OR  (encaminhamento.updated >= $P{inicio} or $P{inicio}::timestamp is null) )
+	and ( (encaminhamento.created <= $P{termino} or $P{termino}::timestamp is null) OR (encaminhamento.updated >= $P{termino} or $P{termino}::timestamp is null) )
+
+)
+
+group by familia.nome, familia.id]]>
+		</queryString>
+		<field name="id" class="java.lang.Long"/>
+		<field name="nome" class="java.lang.String"/>
+		<field name="numero_integrantes" class="java.lang.Long"/>
+		<field name="numero_encaminhamentos" class="java.lang.Long"/>
+		<field name="encaminhamentos_concluidos" class="java.lang.Long"/>
+		<field name="encaminhamentos_cancelados" class="java.lang.Long"/>
+		<variable name="total_quantidade" class="java.lang.Long" calculation="Sum">
+			<variableExpression><![CDATA[]]></variableExpression>
+		</variable>
+		<variable name="total_valor" class="java.lang.Long" calculation="Sum">
+			<variableExpression><![CDATA[]]></variableExpression>
+		</variable>
+		<variable name="media_total" class="java.lang.Long" calculation="Average">
+			<variableExpression><![CDATA[]]></variableExpression>
+		</variable>
+		<variable name="total_encaminhamentos" class="java.lang.Long" calculation="Sum">
+			<variableExpression><![CDATA[$F{numero_encaminhamentos}]]></variableExpression>
+		</variable>
+		<variable name="total_concluidos" class="java.lang.Long" calculation="Sum">
+			<variableExpression><![CDATA[$F{encaminhamentos_concluidos}]]></variableExpression>
+		</variable>
+		<variable name="tota_cancelados" class="java.lang.Long" calculation="Sum">
+			<variableExpression><![CDATA[$F{encaminhamentos_cancelados}]]></variableExpression>
+		</variable>
+	</subDataset>
+	<parameter name="inicio" class="java.util.Date"/>
+	<parameter name="termino" class="java.util.Date"/>
+	<parameter name="familiasId" class="java.util.List">
+		<defaultValueExpression><![CDATA[new ArrayList<Integer>(3)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fornecedoresId" class="java.util.List">
+		<defaultValueExpression><![CDATA[new ArrayList<Integer>(6)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="logo_DIR" class="java.io.InputStream"/>
+	<parameter name="default_schema" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select distinct familia.id
+
+from public.familia as familia
+left outer join public.plano_atendimento_familiar as plano on plano.familia.id = familia.id
+
+where $X{IN, familia.id, familiasId}
+
+group by familia.id]]>
+	</queryString>
+	<field name="razao_social" class="java.lang.String"/>
+	<field name="id" class="java.lang.Long"/>
+	<variable name="tableValues" class="java.lang.String"/>
+	<filterExpression><![CDATA[new Boolean(true)]]></filterExpression>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="102" splitType="Stretch">
+			<staticText>
+				<reportElement x="160" y="0" width="555" height="44" uuid="ed519691-35a4-453a-a0ed-38a8c7666ae5"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Relatório de famílias atendidas]]></text>
+			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="120" height="79" uuid="aa4d1da6-8b20-47de-befe-e46a2b788c0a"/>
+				<imageExpression><![CDATA[$P{logo_DIR}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="310" y="64" width="244" height="20" uuid="20c3832c-1283-418b-8d45-4314c026a865">
+					<printWhenExpression><![CDATA[$P{inicio} != null &&  $P{termino} != null]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA["Período de " + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{inicio}) + " até " + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{termino})]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="90" width="802" height="1" uuid="aa3d33c1-7b33-4644-bb80-89acdd4a99fb"/>
+			</line>
+		</band>
+	</title>
+	<detail>
+		<band height="174" splitType="Stretch">
+			<elementGroup>
+				<componentElement>
+					<reportElement key="table" style="table" x="64" y="13" width="691" height="140" isRemoveLineWhenBlank="true" uuid="064a338f-74ed-49fe-86dd-68e47070a870"/>
+					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+						<datasetRun subDataset="Table Dataset 1" uuid="98186cda-150c-418d-86b4-6dbba6c5fd20">
+							<datasetParameter name="inicio">
+								<datasetParameterExpression><![CDATA[$P{inicio}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="termino">
+								<datasetParameterExpression><![CDATA[$P{termino}]]></datasetParameterExpression>
+							</datasetParameter>
+							<datasetParameter name="produtosId">
+								<datasetParameterExpression><![CDATA[]]></datasetParameterExpression>
+							</datasetParameter>
+							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+						</datasetRun>
+						<jr:column width="220" uuid="cc3f3f9f-e12f-47a5-adfe-abf66f0a89d4">
+							<jr:tableHeader style="table_TH" height="30" rowSpan="1"/>
+							<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="220" height="30" uuid="4e1e52dc-029d-4e82-ada5-340115c77c79"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Familia]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter style="table_CH" height="34" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="220" height="34" uuid="cf7152c8-835f-4400-b626-d9f39316de39"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Totais]]></text>
+								</staticText>
+							</jr:columnFooter>
+							<jr:detailCell style="table_TD" height="30" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="220" height="30" uuid="427d04c4-967d-4cc0-98df-475c51021e76"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="141" uuid="e4d3e5f4-d397-431a-abbb-f3012f20b92e">
+							<jr:tableHeader style="table_TH" height="30" rowSpan="1"/>
+							<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="141" height="30" uuid="772c96ec-193c-4091-997c-129103f6aa82"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Número de integrantes]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter style="table_CH" height="34" rowSpan="1"/>
+							<jr:detailCell style="table_TD" height="30" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="141" height="30" uuid="4264475c-dac6-4e53-ad3b-1e029c02e0bf"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{numero_integrantes}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="127" uuid="49eb1b3f-2976-4edb-9a9d-70b4ea2fd77a">
+							<jr:tableHeader style="table_TH" height="30" rowSpan="1"/>
+							<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="127" height="30" uuid="304e4035-df20-47e8-8bd5-eb9ffc780d8a"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Número de encaminhamentos]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter style="table_CH" height="34" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="127" height="34" uuid="0f2ef8b6-5687-479f-806e-d7a1895da5e9"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$V{total_encaminhamentos}]]></textFieldExpression>
+								</textField>
+							</jr:columnFooter>
+							<jr:detailCell style="table_TD" height="30" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="127" height="30" uuid="2dd3c6b3-1b10-4d4c-bc85-b678ee0c4e2b"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{numero_encaminhamentos}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="100" uuid="6b44deba-1fa6-429f-979f-842a1f34b93f">
+							<jr:tableHeader style="table_TH" height="30" rowSpan="1"/>
+							<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="100" height="30" uuid="aa2f6d85-e2ff-4194-825d-5c951c455f0b"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Encaminhamentos concluídos]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter style="table_CH" height="34" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="100" height="34" uuid="cf6a6d81-4bf1-41a5-9f11-1ee58a9e33f5"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$V{total_concluidos}]]></textFieldExpression>
+								</textField>
+							</jr:columnFooter>
+							<jr:detailCell style="table" height="30" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="100" height="30" uuid="dade14dd-c538-4b23-866a-daae5e8d1416"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{encaminhamentos_concluidos}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="100" uuid="1bd3eafc-b82e-4a47-9b83-97e3ded64443">
+							<jr:tableHeader style="table_TH" height="30" rowSpan="1"/>
+							<jr:columnHeader style="table_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="100" height="30" uuid="cb2cea52-15a9-4713-9e0f-9c546b0d83c1"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Encaminhamentos cancelados]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter style="table_CH" height="34" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="100" height="34" uuid="8c73e239-4ea9-4827-887a-09210670d02e"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$V{tota_cancelados}]]></textFieldExpression>
+								</textField>
+							</jr:columnFooter>
+							<jr:detailCell style="table" height="30" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="100" height="30" uuid="dda1c6cf-b9cd-45c1-9193-120b853119f8"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{encaminhamentos_cancelados}]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+					</jr:table>
+				</componentElement>
+			</elementGroup>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="23">
+			<textField>
+				<reportElement x="702" y="3" width="100" height="20" uuid="0185a7c0-c688-40e3-8f1a-06887699b033"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<noData>
+		<band height="63">
+			<staticText>
+				<reportElement x="326" y="31" width="143" height="16" uuid="b4de61e3-2832-4277-8d4e-8a0aaa435fa8"/>
+				<text><![CDATA[Nenhum registro encontrado]]></text>
+			</staticText>
+		</band>
+	</noData>
+</jasperReport>

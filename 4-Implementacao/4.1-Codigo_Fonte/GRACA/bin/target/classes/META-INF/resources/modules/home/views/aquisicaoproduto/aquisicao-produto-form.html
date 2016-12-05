@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" 
+	xmlns:th="http://www.thymeleaf.org" lang="pt">
+	
+<div class="main-div" layout="column" flex>
+	
+		<md-toolbar layout="row" style="z-index: 3;">
+	    	<div flex layout="row" class="default-header">
+		        <h1 class="md-toolbar-tools">Aquisição de Produto</h1>
+	    	</div>
+	    	
+	    	<div md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised" ng-click="$state.go(AQUISICAO_PRODUTO_LIST_STATE)">Voltar</md-button>
+	        </div>
+	        
+	        <div ng-if="model.aquisicaoProduto.entity.id && model.aquisicaoProduto.entity.status == 'RASCUNHO'" md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="changeToRemove()">Excluir</md-button>
+	        </div>
+	        
+	        <div ng-if="model.aquisicaoProduto.entity.id && model.aquisicaoProduto.entity.status == 'RASCUNHO'" md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="changeToConcluido()">Concluir</md-button>
+	        </div>
+	        
+	        <div md-theme="default" layout="row" layout-align="end center" ng-if="model.aquisicaoProduto.entity.status != 'CONCLUIDO'" class="default-header md-primary md-hue-3">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="insertAquisicaoProduto()">Salvar</md-button>
+	        </div>
+	        
+	    </md-toolbar>
+		
+			<md-content layout="column" flex >
+				<md-tabs  md-border-bottom flex >
+					<md-tab label="Aquisição de Produtos" >
+						
+								<div style="height:100%" class="default-frame" layout="column">
+									<md-toolbar layout style="height:100%" class="md-hue-1">
+										<form novalidate name="model.aquisicaoProduto.form" class="default-form" flex>
+											
+											<div layout="row">
+												
+												<md-input-container layout="column" flex="30" style="margin-right:30px">
+											        <label>Forma de pagamento</label>
+											        <md-select name="tipo" ng-disabled="model.aquisicaoProduto.entity.id && model.aquisicaoProduto.entity.status != 'RASCUNHO'" required ng-model="model.aquisicaoProduto.entity.formaPagamento">
+											          <md-option ng-repeat="formaPagamento in allFormasPagamento" value="{{formaPagamento}}">{{::formaPagamento | translate}}</md-option>
+											        </md-select>
+											        
+											        <div ng-messages="model.aquisicaoProduto.form.formaPagamento.$error">
+									                	<div ng-message="required" ng-if="model.aquisicaoProduto.form.$submitted">Campo obrigatório</div>
+									                </div>
+											    </md-input-container>
+											    
+											    <md-input-container layout="column" flex="30" style="margin-right:30px">
+											        <label>Condição de pagamento</label>
+											        <md-select name="tipo" ng-disabled="model.aquisicaoProduto.entity.id && model.aquisicaoProduto.entity.status != 'RASCUNHO'" required ng-model="model.aquisicaoProduto.entity.condicaoPagamento">
+											          <md-option ng-repeat="condicaoPagamento in allCondicoesPagamento" value="{{condicaoPagamento}}">{{::condicaoPagamento | translate}}</md-option>
+											        </md-select>
+											        
+											        <div ng-messages="model.aquisicaoProduto.form.condicaoPagamento.$error">
+									                	<div ng-message="required" ng-if="model.aquisicaoProduto.form.$submitted">Campo obrigatório</div>
+									                </div>
+											    </md-input-container>
+											    
+											</div>
+											
+											<div layout="row" ng-if="model.aquisicaoProduto.entity.condicaoPagamento == 'A_PRAZO'">
+											
+												<md-input-container layout="column" flex="30" >
+										    		<label>Vezes de pagamento</label>
+									                <input type="number" name="vezesPagamento" ng-disabled="model.aquisicaoProduto.entity.id && model.aquisicaoProduto.entity.status != 'RASCUNHO'" required ng-model="model.aquisicaoProduto.entity.vezesPagamento">
+									
+									                <div ng-messages="model.aquisicaoProduto.form.vezesPagamento.$error">
+									                	<div ng-message="required" ng-if="model.aquisicaoProduto.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+											
+												<md-input-container layout="column" flex="30" style="margin-left:30px">
+										    		<label>Dia de vencimento</label>
+									                <input type="number" name="diaVencimento" ng-disabled="model.aquisicaoProduto.entity.id && model.aquisicaoProduto.entity.status != 'RASCUNHO'" required ng-model="model.aquisicaoProduto.entity.diaVencimento">
+									
+									                <div ng-messages="model.aquisicaoProduto.form.diaVencimento.$error">
+									                	<div ng-message="required" ng-if="model.aquisicaoProduto.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+												
+												<md-input-container layout="column" flex="30" style="margin-left:30px">
+										    		<label>Porcentagem da diferença</label>
+									                <input type="number" name="porcentagemDiferenca" ng-disabled="model.aquisicaoProduto.entity.id && model.aquisicaoProduto.entity.status != 'RASCUNHO'" required ng-model="model.aquisicaoProduto.entity.porcentagemDiferenca">
+									
+									                <div ng-messages="model.aquisicaoProduto.form.porcentagemDiferenca.$error">
+									                	<div ng-message="required" ng-if="model.aquisicaoProduto.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+																			    
+											</div>
+											
+								            <div layout="row">
+									            <md-input-container layout="column" flex="30" >
+										    		<label>Fornecedor</label>
+									                <input type="text" name="fornecedor" disabled required ng-model="model.aquisicaoProduto.entity.fornecedor.razaoSocial">
+									
+									                <div ng-messages="model.aquisicaoProduto.form.fornecedor.$error">
+									                	<div ng-message="required" ng-if="model.aquisicaoProduto.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+									            
+									            <div md-theme="default" layout="column" ng-if="!model.aquisicaoProduto.entity.id || model.aquisicaoProduto.entity.status == 'RASCUNHO'" style="margin-top:35px" class="default-header md-primary md-hue-3">
+											        <md-button class="md-raised" ng-click="openSelecionarFornecedor(false)">Selecionar fornecedor</md-button>
+										        </div>
+								            </div>
+								            
+								            <div ng-if="model.aquisicaoProduto.entity.id" id="selectProdutos">
+								            	
+								            	<div layout="row">
+									            	<div class="default-info" layout="column" flex> 
+														<span>Produtos</span>
+													</div>
+													
+													<div md-theme="default" layout="column" ng-if="!model.aquisicaoProduto.entity.id || model.aquisicaoProduto.entity.status == 'RASCUNHO'" class="default-header md-primary md-hue-3">
+												        <md-button class="md-raised" ng-click="openSelecionarProduto(false)">Selecionar produto</md-button>
+											        </div>
+												</div>
+												
+												<md-table-container>
+												  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+												    <thead md-head md-order="query.order">
+												      <tr md-row>
+												        <th md-column md-order-by="">Nome</th>
+												        <th md-column md-order-by="">Categoria</th>
+												        <th md-column md-order-by="">Quantidade</th>
+												        <th md-column md-order-by="">Valor</th>
+												      </tr>
+												    </thead>
+												    
+												    <tbody md-body>
+												      <tr md-row style="cursor:pointer" ng-repeat="produtoAdquirido in model.produtoAdquirido.page.content">
+												        <td md-cell>{{::produtoAdquirido.produto.nome}}</td>
+												        <td md-cell>{{::produtoAdquirido.produto.categoria.nome}}</td>
+												        <td md-cell>{{::produtoAdquirido.quantidade}}</td>
+												        <td md-cell>{{::produtoAdquirido.valor}}</td>
+												        <td md-cell><i class="zmdi zmdi-delete" ng-if="model.aquisicaoProduto.entity.status == 'RASCUNHO'" style="font-size: 20px;" ng-click="removeProdutoAdquirido(produtoAdquirido.id)" ></i></td>
+												      </tr>
+												    </tbody>
+												  </table>
+												</md-table-container>
+										        
+										        <div layout="column" flex class="empty-grid" layout-align="center center" ng-if="model.produtoAdquirido.page.content == 0">
+													Não há nenhum produto selecionado . 
+												</div>
+												
+												<md-divider></md-divider>
+												<div class="default-paginator" layout layout-align="end center" ng-if="model.integranteFamiliar.page.content.length > 0">
+													{{ model.integranteFamiliar.page.pageable.page + 1 }} de {{ totalPagesIntegrante }}
+													<md-button class="md-icon-button" ng-disabled="(model.integranteFamiliar.page.pageable.page + 1) < 2" ng-click="onIntegrantePaginationChange(false)">
+														<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.integranteFamiliar.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
+													</md-button>
+													<md-button class="md-icon-button" ng-disabled="(model.integranteFamiliar.page.pageable.page + 1) >= totalPagesIntegrante" ng-click="onIntegrantePaginationChange(true)">
+														<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.integranteFamiliar.page.pageable.page + 1) >= Math.ceil(model.integranteFamiliar.page.total/model.familia.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
+													</md-button>
+										  		</div>
+								            	
+								            </div>
+								            
+										</form>
+									</md-toolbar>
+								</div>
+						
+					</md-tab>
+					
+				</md-tabs>
+			</md-content>
+	</div>
+</html>

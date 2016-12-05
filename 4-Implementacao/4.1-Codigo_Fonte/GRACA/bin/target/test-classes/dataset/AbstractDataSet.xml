@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>	
+	<public.user/>
+	<public.familia/>
+	<public.endereco/>
+	<public.cidade/>
+	<public.estado/>
+	<public.pais/>
+	<public.integrante_familiar />
+	<public.crianca />
+	<public.plano_atendimento_familiar />
+	<public.encaminhamento />
+	<public.documento_integrante_familiar></public.documento_integrante_familiar>
+	<public.rede_apoio></public.rede_apoio>
+	<public.casa_lar></public.casa_lar>
+	<public.responsavel></public.responsavel>
+	<public.questionario></public.questionario>
+	<public.questao/>
+	<public.versao_questionario/>
+	<public.fornecedor></public.fornecedor>
+	<public.produto></public.produto>
+	<public.marca></public.marca>
+	<public.modelo></public.modelo>
+	<public.categoria></public.categoria>
+	<public.conta></public.conta>
+	<public.aquisicao_produto></public.aquisicao_produto>
+	<public.produto_adquirido></public.produto_adquirido>
+	<public.natureza_gastos></public.natureza_gastos>
+	<public.movimentacao></public.movimentacao>
+	<public.questionario_resposta></public.questionario_resposta>
+	<public.resposta></public.resposta>
+</dataset>

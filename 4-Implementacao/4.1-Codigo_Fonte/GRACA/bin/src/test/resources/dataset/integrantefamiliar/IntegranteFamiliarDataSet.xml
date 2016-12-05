@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+	<public.integrante_familiar
+		id="100"
+		created="2015-03-30 00:00:00"
+		nome="Maynard James Keenan"
+		data_nascimento="2098-03-30"
+		ocupacao="vocalista"
+		renda_mensal = "90000"
+		filiacao = "alguem"
+		telefone = "9999-9999"
+		sexo = "0"
+		endereco_id = "100"
+		ativo = "true"
+		familia_id = "100"
+		grau_escolaridade = "0"
+	/>
+
+	<public.integrante_familiar
+		id="101"
+		created="2015-03-30 00:00:00"
+		nome="Billy Corgan"
+		data_nascimento="2098-03-30"
+		ocupacao="vocalista"
+		renda_mensal = "90000"
+		filiacao = "alguem"
+		telefone = "9999-9999"
+		sexo = "0"
+		endereco_id = "100"
+		ativo = "true"
+		familia_id = "100"
+		grau_escolaridade = "0"
+	/>
+</dataset>

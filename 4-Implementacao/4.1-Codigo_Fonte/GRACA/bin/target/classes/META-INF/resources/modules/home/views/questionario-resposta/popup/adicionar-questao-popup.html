@@ -1,0 +1,55 @@
+<md-dialog class="default-popup">
+  	
+  	<md-toolbar style="height: 60px; min-height: 60px !important;">
+  		<div layout="row" flex>
+  			<h1 class="md-toolbar-tools" ng-if="!model.questao.entity.id">Adicionar Questao</h1>
+  			<h1 class="md-toolbar-tools" ng-if="model.questao.entity.id">Editar Questao</h1>
+    	</div> 
+  	</md-toolbar> 
+  	
+	<form novalidate name="model.questao.form" layout="column" flex>
+	  	<md-dialog-content layout="column" flex>
+  			<div class="default-form">
+		        <div class="default-info" layout="row">Informações da questão</div>
+		        
+	            <md-input-container layout="column" flex>
+		    		<label>Descrição</label>
+		    		<textarea maxlength="255" name="descricao" ng-model="model.questao.entity.descricao" rows="5" required></textarea>
+	                
+	                <div ng-messages="model.questao.form.descricao.$error">
+	               		<div ng-message="required" ng-if="model.questao.form.$submitted">Campo obrigatório</div>
+	                </div>
+	            </md-input-container>
+            
+           		<md-input-container layout="column" flex="35">
+            		<label>Tipo</label>
+            		<md-select name="tipoQuestao" ng-model="model.questao.entity.tipoQuestao" required>
+			        	<md-option ng-repeat="tipoQuestao in allTiposQuestao" value="{{tipoQuestao}}" required>{{::tipoQuestao | translate}}</md-option>
+			        </md-select>
+			        
+			        <div ng-messages="model.questao.form.tipoQuestao.$error">
+	               		<div ng-message="required" ng-if="model.questao.form.$submitted">Campo obrigatório</div>
+	                </div>
+            	</md-input-container>
+			</div>
+	  	</md-dialog-content>
+	  	
+	  	<md-divider style="order: 2"></md-divider>
+  	
+	  	<md-dialog-actions layout="row" layout-align="end center">
+		    <div layout="row">
+			    <div>
+				    <md-button class="md-raised" type="button" ng-click="cancel()">
+				    	Cancelar
+				    </md-button>
+			    </div>
+			    
+		    	<div>
+		        	<md-button class="md-raised md-accent" type="submit" ng-click="model.questao.entity.id ? updateQuestao() : insertQuestao()">
+				    	SALVAR
+				    </md-button>
+				</div>
+		    </div>
+	    </md-dialog-actions>
+  	</form> 
+</md-dialog>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+	<public.endereco
+		id="100"
+		created="2015-03-30 00:00:00"
+		bairro = "centro"
+		rua="rua 123"
+		numero = "123"
+		complemento = "esquina"
+		cidade_id="100"
+	/>
+		
+</dataset>

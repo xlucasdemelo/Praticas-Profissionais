@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" 
+	xmlns:th="http://www.thymeleaf.org" lang="pt">
+	
+<div class="main-div" layout="column" flex>
+	
+		<md-toolbar layout="row" style="z-index: 3;">
+	    	<div flex layout="row" class="default-header">
+		        <h1 class="md-toolbar-tools">Rede de apoio</h1>
+	    	</div>
+	    	
+	        <div md-theme="default" layout="row" layout-align="end center" ng-if="model.redeApoio.entity.enabled || !model.redeApoio.entity.id" class="default-header md-primary md-hue-3">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="$state.current.name == REDE_APOIO_ADD_STATE ? insertRedeApoio() : updateRedeApoio()">Salvar</md-button>
+	        </div>
+	        
+	         <div md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="$state.go(REDE_APOIO_LIST_STATE)">Voltar</md-button>
+	        </div>
+	        
+	        <div ng-if="model.redeApoio.entity.enabled == true" md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="changeToRemove()">Excluir</md-button>
+	        </div>
+	        
+	        <div ng-if="model.redeApoio.entity.enabled == false" md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="enableUser()">Ativar registro</md-button>
+	        </div>
+	        
+	    </md-toolbar>
+		
+			<md-content layout="column" flex style="height:100%">
+				<md-tabs md-border-bottom style="position: static; overflow:auto" md-selected="model.ordemServico.selectedTab">
+					<md-tab label="Rede de apoio">
+						<div style="height:100%" class="default-frame" layout="column">
+									<md-toolbar layout style="height:100%" class="md-hue-1">
+										<form novalidate name="model.redeApoio.form" style="height:100%" class="default-form" flex>
+											
+											<div layout="row">
+												
+												<md-input-container layout="column" flex="30" ">
+										    		<label>Nome</label>
+									                <input name="nome" required md-maxlength="255" maxlength="255" ng-model="model.redeApoio.entity.nome">
+									
+									                <div ng-messages="model.redeApoio.form.nome.$error">
+									                	<div ng-message="required" ng-if="model.redeApoio.form.$submitted">Campo obrigatório</div>
+									                	<div ng-message="md-maxlength" ng-if="model.redeApoio.form.$submitted">Limite de caracteres excedido</div>
+									                </div>
+									            </md-input-container>
+								            
+												<md-input-container layout="column" style="margin-left:30px" flex="30">
+										    		<label>Telefone</label>
+									                <input type="text" mask="(999) 9?9999-9999" name="telefone" ng-model="model.crianca.entity.telefone" >
+									            
+									            	<div ng-messages="model.redeApoio.form.telefone.$error">
+									               		<div ng-message="" ng-if="model.redeApoio.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+												
+											</div>
+											
+											<div layout="row">
+								    			<md-input-container layout="column" flex="30" style="margin-right:30px">
+										    		<label>Rua</label>                                  
+									                <input md-maxlength="255" name="rua"  ng-model="model.redeApoio.entity.endereco.rua">
+									
+									                <div ng-messages="model.redeApoio.form.rua.$error">
+									                	<div ng-message="" ng-if="model.redeApoio.form.$submitted">Campo obrigatório</div>
+									                	<div ng-message="md-maxlength" >Limite de caracteres excedido</div>
+									                </div>
+									            </md-input-container>
+									            
+									            <md-input-container layout="column" flex="30" ">
+										    		<label>Bairro</label>
+									                <input md-maxlength="255" maxlength="255" name="bairro"  ng-model="model.redeApoio.entity.endereco.bairro">
+									
+									                <div ng-messages="model.redeApoio.form.bairro.$error">
+									                	<div ng-message="" ng-if="model.redeApoio.form.$submitted">Campo obrigatório</div>
+									                	<div ng-message="md-maxlength" >Limite de caracteres excedido</div>
+									                </div>
+									            </md-input-container>
+									        </div>
+									        
+									        <div layout="row">
+									        	<md-autocomplete 
+									        		
+									        		md-input-name="pais"
+									        		style="margin-right:20px" 
+									        		md-selected-item="model.pais.selectedItem" 
+									        		md-search-text="model.pais.searchText"
+													md-search-text-change="listPaisesByFiltes(model.pais.searchText)" 
+													md-items="item in model.pais.itens" 
+													md-item-text="item.nome"
+													placeholder="País"
+													>
+													
+													<md-item-template>
+														<span md-highlight-text="searchText">{{item.nome}}</span>
+												    </md-item-template>
+												    <md-not-found>
+												    	Nenhum país encontrado
+												    </md-not-found>
+												    <div ng-messages="model.redeApoio.form.pais.$error">
+												       <div ng-message="">This field is </div>
+												    </div>
+												</md-autocomplete>
+												
+												<md-autocomplete 
+													ng-disabled="!model.pais.selectedItem"
+													style="margin-right:20px"
+													md-selected-item="model.estado.selectedItem" 
+													md-search-text="model.estado.searchText" 
+													md-search-text-change="listEstadosByFiltes(model.estado.searchText)" 
+													md-items="item in model.estado.itens" 
+													md-item-text="item.nome"
+													placeholder="Estado"
+													>
+													
+													<md-item-template>
+														<span md-highlight-text="searchText">{{item.nome}}</span>
+												    </md-item-template>
+												    <md-not-found>
+												    	Nenhum estado encontrado
+												    </md-not-found>
+												</md-autocomplete>
+												
+												<md-autocomplete 
+													ng-disabled="!model.estado.selectedItem"
+													md-selected-item="model.cidade.selectedItem" 
+													md-search-text="model.cidade.searchText" 
+													md-search-text-change="listCidadesByFiltes(model.cidade.searchText)" 
+													md-items="item in model.cidade.itens" 
+													md-item-text="item.nome"
+													placeholder="Cidade"
+													>
+													<md-item-template>
+														<span md-highlight-text="searchText">{{item.nome}}</span>
+												    </md-item-template>
+												    <md-not-found>
+												    	Nenhum estado encontrado
+												    </md-not-found>
+												</md-autocomplete>
+												
+									        </div>
+								            
+								            <div layout="row" style="margin-top:30px">
+								            	
+								            	<md-input-container layout="column" flex="30" ">
+										    		<label>Nome do responsável</label>
+									                <input  maxlength="255" md-maxlength="255" name="nomeResponsavel" required ng-model="model.redeApoio.entity.responsavel.nome">
+									
+									                <div ng-messages="model.redeApoio.form.nomeResponsavel.$error">
+									                	<div ng-message="required" ng-if="model.redeApoio.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+									            
+								            </div>
+								            
+								            <div layout="row">
+								            	
+								            	<md-input-container layout="column" flex="30">
+										    		<label>Número do cpf</label>
+									                <input type="text" maxlength="14" name="cpf" mask="999.999.999-99" ng-model="model.redeApoio.entity.responsavel.cpf" ng-cpf>
+									            	
+									            	<div ng-messages="model.user.form.cpf.$error">
+									               		<div ng-message="cpf"  ng-if="model.redeApoio.form.$submitted">CPF inválido</div>
+									                </div>
+									            	
+									            </md-input-container>
+								            	
+								            	<md-input-container layout="column" flex="30">
+										    		<label>Email do responsável</label>
+									                <input type="email" maxlength="255" md-maxlength="255" name="email" ng-model="model.redeApoio.entity.responsavel.email">
+									            	
+									            	<div ng-messages="model.user.form.email.$error">
+									               		<div ng-message="email"  ng-if="model.redeApoio.form.$submitted">Email inválido</div>
+									                </div>
+									            	
+									            </md-input-container>
+								            	
+								            </div>
+								            
+								            <div ng-if="model.user.page.content.length > 0" class="default-info" flex> 
+												<span>Usuários</span>
+											</div>
+											
+											<md-table-container ng-if="model.user.page.content.length > 0">
+											  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+											    <thead md-head md-order="query.order" md-on-reorder="getDesserts">
+											      <tr md-row>
+											        <th md-column md-order-by="nameToLower"><span>Nome</span></th>
+											        <th md-column md-order-by="nameToLower"><span>Email</span></th>
+											      </tr>
+											    </thead>
+											    <tbody md-body>
+											      <tr md-row md-select="dessert" style="cursor:pointer" md-select-id="name" md-auto-select ng-repeat="user in model.user.page.content">
+											        <td md-cell>{{::user.name}}</td>
+											        <td md-cell>{{::user.email}}
+											      </tr>
+											    </tbody>
+											  </table>
+											</md-table-container>
+									        
+									        <div layout="column" flex class="empty-grid" layout-align="center center" ng-if="model.user.page.content.length == 0">
+												Esta rede de apoio não possuí nenhum usuário no sistema
+											</div>
+											
+											<md-divider></md-divider>
+											<div class="default-paginator" layout layout-align="end center" ng-if="model.user.page.content.length > 0">
+												{{ model.user.page.pageable.page + 1 }} de {{ totalPagesUser }}
+												<md-button class="md-icon-button" ng-disabled="(model.user.page.pageable.page + 1) < 2" ng-click="onIntegrantePaginationChange(false)">
+													<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.user.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
+												</md-button>
+												<md-button class="md-icon-button" ng-disabled="(model.user.page.pageable.page + 1) >= totalPagesUser" ng-click="onIntegrantePaginationChange(true)">
+													<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.user.page.pageable.page + 1) >= Math.ceil(model.user.page.total/model.redeApoio.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
+												</md-button>
+									  		</div>
+								            
+										</form>
+									</md-toolbar>
+						</div>
+						
+					</md-tab>
+					
+				</md-tabs>
+			</md-content>
+		
+</div>
+
+</html>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+	<public.produto
+		id="9999"
+		created="2015-03-30 00:00:00"
+		updated="2015-03-30 00:00:00"
+		nome="Pasta de dente"
+		marca_id="9999"
+		modelo_id="9999"
+		categoria_id="9999"
+		ativo="true"
+		quantidade="10"
+	/>
+	
+</dataset>

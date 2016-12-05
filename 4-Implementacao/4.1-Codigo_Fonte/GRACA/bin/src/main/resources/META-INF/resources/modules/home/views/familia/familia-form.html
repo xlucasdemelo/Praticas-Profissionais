@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" 
+	xmlns:th="http://www.thymeleaf.org" lang="pt">
+	
+<div class="main-div" layout="column" flex>
+	
+		<md-toolbar layout="row" style="z-index: 3;">
+	    	<div flex layout="row" class="default-header">
+		        <h1 class="md-toolbar-tools">Familia</h1>
+	    	</div>
+	    	
+	        <div md-theme="default" layout="row" layout-align="end center" ng-if="model.familia.entity.ativo || !model.familia.entity.id" class="default-header md-primary md-hue-3">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="insertFamilia()">Salvar</md-button>
+	        </div>
+	        
+	         <div md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="$state.go(FAMILIA_LIST_STATE)">Voltar</md-button>
+	        </div>
+	        
+	        <div ng-if="model.familia.entity.ativo == true" md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="changeToRemove()">Excluir</md-button>
+	        </div>
+	        
+	        <div ng-if="model.familia.entity.ativo == false" md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="enableFamilia()">Ativar registro</md-button>
+	        </div>
+	        
+	    </md-toolbar>
+		
+			<md-content layout="column" flex style="height:100%">
+				<md-tabs md-border-bottom style="position: static; overflow:auto" md-selected="model.familia.selectedTab">
+					<md-tab label="Família">
+						
+						<div layout-fill style="height:50%">
+									<md-toolbar layout="row" class="default-form toolbar-temp" style="padding-bottom: 0; ">
+									
+										<form novalidate name="model.familia.form" class="default-form">
+											<div class="default-info" flex> 
+												<span>INFORMAÇÕES DA FAMÍLIA</span>
+											</div>
+											
+											<div layout="row">
+								    			<md-input-container layout="column" flex="30" style="margin-right:30px">
+										    		<label>Nome da família</label>
+									                <input md-maxlength="255" name="nome" required ng-model="model.familia.entity.nome">
+									
+									                <div ng-messages="model.familia.form.nome.$error">
+									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                	<div ng-message="md-maxlength" ng-if="model.familia.form.$submitted">Limite de caracteres excedido</div>
+									                </div>
+									            </md-input-container>
+									            
+									            <md-input-container layout="column" flex="30" ">
+										    		<label>Nome da Mãe</label>
+									                <input md-maxlength="255" name="nomeMae" required ng-model="model.familia.entity.nomeMae">
+									
+									                <div ng-messages="model.familia.form.nomeMae.$error">
+									                	<div ng-message="required" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                	<div ng-message="md-maxlength" ng-if="model.familia.form.$submitted">Limite de caracteres excedido</div>
+									                </div>
+									            </md-input-container>
+									        </div>
+									        
+									        <div layout="row">
+								    			<md-input-container layout="column" flex="30" ">
+										    		<label>Telefone</label>
+									                <input type="text" mask="(999) 9?9999-9999" maxlength="16" name="telefone"  ng-model="model.familia.entity.telefone">
+									
+									                <div ng-messages="model.familia.form.telefone.$error">
+									                	<div ng-message="" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+											</div>
+											
+											<div class="default-info" flex> 
+												<span>ENDEREÇO</span>
+											</div>
+											
+											<div layout="row">
+								    			<md-input-container layout="column" flex="30" style="margin-right:30px">
+										    		<label>Rua</label>                                  
+									                <input md-maxlength="255" name="rua"  ng-model="model.familia.entity.endereco.rua">
+									
+									                <div ng-messages="model.familia.form.rua.$error">
+									                	<div ng-message="" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                	<div ng-message="md-maxlength" >Limite de caracteres excedido</div>
+									                </div>
+									            </md-input-container>
+									            
+									            <md-input-container layout="column" flex="30" ">
+										    		<label>Bairro</label>
+									                <input maxlength="255" name="bairro"  ng-model="model.familia.entity.endereco.bairro">
+									
+									                <div ng-messages="model.familia.form.bairro.$error">
+									                	<div ng-message="" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                	<div ng-message="md-maxlength" >Limite de caracteres excedido</div>
+									                </div>
+									            </md-input-container>
+									        </div>
+									        
+									        <div layout="row">
+									        	<md-autocomplete 
+									        		
+									        		md-input-name="pais"
+									        		style="margin-right:20px" 
+									        		md-selected-item="model.pais.selectedItem" 
+									        		md-search-text="model.pais.searchText"
+													md-search-text-change="listPaisesByFiltes(model.pais.searchText)" 
+													md-items="item in model.pais.itens" 
+													md-item-text="item.nome"
+													placeholder="País"
+													>
+													
+													<md-item-template>
+														<span md-highlight-text="searchText">{{item.nome}}</span>
+												    </md-item-template>
+												    <md-not-found>
+												    	Nenhum país encontrado
+												    </md-not-found>
+												    <div ng-messages="model.familia.form.pais.$error">
+												       <div ng-message="">This field is </div>
+												    </div>
+												</md-autocomplete>
+												
+												<md-autocomplete 
+													ng-disabled="!model.pais.selectedItem"
+													style="margin-right:20px"
+													md-selected-item="model.estado.selectedItem" 
+													md-search-text="model.estado.searchText" 
+													md-search-text-change="listEstadosByFiltes(model.estado.searchText)" 
+													md-items="item in model.estado.itens" 
+													md-item-text="item.nome"
+													placeholder="Estado"
+													>
+													
+													<md-item-template>
+														<span md-highlight-text="searchText">{{item.nome}}</span>
+												    </md-item-template>
+												    <md-not-found>
+												    	Nenhum estado encontrado
+												    </md-not-found>
+												</md-autocomplete>
+												
+												<md-autocomplete 
+													ng-disabled="!model.estado.selectedItem"
+													md-selected-item="model.cidade.selectedItem" 
+													md-search-text="model.cidade.searchText" 
+													md-search-text-change="listCidadesByFiltes(model.cidade.searchText)" 
+													md-items="item in model.cidade.itens" 
+													md-item-text="item.nome"
+													placeholder="Cidade"
+													>
+													<md-item-template>
+														<span md-highlight-text="searchText">{{item.nome}}</span>
+												    </md-item-template>
+												    <md-not-found>
+												    	Nenhum estado encontrado
+												    </md-not-found>
+												</md-autocomplete>
+												
+									        </div>
+									        
+									        <div class="default-info" flex> 
+												<span>INFORMAÇÕES DA MORADIA</span>
+											</div>
+											
+											<div layout="row">
+								    			<md-input-container layout="column" flex="30" style="margin-right:30px">
+										    		<label>Número de cômodos</label>
+									                <input type="number" max="9999999999" name="numeroComodos"  ng-model="model.familia.entity.numeroComodos">
+									
+									                <div ng-messages="model.familia.form.numeroComodos.$error">
+									                	<div ng-message="" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+									            
+									            <md-input-container layout="column" flex="30" gap="30">
+										    		<label>Número de dormitórios</label>
+									                <input type="number" max="9999999999" name="numeroDormitorios"  ng-model="model.familia.entity.numeroDormitorios">
+									
+									                <div ng-messages="model.familia.form.numeroDormitorios.$error">
+									                	<div ng-message="" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+									        </div>
+											
+											<div layout="row">
+												<md-input-container layout="column" flex="30" style="margin-right:30px">
+											        <label>Tipo de Moradia</label>
+											        <md-select name="tipoMoradia"  ng-model="model.familia.entity.tipoMoradia">
+											          <md-option ng-repeat="tipoMoradia in allTiposMoradia" value="{{tipoMoradia}}">{{::tipoMoradia | translate}}</md-option>
+											        </md-select>
+											        
+											        <div ng-messages="model.familia.form.tipoMoradia.$error">
+									                	<div ng-message="" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                </div>
+											    </md-input-container>
+											    
+											    <md-input-container layout="column" flex="30">
+											        <label>Tipo do imóvel</label>
+											        <md-select name="tipoImovel"  ng-model="model.familia.entity.tipoImovel">
+											          <md-option ng-repeat="tipoImovel in allTiposImovel" value="{{tipoImovel}}">{{::tipoImovel | translate}}</md-option>
+											        </md-select>
+											        
+											        <div ng-messages="model.familia.form.tipoImovel.$error">
+									                	<div ng-message="" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                </div>
+											    </md-input-container>
+											</div>
+											
+											<div layout="row">
+												<md-input-container layout="column" flex style="margin-right:30px">
+										    		<label>Situação do Imóvel</label>
+									                <textarea md-maxlength="255" name="situacaoImovel"  ng-model="model.familia.entity.situacaoImovel"></textarea>
+									
+									                <div ng-messages="model.familia.form.situacaoImovel.$error">
+									                	<div ng-message="" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                	<div ng-message="md-maxlength" >Limite de caracteres excedido</div>
+									                </div>
+									            </md-input-container>
+									        </div>
+									        
+									        <div layout="row">
+								    			<md-input-container layout="column" flex style="margin-right:30px">
+										    		<label>Infraestrutura</label>
+									                <textarea md-maxlength="255" name="infraestrutura"  ng-model="model.familia.entity.infraestrutura"></textarea>
+									
+									                <div ng-messages="model.familia.form.infraestrutura.$error">
+									                	<div ng-message="" ng-if="model.familia.form.$submitted">Campo obrigatório</div>
+									                	<div ng-message="md-maxlength" >Limite de caracteres excedido</div>
+									                </div>
+									            </md-input-container>
+									        </div>
+									        
+										</form>
+									</md-toolbar>
+						</div>
+						
+					</md-tab>
+					
+<!-- 					TAB INTEGRANTE FAMILIAR -->
+					
+					<md-tab label="Integrante Familiar" ng-if="model.familia.entity.id">
+						<div layout-fill style="height:50%">
+									<md-toolbar layout="row" class="default-form toolbar-temp" style="padding-bottom: 0; ">
+									
+										<form novalidate name="model.integranteFamiliar.form" class="default-form">
+											<div class="default-info" flex> 
+												<span>Integrantes Familiares</span>
+											</div>
+											
+											 <div md-theme="default" layout="row" layout-align="end center" ng-if="model.familia.entity.ativo" class="default-header md-primary md-hue-3">
+										        <md-button class="md-raised md-accent default-save-button" ng-click="openAdicionarIntegranteFamiliarHandler()">Novo integrante</md-button>
+									        </div>
+											
+											<md-table-container>
+											  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+											    <thead md-head md-order="query.order" md-on-reorder="getDesserts">
+											      <tr md-row>
+											        <th md-column md-order-by="nameToLower"><span>Nome</span></th>
+											        <th md-column md-numeric ><span>Data de nascimento</span></th>
+											      </tr>
+											    </thead>
+											    <tbody md-body>
+											      <tr md-row md-select="dessert" style="cursor:pointer" ng-click="openAdicionarIntegranteFamiliarHandler(integrante)" md-select-id="name" md-auto-select ng-repeat="integrante in model.integranteFamiliar.page.content">
+											        <td md-cell>{{::integrante.nome}}</td>
+											        <td md-cell>{{::integrante.dataNascimento | date : format : timezone}}</td>
+											      </tr>
+											    </tbody>
+											  </table>
+											</md-table-container>
+									        
+									        <div layout="column" flex class="empty-grid" layout-align="center center" ng-if="model.integranteFamiliar.page.content.length == 0">
+												Essa família não possui nenhum integrante familia
+											</div>
+											
+											<md-divider></md-divider>
+											<div class="default-paginator" layout layout-align="end center" ng-if="model.integranteFamiliar.page.content.length > 0">
+												{{ model.integranteFamiliar.page.pageable.page + 1 }} de {{ totalPagesIntegrante }}
+												<md-button class="md-icon-button" ng-disabled="(model.integranteFamiliar.page.pageable.page + 1) < 2" ng-click="onIntegrantePaginationChange(false)">
+													<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.integranteFamiliar.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
+												</md-button>
+												<md-button class="md-icon-button" ng-disabled="(model.integranteFamiliar.page.pageable.page + 1) >= totalPagesIntegrante" ng-click="onIntegrantePaginationChange(true)">
+													<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.integranteFamiliar.page.pageable.page + 1) >= Math.ceil(model.integranteFamiliar.page.total/model.familia.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
+												</md-button>
+									  		</div>
+									        
+										</form>
+									</md-toolbar>
+						</div>
+						
+					</md-tab>
+				</md-tabs>
+			</md-content>
+		
+</div>
+
+</html>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+
+	<public.plano_atendimento_familiar
+		id="9999"
+		created="2015-03-30 00:00:00"
+		updated="2015-03-30 00:00:00"
+		ativo="true"
+		status = "0"
+		familia_id="100"
+	/>
+	
+	<public.plano_atendimento_familiar
+		id="1000"
+		created="2015-03-30 00:00:00"
+		updated="2015-03-30 00:00:00"
+		ativo="true"
+		status = "0"
+		familia_id="101"
+	/>
+	
+	<public.plano_atendimento_familiar
+		id="1001"
+		created="2015-03-30 00:00:00"
+		updated="2015-03-30 00:00:00"
+		ativo="false"
+		status = "0"
+		familia_id="101"
+	/>
+	
+	<public.plano_atendimento_familiar
+		id="1002"
+		created="2015-03-30 00:00:00"
+		updated="2015-03-30 00:00:00"
+		ativo="false"
+		status = "1"
+		familia_id="101"
+	/>
+</dataset>

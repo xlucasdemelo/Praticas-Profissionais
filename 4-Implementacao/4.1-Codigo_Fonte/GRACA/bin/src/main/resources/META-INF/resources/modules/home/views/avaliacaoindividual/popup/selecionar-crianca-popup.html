@@ -1,0 +1,92 @@
+<md-dialog class="default-popup">
+
+  	<md-toolbar style="height: 60px; min-height: 60px !important;">
+  		<div flex layout="row" class="default-header">
+  			<div >
+	  			<h1 class="md-toolbar-tools" >Selecionar Criança</h1>
+  			</div>
+    	</div> 
+  	</md-toolbar> 
+  	
+	<form name="model.integranteFamiliar.form" style="height: 100%;" layout="column" novalidate>
+	  	<md-dialog-content layout="column" style="height: 100%;">
+	  		
+			<div layout="column" style="height:100%">
+	  			<div class="default-form">
+	  				
+	  				<div layout="row" flex>
+		            	<md-input-container layout="column" flex>
+				    		<label>Criança</label>
+			                <input maxlength="144" name="criança" ng-model="model.crianca.filters.terms">
+			            </md-input-container>
+			            
+			            <md-button style="height:20px; margin-top:32px" class="md-raised md-primary md-hue-3" type="button" ng-click="listFamiliasByFilters()">
+					    	Filtrar
+					    </md-button>
+	  				</div>
+	  				
+	  				<div layout="column"  class="default-frame" style="margin-bottom:80px">
+						<md-toolbar style="background-color:#ffffff; color:black" layout="column">
+							<md-table-container>
+							  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+							    <thead md-head md-order="query.order" md-on-reorder="getDesserts">
+							      <tr md-row>
+							        <th md-column md-order-by="nameToLower"><span>Nome</span></th>
+							        <th md-column md-numeric md-order-by="calories.value"><span>Familia</span></th>
+							        <th md-column md-numeric>Idade</th>
+							        <th md-column md-numeric>Data de acolhimento</th>
+							      </tr>
+							    </thead>
+							    <tbody md-body>
+							      <tr md-row md-select="dessert" style="cursor:pointer" ng-click="selectCrianca(crianca)" md-select-id="name" md-auto-select ng-repeat="crianca in model.crianca.page.content">
+							        <td md-cell>{{::crianca.nome}}</td>
+							        <td md-cell>{{::crianca.familia.nome}}</td>
+							        <td md-cell>{{::crianca.idade}}</td>
+							        <td md-cell>{{::crianca.dataAcolhimento | date : format : timezone}}</td>
+							      </tr>
+							    </tbody>
+							  </table>
+							</md-table-container>
+												
+							<div layout="column" flex class="empty-grid" layout-align="center center" ng-if="model.crianca.page.content.length == 0">
+								Nenhum registro de criança
+							</div>
+							
+							<md-divider></md-divider>
+							<div class="default-paginator" layout layout-align="end center" ng-if="model.crianca.page.content.length > 0">
+								{{ model.crianca.page.pageable.page + 1 }} de {{ totalPagesCrianca }}
+								<md-button class="md-icon-button" ng-disabled="(model.crianca.page.pageable.page + 1) < 2" ng-click="onCriancaPaginationChange(false)">
+									<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.crianca.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
+								</md-button>
+								<md-button class="md-icon-button" ng-disabled="(model.crianca.page.pageable.page + 1) >= totalPagesFamilia" ng-click="onCriancaPaginationChange(true)">
+									<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.crianca.page.pageable.page + 1) >= Math.ceil(model.crianca.page.total/model.crianca.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
+								</md-button>
+					  		</div>
+						</md-toolbar>
+					</div>
+					
+	  			</div>
+	  		</div>
+			  		
+	  	</md-dialog-content>
+	  	
+	  	<md-divider style="order: 2"></md-divider>
+  	
+	  	<md-dialog-actions layout="row" layout-align="end center">
+		    <div layout="row" ng-if="model.integranteFamiliar.entity">
+			    
+			    <div>
+				    <md-button class="md-raised md-primary md-hue-3" type="button" ng-click="cancel()">
+				    	Cancelar
+				    </md-button>
+			    </div>
+			    
+		    	<div >
+		        	<md-button class="md-raised md-accent default-save-button" type="submit" ng-click="model.integranteFamiliar.entity.id ? updateIntegranteFamiliar() : insertIntegranteFamiliar()">
+				    	SALVAR
+				    </md-button>
+				</div>
+		    </div>
+	    </md-dialog-actions>
+  	</form> 
+</md-dialog>

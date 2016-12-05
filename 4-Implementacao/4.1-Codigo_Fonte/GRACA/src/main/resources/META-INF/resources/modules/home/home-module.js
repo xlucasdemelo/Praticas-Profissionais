@@ -407,6 +407,17 @@
 	    	 templateUrl: './modules/home/views/report/caixa/movimentacao-conta.html'
 	     })
 	     
+	     $stateProvider.state('relatorio-familia',{
+	    	 abstract: true,
+	    	 url : "/relatorio-familia",
+	    	 template: '<div layout="column" flex ui-view=""/>',
+	    	 controller : 'FamiliaReportController as familiaReportController'
+	     })
+	     .state('relatorio-familia.atendidas',{
+	    	 url:'/atendidas',
+	    	 templateUrl: './modules/home/views/report/familia/familias-atendidas.html'
+	     })
+	     
 	});
 
 	/**

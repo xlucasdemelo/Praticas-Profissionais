@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<public.rede_apoio
+		id="9999"
+		created="2015-03-30 00:00:00"
+		nome="CREA"
+		telefone="9999-9999"
+		enabled="true"
+		responsavel_id="9999"
+		/>
+</dataset>

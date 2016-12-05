@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" 
+	xmlns:th="http://www.thymeleaf.org" lang="pt">
+	
+<div layout="column" flex >
+	
+		<md-toolbar layout="row" style="z-index: 3;">
+	    	<div flex layout="row" class="default-header">
+		        <h1 class="md-toolbar-tools">Usuário</h1>
+	    	</div>
+	    	
+	        <div md-theme="default" layout="row" layout-align="end center" ng-if="model.user.entity.enabled || !model.user.entity.id" class="default-header md-primary md-hue-3">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="insertUser()">Salvar</md-button>
+	        </div>
+	        
+	         <div md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="$state.go(USER_LIST_STATE)">Voltar</md-button>
+	        </div>
+	        
+	        <div ng-if="model.user.entity.enabled == true" md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="changeToRemove()">Excluir</md-button>
+	        </div>
+	        
+	        <div ng-if="model.user.entity.enabled == false" md-theme="default" layout="row" layout-align="end center" class="default-header">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="enableUser()">Ativar registro</md-button>
+	        </div>
+	        
+	        <div md-theme="default" layout="row" layout-align="end center" ng-if="model.user.entity.enabled && model.user.entity.id" class="default-header md-primary md-hue-3">
+		        <md-button class="md-raised md-accent default-save-button" ng-click="openChangePasswordHandler(model.user.entity.id)">Alterar Senha</md-button>
+	        </div>
+	        
+	    </md-toolbar>
+		
+			<md-content layout="column" flex style="height:100%">
+				<md-tabs md-border-bottom style="position: static; overflow:auto" md-selected="model.ordemServico.selectedTab">
+					<md-tab label="Usuário">
+						
+								<div style="height:100%" class="default-frame" layout="column">
+									<md-toolbar layout style="height:100%" class="md-hue-1">
+										<form novalidate name="model.user.form" class="default-form" flex>
+											
+											<md-input-container layout="column" flex="30" style="margin-right:30px">
+										        <label>Tipo de usuário</label>
+										        <md-select name="role" ng-disabled="!model.user.entity.enabled && model.user.entity.id" required ng-model="model.user.entity.role">
+										          <md-option ng-repeat="role in allUserRoles" value="{{role}}">{{::role | translate}}</md-option>
+										        </md-select>
+										        
+										        <div ng-messages="model.user.form.usuario.$error">
+								                	<div ng-message="required" ng-if="model.user.form.$submitted">Campo obrigatório</div>
+								                </div>
+										    </md-input-container>
+											
+											<md-input-container layout="column" flex="30" ">
+									    		<label>Nome</label>
+								                <input maxlength="50" ng-disabled="!model.user.entity.enabled && model.user.entity.id" md-maxlength="50" name="name" required ng-model="model.user.entity.name">
+								
+								                <div ng-messages="model.user.form.name.$error">
+								                	<div ng-message="required" ng-if="model.user.form.$submitted">Campo obrigatório</div>
+								                	<div ng-message="md-maxlength" ng-if="model.user.form.$submitted">Limite de caracteres excedido</div>
+								                </div>
+								            </md-input-container>
+											
+											<md-input-container layout="column" flex="30" ">
+									    		<label>Email</label>
+								                <input type="email" ng-disabled="!model.user.entity.enabled && model.user.entity.id" maxlength="144" md-maxlength="144" name="email" required ng-model="model.user.entity.email">
+								
+								                <div ng-messages="model.user.form.email.$error">
+								                	<div ng-message="required" ng-if="model.user.form.$submitted">Campo obrigatório</div>
+								                	<div ng-message="md-maxlength" ng-if="model.user.form.$submitted">Limite de caracteres excedido</div>
+								                	<div ng-message="email" ng-if="model.user.form.$submitted">Email inválido</div>
+								                </div>
+								            </md-input-container>
+								            
+								            <div layout="row" ng-if="model.user.entity.role == 'COLABORADOR_EXTERNO'">
+												<md-input-container layout="column" >
+										    		<label style="position:absolute;padding-top:15px;">Rede de apoio</label>
+										    		<input typ="text" maxlength="255" disabled name="redeApoio" ng-model="model.user.entity.redeApoio.nome" required></input>
+									                
+									                <div ng-messages="model.familia.form.familia.$error">
+									               		<div ng-message="required" ng-if="model.integranteFamiliar.form.$submitted">Campo obrigatório</div>
+									                </div>
+									            </md-input-container>
+												
+												<div md-theme="default" ng-if="!model.redeApoio.entity.enabled" layout="row" layout-align="end center" class="default-header md-primary md-hue-3">
+											        <md-button class="md-raised md-accent default-save-button" ng-click="openSelecionarRedeApoioHandler()">Selecionar família</md-button>
+										        </div>
+											</div>
+								            
+										</form>
+									</md-toolbar>
+								</div>
+					</md-tab>
+					
+				</md-tabs>
+			</md-content>
+</div>
+
+</html>

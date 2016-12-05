@@ -1,0 +1,105 @@
+<md-dialog class="default-popup">
+
+  	<md-toolbar style="height: 60px; min-height: 60px !important;">
+  		<div flex layout="row" class="default-header">
+  			<div >
+	  			<h1 class="md-toolbar-tools" >Selecionar produto</h1>
+  			</div>
+    	</div> 
+  	</md-toolbar> 
+  	
+	<form name="model.produtoRepassado.form" style="height: 100%;" md-theme="{{osmTheme}}" layout="column" novalidate>
+	  	<md-dialog-content layout="column" style="height: 100%;">
+	  		
+			<div layout="column" ng-if="!model.produtoRepassado.entity.produto" style="height:100%">
+	  			<div class="default-form">
+	  				
+	  				<div layout="row" flex>
+		            	<md-input-container layout="column" flex>
+				    		<label>Pesquisar</label>
+			                <input maxlength="144" name="produto" ng-model="model.produto.filters.terms">
+			            </md-input-container>
+			            
+			            <md-button style="height:20px; margin-top:32px" class="md-raised md-primary md-hue-3" type="button" ng-click="listProdutosByFilters()">
+					    	Filtrar
+					    </md-button>
+	  				</div>
+	  				
+	  				<md-toolbar class="md-hue-1" layout="column" flex>
+						<md-table-container>
+						  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+						    <thead md-head md-order="query.order">
+						      <tr md-row>
+						        <th md-column md-order-by="">Nome</th>
+						        <th md-column md-order-by="">Categoria</th>
+						      </tr>
+						    </thead>
+						    
+						    <tbody md-body>
+						      <tr md-row style="cursor:pointer" ng-click="setSelectedEntity( produto )" ng-repeat="produto in model.produto.page.content">
+						        <td md-cell>{{::produto.nome}}</td>
+						        <td md-cell>{{::produto.categoria.nome}}</td>
+						      </tr>
+						    </tbody>
+						  </table>
+						</md-table-container>
+											
+						<div layout="column" flex class="empty-grid" layout-align="center center" ng-show="model.produto.page.content.length == 0">
+							Nenhum registro de produto encontrado
+						</div>
+						
+						<md-divider></md-divider>
+						
+						<div class="default-paginator" layout layout-align="end center" ng-if="model.produto.page.content.length > 0">
+							{{ model.produto.page.pageable.page + 1 }} de {{ totalPagesProduto }}
+							<md-button class="md-icon-button" ng-disabled="(model.produto.page.pageable.page + 1) < 2" ng-click="onProdutoPaginationChange(false)">
+								<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.produto.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
+							</md-button>
+							<md-button class="md-icon-button" ng-disabled="(model.produto.page.pageable.page + 1) >= totalPagesProduto" ng-click="onProdutoPaginationChange(true)">
+								<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.produto.page.pageable.page + 1) >= Math.ceil(model.produto.page.total/model.produto.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
+							</md-button>
+				  		</div>
+					</md-toolbar>
+					
+	  			</div>
+	  		</div>
+			
+			<div layout="column" ng-if="model.produtoRepassado.entity.produto" style="height:100%">
+	  			<div class="default-form">
+	  				
+	  				<div layout="row">
+						
+			            <md-input-container layout="column" flex="30" >
+				    		<label>Quantidade</label>
+			                <input type="number" name="quantidade" required ng-model="model.produtoRepassado.entity.quantidade">
+			
+			                <div ng-messages="model.produtoRepassado.form.quantidade.$error">
+			                	<div ng-message="required" ng-if="model.movimentacao.form.$submitted">Campo obrigatório</div>
+			                </div>
+			            </md-input-container>
+			        </div>
+	  				
+	  			</div>
+	  		</div>
+			
+	  	</md-dialog-content>
+	  	
+	  	<md-divider style="order: 2"></md-divider>
+  	
+	  	<md-dialog-actions layout="row" layout-align="end center">
+		    <div layout="row" ng-if="model.produto.entity">
+			    <div>
+				    <md-button class="md-raised md-primary md-hue-3" type="button" ng-click="cancel()">
+				    	Cancelar
+				    </md-button>
+			    </div>
+			    
+		    	<div >
+		        	<md-button class="md-raised md-accent default-save-button" ng-if="model.produtoRepassado.entity.produto" type="submit" ng-click="associateSelectedEntity()">
+				    	SALVAR
+				    </md-button>
+				</div>
+		    </div>
+	    </md-dialog-actions>
+  	</form> 
+</md-dialog>

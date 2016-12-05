@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org" 
+	xmlns:th="http://www.thymeleaf.org" lang="pt">
+	
+	<div class="main-div" layout="column" flex>
+		<md-toolbar layout="row">
+	    	<div layout="row" flex>
+		        <h1 class="md-toolbar-tools" style="margin-left: 30px;">Conta</h1>
+	    	</div>
+	    	
+	        <div layout="row" layout-align="end center" style="margin-right: 30px;">
+		        <md-button class="md-raised md-accent" ng-click="$state.go( CONTA_ADD_STATE )">NOVO</md-button>
+	    	</div>
+	    </md-toolbar>
+	
+		<form class="default-frame" layout="row">
+			<md-toolbar class="md-hue-1" layout="column" flex>
+				<div class="default-filter" layout="column" flex>
+					<div layout="row">
+						<md-input-container md-no-float layout="column" style="margin-top: 0" flex>
+							<input autofocus placeholder="Digite sua pesquisa" type="text" name="filtro" ng-disabled="moreFilters" ng-model="model.conta.filters.terms" maxlength="255">
+						</md-input-container>
+				            
+			            <div layout="row" layout-align="end center" ng-init="currentOption = true">
+				            <md-button class="md-raised" ng-click="!moreFilters ? listByFilters() : listContaByMoreFilters()">Filtrar</md-button>
+				            <md-button class="md-raised" ng-click="openMaisOpcoes(); currentOption = !currentOption" style="padding-left: 14px;">
+				            	Mais opções
+				            	<i ng-if="!currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-down"></i>
+				            	<i ng-if="currentOption" style="font-size: 22px;margin: 0 10px 5px 13px;" class="zmdi zmdi-chevron-up"></i> 
+				            </md-button>
+			            </div>			            			            			            			            
+			    	</div>
+			    	
+			    	<div class="more-filters" layout="column" ng-if="moreFilters">
+						<div layout="row" style="color:black">
+							<md-checkbox class="md-warn" ng-model="model.conta.filters.ativo" aria-label="Checkbox 1">
+								Mostrar ativos
+					        </md-checkbox>
+				    		
+				    		<md-checkbox class="md-warn" ng-model="model.conta.filters.inativo" aria-label="Checkbox 1">
+								Mostrar inativos
+					        </md-checkbox>
+						</div>				    									
+			    	</div>
+			    </div>
+			</md-toolbar>
+		</form>	
+		
+		<div class="default-frame" layout flex>
+			<md-toolbar class="md-hue-1" layout="column" flex>
+				<md-table-container>
+				  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
+				    <thead md-head md-order="query.order" md-on-reorder="getDesserts">
+				      <tr md-row>
+				        <th md-column><span>Nome</span></th>
+				        <th md-column><span>Descrição</span></th>
+				        <th md-column md-numeric><span>Saldo</span></th>
+				      </tr>
+				    </thead>
+				    <tbody md-body>
+				      <tr md-row md-select="dessert" style="cursor:pointer" ng-click="$state.go( CONTA_EDIT_STATE, {id:conta.id} )" md-select-id="name" md-auto-select ng-repeat="conta in model.conta.page.content">
+				        <td md-cell >{{::conta.nome}}</td>
+				        <td md-cell >{{::conta.descricao}}</td>
+				        <td md-cell >{{::conta.saldo}}</td>
+				      </tr>
+				    </tbody>
+				  </table>
+				</md-table-container>
+									
+				<div layout="column" flex class="empty-grid" layout-align="center center" ng-show="model.conta.page.content.length == 0">
+					Nenhum registro de conta encontrado
+				</div>
+				
+				<md-divider></md-divider>
+				<div class="default-paginator" layout layout-align="end center" ng-if="model.conta.page.content.length > 0">
+					{{ model.conta.page.pageable.page + 1 }} de {{ totalPagesConta }}
+					<md-button class="md-icon-button" ng-disabled="(model.conta.page.pageable.page + 1) < 2" ng-click="onContaPaginationChange(false)">
+						<i style="font-size: 20px;" class="zmdi zmdi-chevron-left" ng-style="(model.conta.page.pageable.page + 1) < 2 && {'color': '#BEBEBE'} || ''"></i>
+					</md-button>
+					<md-button class="md-icon-button" ng-disabled="(model.conta.page.pageable.page + 1) >= totalPagesConta" ng-click="onContaPaginationChange(true)">
+						<i style="font-size: 20px;" class="zmdi zmdi-chevron-right" ng-style="(model.conta.page.pageable.page + 1) >= Math.ceil(model.conta.page.total/model.conta.page.pageable.size) && {'color': '#BEBEBE'} || ''"></i>
+					</md-button>
+		  		</div>
+		  		
+			</md-toolbar>
+		</div>
+	</div>
+</html>

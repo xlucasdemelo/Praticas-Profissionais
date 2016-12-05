@@ -1,0 +1,116 @@
+/* Theme */
+
+.toolbar-temp{
+	background-color:#ffffff !important;
+	color:black
+}
+
+.main-div{ 
+	height:100%
+}
+
+.toolbar-content{
+	position:absolute;
+	height: 100% 
+}
+
+.default-frame{
+	display: block;
+    padding-top: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+    margin-bottom: 20px;
+}
+
+.default-filter{
+	padding-top: 10px;
+    padding-left: 30px;
+    padding-right: 20px;
+    padding-bottom: 10px;
+}
+
+.default-form{
+	display: block;
+    padding-top: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    font-size: 16px;
+}
+
+.default-info{
+	font-size: 14px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    color:black
+}
+
+md-select {
+	color:black
+}
+
+.default-paginator {
+    font-size: 13px;
+    padding-right: 40px;
+    height: 60px;
+    color:black;
+}
+
+.md-char-counter{
+	color:black
+}
+
+/*ITEM HOME*/
+.box-list-home {
+    float: left;
+    height: 250px;
+    width: 230px;
+    margin-right: 30px;
+    background-color : white;
+    cursor: pointer;
+
+}
+
+.box-list-home:hover {
+    background-color : #F2F2F2;
+}
+
+.box-list-home  p{
+    margin-top: 20px;
+    text-align: center;
+    padding-left: 22px;
+    padding-right: 22px;
+}
+
+.box-list-home .box-home{
+    padding: 35px 10px 20px 10px;
+}
+
+.box-list-home .box-home .icon-box-home{
+    width: 80px;
+    height: 80px;
+    background-color : #ebebeb;
+    border-radius: 50%
+}
+
+.empty-grid{
+	font-size: 14px;
+    min-height: 80px;
+    background-color: #E0E0E0;
+    border-top: solid 1px #DDD;
+    color: rgba(0, 0, 0, 0.54);
+}
+
+/* Cabeçalho principal para todas as dialogs */
+.default-popup-header { display: block; height: 60px; min-height: 60px !important; max-height: 60px; }
+
+/* Controla a popup de inserÃ§Ã£o de localizaÃ§Ã£o */
+.popup-localizacao { max-width: 800px; top: -25px; z-index: 2; right: -55px; width:600px }
+.default-popup { max-width: 800px; max-height: 600px; height: 600px; z-index: 2; right: -55px; width:800px }
+.default-popup .default-frame:first-child { padding-top: 20px; padding-left: 20px; padding-right: 20px; margin-bottom: 20px;}
+.default-popup .default-frame { padding-top: 0px; padding-left: 20px; padding-right: 20px; margin-bottom: 20px;}
+
+.md-default-theme.md-hue-3 .md-datepicker-input, .md-hue-3 .md-datepicker-input {
+	background:white;
+	color: black;
+}
