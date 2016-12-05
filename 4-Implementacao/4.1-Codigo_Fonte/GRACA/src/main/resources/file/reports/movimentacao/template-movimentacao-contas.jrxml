@@ -36,7 +36,7 @@
 		<parameter name="conta_nome" class="java.lang.String"/>
 		<queryString>
 			<![CDATA[select movimentacao.id, movimentacao.valor_emissao, movimentacao.valor_efetivado, movimentacao.data_pagamento,
-movimentacao.data_efetivada, ( movimentacao.data_pagamento - movimentacao.data_efetivada ) as diferenca_dias,
+movimentacao.data_efetivada, ( movimentacao.data_pagamento - movimentacao.data_efetivada ) as diferenca_dias, movimentacao.porcentagem_diferenca,
 
 CASE
   WHEN (contaOrigem.id = $P{conta_id}) THEN 'origem'
@@ -66,12 +66,13 @@ AND (
 		<field name="data_pagamento" class="java.sql.Timestamp"/>
 		<field name="data_efetivada" class="java.sql.Timestamp"/>
 		<field name="diferenca_dias" class="org.postgresql.util.PGInterval"/>
+		<field name="porcentagem_diferenca" class="java.lang.Float"/>
 		<field name="tipo_conta" class="java.lang.String"/>
 		<variable name="total_quantidade" class="java.lang.Long" calculation="Sum">
 			<variableExpression><![CDATA[]]></variableExpression>
 		</variable>
 		<variable name="total_valor" class="java.lang.Long" calculation="Sum">
-			<variableExpression><![CDATA[]]></variableExpression>
+			<variableExpression><![CDATA[$F{valor_efetivado}]]></variableExpression>
 		</variable>
 		<variable name="media_total" class="java.lang.Long" calculation="Average">
 			<variableExpression><![CDATA[]]></variableExpression>
@@ -152,35 +153,41 @@ group by conta.id]]>
 							</datasetParameter>
 							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						</datasetRun>
-						<jr:column width="147" uuid="cc3f3f9f-e12f-47a5-adfe-abf66f0a89d4">
+						<jr:column width="136" uuid="cc3f3f9f-e12f-47a5-adfe-abf66f0a89d4">
 							<jr:tableHeader style="table_TH" height="34" rowSpan="1">
 								<textField>
-									<reportElement x="0" y="0" width="147" height="34" uuid="06bac24d-6448-4631-a223-6500dfbaa2fe"/>
+									<reportElement x="0" y="0" width="136" height="34" uuid="06bac24d-6448-4631-a223-6500dfbaa2fe"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<textFieldExpression><![CDATA[$P{conta_nome}]]></textFieldExpression>
 								</textField>
 							</jr:tableHeader>
 							<jr:columnHeader style="table_CH" height="37" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="147" height="36" uuid="dfdaf0c4-2287-43fd-880b-144c8db691b2"/>
+									<reportElement x="0" y="0" width="136" height="36" uuid="dfdaf0c4-2287-43fd-880b-144c8db691b2"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<text><![CDATA[Número da movimentação]]></text>
 								</staticText>
 							</jr:columnHeader>
-							<jr:columnFooter style="table_CH" height="30" rowSpan="1"/>
+							<jr:columnFooter style="table_CH" height="30" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="136" height="30" uuid="9514d273-2c80-4737-86fa-9919c1d0e4ea"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Totais]]></text>
+								</staticText>
+							</jr:columnFooter>
 							<jr:detailCell style="table_TD" height="43" rowSpan="1">
 								<textField>
-									<reportElement x="0" y="0" width="147" height="43" uuid="86399669-47ff-4753-a463-e8b7610da270"/>
+									<reportElement x="0" y="0" width="136" height="43" uuid="86399669-47ff-4753-a463-e8b7610da270"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="90" uuid="85d0adb8-cec4-4169-b78b-3894bb14d7f5">
+						<jr:column width="76" uuid="85d0adb8-cec4-4169-b78b-3894bb14d7f5">
 							<jr:tableHeader style="table_TH" height="34" rowSpan="1"/>
 							<jr:columnHeader style="table_CH" height="37" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="90" height="37" uuid="3b7a13a6-32f0-4a3b-b145-a98a42d35080"/>
+									<reportElement x="0" y="0" width="76" height="37" uuid="3b7a13a6-32f0-4a3b-b145-a98a42d35080"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<text><![CDATA[Tipo da conta]]></text>
 								</staticText>
@@ -188,7 +195,7 @@ group by conta.id]]>
 							<jr:columnFooter style="table_CH" height="30" rowSpan="1"/>
 							<jr:detailCell style="table" height="43" rowSpan="1">
 								<textField>
-									<reportElement x="0" y="0" width="90" height="43" uuid="718e85aa-77bb-44e6-9cdd-75fffa9bddb5"/>
+									<reportElement x="0" y="0" width="76" height="43" uuid="718e85aa-77bb-44e6-9cdd-75fffa9bddb5"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<textFieldExpression><![CDATA[$F{tipo_conta}]]></textFieldExpression>
 								</textField>
@@ -248,11 +255,11 @@ group by conta.id]]>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
-						<jr:column width="90" uuid="0c379739-6132-4e22-a836-2406539357f9">
+						<jr:column width="75" uuid="0c379739-6132-4e22-a836-2406539357f9">
 							<jr:tableHeader style="table_TH" height="34" rowSpan="1"/>
 							<jr:columnHeader style="table_CH" height="37" rowSpan="1">
 								<staticText>
-									<reportElement x="0" y="0" width="90" height="37" uuid="4a260658-3e57-4d02-ba1d-bed91c52f085"/>
+									<reportElement x="0" y="0" width="75" height="37" uuid="4a260658-3e57-4d02-ba1d-bed91c52f085"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<text><![CDATA[Dias de atraso]]></text>
 								</staticText>
@@ -260,9 +267,27 @@ group by conta.id]]>
 							<jr:columnFooter style="table_CH" height="30" rowSpan="1"/>
 							<jr:detailCell style="table" height="43" rowSpan="1">
 								<textField>
-									<reportElement x="0" y="0" width="90" height="43" uuid="63614d1f-3858-4527-a69a-f02b2d484ff2"/>
+									<reportElement x="0" y="0" width="75" height="43" uuid="63614d1f-3858-4527-a69a-f02b2d484ff2"/>
 									<textElement textAlignment="Center" verticalAlignment="Middle"/>
 									<textFieldExpression><![CDATA[$F{diferenca_dias}.getDays() > 0 ? ""+0 : ""+$F{diferenca_dias}.getDays()*-1]]></textFieldExpression>
+								</textField>
+							</jr:detailCell>
+						</jr:column>
+						<jr:column width="90" uuid="6c12e103-bde2-46e3-8010-a3e99530233f">
+							<jr:tableHeader style="table_TH" height="34" rowSpan="1"/>
+							<jr:columnHeader style="table_CH" height="37" rowSpan="1">
+								<staticText>
+									<reportElement x="0" y="0" width="90" height="37" uuid="b7dd23ff-726a-4752-a957-7dbf8df3c11d"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<text><![CDATA[Porcentagem da diferença]]></text>
+								</staticText>
+							</jr:columnHeader>
+							<jr:columnFooter style="table_CH" height="30" rowSpan="1"/>
+							<jr:detailCell style="table" height="43" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="90" height="43" uuid="a6315ec0-b8fb-4bdc-9445-3b2f54a36d44"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[$F{porcentagem_diferenca} + "%"]]></textFieldExpression>
 								</textField>
 							</jr:detailCell>
 						</jr:column>
@@ -275,7 +300,13 @@ group by conta.id]]>
 									<text><![CDATA[Valor efetivado]]></text>
 								</staticText>
 							</jr:columnHeader>
-							<jr:columnFooter style="table_CH" height="30" rowSpan="1"/>
+							<jr:columnFooter style="table_CH" height="30" rowSpan="1">
+								<textField>
+									<reportElement x="0" y="0" width="90" height="30" uuid="7374a654-a7ed-4bf1-93b7-a4100e3b044e"/>
+									<textElement textAlignment="Center" verticalAlignment="Middle"/>
+									<textFieldExpression><![CDATA[new java.text.DecimalFormat("R\$ #,##0.00").format(Double.valueOf($V{total_valor}))]]></textFieldExpression>
+								</textField>
+							</jr:columnFooter>
 							<jr:detailCell style="table" height="43" rowSpan="1">
 								<textField>
 									<reportElement x="0" y="0" width="90" height="43" uuid="92a4271d-dc28-464d-aa5e-f2411e9dcb45"/>

@@ -223,19 +223,19 @@ angular.module('home')
 		/**
 		 * 
 		 */
-		$scope.openSelecionarProduto = function( tipoConta )
+		$scope.openSelecionarConta = function( tipoConta )
 		{
 	    	$mdDialog.show({
-				controller: "SelecionarOnlyProdutoControllerPopup",
-				templateUrl: './modules/home/views/produto/popup/selecionar-produto-relatorio-modal.html',
+	    		controller: "SelecionarContaControllerPopup",
+				templateUrl: './modules/home/views/conta/popup/selecionar-conta-modal.html',
 				parent: angular.element(document.body),
 				clickOutsideToClose:true,
 				fullscreen: true,
 				scope: $scope.$new()
 		    })
-		    .then(function(produtoAdquirido) {
+		    .then(function(conta) {
 		    	
-	    		$scope.model.relatorio.movimentacaoConta.filters.produtos.push(produtoAdquirido);
+	    		$scope.model.relatorio.movimentacaoConta.filters.contas.push(conta);
 		    	
 		    }, function() {
 		    	
@@ -246,10 +246,11 @@ angular.module('home')
 		/**
 		 * 
 		 */
-		$scope.removeProduto = function( produto, index )
+		$scope.removeConta = function( conta, index )
 		{
-			
-			$scope.model.relatorio.movimentacaoConta.filters.produtos.splice = $scope.model.relatorio.movimentacaoConta.filters.produtos.splice(index,1) ;
+			if (index == 0)
+				return $scope.model.relatorio.movimentacaoConta.filters.contas.shift();
+			$scope.model.relatorio.movimentacaoConta.filters.contas = $scope.model.relatorio.movimentacaoConta.filters.contas.splice(index,1) ;
 			
 		}
 		
