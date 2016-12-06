@@ -66,6 +66,11 @@ angular.module('home')
     		$state.go(state);
     };
     
+    $scope.perfil = function(id)
+    {
+    	$state.go("user.edit", {id:$scope.user.principal.id});
+    }
+    
     $scope.openDefaultConfirmDialog = function( scope, onConfirmFunction, onCancelFunction, confirmArgument ) {
    	 $mdDialog.show({
     		controller: "DefaultConfirmDialogControllerPopup",
@@ -106,6 +111,11 @@ angular.module('home')
    		 	.theme( messageType )
    	 );
     };
+    
+    /**
+     * 
+     */
+    $scope.nowDate = $scope.date = new Date();
     
     $scope.hasPermission = function(role) {
     	var roles = (typeof role == "string") ? [role] : role;

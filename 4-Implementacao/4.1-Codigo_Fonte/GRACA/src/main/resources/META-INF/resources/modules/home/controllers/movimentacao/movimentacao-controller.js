@@ -394,7 +394,7 @@ angular.module('home')
 	                	
 	                	$scope.model.movimentacao.entity = result;
 	                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi cadastrado com sucesso!" );
-	                	$state.go($scope.MOVIMENTACAO_LIST_STATE)
+	                	$state.go( $scope.MOVIMENTACAO_EDIT_STATE, {id: result.id}, {reload: true } )
 	                	$scope.$apply();
 	                	
 	                },
@@ -419,6 +419,27 @@ angular.module('home')
 	                	$scope.model.movimentacao.entity = result;
 	                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi alterado com sucesso!" );
 	                	$state.go(MOVIMENTACAO_EDIT_STATE)
+	                	$scope.$apply();
+	                	
+	                },
+	                errorHandler : function(message, exception) {
+	                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+	                    $scope.$apply();
+	                }
+	            });
+			}
+			
+			/**
+			 * 
+			 */
+			$scope.insertConta = function()
+			{
+				caixaService.insertMovimentacao( $scope.model.movimentacao.entity, {
+	                callback : function(result) {
+	                	
+	                	$scope.model.movimentacao.entity = result;
+	                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi cadastrado com sucesso!" );
+	                	$state.go( $scope.MOVIMENTACAO_EDIT_STATE, {id: result.id}, {reload: true } )
 	                	$scope.$apply();
 	                	
 	                },

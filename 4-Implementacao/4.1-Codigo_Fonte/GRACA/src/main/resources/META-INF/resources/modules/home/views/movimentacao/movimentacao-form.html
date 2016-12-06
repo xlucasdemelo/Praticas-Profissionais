@@ -39,7 +39,7 @@
 									<md-toolbar layout style="height:100%" class="md-hue-1">
 										<form novalidate name="model.movimentacao.form" class="default-form" flex>
 											
-											<div layout="row">
+											<div layout="row" ng-if="model.movimentacao.entity.status == 'ABERTO'">
 												<md-input-container layout="column" flex="30" >
 										    		<label>Valor Efetivado</label>
 									                <input type="number" disabled name="valorEfetivado" ng-model="model.movimentacao.entity.valorEfetivado">
@@ -74,7 +74,7 @@
 											    
 											    <md-input-container layout="column" flex >
 										    		<label>Data de pagamento</label>
-									                <md-datepicker name="dataPagamento" ng-disabled="model.movimentacao.entity.id && model.movimentacao.entity.status != 'RASCUNHO'"" flex ng-model="model.movimentacao.entity.dataPagamento" 
+									                <md-datepicker name="dataPagamento" md-min-date="nowDate" ng-disabled="model.movimentacao.entity.id && model.movimentacao.entity.status != 'RASCUNHO'"" flex ng-model="model.movimentacao.entity.dataPagamento" 
 									                				style="width:200px" md-placeholder="Data de pagamento"></md-datepicker>
 									
 									                <div ng-messages="model.movimentacao.form.dataPagamento.$error">
