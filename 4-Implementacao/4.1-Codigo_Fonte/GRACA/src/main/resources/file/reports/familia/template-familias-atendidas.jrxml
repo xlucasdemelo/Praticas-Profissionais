@@ -110,13 +110,20 @@ group by familia.nome, familia.id]]>
 		<![CDATA[select distinct familia.id
 
 from public.familia as familia
-left outer join public.plano_atendimento_familiar as plano on plano.familia.id = familia.id
+left outer join public.plano_atendimento_familiar as plano on plano.familia_id = familia.id
+left outer join public.encaminhamento as encaminhamento on encaminhamento.plano_atendimento_id = plano.id
 
-where $X{IN, familia.id, familiasId}
+where $X{IN, familia.id, familiasId} and
+(
+
+	( (encaminhamento.created >= $P{inicio} or $P{inicio}::timestamp is null) OR  (encaminhamento.updated >= $P{inicio} or $P{inicio}::timestamp is null) )
+	and ( (encaminhamento.created <= $P{termino} or $P{termino}::timestamp is null) OR (encaminhamento.updated >= $P{termino} or $P{termino}::timestamp is null) )
+
+)
+
 
 group by familia.id]]>
 	</queryString>
-	<field name="razao_social" class="java.lang.String"/>
 	<field name="id" class="java.lang.Long"/>
 	<variable name="tableValues" class="java.lang.String"/>
 	<filterExpression><![CDATA[new Boolean(true)]]></filterExpression>
@@ -154,15 +161,15 @@ group by familia.id]]>
 				<componentElement>
 					<reportElement key="table" style="table" x="64" y="13" width="691" height="140" isRemoveLineWhenBlank="true" uuid="064a338f-74ed-49fe-86dd-68e47070a870"/>
 					<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-						<datasetRun subDataset="Table Dataset 1" uuid="98186cda-150c-418d-86b4-6dbba6c5fd20">
+						<datasetRun subDataset="Table Dataset 1" uuid="4f9291bd-d2cb-432a-9f78-988379ef6dd4">
 							<datasetParameter name="inicio">
 								<datasetParameterExpression><![CDATA[$P{inicio}]]></datasetParameterExpression>
 							</datasetParameter>
 							<datasetParameter name="termino">
 								<datasetParameterExpression><![CDATA[$P{termino}]]></datasetParameterExpression>
 							</datasetParameter>
-							<datasetParameter name="produtosId">
-								<datasetParameterExpression><![CDATA[]]></datasetParameterExpression>
+							<datasetParameter name="familia_id">
+								<datasetParameterExpression><![CDATA[$F{id}]]></datasetParameterExpression>
 							</datasetParameter>
 							<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
 						</datasetRun>

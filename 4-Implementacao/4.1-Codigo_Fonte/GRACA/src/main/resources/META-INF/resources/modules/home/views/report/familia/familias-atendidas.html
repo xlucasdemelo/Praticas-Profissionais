@@ -29,15 +29,15 @@
 													<div layout="row" layout-align="start center" style="height: 48px;">
 														<label>De:</label>
 														<div>
-															<md-datepicker ng-model="model.relatorio.movimentacaoConta.filters.dataInicio" required></md-datepicker>
+															<md-datepicker ng-model="model.relatorio.familiasAtendidas.filters.dataInicio" required></md-datepicker>
 														</div>
 													
 														<label style="margin-left: 30px;">Até:</label>
 														<div>
 															<md-datepicker
-																ng-model="model.relatorio.movimentacaoConta.filters.dataFim"
-																md-min-date="model.relatorio.movimentacaoConta.filters.dataInicio"
-																ng-disabled="model.relatorio.movimentacaoConta.filters.dataInicio == null"
+																ng-model="model.relatorio.familiasAtendidas.filters.dataFim"
+																md-min-date="model.relatorio.familiasAtendidas.filters.dataInicio"
+																ng-disabled="model.relatorio.familiasAtendidas.filters.dataInicio == null"
 																required>
 															</md-datepicker>
 														</div>
@@ -53,7 +53,7 @@
 													</div>
 													
 													<div md-theme="default" layout="column" class="default-header md-primary md-hue-3">
-												        <md-button class="md-raised" ng-click="openSelecionarConta(false)">Selecionar conta</md-button>
+												        <md-button class="md-raised" ng-click="openSelectFamilia()">Selecionar famílias</md-button>
 											        </div>
 												</div>
 												
@@ -61,17 +61,19 @@
 												  <table md-table md-row-select multiple ng-model="selected" md-progress="promise">
 												    <thead md-head md-order="query.order" md-on-reorder="getDesserts">
 												      <tr md-row>
-												        <th md-column><span>Nome</span></th>
-												        <th md-column><span>Descrição</span></th>
-												        <th md-column md-numeric><span>Saldo</span></th>
+												        <th md-column md-order-by="nameToLower"><span>Nome</span></th>
+												        <th md-column md-numeric md-order-by="calories.value"><span>Nome da Mãe</span></th>
+												        <th md-column md-numeric>Endereço</th>
+												        <th md-column md-numeric>Telefone</th>
 												      </tr>
 												    </thead>
 												    <tbody md-body>
-												      <tr md-row md-select="dessert" style="cursor:pointer" md-select-id="name" md-auto-select ng-repeat="conta in model.relatorio.movimentacaoConta.filters.contas">
-												        <td md-cell >{{::conta.nome}}</td>
-												        <td md-cell >{{::conta.descricao}}</td>
-												        <td md-cell >{{::conta.saldo}}</td>
-												        <td md-cell><i class="zmdi zmdi-delete" style="font-size: 20px;" ng-click="removeConta(conta, $index)" ></i></td>
+												      <tr md-row md-select="dessert" style="cursor:pointer" md-select-id="name" md-auto-select ng-repeat="familia in model.relatorio.familiasAtendidas.filters.familias">
+												        <td md-cell>{{::familia.nome}}</td>
+												        <td md-cell>{{::familia.nomeMae}}</td>
+												        <td md-cell>{{::familia.endereco.rua}}</td>
+												        <td md-cell>{{::familia.telefone}}</td>
+												        <td md-cell><i class="zmdi zmdi-delete" style="font-size: 20px;" ng-click="removeFamilia($index)" ></i></td>
 												      </tr>
 												    </tbody>
 												  </table>
@@ -79,7 +81,7 @@
 												
 										        <md-divider></md-divider>
 										        
-										        <div layout="column" flex class="empty-grid" layout-align="center center" ng-if="model.relatorio.movimentacaoConta.filters.produtos == 0">
+										        <div layout="column" flex class="empty-grid" layout-align="center center" ng-if="model.relatorio.familiasAtendidas.filters.produtos == 0">
 													Não há nenhum produto selecionado . 
 												</div>
 												

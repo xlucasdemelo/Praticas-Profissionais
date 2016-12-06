@@ -47,8 +47,8 @@ where aquisicao.status = 1 and
 	fornecedor.id = $P{fornecedor_id}
 	AND $X{IN, produto.id, produtosId}
 	AND (
-		(aquisicao.created >= '2000-11-30 19:41:15.427')
-		and (aquisicao.created <= '2020-11-30 19:41:15.427' )
+		(aquisicao.created >= $P{inicio} or $P{inicio}::timestamp is null )
+		and (aquisicao.created <= $P{termino} or $P{termino}::timestamp is null )
 	)
 
 )

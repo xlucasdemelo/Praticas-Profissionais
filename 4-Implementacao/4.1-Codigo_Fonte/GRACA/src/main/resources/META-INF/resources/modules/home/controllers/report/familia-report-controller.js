@@ -200,25 +200,24 @@ angular.module('home')
  	        });
 	    }
 	    
-	    $scope.openSelecionarFornecedor = function( tipoConta )
+	    /**
+	     * 
+	     */
+		$scope.openSelectFamilia = function()
 		{
-	    	$mdDialog.show({
-				controller: "SelecionarFornecedorControllerPopup",
-				templateUrl: './modules/home/views/aquisicaoproduto/popup/selecionar-fornecedor-modal.html',
-				parent: angular.element(document.body),
-				clickOutsideToClose:true,
-				fullscreen: true,
-				scope: $scope.$new()
-		    })
-		    .then(function(fornecedor) {
-		    	
-		    	$scope.model.relatorio.familiasAtendidas.filters.fornecedores.push(fornecedor);
-		    	
-		    }, function() {
-		    	
-		    });
 			
-		};
+			$mdDialog.show({
+			      controller: "SelecionarFamiliaPopup",
+			      templateUrl: './modules/home/views/crianca/popup/selecionar-familia-popup.html',			      
+			      scope: $scope.$new(),
+				})
+			    .then(function(result) {
+			    	$scope.model.relatorio.familiasAtendidas.filters.familias.push(result);
+			 });
+			
+		}
+		
+		
 		
 		/**
 		 * 
@@ -246,7 +245,7 @@ angular.module('home')
 		/**
 		 * 
 		 */
-		$scope.removeConta = function( conta, index )
+		$scope.removeFamilia = function( index )
 		{
 			if (index == 0)
 				return $scope.model.relatorio.familiasAtendidas.filters.familias.shift();

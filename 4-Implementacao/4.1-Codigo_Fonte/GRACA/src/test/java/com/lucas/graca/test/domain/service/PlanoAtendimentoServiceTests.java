@@ -3,6 +3,10 @@
  */
 package com.lucas.graca.test.domain.service;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.List;
 
@@ -20,6 +24,7 @@ import com.lucas.graca.domain.entity.planoatendimento.StatusEncaminhamento;
 import com.lucas.graca.domain.entity.planoatendimentofamiliar.PlanoAtendimentoFamiliar;
 import com.lucas.graca.domain.service.planoatendimento.PlanoAtendimentoService;
 import com.lucas.graca.test.domain.AbstractIntegrationTests;
+import com.lucas.graca.infrastructure.report.FamiliaReportRepository;
 
 /**
  * @author lucas
@@ -36,6 +41,18 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 	 */
 	@Autowired
 	private PlanoAtendimentoService planoAtendimentoService;
+	
+	/**
+	 * 
+	 */
+//	@Autowired
+//	private FamiliaReportRepository familiaReportRepository;
+	
+	/**
+	 * 
+	 */
+	@Autowired
+	private FamiliaReportRepository familiaReportRepository;
 	
 	/*-------------------------------------------------------------------
 	 *				TESTS PLANO DE ATENDIMENTO FAMILIAR
@@ -977,5 +994,42 @@ public class PlanoAtendimentoServiceTests extends AbstractIntegrationTests
 		Assert.assertNotNull( encaminhamento );
 		Assert.assertTrue( encaminhamento.getStatus() == StatusEncaminhamento.CANCELADO );
 	}
+	
+	@Test
+	@WithUserDetails("admin@email.com")
+	@DatabaseSetup(type = DatabaseOperation.INSERT, value = {
+			"/dataset/casalar/ResponsavelDataSet.xml", "/dataset/redeapoio/redeApoioDataSet.xml",  "/dataset/account/UserDataSet.xml",
+			"/dataset/endereco/PaisDataSet.xml",
+			"/dataset/endereco/EstadoDataSet.xml",
+			"/dataset/endereco/CidadeDataSet.xml",
+			"/dataset/endereco/EnderecoDataSet.xml",
+			"/dataset/familia/FamiliaDataSet.xml",
+			"/dataset/integrantefamiliar/IntegranteFamiliarDataSet.xml",
+			"/dataset/planoatendimento/PlanoAtendimentoFamiliarDataSet.xml",
+			"/dataset/planoatendimento/EncaminhamentoDataSet.xml"
+	})
+	public void gerarRelatorioFamiliasAtendidas() throws FileNotFoundException
+	{
+		
+//		Calendar inicio = new GregorianCalendar(2013,1,1);
+//		Calendar termino = Calendar.getInstance();
+//		
+//		List<Fornecedor> fornecedores = new ArrayList<Fornecedor>();
+//		List<Produto> produtos = new ArrayList<Produto>();
+		
+		ByteArrayOutputStream report = this.familiaReportRepository.gerarRelatorioFamiliasAtendidas(null, null, null);
+		
+		FileOutputStream fos = new FileOutputStream("/tmp/teste.pdf");
+		try
+		{
+			fos.write( report.toByteArray() );
+			fos.close();
+		}
+		catch ( IOException e )
+		{
+			e.printStackTrace();
+		}
+	}
+	
 	
 }
