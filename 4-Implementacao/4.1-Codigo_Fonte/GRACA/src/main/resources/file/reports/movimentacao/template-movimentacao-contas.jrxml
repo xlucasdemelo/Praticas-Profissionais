@@ -89,13 +89,11 @@ AND (
 	<parameter name="logo_DIR" class="java.io.InputStream"/>
 	<parameter name="default_schema" class="java.lang.String"/>
 	<queryString>
-		<![CDATA[select distinct conta.id, conta.nome
+		<![CDATA[select conta.id, conta.nome
 
 from public.conta as conta
 
-where $X{IN, conta.id, contasId}
-
-group by conta.id]]>
+where $X{IN, conta.id, contasId}]]>
 	</queryString>
 	<field name="id" class="java.lang.Long"/>
 	<field name="nome" class="java.lang.String"/>

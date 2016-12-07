@@ -479,6 +479,19 @@ public class QuestionarioService
 		
 		Assert.notNull(questionarioResposta, "Registro não encontrado");
 		
+		List<Resposta> respostas = this.respostaRepository.findByQuestionarioRespostaIdAndQuestaoVersaoQuestionarioId(questionarioResposta.getId()
+				, questionarioResposta.getVersao().getId(), null).getContent();
+		
+		for (Resposta resposta : respostas) 
+		{
+			if (resposta.getQuestao().getTipoQuestao() == TipoQuestao.TEXTO)
+				Assert.notNull(resposta.getRespostaTexto(), "Para finalizar o questionário é necessário responder todas as questões");
+			else
+				Assert.notNull(resposta.getRespostaBoolean(), "Para finalizar o questionário é necessário responder todas as questões");
+			
+			this.respostaRepository.save(resposta);
+		}
+		
 		questionarioResposta.changeToFinalizado();
 		
 		return this.questionarioRespostaRepository.save(questionarioResposta);
@@ -552,12 +565,13 @@ public class QuestionarioService
 		
 		for (Resposta resposta : respostas) 
 		{
-			if (resposta.getQuestao().getTipoQuestao() == TipoQuestao.TEXTO)
-				Assert.notNull(resposta.getRespostaTexto(), "Informe a resposta");
-			else
-				Assert.notNull(resposta.getRespostaBoolean(), "Informe a resposta");
+//			if (resposta.getQuestao().getTipoQuestao() == TipoQuestao.TEXTO)
+//				Assert.notNull(resposta.getRespostaTexto(), "Informe a resposta");
+//			else
+//				Assert.notNull(resposta.getRespostaBoolean(), "Informe a resposta");
 			
-			this.respostaRepository.save(resposta);
+			if (resposta != null)
+				this.respostaRepository.save(resposta);
 		}
 		
 		return respostas;

@@ -364,6 +364,15 @@ angular.module('home')
 		
 		$scope.removeQuestionario = function()
 		{
+			var confirm = $mdDialog.confirm()
+            .title('Tem certeza que deseja enviar este questionário para aprovação ?')
+            .content('Não será possível mais altera-lo')
+            .ok('Sim')
+            .cancel('Cancelar');
+
+        $mdDialog.show(confirm).then(function (result) {
+        	
+        
 			questionarioService.removeQuestionarioResposta(  $scope.model.questionarioResposta.entity.id, {
 				callback : function(result) {
 					$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi excluído com sucesso!" );
@@ -376,6 +385,8 @@ angular.module('home')
 					$scope.$apply();
 				}
 			});
+			
+        	});
 		}
 		
 		/**
@@ -603,7 +614,7 @@ angular.module('home')
 			questionarioService.responderResposta( $scope.model.resposta.page.content,  {
                 callback : function(result) {
                 	$scope.showMessage( $scope.ERROR_MESSAGE,  "Questionário salvo com suecesso" );
-                	$scope.listRespostas();
+//                	$scope.listRespostas();
                 	$scope.$apply();
                 },
                 errorHandler : function(message, exception) {

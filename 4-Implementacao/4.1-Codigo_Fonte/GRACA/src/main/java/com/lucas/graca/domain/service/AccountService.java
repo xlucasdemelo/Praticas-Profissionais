@@ -76,7 +76,7 @@ public class AccountService
 	 * 
 	 * @param id
 	 */
-	@PreAuthorize("hasAnyAuthority('"+UserRole.ADMINISTRATOR_VALUE+"')")
+	@PreAuthorize("principal.id != #id ||hasAnyAuthority('"+UserRole.ADMINISTRATOR_VALUE+"')")
 	public void disableUser( long id )
 	{
 		User user = this.userRepository.findOne( id );

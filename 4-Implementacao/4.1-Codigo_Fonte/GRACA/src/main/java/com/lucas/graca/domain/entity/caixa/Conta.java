@@ -158,6 +158,7 @@ public class Conta extends AbstractEntity implements Serializable
 	public void enable()
 	{
 		this.enabled = true;
+		this.saldo = new BigDecimal( "0");
 	}
 	
 	/**

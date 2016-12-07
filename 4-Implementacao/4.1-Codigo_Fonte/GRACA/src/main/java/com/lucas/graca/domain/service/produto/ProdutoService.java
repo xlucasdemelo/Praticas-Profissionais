@@ -438,10 +438,7 @@ public class ProdutoService
 			Produto produto = produtoRepassado.getProduto();
 			produto.setQuantidade( produto.getQuantidade() - produtoRepassado.getQuantidade() );
 			
-			if (produto.getQuantidade() < 0)
-			{
-				produto.setQuantidade(0);
-			}
+			Assert.isTrue(produto.getQuantidade() >= 0, "Existe um produto com quantidade em estoque menor do que se quer repassar");
 			
 			this.produtoRepository.saveAndFlush(produto);
 		}

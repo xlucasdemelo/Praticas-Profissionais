@@ -46,7 +46,7 @@
 						                </div>
 						            </md-input-container>
 						            
-						            <md-input-container layout="column" flex="15" style="margin-right:30px">
+						            <md-input-container layout="column" flex="15" style="margin-right:30px" ng-if="model.conta.entity.id">
 							    		<label>Saldo</label>
 						                <input type="number" min="0" max="999999999999999" name="saldo" ng-model="model.conta.entity.saldo" required>
 						

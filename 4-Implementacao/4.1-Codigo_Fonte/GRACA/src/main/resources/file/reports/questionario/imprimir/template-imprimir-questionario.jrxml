@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="imprimirQuestionario" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="96bf6a3c-e3ab-454a-ad5f-47caf3affdf7">
 	<property name="ireport.zoom" value="1.1000000000000005"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="8"/>
+	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -94,23 +94,14 @@
 		<defaultValueExpression><![CDATA["/media/lucas/Dados/coisas faculdade/8 periodo/Práticas profissionais/repositorio/4-Implementacao/4.1-Codigo_Fonte/GRACA/src/main/resources/file/reports/questionario/imprimir/"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select * from public.questionario as questionario
+		<![CDATA[select versao.id, questionario.nome, questionario.descricao from public.questionario as questionario
 LEFT OUTER JOIN public.versao_questionario AS versao on versao.questionario_id = questionario.id
 
 where versao.id = $P{versao_questionario_id}]]>
 	</queryString>
 	<field name="id" class="java.lang.Long"/>
-	<field name="created" class="java.sql.Timestamp"/>
-	<field name="updated" class="java.sql.Timestamp"/>
-	<field name="descricao" class="java.lang.String"/>
-	<field name="enabled" class="java.lang.Boolean"/>
 	<field name="nome" class="java.lang.String"/>
-	<field name="usuario_criador_id" class="java.lang.Long"/>
-	<field name="data_avaliacao" class="java.sql.Timestamp"/>
-	<field name="numero_versao" class="java.lang.Integer"/>
-	<field name="status" class="java.lang.Integer"/>
-	<field name="questionario_id" class="java.lang.Long"/>
-	<field name="usuario_avaliador_id" class="java.lang.Long"/>
+	<field name="descricao" class="java.lang.String"/>
 	<variable name="valor_total" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[]]></variableExpression>
 	</variable>
@@ -157,18 +148,18 @@ where versao.id = $P{versao_questionario_id}]]>
 			<line>
 				<reportElement x="2" y="151" width="551" height="1" uuid="5fe759a5-45c6-432d-9421-bce7cf1b5f2a"/>
 			</line>
-			<textField>
-				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="123" y="68" width="133" height="20" isPrintWhenDetailOverflows="true" uuid="18e68f28-1fe0-4887-b7ca-8d33fb3802f5"/>
+			<textField isStretchWithOverflow="true">
+				<reportElement positionType="Float" stretchType="RelativeToTallestObject" x="123" y="68" width="415" height="20" isPrintWhenDetailOverflows="true" uuid="18e68f28-1fe0-4887-b7ca-8d33fb3802f5"/>
 				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
 	<detail>
-		<band height="124" splitType="Prevent">
+		<band height="65" splitType="Prevent">
 			<elementGroup/>
 			<elementGroup/>
 			<subreport>
-				<reportElement x="0" y="0" width="553" height="124" uuid="db986064-ca6f-41e5-bbc4-1a234c9c71ac"/>
+				<reportElement x="0" y="0" width="553" height="65" uuid="db986064-ca6f-41e5-bbc4-1a234c9c71ac"/>
 				<subreportParameter name="versao_questionario_id">
 					<subreportParameterExpression><![CDATA[$P{versao_questionario_id}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -176,7 +167,6 @@ where versao.id = $P{versao_questionario_id}]]>
 				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "template-imprimir-questionario_questoes.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="169" splitType="Prevent"/>
 	</detail>
 	<pageFooter>
 		<band height="20"/>

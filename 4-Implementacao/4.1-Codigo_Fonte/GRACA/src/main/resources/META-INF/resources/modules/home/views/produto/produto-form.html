@@ -35,9 +35,9 @@
 						                </div>
 						            </md-input-container>
 						            
-					    			<md-input-container layout="column" flex="50" style="margin-right:30px">
+					    			<md-input-container layout="column" flex="50" style="margin-right:30px" ng-click="openSelecionarCategoriaPopup()">
 							    		<label>Categoria</label>
-						                <input name="categoria" ng-model="model.produto.entity.categoria.nome" required ng-click="openSelecionarCategoriaPopup()">
+						                <input name="categoria" disabled ng-model="model.produto.entity.categoria.nome" required >
 						
 						                <div ng-messages="model.produto.form.categoria.$error">
 						                	<div ng-message="required" ng-if="model.produto.form.$submitted">Campo Obrigatório</div>
@@ -46,16 +46,16 @@
 				    			</div>
 				    			
 				    			<div layout="row">
-					    			<md-input-container layout="column" flex="50" style="margin-right:30px">
+					    			<md-input-container layout="column" flex="50" style="margin-right:30px" ng-click="openSelecionarMarcaPopup()">
 							    		<label>Marca</label>
-						                <input name="marca" ng-model="model.produto.entity.marca.nome" required ng-click="openSelecionarMarcaPopup()">
+						                <input name="marca" ng-model="model.produto.entity.marca.nome" disabled required ng-click="openSelecionarMarcaPopup()">
 						
 						                <div ng-messages="model.produto.form.marca.$error">
 						                	<div ng-message="required" ng-if="model.produto.form.$submitted">Campo Obrigatório</div>
 						                </div>
 						            </md-input-container>
 						            
-					    			<md-input-container layout="column" flex="50" style="margin-right:30px">
+					    			<md-input-container layout="column" flex="50" style="margin-right:30px" >
 							    		<label>Modelo</label>
 						                <input name="modelo" ng-disabled="!model.produto.entity.marca" ng-model="model.produto.entity.modelo.nome" required ng-click="openSelecionarModeloPopup()">
 						

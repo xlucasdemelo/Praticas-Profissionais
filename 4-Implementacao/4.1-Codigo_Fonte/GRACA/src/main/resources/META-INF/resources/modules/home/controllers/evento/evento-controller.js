@@ -284,7 +284,7 @@ angular.module('home')
 			eventoService.insertEvento(  $scope.model.evento.entity, {
                 callback : function(result) {
                 	$state.go( $scope.EVENTO_EDIT_STATE, {id: result.id}, {reload: true } )
-                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi cadastrado com sucesso!" );
+                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi alterado com sucesso!" );
                 },
                 errorHandler : function(message, exception) {
                 	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
@@ -304,18 +304,15 @@ angular.module('home')
 				return;
 			}
 			
-			eventoService.updateEvento(  $scope.model.evento.entity, {
-				callback : function(result) {
-					$scope.model.evento.entity = result;
-					$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi cadastrado com sucesso!" );
-					$scope.$apply();
-					
-				},
-				errorHandler : function(message, exception) {
-					$scope.showMessage( $scope.ERROR_MESSAGE,  message );
-					$scope.$apply();
-				}
-			});
+			eventoService.insertEvento(  $scope.model.evento.entity, {
+                callback : function(result) {
+                	$scope.showMessage( $scope.SUCCESS_MESSAGE,  "O registro foi cadastrado com sucesso!" );
+                },
+                errorHandler : function(message, exception) {
+                	$scope.showMessage( $scope.ERROR_MESSAGE,  message );
+                    $scope.$apply();
+                }
+            });
 		};
 		
 		/**

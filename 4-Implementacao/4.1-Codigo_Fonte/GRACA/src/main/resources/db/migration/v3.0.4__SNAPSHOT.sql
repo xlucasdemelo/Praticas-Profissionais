@@ -1,4 +1,4 @@
-
+/*
 --
 -- PostgreSQL database dump
 --
@@ -690,3 +690,4 @@ ALTER TABLE ONLY versao_questionario
 -- PostgreSQL database dump complete
 --
 
+*/

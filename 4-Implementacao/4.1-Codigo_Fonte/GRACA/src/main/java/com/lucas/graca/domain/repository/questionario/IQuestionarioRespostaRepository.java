@@ -33,4 +33,5 @@ public interface IQuestionarioRespostaRepository extends JpaRepository<Questiona
 	 */
 	public Page<QuestionarioResposta> findByUsuarioId( Long usuarioId, Pageable pageable );
 	
+	
 }

@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.List;
 
+import org.apache.commons.lang3.time.DateUtils;
 import org.directwebremoting.annotations.RemoteProxy;
 import org.directwebremoting.io.FileTransfer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -322,7 +323,7 @@ public class CaixaService
 		
 		movimentacao.setDataEfetivada( Calendar.getInstance() );
 
-		if ( movimentacao.getDataEfetivada().after(movimentacao.getDataPagamento()) )
+		if ( !DateUtils.isSameDay(movimentacao.getDataEfetivada(), movimentacao.getDataPagamento() )  && movimentacao.getDataEfetivada().after(movimentacao.getDataPagamento()) )
 		{
 			movimentacao.setValorEfetivado( movimentacao.calculateValorAjustado() );
 		}
@@ -331,9 +332,9 @@ public class CaixaService
 			movimentacao.setValorEfetivado(movimentacao.getValorEmissao());
 		}
 		
-		Assert.isTrue( (movimentacao.getValorEfetivado().compareTo( movimentacao.getContaOrigem().getSaldo() ) == -1 ) ||
-			(movimentacao.getValorEfetivado().compareTo( movimentacao.getContaOrigem().getSaldo() ) == 0), 
-			"Valor efetivado não pode ultrapassar o saldo da conta de origem"	);
+//		Assert.isTrue( (movimentacao.getValorEfetivado().compareTo( movimentacao.getContaOrigem().getSaldo() ) == -1 ) ||
+//			(movimentacao.getValorEfetivado().compareTo( movimentacao.getContaOrigem().getSaldo() ) == 0), 
+//			"Valor efetivado não pode ultrapassar o saldo da conta de origem"	);
 		
 		Conta contaOrigem = this.contaRepository.findOne(movimentacao.getContaOrigem().getId());
 		contaOrigem.setSaldo(contaOrigem.getSaldo().subtract( movimentacao.getValorEfetivado()) );

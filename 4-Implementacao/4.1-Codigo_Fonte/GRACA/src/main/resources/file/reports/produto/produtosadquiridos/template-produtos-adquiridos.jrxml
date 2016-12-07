@@ -84,13 +84,23 @@ group by fornecedor.id, produto.nome]]>
 		<![CDATA[select distinct fornecedor.id, fornecedor.razao_social
 
 from public.fornecedor as fornecedor
+left outer join public.aquisicao_produto as aquisicao on aquisicao.fornecedor_id = fornecedor.id
 
-where $X{IN, fornecedor.id, fornecedoresId}
+where aquisicao.status = 1 and
+(
+
+	$X{IN, fornecedor.id, fornecedoresId}
+	AND (
+		(aquisicao.created >= $P{inicio} or $P{inicio}::timestamp is null )
+		and (aquisicao.created <= $P{termino} or $P{termino}::timestamp is null )
+	)
+
+)
 
 group by fornecedor.id]]>
 	</queryString>
-	<field name="razao_social" class="java.lang.String"/>
 	<field name="id" class="java.lang.Long"/>
+	<field name="razao_social" class="java.lang.String"/>
 	<variable name="tableValues" class="java.lang.String"/>
 	<filterExpression><![CDATA[new Boolean(true)]]></filterExpression>
 	<background>
