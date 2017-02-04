@@ -373,7 +373,20 @@ public class ProdutoService
 	 */
 	public Page<Repasse> listRepassesByFilters( String filter, PageRequest pageable )
 	{
-		return this.repasseRepository.listByFilters(filter, pageable);
+		Page<Repasse> repasses = this.repasseRepository.listByFilters(filter, pageable);
+		
+		for (Repasse repasse : repasses) 
+		{
+			Repasse repasseDB = this.repasseRepository.findOne(repasse.getId());
+			
+			List<ProdutoRepassado> produtos = this.produtoRepassadoRepository.
+					findByRepasseId(repasse.getId(), null).getContent();
+			
+			repasse.setQuantidadeProdutos(produtos.size());
+			repasse.setCreated(repasseDB.getCreated());
+		}
+				
+		return repasses;
 	}
 	
 	/**

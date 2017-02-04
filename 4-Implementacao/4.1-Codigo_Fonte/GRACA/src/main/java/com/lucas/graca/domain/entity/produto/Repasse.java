@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.directwebremoting.annotations.DataTransferObject;
@@ -45,6 +46,12 @@ public class Repasse extends AbstractEntity implements Serializable
 	@ManyToOne(fetch=FetchType.EAGER)
 	private CasaLar casaLar;
 
+	/**
+	 * 
+	 */
+	@Transient
+	private Integer quantidadeProdutos;
+	
 	/*-------------------------------------------------------------------
 	 *				 		     CONSTRUCTORS
 	 *-------------------------------------------------------------------*/
@@ -173,6 +180,14 @@ public class Repasse extends AbstractEntity implements Serializable
 	 */
 	public void setCasaLar(CasaLar casaLar) {
 		this.casaLar = casaLar;
+	}
+
+	public Integer getQuantidadeProdutos() {
+		return quantidadeProdutos;
+	}
+
+	public void setQuantidadeProdutos(Integer quantidadeProdutos) {
+		this.quantidadeProdutos = quantidadeProdutos;
 	}
 
 }

@@ -14,7 +14,7 @@
 		        <md-button class="md-raised " ng-click="enviarParaAprovacao()" ng-if="model.questionario.entity.id && ( model.versao.entity.status == 'RASCUNHO' || model.versao.entity.status == 'REJEITADO' )">Enviar para aprovação</md-button>
 		        <md-button class="md-raised " ng-click="aprovarQuestionario()" ng-if="hasPermission('ADMINISTRATOR') && ( model.questionario.entity.id && ( model.versao.entity.status == 'AGUARDANDO_APROVACAO'  ))">Aprovar questionário</md-button>
 		        <md-button class="md-raised " ng-click="recusarQuestionario()" ng-if="hasPermission('ADMINISTRATOR') && ( model.questionario.entity.id && ( model.versao.entity.status == 'AGUARDANDO_APROVACAO' ))">Recusar questionário</md-button>
-		        <md-button class="md-raised " ng-click="aumentarVersaoQuestionario()" ng-if="user.principal.id == model.questionario.entity.usuarioCriador.id && ( model.questionario.entity.id && ( model.versao.entity.status == 'APROVADO') )">Aumentar versão</md-button>
+		        <md-button class="md-raised " ng-click="aumentarVersaoQuestionario()" ng-if="user.principal.id == model.questionario.entity.usuarioCriador.id && ( model.questionario.entity.id && ( model.versao.entity.status == 'APROVADO') )">Nova versão</md-button>
 		        <md-button class="md-raised md-accent" ng-if="!model.questionario.entity.id || model.versao.entity.status == 'RASCUNHO' || model.versao.entity.status == 'REJEITADO'" ng-click="save()">Salvar</md-button>
 	    	</div>
 	    </md-toolbar>

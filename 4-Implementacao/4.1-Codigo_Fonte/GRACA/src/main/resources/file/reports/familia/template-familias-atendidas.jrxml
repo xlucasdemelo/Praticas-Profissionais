@@ -143,13 +143,6 @@ group by familia.id]]>
 				<reportElement x="0" y="0" width="120" height="79" uuid="aa4d1da6-8b20-47de-befe-e46a2b788c0a"/>
 				<imageExpression><![CDATA[$P{logo_DIR}]]></imageExpression>
 			</image>
-			<textField>
-				<reportElement x="310" y="64" width="244" height="20" uuid="20c3832c-1283-418b-8d45-4314c026a865">
-					<printWhenExpression><![CDATA[$P{inicio} != null &&  $P{termino} != null]]></printWhenExpression>
-				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle"/>
-				<textFieldExpression><![CDATA["Período de " + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{inicio}) + " até " + new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{termino})]]></textFieldExpression>
-			</textField>
 			<line>
 				<reportElement x="0" y="90" width="802" height="1" uuid="aa3d33c1-7b33-4644-bb80-89acdd4a99fb"/>
 			</line>
