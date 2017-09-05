@@ -12,13 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lucas.graca.domain.entity.account.User;
 
-/**
- * 
- * @author rodrigo.p.fraga@gmail.com 
- * @since 22/04/2014
- * @version 1.0
- * @category Repository
- */
 public class IUserRepositoryImpl implements UserDetailsService
 {
 	/*-------------------------------------------------------------------
