@@ -584,11 +584,13 @@ ALTER TABLE auditing.produto_repassado_audited OWNER TO postgres;
 
 CREATE TABLE questao_audited (
     id bigint NOT NULL,
+    updated timestamp without time zone,
     revision bigint NOT NULL,
     revision_type smallint,
     descricao character varying(255),
     tipo_questao integer,
-    versao_questionario_id bigint
+    versao_questionario_id bigint,
+    enabled boolean NOT NULL
 );
 
 
@@ -1956,7 +1958,8 @@ CREATE TABLE questao (
     updated timestamp without time zone,
     descricao character varying(255) NOT NULL,
     tipo_questao integer NOT NULL,
-    versao_questionario_id bigint
+    versao_questionario_id bigint,
+    enabled boolean NOT NULL
 );
 
 
@@ -4171,12 +4174,6 @@ ALTER TABLE ONLY versao_questionario
 -- PostgreSQL database dump complete
 --
 
-    CREATE SEQUENCE hibernate_sequence
-  INCREMENT 1
-  MINVALUE 1
-  MAXVALUE 9223372036854775807
-  START 1
-  CACHE 1;
 ALTER TABLE hibernate_sequence
   OWNER TO postgres;
 
