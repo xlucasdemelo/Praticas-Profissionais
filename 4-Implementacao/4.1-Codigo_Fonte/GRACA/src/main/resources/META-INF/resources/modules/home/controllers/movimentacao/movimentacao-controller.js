@@ -498,14 +498,14 @@ angular.module('home')
 			    })
 			    .then(function(conta) {
 			    	
-			    	var contaResult = new Conta();
-			    	contaResult.id = conta.id;
-			    	contaResult.nome = conta.nome;
-			    	
+//			    	var contaResult = new Conta();
+//			    	contaResult.id = conta.id;
+//			    	contaResult.nome = conta.nome;
+//			    	
 			    	if (tipoConta)
-			    		$scope.model.movimentacao.entity.contaOrigem = contaResult;
+			    		$scope.model.movimentacao.entity.contaOrigem = conta;
 			    	else
-			    		$scope.model.movimentacao.entity.contaDestino = contaResult;
+			    		$scope.model.movimentacao.entity.contaDestino = conta;
 			    	
 			    }, function() {
 			    	

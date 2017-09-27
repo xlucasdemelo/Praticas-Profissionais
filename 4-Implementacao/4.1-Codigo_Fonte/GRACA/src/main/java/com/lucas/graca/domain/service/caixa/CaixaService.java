@@ -185,13 +185,18 @@ public class CaixaService
 		Assert.notNull( movimentacao.getTipoMovimentacao(), "Tipo precisa ser informado" );
 		Assert.notNull( movimentacao.getValorEmissao(), "Valor precisa ser informado" );
 		Assert.notNull( movimentacao.getContaDestino(), "Informe a conta destino");
-		Assert.notNull( movimentacao.getContaOrigem(), "Informe a conta origem");
+		
 		Assert.notNull( movimentacao.getDataPagamento(), "Informe a data de pagamento" );
 		Assert.notNull( movimentacao.getNaturezaGastos(), "Informe a natureza de gastos");
 		
-		Assert.isTrue(movimentacao.getContaDestino().getId() != movimentacao.getContaOrigem().getId(), 
-				"Conta origem e destino não podem ser iguais");
+		if ( movimentacao.getTipoMovimentacao() != TipoMovimentacao.ENTRADA )
+		{
+			Assert.notNull( movimentacao.getContaOrigem(), "Informe a conta origem");
 		
+			Assert.isTrue(movimentacao.getContaDestino().getId() != movimentacao.getContaOrigem().getId(), 
+					"Conta origem e destino não podem ser iguais");
+		}
+			
 		movimentacao.setDataEmissao( Calendar.getInstance() );
 		
 		if (movimentacao.getNaturezaGastos().getId() == null)

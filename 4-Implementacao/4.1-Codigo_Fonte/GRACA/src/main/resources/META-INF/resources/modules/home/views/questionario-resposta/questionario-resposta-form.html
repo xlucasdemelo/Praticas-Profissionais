@@ -44,7 +44,7 @@
 				    				<ng-form name="respostaForm">
 				    				
 				    					<md-input-container layout="column" ng-if="resposta.questao.tipoQuestao == 'TEXTO'" >
-								    		<label>{{::resposta.questao.descricao}}</label>
+								    		<label>{{resposta.questao.descricao}}</label>
 								    		<textarea ng-disabled="model.questionarioResposta.entity.id && ( model.questionarioResposta.entity.status == 'FINALIZADO')" maxlength="255" name="pergunta-{{resposta.questao.id}}" ng-model="model.resposta.page.content[$index].respostaTexto" rows="3" ng-required="toFinalizado"></textarea>
 							                
 							                <div ng-messages="respostaForm.$error">
