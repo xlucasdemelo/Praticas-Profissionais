@@ -224,6 +224,8 @@ angular.module('home')
 				console.debug("changeToAdd");
 				
 				$scope.model.planoAtendimentoFamiliar.entity = new PlanoAtendimentoFamiliar();//Limpa o formulário
+				$scope.model.integranteFamiliar.page.content = [];
+				
 				$scope.selectedTab = 0;
 			};
 			
