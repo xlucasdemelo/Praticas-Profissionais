@@ -100,7 +100,8 @@
 					
 					<md-tab label="Encaminhamentos" ng-if="model.planoAtendimentoFamiliar.entity.status != 'RASCUNHO' && model.planoAtendimentoFamiliar.entity.id">
 							<div style="height:100%" class="default-frame" layout="column">
-								<md-toolbar layout style="height:100%" class="md-hue-1">									
+<!-- 								<md-toolbar layout style="height:100%" class="md-hue-1"> -->
+								<md-toolbar layout  class="md-hue-1">
 										<md-input-container layout="column" flex="30" style="margin: 30px 0px 20px 30px">
 									        <label>Tipo de encaminhamento</label>
 									        <md-select name="tipoEncaminhamento" required ng-model="model.encaminhamento.tipo" ng-change="encaminhamentoHandler()">
