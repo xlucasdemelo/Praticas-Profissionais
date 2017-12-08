@@ -341,9 +341,12 @@ public class CaixaService
 //			(movimentacao.getValorEfetivado().compareTo( movimentacao.getContaOrigem().getSaldo() ) == 0), 
 //			"Valor efetivado não pode ultrapassar o saldo da conta de origem"	);
 		
-		Conta contaOrigem = this.contaRepository.findOne(movimentacao.getContaOrigem().getId());
-		contaOrigem.setSaldo(contaOrigem.getSaldo().subtract( movimentacao.getValorEfetivado()) );
-		this.contaRepository.saveAndFlush(contaOrigem);
+		if ( movimentacao.getTipoMovimentacao() != TipoMovimentacao.ENTRADA )
+		{
+			Conta contaOrigem = this.contaRepository.findOne(movimentacao.getContaOrigem().getId());
+			contaOrigem.setSaldo(contaOrigem.getSaldo().subtract( movimentacao.getValorEfetivado()) );
+			this.contaRepository.saveAndFlush(contaOrigem);
+		}
 		
 		Conta contaDestino = this.contaRepository.findOne(movimentacao.getContaDestino().getId());
 		contaDestino.setSaldo(contaDestino.getSaldo().add( movimentacao.getValorEfetivado()) );
